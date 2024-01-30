@@ -1,18 +1,13 @@
 /**
  * Important attributes for register.
  */
+
+import RegisterPersonInfo from "./RegisterPersonInfo.js";
+
 interface RegisterAdminRequest {
     // admin
-    persnr: string;
-    name: string;
-    familyname: string;
-    email: string;
-    password1: string;
-    password2: string;
-    grantpubliccar: Boolean;
-    grantcreateadmin: Boolean;
-    grantall: Boolean;
-    createdbyadminid: number; 
+    personinfo: RegisterPersonInfo
+    
 }
 
 export default RegisterAdminRequest;

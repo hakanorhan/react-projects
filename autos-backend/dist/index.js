@@ -8,12 +8,8 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
-/**
- * Register process.
- */
 app.post("/dashboard-register", registerAdmin);
 app.post("/register", registerUser);
 app.listen(3001, () => {
     console.log("Server started!");
 });
-//# sourceMappingURL=index.js.map

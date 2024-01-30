@@ -12,6 +12,8 @@ const insertUser: string =
 async function performTransaction(requestData: RegisterAdminRequest) {
     const connection = await pool.getConnection();
 
+    const address = requestData.personinfo.address;
+    
     try {
         // start transaction
         await connection.beginTransaction();
@@ -19,8 +21,7 @@ async function performTransaction(requestData: RegisterAdminRequest) {
         // if password1 password2 matches
         await connection.execute(
             insertUser,
-            [requestData.persnr, requestData.name, requestData.familyname, requestData.email, requestData.password1,
-             requestData.grantpubliccar, requestData.grantcreateadmin, requestData.grantall, requestData.createdbyadminid]);
+            []);
 
         await connection.commit();
 
@@ -41,6 +42,5 @@ export default async (req: express.Request, res: express.Response) => {
     const requestData: RegisterAdminRequest = req.body;
     performTransaction(requestData);
 
-    console.log( "--------------- Ausgabe: " + requestData.name + " " +
-         requestData.familyname + " " + requestData.email);
+    console.log( "--------------- Ausgabe: ");
 }

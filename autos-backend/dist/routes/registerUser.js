@@ -1,36 +1,34 @@
 import { pool } from "../dbConnect.js";
 import { Roles } from "../enums/Roles.js";
-/**
- * Insert admin.
- */
-const insertUser = `INSERT INTO ${Roles.user} (name, familyname, email, password, telnr, birth) VALUES (?, ?, ?, ?, ?, ?);`;
-// disable autocommit and perform transaction
+const insertAddress = 'INSERT INTO address (streetnr, zipcode, city, blandid) VALUES (?, ?, ?, ?)';
+const insertPerson = `INSERT INTO ${Roles.person} (name, familyname, email, password, telnr, birth, isactive, addressid) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+const insertUser = `INSERT INTO ${Roles.user} (userid, iscardealer) VALUES (?, ?)`;
 async function performTransaction(requestData) {
     const connection = await pool.getConnection();
+    const address = requestData.personinfo.address;
+    const personinfo = requestData.personinfo;
     try {
-        // start transaction
         await connection.beginTransaction();
-        // if password1 password2 matches
-        await connection.execute(insertUser, [requestData.name, requestData.familyname, requestData.email, requestData.password1,
-            requestData.telnr, requestData.birth]);
+        const [result] = await connection.execute(insertAddress, [address.streetnr, address.zipcode, address.city, address.blandid]);
+        const addressId = result.insertId;
+        await connection.execute(insertPerson, [personinfo.name, personinfo.familyname, personinfo.email, personinfo.password1,
+            personinfo.telnr, personinfo.birth, personinfo.isactive, addressId]);
+        const userId = result.insertId;
+        await connection.execute(insertUser, [userId, requestData.isCardealer]);
         await connection.commit();
         console.log("Transaction successfully committed");
     }
     catch (err) {
-        // rollback
         await connection.rollback();
         console.log("Rollback!!");
         throw err;
     }
     finally {
-        // release connection
         connection.release();
     }
 }
 export default async (req, res) => {
     const requestData = req.body;
     performTransaction(requestData);
-    console.log("--------------- Ausgabe: " + requestData.name + " " +
-        requestData.familyname + " " + requestData.email);
+    console.log("--------------- Ausgabe: ");
 };
-//# sourceMappingURL=registerUser.js.map
