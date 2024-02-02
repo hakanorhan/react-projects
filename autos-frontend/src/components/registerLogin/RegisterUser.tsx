@@ -12,20 +12,21 @@ function RegisterUser() {
 
     // Address from user
     const address: Address = {
-      streetnr: "Beispielstr. 22",
+      streetnr: "Neue Beispielstr. 33",
       zipcode: "45886",
-      city: "Gelsenkirchen",
-      blandid: 2
+      city: "Essen",
+      blandid: 10
     }
     
+    
     const personRegister: RegisterPersonInfo = {
-    name: "Max-User",
-    familyname: "Mustermann",
-    email: "max@mustermann.de",
+    name: "Thomas",
+    familyname: "Müller",
+    email: "mueller@email.de",
     password1: "1234",
     password2: "1234",
-    telnr: "",
-    birth: "1989-10-04",
+    telnr: null,
+    birth: new Date(2000, 4, 12), // Begins by 0,
     isactive: true,
     address: address
     };

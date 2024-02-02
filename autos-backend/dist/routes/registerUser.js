@@ -9,11 +9,11 @@ async function performTransaction(requestData) {
     const personinfo = requestData.personinfo;
     try {
         await connection.beginTransaction();
-        const [result] = await connection.execute(insertAddress, [address.streetnr, address.zipcode, address.city, address.blandid]);
-        const addressId = result.insertId;
-        await connection.execute(insertPerson, [personinfo.name, personinfo.familyname, personinfo.email, personinfo.password1,
+        const [resultAdress] = await connection.execute(insertAddress, [address.streetnr, address.zipcode, address.city, address.blandid]);
+        const addressId = resultAdress.insertId;
+        const [resultUser] = await connection.execute(insertPerson, [personinfo.name, personinfo.familyname, personinfo.email, personinfo.password1,
             personinfo.telnr, personinfo.birth, personinfo.isactive, addressId]);
-        const userId = result.insertId;
+        const userId = resultUser.insertId;
         await connection.execute(insertUser, [userId, requestData.isCardealer]);
         await connection.commit();
         console.log("Transaction successfully committed");

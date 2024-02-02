@@ -8,8 +8,8 @@ interface RegisterPersonInfo {
     email: string,
     password1: string,
     password2:string,
-    telnr: string,
-    birth: string,
+    telnr: string | null,
+    birth: any,
     isactive: Boolean,
     address: Address
 }

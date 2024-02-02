@@ -27,19 +27,19 @@ async function performTransaction(requestData: RegisterUserRequest) {
 
         // if password1 password2 matches
         
-        const [result]: [ResultSetHeader, any] = await connection.execute(
+        const [resultAdress]: [ResultSetHeader, any] = await connection.execute(
             insertAddress,
             [address.streetnr, address.zipcode, address.city, address.blandid]
         );
 
-        const addressId: number = result.insertId; 
+        const addressId: number = resultAdress.insertId; 
             
-        await connection.execute(
+        const [resultUser]: [ResultSetHeader, any] = await connection.execute(
             insertPerson,
             [personinfo.name, personinfo.familyname, personinfo.email, personinfo.password1,
                 personinfo.telnr, personinfo.birth, personinfo.isactive, addressId]);
         
-        const userId: number = result.insertId;
+        const userId: number = resultUser.insertId;
         
         await connection.execute(
             insertUser,
