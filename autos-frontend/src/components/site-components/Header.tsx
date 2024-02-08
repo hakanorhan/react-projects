@@ -24,10 +24,18 @@ import AdbIcon from '@mui/icons-material/Adb';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
 import { grey } from '@mui/material/colors';
-import RegisterUser from "../registerLogin/RegisterUser";
+import RegisterUser from "../registerLogin/SignIn";
 const blackColor = grey[900];
 
+/* Redux imports */
+import type { RootState } from "../../redux/store";
+import { useSelector, useDispatch } from "react-redux";
+import { loggedIn, loggedOut } from "../../redux/features/loginSlice";
+
 export default function Header() {
+
+    const isLogged = useSelector((state: RootState) => state.logger.loggedIn);
+    const dispatch = useDispatch();
 
     const pages = ['Products', 'Pricing', 'Blog'];
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -38,6 +46,7 @@ export default function Header() {
     const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
+
     const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -50,7 +59,9 @@ export default function Header() {
         setAnchorElUser(null);
     };
 
+    /** If user clicks on Account icon and if user is logged in */
     function MenuAccountSettings() {
+        // user, admin, service is logged
         return <Menu
         sx={{ mt: '45px' }}
         id="menu-appbar"
@@ -70,15 +81,42 @@ export default function Header() {
         {settings.map((setting) => (
             <MenuItem key={setting} onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">
-                    <Link to="/admin/dashboard" style={{ textDecoration: 'none', color:'black' }}> {setting} </Link>
+                    <Link to="/admin/dashboard" style={{ textDecoration: 'none', color:'yellow' }}> {setting} </Link>
                 </Typography>
             </MenuItem>
         ))}
     </Menu>
     }
 
+    /**
+     * 
+     * @returns Account icon with setting menu items or Link to dashboard
+     */
+    function LoggerProcess() {
+        if(isLogged) {
+            return <> 
+            <Tooltip title="Account">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <AccountCircle sx={{ color: blackColor, fontSize: 'inherit'}} />
+                    
+                {/*
+                // if login safe
+                <Avatar sx={{ height: '40px', width: '40px' }} alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+        */ }
+                </IconButton>
+        </Tooltip>
+        <MenuAccountSettings />
+        </>
+        } else {
+            return <Link to="/signin">
+             <AccountCircle sx={{ color: 'white', fontSize: '30px'}} />
+             </Link>
+             
+        }
+    }
+
     return (
-        <AppBar sx={{ backgroundColor: 'white' }} position="static">
+        <AppBar sx={{  backgroundColor: blackColor }} position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -92,7 +130,7 @@ export default function Header() {
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
-                            color: blackColor,
+                            color: 'white',
                             textDecoration: 'none',
                         }}
                     >
@@ -107,7 +145,7 @@ export default function Header() {
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
-                            sx={{ color: blackColor }}
+                            sx={{ color: 'white' }}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -149,7 +187,7 @@ export default function Header() {
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
-                            color: blackColor,
+                            color: "white",
                             textDecoration: 'none',
                         }}
                     >
@@ -162,7 +200,7 @@ export default function Header() {
                             <Button
                                 key={page}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: blackColor, display: 'block' }}
+                                sx={{ my: 2, color: "white", display: 'block' }}
                             >
                                 {page}
                             </Button>
@@ -170,16 +208,12 @@ export default function Header() {
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Account">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <AccountCircle sx={{ color: blackColor, fontSize: 'inherit'}} />
-                                {/*
-                                // if login safe
-                                <Avatar sx={{ height: '40px', width: '40px' }} alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                        */ }
-                                </IconButton>
-                        </Tooltip>
-                        <MenuAccountSettings />
+
+                        { /* determines which process should be carried
+                           * showing menu items or
+                           * routes to signin
+                           */ }
+                        <LoggerProcess />
                     </Box>
                 </Toolbar>
             </Container>

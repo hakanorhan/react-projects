@@ -1,10 +1,9 @@
 import express from "express";
 import cors from "cors";
-
-import registerAdmin from './routes/registerAdmin.js';
-import registerUser from "./routes/registerUser.js";
-
+import signin from "./routes/signin.js";
+import signupUser from "./routes/signupUser.js";
 const app = express();
+
 app.use(cors({
   origin:"http://localhost:5173",
   credentials: true
@@ -12,13 +11,9 @@ app.use(cors({
 
 app.use(express.json());
 
-/**
- * Register process.
- */
-app.post("/dashboard-register", registerAdmin);
+app.post("/signup", signupUser);
 
-app.post("/register", registerUser);
-
+app.post("/signin", signin);
 
 app.listen(3001, () => {
   console.log("Server started!");
