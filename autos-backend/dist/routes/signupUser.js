@@ -1,12 +1,19 @@
 import { pool } from "../dbConnect.js";
 import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../enums/Roles.js";
+import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 const insertPerson = `INSERT INTO ${Roles.person} (name, familyname, email, password, role) VALUES (?, ?, ?, ?, ?);`;
 const insertUser = `INSERT INTO ${Roles.user} (userid, iscardealer) VALUES(?, ?)`;
 async function performQuery(requestData, res) {
+    const { name, familyname, email, password, password2, isCarDealer } = requestData;
+    if (!email.match(REGEX_EMAIL)) {
+        return console.log("Email not matches");
+    }
+    if (!password.match(REGEX_PASSWORD)) {
+        return console.log("Password not matches");
+    }
     const connection = await pool.getConnection();
     try {
-        const { name, familyname, email, password, password2, isCarDealer } = requestData;
         console.log("is cardealer " + isCarDealer);
         await connection.beginTransaction();
         const selectQuery = 'SELECT email FROM person WHERE email = ?';
@@ -38,5 +45,4 @@ async function performQuery(requestData, res) {
 export default async (req, res) => {
     const requestData = req.body;
     performQuery(requestData, res);
-    console.log("--------------- Ausgabe: ");
 };

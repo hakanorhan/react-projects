@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginReducer from '../redux/features/loginSlice';
+import passwordPatternReducer from "./features/passwordPatternSlice";
+import signupFormularReducer from './features/signupFormularSlice';
+import signinFormularReducer from './features/signinFormularSlice';
 
 export const store = configureStore({
     reducer: {
-        logger: loginReducer
+        passwordPattern: passwordPatternReducer,
+        signupFormular: signupFormularReducer,
+        signinFormular: signinFormularReducer
     }
 })
 

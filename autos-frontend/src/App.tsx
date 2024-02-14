@@ -1,6 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
-import RegisterAdmin from './components/registerLogin/SignUpUser'
+import RegisterAdmin from './components/registerLogin/SignUp'
 import Home from './components/Home'
 import Header from './components/site-components/Header'
 import Dashboard from './components/settings/Dashboard'
@@ -8,7 +8,7 @@ import { ThemeProvider } from '@emotion/react'
 import themeColor from './themes/ThemeColor'
 import Footer from './components/site-components/Footer'
 import SignIn from './components/registerLogin/SignIn'
-import SignUpUser from './components/registerLogin/SignUpUser';
+import SignUpUser from './components/registerLogin/SignUp';
 
 function App() {
 

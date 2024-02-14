@@ -28,14 +28,9 @@ import RegisterUser from "../registerLogin/SignIn";
 const blackColor = grey[900];
 
 /* Redux imports */
-import type { RootState } from "../../redux/store";
-import { useSelector, useDispatch } from "react-redux";
-import { loggedIn, loggedOut } from "../../redux/features/loginSlice";
+
 
 export default function Header() {
-
-    const isLogged = useSelector((state: RootState) => state.logger.loggedIn);
-    const dispatch = useDispatch();
 
     const pages = ['Products', 'Pricing', 'Blog'];
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -81,7 +76,7 @@ export default function Header() {
         {settings.map((setting) => (
             <MenuItem key={setting} onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">
-                    <Link to="/admin/dashboard" style={{ textDecoration: 'none', color:'yellow' }}> {setting} </Link>
+                    <Link to="/admin/dashboard" style={{ textDecoration: 'none', color:'black' }}> {setting} </Link>
                 </Typography>
             </MenuItem>
         ))}
@@ -93,11 +88,11 @@ export default function Header() {
      * @returns Account icon with setting menu items or Link to dashboard
      */
     function LoggerProcess() {
-        if(isLogged) {
+        if(true) {
             return <> 
             <Tooltip title="Account">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <AccountCircle sx={{ color: blackColor, fontSize: 'inherit'}} />
+                <AccountCircle sx={{ color: "white", fontSize: 'inherit'}} />
                     
                 {/*
                 // if login safe
@@ -105,7 +100,7 @@ export default function Header() {
         */ }
                 </IconButton>
         </Tooltip>
-        <MenuAccountSettings />
+        <MenuAccountSettings/>
         </>
         } else {
             return <Link to="/signin">

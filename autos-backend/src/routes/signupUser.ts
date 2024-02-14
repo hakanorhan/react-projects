@@ -6,7 +6,7 @@ import SignUpUser from "../interfaces/ISignUpUser.js";
 
 import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../enums/Roles.js";
-import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/Regex.js";
+import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 
 const insertPerson: string =
         `INSERT INTO ${Roles.person} (name, familyname, email, password, role) VALUES (?, ?, ?, ?, ?);`;
