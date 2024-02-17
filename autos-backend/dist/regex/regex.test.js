@@ -1,15 +1,8 @@
 import { expect, test } from '@jest/globals';
-const REGEX_EMAIL = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-const REGEX_PASSWORD = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,255}$/;
-const REGEX_MIN_8 = /^(?=.*\d).{8,255}$/;
-const REGEX_UPPERCASE = /[A-Z]/;
-const REGEX_LOWERCASE = /[a-z]/;
-const REGEX_NUMBER = /[0-9]/;
-const REGEX_SPECIAL = /[#?!@$%^&*-]/;
-const REGEX_NAMES = /^([a-zA-Z0-9_\s]+)$/;
+import { REGEX_EMAIL, REGEX_LOWERCASE, REGEX_MIN_8, REGEX_NUMBER, REGEX_PASSWORD, REGEX_SPECIAL, REGEX_UPPERCASE } from './regex.js';
 test('Special', () => {
     const matchResult = ("").match(REGEX_SPECIAL);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect((matchResult && matchResult[0])).toBe(null);
 });
 test('Special', () => {
     const matchResult = ("Hakan89#").match(REGEX_SPECIAL);
@@ -40,32 +33,25 @@ test('Number', () => {
     expect(matchResult && matchResult[0]).toBe(null);
 });
 test('Password', () => {
-    const matchResult = ("").match(REGEX_PASSWORD);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_PASSWORD.test("")).toBe(false);
 });
 test('Password', () => {
-    const matchResult = ("Hakan.89!").match(REGEX_PASSWORD);
-    expect(matchResult && matchResult[0]).toBe("Hakan.89!");
+    expect(REGEX_PASSWORD.test("Hakan.89!")).toBe(true);
 });
 test('Password', () => {
-    const matchResult = ("Hakan.89<").match(REGEX_PASSWORD);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_PASSWORD.test("Hakan.89<")).toBe(false);
 });
 test('Password', () => {
-    const matchResult = ("hallo").match(REGEX_PASSWORD);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_PASSWORD.test("hallo")).toBe(false);
 });
 test('Password', () => {
-    const matchResult = ("hakan@test").match(REGEX_PASSWORD);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_PASSWORD.test("hakan@test")).toBe(false);
 });
 test('Password', () => {
-    const matchResult = ("halloHallo%").match(REGEX_PASSWORD);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_PASSWORD.test("halloHallo%")).toBe(false);
 });
 test('Password', () => {
-    const matchResult = ("Hakan.8Hakan").match(REGEX_PASSWORD);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_PASSWORD.test("Hakan.8Hakan")).toBe(false);
 });
 test('Uppercase', () => {
     const matchResult = ("").match(REGEX_UPPERCASE);
@@ -92,28 +78,22 @@ test('Lowercase', () => {
     expect(matchResult && matchResult[0]).toBe("o");
 });
 test('Email', () => {
-    const matchResult = ("").match(REGEX_EMAIL);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_EMAIL.test("")).toBe(false);
 });
 test('Email', () => {
-    const matchResult = ("h").match(REGEX_EMAIL);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_EMAIL.test("h")).toBe(false);
 });
 test('Email', () => {
-    const matchResult = ("hakan@test.de").match(REGEX_EMAIL);
-    expect(matchResult && matchResult[0]).toBe("hakan@test.de");
+    expect(REGEX_EMAIL.test("hakan@test.de")).toBe(true);
 });
 test('Email', () => {
-    const matchResult = ("hakantest.de").match(REGEX_EMAIL);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_EMAIL.test("hakantest.de")).toBe(false);
 });
 test('Email', () => {
-    const matchResult = ("hakan@test.deeee").match(REGEX_EMAIL);
-    expect(matchResult && matchResult[0]).toBe(null);
+    expect(REGEX_EMAIL.test("hakan@test.deeee")).toBe(false);
 });
 test('Email', () => {
-    const matchResult = ("h@t.de").match(REGEX_EMAIL);
-    expect(matchResult && matchResult[0]).toBe("h@t.de");
+    expect(REGEX_EMAIL.test("h@t.de")).toBe(true);
 });
 test('Min 8', () => {
     const matchResult = ("1234567").match(REGEX_MIN_8);

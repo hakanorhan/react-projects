@@ -5,24 +5,18 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import type { RootState } from '../../redux/store.js';
-import {
-  Button,
-  Checkbox,
-  FormControlLabel
-} from '@mui/material';
-
-import TextFieldEmailSignUp from '../mui-components/TextFieldEmailSignUp.js';
-import TextFieldPassword from '../mui-components/TextFieldPasswordSignUp.js';
-import TextFieldPassword2 from '../mui-components/TextFieldPassword2.js';
+import { Button, Checkbox, FormControlLabel } from '@mui/material';
+import * as ReduxHelper from '../../helper/reduxHelper.js';
+import TextFieldEmailSignUp from '../mui-components/TextFieldEmail.js';
+import TextFieldPassword from '../mui-components/TextFieldPassword.js';
 import TextfFieldName from '../mui-components/TextfFieldName.js';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setToInitialState } from '../../redux/features/signupFormularSlice.js';
-import TextfFieldFamilyname from '../mui-components/TextFieldFamilyname.js';
-import { REGEX_EMAIL, REGEX_PASSWORD } from '../../../../autos-backend/src/regex/Regex.js';
 
 /* Hot Toast */
 import toast, { Toaster } from 'react-hot-toast';
+import { FieldId } from '../../constants/FieldIds.js';
 const notifyError = (message: string) => toast.error(message, {
   duration: 4000,
   position: 'bottom-center'
@@ -44,18 +38,18 @@ const SignUpUser: React.FC = () => {
  
   const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    // email and passwords matches
-    if(signUpFormular.valueEmail.match(REGEX_EMAIL) && signUpFormular.valuePassword.match(REGEX_PASSWORD)
-      && signUpFormular.valuePassword === signUpFormular.valuePassword2) {
-
+    // all Formular field are valid
+    if(ReduxHelper.formularSignUpIsValid(signUpFormular.fieldName.isValid,
+      signUpFormular.fieldFamilyname.isValid, signUpFormular.fieldEmail.isValid,
+      signUpFormular.fieldPassword1.isValid, signUpFormular.fieldPassword2.isValid)) {
+      
     const formData: IAxiosDataSignUp = {
-      name: signUpFormular.valueName,
-      familyname: signUpFormular.valueFamilyname,
-      email: signUpFormular.valueEmail,
-      password: signUpFormular.valuePassword,
-      password2: signUpFormular.valuePassword2,
-      isCarDealer: signUpFormular.valueChecked
+      name: signUpFormular.fieldName.value,
+      familyname: signUpFormular.fieldFamilyname.value,
+      email: signUpFormular.fieldEmail.value,
+      password: signUpFormular.fieldPassword1.value,
+      password2: signUpFormular.fieldPassword2.value,
+      isCarDealer: signUpFormular.fieldCarDealer
     }
 
     await axios.post<IAxiosDataSignUp>('http://localhost:3001/signup',
@@ -78,23 +72,23 @@ const SignUpUser: React.FC = () => {
         
         {/* Name */}
         <div style={{width: '190px'}}>
-          <TextfFieldName id='name' htmlForString='name' label='Name' />
+          <TextfFieldName id={FieldId.SIGNUP_TEXTFIELD_NAME} htmlForString='name' label='Name' />
         </div>
 
         {/* Nachname */}
         <div style={{width: '190px'}}>
-        <TextfFieldFamilyname id='familyname' htmlForString='familyname' label='Familyname'/>
+        <TextfFieldName id={FieldId.SIGNUP_TEXTFIELD_FAMILYNAME} htmlForString='familyname' label='Familyname'/>
         </div>
       </div>
 
       {/* Email */}
-      <TextFieldEmailSignUp id={"email"} htmlForString={"Email"} label={"Email"} />
+      <TextFieldEmailSignUp id={FieldId.SIGNUP_TEXTFIELD_EMAIL} htmlForString={"Email"} label={"Email"} />
 
         {/* Password1 */}
-        <TextFieldPassword id={'passwordSignUp'} htmlForString={'Password'} label={'Password'} />
+        <TextFieldPassword id={FieldId.SIGNUP_TEXTFIELD_PASSWORD} htmlForString={'Password'} label={'Password'} />
 
         {/* Password2 */}
-        <TextFieldPassword2 id={'passwordSignUp2'} htmlForString={'Password'} label={'Password'} />
+        <TextFieldPassword id={FieldId.SIGNUP_TEXTFIELD_PASSWORD2} htmlForString={'Password'} label={'Password'} />
 
         {/* Cardealer */}
         <FormControlLabel control={<Checkbox checked={checked} onChange={handleOnChangeChekcbox}/>} label="Are you a dealer?" />

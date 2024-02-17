@@ -13,7 +13,7 @@ import {
     Typography,
     Menu,
     Container,
-    Avatar,
+    //Avatar,
     Button,
     Tooltip,
     MenuItem,
@@ -24,7 +24,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
 import { grey } from '@mui/material/colors';
-import RegisterUser from "../registerLogin/SignIn";
+//import RegisterUser from "../registerLogin/SignIn";
 const blackColor = grey[900];
 
 /* Redux imports */

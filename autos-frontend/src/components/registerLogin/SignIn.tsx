@@ -1,21 +1,25 @@
 import axios from 'axios';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { REGEX_EMAIL } from '../../../../autos-backend/src/regex/Regex.js';
 /* Interfaces */
-import AxiosData from '../../../../autos-backend/src/interfaces/LoginUser.js';
+import LoginUser from '../../../../autos-backend/src/interfaces/LoginUser.js';
 
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Button } from '@mui/material';
-import TextFieldEmailSignIn from '../mui-components/TextFieldEmailSignIn.js';
-import TextFieldPasswordSignIn from '../mui-components/TextFieldPasswordSignIn.js';
+import TextFieldEmail from '../mui-components/TextFieldEmail.js';
+import TextFieldPasswordSignIn from '../mui-components/TextFieldPassword.js';
 
 /* Redux */
 import type { RootState } from '../../redux/store.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { setToInitialStateSignIn } from '../../redux/features/signinFormularSlice.js';
 import { setToInitialStatePassword } from '../../redux/features/passwordPatternSlice.js';
+
+import { IResponseSignInData } from '..7../../../../autos-backend/src/interfaces/signin/IResponseSignInData.js';
+
+import { FieldId } from '../../constants/FieldIds.js';
+import * as ReduxHelper from '../../helper/reduxHelper.js';
 
 /* Hot Toast */
 import toast, { Toaster } from 'react-hot-toast';
@@ -40,33 +44,30 @@ const SignIn: React.FC = () => {
   const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const email: string = signInFormular.fieldEmail.value;
+    const password: string = signInFormular.fieldPassword.value;
+    console.log("Handle submit: " + password)
+
     // if email and password is valid
-    if (signInFormular.valueEmail.match(REGEX_EMAIL) && signInFormular.valuePassword.length !== 0) {
-      const formData: AxiosData = {
+    if (ReduxHelper.formularValuesValid(signInFormular.fieldEmail.isValid, password)) {
+      const formData: LoginUser = {
         // Redux
-        email: signInFormular.valueEmail,
-        password: signInFormular.valuePassword
+        email: email,
+        password: password
       }
 
-      await axios.post<AxiosData>('http://localhost:3001/signin',
+      await axios.post<IResponseSignInData>('http://localhost:3001/signin',
         formData)
         .then(response => {
-
           dispatch(setToInitialStateSignIn()), dispatch(setToInitialStatePassword())
-          notifySuccess("Guten Tag, Hakan")
+          notifySuccess("Guten Tag, " + response.data.name)
         })
         .catch(err => {
           notifyError(err.response.data.message);
         });
     } else {
-      if (signInFormular.valueEmail.match(REGEX_EMAIL) == null) {
-        notifyError("Email is invalid");
-      } else if (signInFormular.valuePassword.length === 0) {
-        notifyError("Please insert a password");
-      }
+      notifyError("Email or Password is invalid");
     }
-
-    console.log("SignIn Button: " + signInFormular.valueEmail.match(REGEX_EMAIL))
   }
 
   return (
@@ -78,10 +79,10 @@ const SignIn: React.FC = () => {
         <form onSubmit={handleSubmit} noValidate>
 
           {/* Email */}
-          <TextFieldEmailSignIn id={"email"} htmlForString={"Email"} label={"Email"} />
+          <TextFieldEmail id={FieldId.SIGNIN_TEXTFIELD_EMAIL} htmlForString={"Email"} label={"Email"} />
 
           {/* Password */}
-          <TextFieldPasswordSignIn id={'passwordSignIn'} htmlForString={'Password'} label={'Password'} />
+          <TextFieldPasswordSignIn id={FieldId.SIGNIN_TEXTFIELD_PASSWORD} htmlForString={'Password'} label={'Password'} />
 
           <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Sign in</Button>
           <div style={{ display: 'flex', marginBottom: '4rem' }}>

@@ -1,31 +1,25 @@
 import React, { useState } from 'react'
-import { REGEX_PASSWORD } from '../../../../autos-backend/src/regex/Regex.js';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../redux/store.js';
+import CheckIcon from '@mui/icons-material/Check';
 import { IUseForm } from '../../interfaces/IUseForm.js';
-
-/* Material UI */
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FormControl, InputAdornment, IconButton, InputLabel, OutlinedInput } from '@mui/material'
-import CheckIcon from '@mui/icons-material/Check';
-
-/* Redux */
-import type { RootState } from '../../redux/store';
-import { useSelector, useDispatch } from 'react-redux'
-import { setValuePassword2 } from '../../redux/features/signupFormularSlice.js';
+import * as SignUpFormular from '../../redux/features/signupFormularSlice.js';
+import * as SignInFormular from '../../redux/features/signinFormularSlice.js';
+import * as ReduxHelper from '../../helper/reduxHelper.js';
+import { FieldId } from '../../constants/FieldIds.js';
 
 
 const TextFieldPassword: React.FC<IUseForm> = ({ id, htmlForString, label }) => {
-
-  // password have to match with the first password
-  const [passwordMatch, setPasswordMatch] = useState(false);
-
   const dispatch = useDispatch();
-  const [usePassword2, useSetPassword2] = useState("");
+  const signUpFormular = useSelector((state: RootState) => state.signupFormular)
 
-  const password1 = useSelector((state: RootState) => state.signupFormular.valuePassword)
-
-  // show and hide password
   const [showPassword, setShowPassword] = React.useState(false);
+  // Check icon
+  const [passwordMatch, setPasswordMatch] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
@@ -35,19 +29,50 @@ const TextFieldPassword: React.FC<IUseForm> = ({ id, htmlForString, label }) => 
    * The color from errorMessage can change from black to gold or from gold to black.
    * @param event user has an interaction with the passwordfield
    */
-  const handleOnChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    useSetPassword2(value);
+    const isValid = ReduxHelper.formularPasswordValid(value);
+    
+    
 
-    // if password1 matches password2 and password 2 is valid
-    (password1 === value && value.match(REGEX_PASSWORD)) ? setPasswordMatch(true) : setPasswordMatch(false);
+    switch (id) {
+      case FieldId.SIGNIN_TEXTFIELD_PASSWORD: {
+        dispatch(SignInFormular.setValuePassword(value));
+        dispatch(SignInFormular.setIsValidPassword(isValid));
+
+        // Check icon
+        setPasswordMatch(isValid);
+        break;
+      }case FieldId.SIGNUP_TEXTFIELD_PASSWORD: {
+        dispatch(SignUpFormular.setValuePassword(value));
+        dispatch(SignUpFormular.setIsValidPassword(isValid));
+        // Check icon
+        setPasswordMatch(isValid);
+        break;
+      }
+      case FieldId.SIGNUP_TEXTFIELD_PASSWORD2: {
+        dispatch(SignUpFormular.setValuePassword2(value));
+        const matchWithPassword1 = ReduxHelper.password2Valid(signUpFormular.fieldPassword1.value, value);
+        dispatch(SignUpFormular.setIsValidPassword2(matchWithPassword1));
+        // Check icon
+        setPasswordMatch(matchWithPassword1);
+        break;
+      }
+    }
   }
 
+  
   const ValidationMessages = () => {
+    const Messages = () => {
+      return FieldId.SIGNUP_TEXTFIELD_PASSWORD === id 
+        ? ReduxHelper.passwordSpecificValid(signUpFormular.fieldPassword1.value).map(item => <p key={item.message} style={{ color: item.isValid ? "orange" : "black" }}> {item.message} </p>) 
+        : <p> </p>;
+    }
 
     return (<>
+      <Messages />
     </>)
-  }
+  } 
 
   return (
     <div>
@@ -56,7 +81,6 @@ const TextFieldPassword: React.FC<IUseForm> = ({ id, htmlForString, label }) => 
         <OutlinedInput
           id={id}
           onChange={handleOnChange}
-          onBlur={() => { dispatch(setValuePassword2(usePassword2)) }}
           type={showPassword ? 'text' : 'password'}
           endAdornment={
             <InputAdornment position="end">

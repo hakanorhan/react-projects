@@ -1,12 +1,13 @@
 import { pool } from "../dbConnect.js";
 import bcrypt from 'bcrypt';
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
+import jwt from 'jsonwebtoken';
 const selectQuery = 'SELECT * FROM person WHERE email = ?';
 async function performQuery(requestData, res) {
     const { email, password } = requestData;
     let connection;
     console.log("Ausgabe: " + email.match(REGEX_EMAIL) + " " + password.match(REGEX_PASSWORD));
-    if (email.match(REGEX_EMAIL) == null || password.match(REGEX_PASSWORD) == null) {
+    if (!REGEX_EMAIL.test(email) && !REGEX_PASSWORD.test(password)) {
         return res.status(401).json({ message: 'Password or email invalid Server' });
     }
     try {
@@ -18,9 +19,19 @@ async function performQuery(requestData, res) {
             return res.status(401).json({ message: 'Wrong email address or password' });
         }
         const resultPassword = result[0][0].password;
+        const resultEmail = result[0][0].email;
+        const resultPersonId = result[0][0].personid;
+        const name = result[0][0].name;
         bcrypt.compare(password, resultPassword).then(result => {
             if (result) {
-                return res.status(200).json({ message: 'Hello Hakan' });
+                const accesToken = jwt.sign(resultEmail, "secret");
+                const responseSignInData = {
+                    personId: resultPersonId,
+                    name: name,
+                    email: resultEmail,
+                    accesToken: accesToken
+                };
+                return res.status(200).send(responseSignInData);
             }
             else {
                 return res.status(401).json({ message: 'Wrong email address or password' });
@@ -31,7 +42,6 @@ async function performQuery(requestData, res) {
         return res.status(500).json({ message: 'Error occured. Please try again.' });
     }
     finally {
-        console.log("Executed!");
         connection?.release();
     }
 }

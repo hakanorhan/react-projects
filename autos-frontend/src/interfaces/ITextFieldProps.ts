@@ -1,6 +1,6 @@
 export interface IMessageRegex {
     message: string,
-    pattern: string,
+    pattern: RegExp | RegExpMatchArray | null,
     color: string,
     match: number
 }

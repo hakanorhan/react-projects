@@ -1,35 +1,47 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
+import { IFieldInfosFormular } from "../../interfaces/IFieldInfosFormular";
 /**
  * Texfield value email.
  * Textfield value password.
  */
-interface IFieldValuesSignIn {
-    valueEmail: string,
-    valuePassword: string,
+
+
+
+interface ISignIn {
+    fieldEmail: IFieldInfosFormular,
+    fieldPassword: IFieldInfosFormular
 }
 
-const initialState: IFieldValuesSignIn = {
-    valueEmail: "",
-    valuePassword: ""    
+const initialState: ISignIn = {
+    fieldEmail: { value: "", isValid: false },
+    fieldPassword: { value: "", isValid: false }
 }
+
+const setDefault: IFieldInfosFormular = { value: "", isValid: false };
 
 const userInfoSlice = createSlice({
     name: 'signInFormularValues',
     initialState: initialState,
     reducers: {
         setValuesEmail: (state, action: PayloadAction<string>) => {
-            state.valueEmail = action.payload
+            state.fieldEmail.value = action.payload
         },
         setValuePassword: (state, action: PayloadAction<string>) => {
-            state.valuePassword = action.payload
+            state.fieldPassword.value = action.payload
         },
-        setToInitialStateSignIn:(state) => {
-            state.valueEmail = "",
-            state.valuePassword = ""
+        setIsValidEmail: (state, action: PayloadAction<boolean>) => {
+            state.fieldEmail.isValid = action.payload;
         },
+        setIsValidPassword: (state, action: PayloadAction<boolean>) => {
+            state.fieldPassword.isValid = action.payload;
+        },
+        setToInitialStateSignIn: (state) => {
+            state.fieldEmail = setDefault;
+            state.fieldPassword = setDefault;
+
+        }
     }
 })
 
-export const { setValuePassword, setValuesEmail, setToInitialStateSignIn } = userInfoSlice.actions;
+export const { setValuePassword, setValuesEmail, setIsValidEmail, setIsValidPassword, setToInitialStateSignIn } = userInfoSlice.actions;
 export default userInfoSlice.reducer;
