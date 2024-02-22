@@ -4,9 +4,8 @@ import LoginUser from "../interfaces/LoginUser.js";
 import { RowDataPacket } from "mysql2";
 import bcrypt from 'bcrypt';
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-
-import jwt from 'jsonwebtoken';
 import { IResponseSignInData } from "../interfaces/signin/IResponseSignInData.js";
+import { createToken } from "../jwt/jwtToken.js";
 
 const selectQuery: string = 'SELECT * FROM person WHERE email = ?';
 
@@ -39,22 +38,24 @@ async function performQuery(requestData: LoginUser, res: express.Response){
 
             // Email found, select hashed password
             const resultPassword = result[0][0].password;
-            const resultEmail = result[0][0].email;
             const resultPersonId = result[0][0].personid;
-            const name = result[0][0].name;
+            const resultName = result[0][0].name;
+            const resultRole = result[0][0].role;
 
             bcrypt.compare(password, resultPassword).then(result => {
                 if(result) {
 
                     // create Access Token
-                    const accesToken = jwt.sign(resultEmail, "secret");
                     const responseSignInData: IResponseSignInData = {
                         personId: resultPersonId,
-                        name: name,
-                        email: resultEmail,
-                        accesToken: accesToken
+                        name: resultName,
+                        role: resultRole
                     }
-                  return res.status(200).send(responseSignInData);
+                    // jwt
+                    const accessToken = createToken(resultPersonId);
+                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 1_000_000 })
+                    res.status(200).send(responseSignInData);
+                    //res.redirect('/signup');
                 } else {
                     return res.status(401).json({message: 'Wrong email address or password'});
                 }

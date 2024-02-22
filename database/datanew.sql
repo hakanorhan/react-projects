@@ -261,11 +261,13 @@ INSERT INTO exteriors(exteriorname) VALUES("Tempomat");
 
 
 -- ADMIN
-INSERT INTO address(streetnr, zipcode, city, blandid) values("Hallostr. 45", "45889", "Gelsenkirchen", "NW");
-INSERT INTO person (name, familyname, email, password, telnr, birth, addressid)
-VALUES ("Hakan", "Orhan", "hakan@test.de", "1234", "015478xx", "2007-10-04", 1);
+INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 45", "45889", "Gelsenkirchen", 10);
+INSERT INTO person (name, familyname, email, password, telnr, birth, addressid, role)
+VALUES ("Hakan", "Orhan", "hakan@cars.de", "1234", "+4915000000000", "2000-10-04", 1, 'admin');
 INSERT INTO admin(adminid) VALUES(1);
 insert into whocreatedeletedemployee(personid, createdfrom) values(1, 1);
+
+
 -- Admin erstellt ein neues Admin Account
 INSERT INTO address(streetnr, zipcode, city, blandid) values("Abendtr. 459", "47889", "Dortmund", "NW");
 INSERT INTO person (name, familyname, email, password, telnr, birth, addressid)

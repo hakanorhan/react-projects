@@ -1,7 +1,7 @@
 import { pool } from "../dbConnect.js";
 import bcrypt from 'bcrypt';
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-import jwt from 'jsonwebtoken';
+import { createToken } from "../jwt/jwtToken.js";
 const selectQuery = 'SELECT * FROM person WHERE email = ?';
 async function performQuery(requestData, res) {
     const { email, password } = requestData;
@@ -19,19 +19,19 @@ async function performQuery(requestData, res) {
             return res.status(401).json({ message: 'Wrong email address or password' });
         }
         const resultPassword = result[0][0].password;
-        const resultEmail = result[0][0].email;
         const resultPersonId = result[0][0].personid;
-        const name = result[0][0].name;
+        const resultName = result[0][0].name;
+        const resultRole = result[0][0].role;
         bcrypt.compare(password, resultPassword).then(result => {
             if (result) {
-                const accesToken = jwt.sign(resultEmail, "secret");
                 const responseSignInData = {
                     personId: resultPersonId,
-                    name: name,
-                    email: resultEmail,
-                    accesToken: accesToken
+                    name: resultName,
+                    role: resultRole
                 };
-                return res.status(200).send(responseSignInData);
+                const accessToken = createToken(resultPersonId);
+                res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 1000000 });
+                res.status(200).send(responseSignInData);
             }
             else {
                 return res.status(401).json({ message: 'Wrong email address or password' });
