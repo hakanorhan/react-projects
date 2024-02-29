@@ -11,10 +11,15 @@ import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
 import Notfound from './components/pages/Notfound';
 import InserateCar from './components/pages/InserateCar';
+import AdminDeactivate from './components/pages/dashboards/AdminDeactivate';
+import Admin from './components/pages/dashboards/Admin';
+
+import HomeImage from '/home.jpg';
 
 import  CssBaseline from '@mui/material/CssBaseline';
 import darkTheme from './themes/ThemeDark';
-import Buy from './components/pages/Buy';
+import Buy from './components/pages/Search';
+import { Box } from '@mui/material';
 
 
 function App() {
@@ -28,8 +33,8 @@ function App() {
       <ThemeProvider theme={themeColor}>
         {/* dark theme */}
         {/* <CssBaseline /> */}
+      <Box sx={{ backgroundImage: `url(${HomeImage})`, width: '100%', height: {xs: '690px', sm:'550px', md:'480px'} }}>
       <Header />
-      <div style={{ backgroundColor: "whitesmoke" }}>
       <Routes>
         <Route path='/' element={<Home />}></Route>
         {/* signin */}
@@ -37,13 +42,15 @@ function App() {
         {/* User signup */}
         <Route path='/signup' element={<SignUpUser />} ></Route> 
         {/* dashboard only admin */}
-        <Route path='/dashboard/admin' element={<DashboardAdmin />} ></Route>
+        <Route path='/admin/create' element={<DashboardAdmin />} ></Route>
+        <Route path='/admin/deactivate' element={<AdminDeactivate />}></Route>
         <Route path='/dashboard/service' element={<DashboardService />} ></Route>
-        <Route path='/inseratecar' element={<InserateCar />} ></Route>
-        <Route path='/kaufen' element={<Buy />} ></Route>
+        <Route path='/inserieren' element={<InserateCar />} ></Route>
+        <Route path='/suchen' element={<Buy />} ></Route>
+        <Route path='/admin' element={<Admin />}></Route>
         <Route path='*' element={<Notfound />} ></Route>
       </Routes>
-      </div>
+      </Box>
       </ThemeProvider>
       </BrowserRouter>
       <Footer/>

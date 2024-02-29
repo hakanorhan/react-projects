@@ -1,12 +1,8 @@
-import IAxiosDataSignUp from '../../../../../autos-backend/src/interfaces/ISignUpUser.js';
-import { IResponseSignup } from '../../../../../autos-backend/src/interfaces/IResponseSignup.js';
-import React, { useRef, useState, useEffect } from 'react';
+import { IRequestSignUpEmployee, IResponseSignUpEmployee } from '../../../../../autos-backend/src/interfaces/ISignUp.js';
+import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Box } from '@mui/material';
-import * as ReduxHelper from '../../../helper/validHelper.js';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import CheckIcon from '@mui/icons-material/Check'
+import { Button, Box } from '@mui/material';
 import * as ValidHelper from '../../../helper/validHelper.js';
 
 import dayjs from 'dayjs';
@@ -21,6 +17,12 @@ import { MuiTelInput } from 'mui-tel-input';
 /* Hot Toast */
 import toast, { Toaster } from 'react-hot-toast';
 import { DivFormularAdmin, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, ValidParagraph, primaryColorMain } from '../../../themes/ThemeColor.js';
+import TextFieldName from '../../formularFields/TextFieldName.js';
+import TextFieldEmail from '../../formularFields/TextFieldEmail.js';
+import TextFieldPasswordConfirm from '../../formularFields/TextFieldPasswordConfirm.js';
+import { IUseForm } from '../../../interfaces/IUseForm.js';
+import TextFieldAddress from '../../formularFields/TextFieldAddress.js';
+import Address from '../../../../../autos-backend/src/interfaces/Address.js';
 const notifyError = (message: string) => toast.error(message, {
     duration: 4000,
     position: 'bottom-center'
@@ -37,97 +39,48 @@ const AdminSignup: React.FC = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        
+    }, [])
+
     // TelNr
     const [telNr, setTelNr] = React.useState('')
-
+    const telRef = useRef<HTMLInputElement>(null);
     const handleChangeTelNr = (telNr: string) => {
         setTelNr(telNr)
     }
 
     // Name
-    const [nameMatch, setNameMatch] = useState(false);
     const nameRef = useRef<HTMLInputElement>(null);
-    const handleName = () => {
-        const nameValue: string | undefined = nameRef.current?.value;
-        if (nameValue) setNameMatch(ValidHelper.formularNameValid(nameValue));
-    }
+
     // Familyname
-    const [familynameMatch, setFamilynameMatch] = useState(false);
     const familynameRef = useRef<HTMLInputElement>(null);
-    const handleFamilyname = () => {
-        const nameValue: string | undefined = familynameRef.current?.value;
-        if (nameValue) setFamilynameMatch(ValidHelper.formularNameValid(nameValue));
-    }
 
     // Email
     const emailRef = useRef<HTMLInputElement>(null);
-    const [emailMatch, setEmailMatch] = useState(false);
-    const handleEmail = () => {
-        const emailValue: string | undefined = emailRef.current?.value;
-        if (emailValue) setEmailMatch(ValidHelper.formularEmailValid(emailValue));
-    }
 
     // Password1
     const password1Ref = useRef<HTMLInputElement>(null);
-    const [password1Match, setPassword1Match] = useState(false);
-    const [password1ValueChnged, setPassword1ValueChanged] = useState(false);
-    const [showPassword1, setShowPassword1] = useState(false);
-    const handleClickShowPassword1 = () => setShowPassword1((show) => !show);
-    const handleMouseDownPassword1 = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
-    const onChangePassword1 = () => {
-        setPassword1ValueChanged(true)
-        const passwordValue: string | undefined = password1Ref.current?.value;
-        if (passwordValue) {
-            setPassword1Match(ReduxHelper.formularPasswordValid(passwordValue));
-        }
-    }
-
-    const ValidationMessages = () => {
-        // to perform useEffect
-        setPassword1ValueChanged(false);
-        const passwordValue = password1Ref.current?.value;
-        if (passwordValue) {
-            return ReduxHelper.passwordSpecificValid(passwordValue).map(item => <ValidParagraph key={item.message} style={{ color: item.isValid ? 'orange' : primaryColorMain }}> {item.message} </ValidParagraph>)
-
-        } else {
-            return ReduxHelper.passwordSpecificValid("").map(item => <ValidParagraph key={item.message} style={{ color: item.isValid ? 'orange' : primaryColorMain }}> {item.message} </ValidParagraph>)
-        }
-    }
-
-    // Updating specific validations
-    useEffect(() => {
-        ValidationMessages
-
-        // if password1 changes, the validation process for password2 
-        validPassword2();
-
-        // on every onChange, password1ValueChanged changes from true to false. recognizing onChange to perform speicif validation
-    }, [password1ValueChnged])
-
 
     // Password2
     const password2Ref = useRef<HTMLInputElement>(null);
-    const [password2Match, setPassword2Match] = useState(false);
-    const [showPassword2, setShowPassword2] = useState(false);
-    const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
-    const handleMouseDownPassword2 = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
-    const password2OnChange = () => {
-        validPassword2();
-    }
 
-    const validPassword2 = () => {
-        const password1Value = password1Ref.current?.value;
-        const password2Value = password2Ref.current?.value;
-        if (password1Value && password2Value) {
-            setPassword2Match(ReduxHelper.formularPasswordValid(password2Value) && ReduxHelper.password2Valid(password1Value, password2Value))
-        } else {
-            setPassword2Match(false);
-        }
-    }
+    const birthRef = useRef<HTMLInputElement>(null);
+
+    const passwordField: IUseForm = { id:'password', label:'Password', inputRef: password1Ref };
+    const passwordFieldConfirm : IUseForm = { id:'confirm', label:'Password Confirm', inputRef: password2Ref };
+
+    // Address
+    const streetNrRef = useRef<HTMLInputElement>(null);
+    const zipcodeRef = useRef<HTMLInputElement>(null);
+    const cityRef = useRef<HTMLInputElement>(null);
+    const bundeslandRef = useRef<HTMLInputElement>(null);
+
+    const streetNrField: IUseForm = { id: 'addressNr', label: 'Straße Nr', inputRef: streetNrRef };
+    const zipcodeField: IUseForm = { id: 'zipcode', label:'Postleitzahl', inputRef: zipcodeRef };
+    const cityField: IUseForm = { id: 'city', label: 'Stadt', inputRef: cityRef };
+    const bundeslandField: IUseForm = { id:'federalState', label:'Bundesland', inputRef: bundeslandRef };
+
 
     const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
 
@@ -138,22 +91,32 @@ const AdminSignup: React.FC = () => {
         const email = emailRef.current?.value;
         const password1 = password1Ref.current?.value;
         const password2 = password2Ref.current?.value;
+        const telNr = telRef.current?.value;
+        const birth = birthRef.current?.value;
+        const streetNr = streetNrRef.current?.value;
+        const zipcode = zipcodeRef.current?.value;
+        const city = cityRef.current?.value;
+        const bundesland = bundeslandRef.current?.value;
 
-        if (name && familyname && email && password1 && password2) {
+        if (name && familyname && email && password1 && password2 && telNr &&
+             streetNr && zipcode && city && bundesland && birth) {
+            
+            const adress: Address = { streetnr: streetNr, zipcode: zipcode, bundeslandid: bundesland, city: city }
 
             // all Formular field are valid
-            if (ReduxHelper.formularSignUpIsValid(name, familyname, email, password1, password2)) {
+            if (ValidHelper.formularSignUpIsValid(name, familyname, email, password1, password2)) {
 
-                const formData: IAxiosDataSignUp = {
+                const formData: IRequestSignUpEmployee = {
                     name: name,
                     familyname: familyname,
                     email: email,
                     password: password1,
                     password2: password2,
-                    isCarDealer: isChecked
+                    birth: birth,
+                    adress: adress
                 }
 
-                await axios.post<IResponseSignup>('http://localhost:3001/signup',
+                await axios.post<IResponseSignUpEmployee>('http://localhost:3001/signup',
                     formData)
                     .then(function (response) {
                         notifySuccess("response.data.message")
@@ -171,153 +134,30 @@ const AdminSignup: React.FC = () => {
     }
 
 
-
     return (<>
         < Toaster />
-
         <form onSubmit={handleSubmit} noValidate>
             <DivFormularAdmin>
 
                 {/* Left side */}
-                <Box>
+                
                     <DivTwoFieldsWithSpaceBetween>
 
                         {/* Name */}
                         <DivWidthTwoFieldsRow>
-                            <FormControl required variant="outlined" >
-                                <InputLabel htmlFor="outlined-adornment-password">Name</InputLabel>
-                                <OutlinedInput
-                                    id="name"
-                                    onChange={handleName}
-                                    inputRef={nameRef}
-                                    label="Name"
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton disabled
-                                                aria-label="check visibility"
-                                            >
-                                                {nameMatch ? <CheckIcon /> : ""}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
+                            <TextFieldName id='name' label='Name' inputRef={nameRef} />
                         </DivWidthTwoFieldsRow>
 
                         {/* Nachname */}
                         <DivWidthTwoFieldsRow>
-                            <FormControl required variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password">Familyname</InputLabel>
-                                <OutlinedInput
-                                    id="name"
-                                    onChange={handleFamilyname}
-                                    inputRef={familynameRef}
-                                    label="Familyame"
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton disabled
-                                                aria-label="check visibility"
-                                            >
-                                                {familynameMatch ? <CheckIcon /> : ""}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
+                            <TextFieldName id='familyname' label='Familyname' inputRef={familynameRef} />
                         </DivWidthTwoFieldsRow>
                     </DivTwoFieldsWithSpaceBetween>
 
                     {/* Email */}
                     <Box>
-                        <FormControl variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
-                            <OutlinedInput
-                                id="email"
-                                inputRef={emailRef}
-                                onChange={handleEmail}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton disabled
-                                            aria-label="check visibility"
-
-                                        >
-                                            {emailMatch ? <CheckIcon /> : ""}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Email"
-                            />
-                        </FormControl>
+                        <TextFieldEmail id='email' label='Email' inputRef={emailRef} />
                     </Box>
-
-                    {/* Password1 */}
-                    <Box>
-                        <FormControl variant="outlined" >
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                            <OutlinedInput
-                                id="password"
-                                inputRef={password1Ref}
-                                onChange={onChangePassword1}
-                                type={showPassword1 ? 'text' : 'password'}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton disabled
-                                            aria-label="check visibility"
-                                        >
-                                            {password1Match ? <CheckIcon /> : ""}
-                                        </IconButton>
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword1}
-                                            onMouseDown={handleMouseDownPassword1}
-                                            edge="end"
-                                        >
-                                            {showPassword1 ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                            />
-                        </FormControl>
-
-                        <ValidationMessages />
-
-                    </Box>
-
-                    {/* Password2 */}
-                    <Box>
-                        <FormControl variant="outlined" >
-                            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
-                            <OutlinedInput
-                                id="password2"
-                                inputRef={password2Ref}
-                                onChange={password2OnChange}
-                                type={showPassword2 ? 'text' : 'password'}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton disabled
-                                            aria-label="check visibility"
-                                        >
-                                            {password2Match ? <CheckIcon /> : ""}
-                                        </IconButton>
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword2}
-                                            onMouseDown={handleMouseDownPassword2}
-                                            edge="end"
-                                        >
-                                            {showPassword2 ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                            />
-                        </FormControl>
-                    </Box>
-
-                </Box>
-
-                <Box>
 
                     {/* Birth */}
                     <Box>
@@ -335,97 +175,10 @@ const AdminSignup: React.FC = () => {
                         <MuiTelInput label="TelNr" defaultCountry={'DE'} value={telNr} onChange={handleChangeTelNr} />
                     </Box>
 
-                    {/* Address and zipcode */}
-                    <DivTwoFieldsWithSpaceBetween>
-                        {/* Address */}
-                        <DivWidthTwoFieldsRow>
-                            <FormControl required variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password">Address Nr</InputLabel>
-                                <OutlinedInput
-                                    id="addressnr"
-                                    onChange={handleName}
-                                    inputRef={nameRef}
-                                    label="Address Nr"
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton disabled
-                                                aria-label="check visibility"
-                                            >
-                                                {nameMatch ? <CheckIcon /> : ""}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
-                        </DivWidthTwoFieldsRow>
+                    <TextFieldAddress cityField={cityField} streetNrField={streetNrField} zipcodeField={zipcodeField} bundeslandField={bundeslandField} />
 
-                        {/* Zipcode */}
-                        <DivWidthTwoFieldsRow>
-                            <FormControl required variant="outlined" >
-                                <InputLabel htmlFor="outlined-adornment-password">Zipcode</InputLabel>
-                                <OutlinedInput
-                                    id="zipcode"
-                                    onChange={handleFamilyname}
-                                    inputRef={familynameRef}
-                                    label="Zipcode"
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton disabled
-                                                aria-label="check visibility"
-                                            >
-                                                {familynameMatch ? <CheckIcon /> : ""}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
-                        </DivWidthTwoFieldsRow>
-                    </DivTwoFieldsWithSpaceBetween>
-
-                    {/* City */}
-                    <Box>
-                        <FormControl required variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-password">City</InputLabel>
-                            <OutlinedInput
-                                id="city"
-                                onChange={handleFamilyname}
-                                inputRef={familynameRef}
-                                label="City"
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton disabled
-                                            aria-label="check visibility"
-                                        >
-                                            {familynameMatch ? <CheckIcon /> : ""}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                            />
-                        </FormControl>
-                    </Box>
-
-                    {/* Bundesland */}
-                    <Box>
-                        <FormControl required variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-password">Bundesland</InputLabel>
-                            <OutlinedInput
-                                id="bundesland"
-                                onChange={handleFamilyname}
-                                inputRef={familynameRef}
-                                label="Bundesland"
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton disabled
-                                            aria-label="check visibility"
-                                        >
-                                            {familynameMatch ? <CheckIcon /> : ""}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                            />
-                        </FormControl>
-                    </Box>
-                </Box>
+                    <TextFieldPasswordConfirm passwordField={passwordField} passwordConfirmField={passwordFieldConfirm} />
+                
 
                 <Box>
                     <Button fullWidth type='submit' variant="contained">Create</Button>

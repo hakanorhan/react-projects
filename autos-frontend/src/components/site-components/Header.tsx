@@ -11,12 +11,19 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
+// icons
+import AccountCircleIcon from '@mui/icons-material/AccountCircleOutlined';
+import CarRentalOutlinedIcon from '@mui/icons-material/CarRentalOutlined';
+import LocalParkingOutlinedIcon from '@mui/icons-material/LocalParkingOutlined';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 import { Company } from '../../constants/Company';
 import { Link } from 'react-router-dom';
 import { primaryColorMain } from '../../themes/ThemeColor';
 
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 const pages = ['Kaufen', 'Verkaufen', 'Blog'];
 const settings = ['Account', 'Dashboard', 'Logout'];
@@ -24,35 +31,39 @@ const settings = ['Account', 'Dashboard', 'Logout'];
 const linkColorHeaderXS: string = primaryColorMain;
 const linkColorHeaderLG: string = 'white';
 
-function Header() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+const fontSizeIcons = '40px';
+const drawerFontSize = '28px';
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
+const drawerSizes = { fontSize: drawerFontSize, fontWeight:'bold', paddingLeft:'25px' };
+
+function Header() {
+  const [accountMenuState, setAccountMenuState] = React.useState<null | HTMLElement>(null);
+
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+  const handleHamburgerMenu = () => {
+    setDrawerOpen(true);
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setAccountMenuState(event.currentTarget);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    setAccountMenuState(null);
   };
+
+  const handleOnCloseDrawer = () => {
+    setDrawerOpen(false);
+  }
 
   const DesktopIconMenu = () => {
     return <>
           <Typography
             variant="h6"
-            noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
-              display: { xs: 'none', lg: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
@@ -68,102 +79,33 @@ function Header() {
   const HamburgerMenuIcon = () => {
     return <>
     {/* Hamburger Menu */}
-    <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
+    <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'flex' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={handleHamburgerMenu}
               sx={{ color: linkColorHeaderLG }}
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', lg: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <Link style={{ color: linkColorHeaderXS }} to={`/${page}`}>{page}</Link>
-                    </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', lg: 'none' },
-              flexGrow: 1,
-              fontFamily: '',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              textDecoration: 'none',
-              color: linkColorHeaderLG
-            }}
-          >
-            { Company.COMPANYNAME }
-          </Typography></>
+         </>
   }
 
-  const DesktopLink = () => {
-    return <>
-      { /* Desktop */ }
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }}>
-            {pages.map((page) => (
-              <Link
-                key={page}
-                onClick={handleCloseNavMenu}
-                style={{ marginBottom: 2, display: 'block', textDecoration: 'none', paddingLeft:'1rem', color: linkColorHeaderLG }}
-                to={`/${page}`}
-              >
-                {page}
-              </Link>
-            ))}
-          </Box>
-    </>
-  }
-
-  return (
-    <AppBar position="static">
-      <Container maxWidth='xl'>
-        <Toolbar disableGutters>
-          <DesktopIconMenu />
-
-          <HamburgerMenuIcon />
-          <DesktopLink />
-
-          <Box sx={{ flexGrow: 0 }}>
+  const AccountMenu = () => {
+    return <Box sx={{ }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
-                <AccountCircleIcon sx={{ color: linkColorHeaderLG }} fontSize='large'/>
+                <AccountCircleIcon sx={{ color: linkColorHeaderLG, fontSize: { xs: '20px', lg: '25px'} }}/>
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
-              anchorEl={anchorElUser}
+              anchorEl={accountMenuState}
               anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
@@ -173,7 +115,7 @@ function Header() {
                 vertical: 'top',
                 horizontal: 'right',
               }}
-              open={Boolean(anchorElUser)}
+              open={Boolean(accountMenuState)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
@@ -183,6 +125,69 @@ function Header() {
               ))}
             </Menu>
           </Box>
+  }
+
+  const DrawerMenuComponent = () => {
+    return <Drawer anchor='right' open={ drawerOpen } onClose={ handleOnCloseDrawer }>
+      <Box p={2} sx={{ width: {xs: '100vw', sm:'500px'} }} role='presentation'>
+        <Box sx={{ display:'flex', flexDirection:'row', justifyContent:'end', paddingTop:'20px' }}>
+        <IconButton sx={{ backgroundColor:'transparent', "&.MuiButtonBase-root:hover": {
+                bgcolor: "transparent"
+              } }}>
+        <CloseOutlinedIcon onClick={() => { setDrawerOpen(false) }} sx={{ color: primaryColorMain, fontSize: '70px', fontWeight: 'bold', marginRight:'40px', borderStyle:'solid', borderRadius:'5px', padding:'10px' }}/>
+        </IconButton>
+        </Box>
+        <List>
+
+        <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <CarRentalOutlinedIcon sx={{ fontSize: fontSizeIcons }}/>
+                <ListItemText primary='Rent' primaryTypographyProps={ drawerSizes } />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <AccountCircleIcon sx={{ fontSize: fontSizeIcons }}/>
+                <ListItemText primary='Account' primaryTypographyProps={ drawerSizes } />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <LocalParkingOutlinedIcon sx={{ fontSize: fontSizeIcons }}/>
+                <ListItemText primary='Unsere Flotte' primaryTypographyProps={ drawerSizes } />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <LocationOnOutlinedIcon sx={{ fontSize: fontSizeIcons }}/>
+                <ListItemText primary='Standorte' primaryTypographyProps={ drawerSizes } />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Box>
+    </Drawer>
+  }
+
+  return (
+    <AppBar position="static" sx={{ backgroundColor: 'transparent' }}>
+      <Container maxWidth='xl' sx={{flexDirection:'row' }}>
+        <DrawerMenuComponent />
+        <Toolbar disableGutters sx={{ width:'100%', display:'flex', flexDirection:'row'}}>
+        <HamburgerMenuIcon />
+          <DesktopIconMenu />
+          <AccountMenu />
+          
         </Toolbar>
       </Container>
     </AppBar>

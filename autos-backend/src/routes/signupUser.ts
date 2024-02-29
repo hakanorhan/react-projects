@@ -1,9 +1,9 @@
 import express, { response } from "express";
 import { pool } from "../dbConnect.js";
-import ISignUpUser from "../interfaces/ISignUpUser.js";
+import ISignUpUser from "../interfaces/ISignUp.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import SignUpUser from "../interfaces/ISignUpUser.js";
-import { IResponseSignup } from "../interfaces/IResponseSignup.js";
+import IRequestSignUp from "../interfaces/ISignUp.js";
+import { IResponseSignup } from "../interfaces/ISignUp.js";
 
 import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../enums/Roles.js";
@@ -78,7 +78,7 @@ async function performQuery(requestData: ISignUpUser, res: express.Response){
 }
 
 export default async (req: express.Request, res: express.Response) => {
-    const requestData: SignUpUser = req.body;
+    const requestData: IRequestSignUp = req.body;
     performQuery(requestData, res);
 }
 

@@ -53,9 +53,9 @@ async function performQuery(requestData: LoginUser, res: express.Response){
                     }
                     // jwt
                     const accessToken = createToken(resultPersonId);
-                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 1_000_000 })
-                    res.status(200).send(responseSignInData);
-                    //res.redirect('/signup');
+                    // milliseconds
+                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 })
+                    res.status(201).send(responseSignInData);
                 } else {
                     return res.status(401).json({message: 'Wrong email address or password'});
                 }

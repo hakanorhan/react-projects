@@ -21,9 +21,9 @@ app.post("/signup", signupUser);
 app.post("/signin", signin);
 
 // admin
-app.get('/dashboard/admin', dashboardAdmin)
+app.post('/admin/create',authenticate, dashboardAdmin);
 
-app.get('/inseratecar', authenticate, inserateCar)
+app.get('/inseratecar', authenticate, inserateCar);
 
 app.listen(3001, () => {
   console.log("Server started!");

@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.post("/signup", signupUser);
 app.post("/signin", signin);
-app.get('/dashboard/admin', dashboardAdmin);
+app.post('/admin/create', authenticate, dashboardAdmin);
 app.get('/inseratecar', authenticate, inserateCar);
 app.listen(3001, () => {
     console.log("Server started!");

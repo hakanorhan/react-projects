@@ -2,7 +2,7 @@ interface Address {
     streetnr: string,
     zipcode: string,
     city: string,
-    blandid: number
+    bundeslandid: string
 }
 
 export default Address;

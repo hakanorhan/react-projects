@@ -20,8 +20,8 @@ const iAtLeastMessages: IAtLeastMessage[] = [
  * 
  * @param formularValues 
  */
-export function formularValuesValid(emailMatch: boolean, passwordMatch: boolean): boolean {
-    return emailMatch && passwordMatch;
+export function formularValuesValidSignIn(email: string, password: string): boolean {
+    return REGEX.REGEX_EMAIL.test(email) && REGEX.REGEX_PASSWORD.test(password);
 }
 
 export function formularEmailValid(valueEmail: string): boolean {

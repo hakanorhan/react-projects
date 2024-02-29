@@ -3,6 +3,8 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import AdminSignup from '../registerLogin/AdminSignup';
 
+import * as ThemeColor from '../../../themes/ThemeColor';
+
 export default function DashboardAdmin() {
   const [alignment, setAlignment] = useState('admin');
   const [alignmentProcess, setAlignmentProcess] = useState('create');
@@ -24,7 +26,7 @@ export default function DashboardAdmin() {
   return (
     <div>
     <div style={{ paddingTop: '20px', paddingLeft: '20px' }}>
-    <ToggleButtonGroup style={{ paddingRight: '20px' }}
+    <ToggleButtonGroup sx={{ paddingRight: '20px' }}
       color="primary"
       value={alignment}
       exclusive

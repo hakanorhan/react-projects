@@ -9,8 +9,22 @@ import { styled } from "@mui/material";
     xl, extra-large: 1536px
 */
 
+/**
+ * Responsive.
+ * Formularfield on mobile device have 85% width.
+ */
 const textFieldXSWitdh = '85%';
+/**
+ * Desktop view, at 600px breakpoint.
+ */
 const textFieldSMWitdh = '550px';
+
+const searchContainerXSWidth = '90%';
+const searchContainerMDWidth = '90%';
+const searchContainerLGWidth = '1075px';
+
+export const ToggleButtonSXWidth = '90px';
+export const ToggleButtonSMWidth = '150px';
 
 export const primaryColorMain: string = colors.grey[600];
 const primaryColorLight: string = colors.grey[300];
@@ -42,7 +56,8 @@ const themeColor = createTheme({
                 }
             }
         }
-    }, typography: {
+    },
+    typography: {
         h4: {
             margin:'auto',
             fontWeight:'lighter',
@@ -55,7 +70,6 @@ const themeColor = createTheme({
 /**
  * Responsive.
  * Width for Formular.
- * Left and right side.
  */
 export const DivFormularAdmin = styled('div')(({ theme }) => ({
     display:'flex',
@@ -110,7 +124,7 @@ export const DivWidthTwoFieldsRow = styled('div')(({ theme }) => ({
 }));
 
 /**
- * Sign in and Signout icons.
+ * Signin and Signout icons.
  */
 export const HeaderIcon = styled('div')(({ theme }) => ({
     margin:'auto',
@@ -127,9 +141,34 @@ export const HeaderIcon = styled('div')(({ theme }) => ({
 
 }));
 
-export const ValidParagraph = styled('p')(({ theme }) => ({
+export const ValidParagraph = styled('p')(({}) => ({
     lineHeight: '1.4rem',
     paddingLeft: '.2rem',
 }));
+
+
+/**
+ * All Search Container have the same width.
+ */
+export const SearchContainer = styled('div')(({ theme }) => ({
+    margin:'auto',
+    borderRadius: '.3rem',
+    marginTop: '4rem',
+    paddingTop:'1rem',
+    backgroundColor: 'whitesmoke',
+    [theme.breakpoints.up("xs")]: {
+        width: searchContainerXSWidth,
+           
+    },
+    [theme.breakpoints.up("sm")]: {
+        width: searchContainerXSWidth
+    },
+    [theme.breakpoints.up("md")]: {
+        width: searchContainerMDWidth
+    },
+    [theme.breakpoints.up("lg")]: {
+        width: searchContainerLGWidth
+    }
+}))
 
 export default themeColor;

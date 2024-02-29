@@ -30,8 +30,8 @@ async function performQuery(requestData, res) {
                     role: resultRole
                 };
                 const accessToken = createToken(resultPersonId);
-                res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 1000000 });
-                res.status(200).send(responseSignInData);
+                res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 });
+                res.status(201).send(responseSignInData);
             }
             else {
                 return res.status(401).json({ message: 'Wrong email address or password' });

@@ -5,6 +5,7 @@ const authenticate = (req: express.Request, res: express.Response, next: express
     const accessToken = req.cookies.jwt;
     console.log(accessToken)
     if(accessToken) {
+        // if jwt exists
         jwt.verify(accessToken, 'secret', (err: VerifyErrors | null, decodedToken: any) => {
             if(err) {
                 console.log("not logged in!")

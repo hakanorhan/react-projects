@@ -205,8 +205,59 @@ CREATE TABLE message(
 );
 
 -- static data
+INSERT INTO brands (brandname) VALUES ("Alfa Romeo");
+INSERT INTO brands (brandname) VALUES ("Alpina");
+INSERT INTO brands (brandname) VALUES ("Aston Martin");
 INSERT INTO brands (brandname) VALUES ("Audi");
-INSERT INTO brands (brandname) VALUES ("Mercedes");
+INSERT INTO brands (brandname) VALUES ("Bentley");
+INSERT INTO brands (brandname) VALUES ("BMW");
+INSERT INTO brands (brandname) VALUES ("Cadillac");
+INSERT INTO brands (brandname) VALUES ("Chevrolet");
+INSERT INTO brands (brandname) VALUES ("Chrysler");
+INSERT INTO brands (brandname) VALUES ("Citroen");
+INSERT INTO brands (brandname) VALUES ("Cupra");
+INSERT INTO brands (brandname) VALUES ("Dacia");
+INSERT INTO brands (brandname) VALUES ("Daihatsu");
+INSERT INTO brands (brandname) VALUES ("Dodge");
+INSERT INTO brands (brandname) VALUES ("DS Automobiles");
+INSERT INTO brands (brandname) VALUES ("Ferrari");
+INSERT INTO brands (brandname) VALUES ("Fiat");
+INSERT INTO brands (brandname) VALUES ("Ford");
+INSERT INTO brands (brandname) VALUES ("Honda");
+INSERT INTO brands (brandname) VALUES ("Hummer");
+INSERT INTO brands (brandname) VALUES ("Hynundai");
+INSERT INTO brands (brandname) VALUES ("Infiniti");
+INSERT INTO brands (brandname) VALUES ("Isuzu");
+INSERT INTO brands (brandname) VALUES ("Jaguar");
+INSERT INTO brands (brandname) VALUES ("Jeep");
+INSERT INTO brands (brandname) VALUES ("Kia");
+INSERT INTO brands (brandname) VALUES ("Alfa Romeo");
+INSERT INTO brands (brandname) VALUES ("Lexus");
+INSERT INTO brands (brandname) VALUES ("Maserati");
+INSERT INTO brands (brandname) VALUES ("Maybach");
+INSERT INTO brands (brandname) VALUES ("Mazda");
+INSERT INTO brands (brandname) VALUES ("McLaren");
+INSERT INTO brands (brandname) VALUES ("Mercdes-Benz");
+INSERT INTO brands (brandname) VALUES ("Mini");
+INSERT INTO brands (brandname) VALUES ("Mitsubishi");
+INSERT INTO brands (brandname) VALUES ("Nissan");
+INSERT INTO brands (brandname) VALUES ("Opel");
+INSERT INTO brands (brandname) VALUES ("Peugeot");
+INSERT INTO brands (brandname) VALUES ("Porsche");
+INSERT INTO brands (brandname) VALUES ("Renault");
+INSERT INTO brands (brandname) VALUES ("Rolls-Royce");
+INSERT INTO brands (brandname) VALUES ("Saab");
+INSERT INTO brands (brandname) VALUES ("Saleen");
+INSERT INTO brands (brandname) VALUES ("Seat");
+INSERT INTO brands (brandname) VALUES ("Skoda");
+INSERT INTO brands (brandname) VALUES ("Smart");
+INSERT INTO brands (brandname) VALUES ("Subaru");
+INSERT INTO brands (brandname) VALUES ("Suzuki");
+INSERT INTO brands (brandname) VALUES ("Tesla");
+INSERT INTO brands (brandname) VALUES ("Toyota");
+INSERT INTO brands (brandname) VALUES ("Volvo");
+INSERT INTO brands (brandname) VALUES ("Volkswagen");
+
 
 
 INSERT INTO models(model, brandid) VALUES ("A4", 1);
