@@ -33,7 +33,7 @@ function App() {
       <ThemeProvider theme={themeColor}>
         {/* dark theme */}
         {/* <CssBaseline /> */}
-      <Box sx={{ backgroundImage: `url(${HomeImage})`, width: '100%', height: {xs: '690px', sm:'550px', md:'480px'} }}>
+      <Box sx={{ backgroundImage: `url(${HomeImage})`, width: '100%', height: {xs: '720px', sm:'580px', md:'510px'} }}>
       <Header />
       <Routes>
         <Route path='/' element={<Home />}></Route>

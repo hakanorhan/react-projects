@@ -6,6 +6,7 @@ import dashboardAdmin from "./routes/dashboardAdmin.js";
 import inserateCar from "./routes/inserateCar.js";
 import cookieParser from "cookie-parser";
 import authenticate from "./jwt/authenticate.js";
+import fastsearchfirst from "./routes/fastsearchfirst.js";
 const app = express();
 
 app.use(cors({
@@ -24,6 +25,8 @@ app.post("/signin", signin);
 app.post('/admin/create',authenticate, dashboardAdmin);
 
 app.get('/inseratecar', authenticate, inserateCar);
+
+app.get('/fastsearchfirst', fastsearchfirst);
 
 app.listen(3001, () => {
   console.log("Server started!");

@@ -26,10 +26,10 @@ const searchContainerLGWidth = '1075px';
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
 
-export const primaryColorMain: string = colors.grey[600];
+export const primaryColorMain: string = colors.grey[900];
 const primaryColorLight: string = colors.grey[300];
 
-const secondaryColorMain: string = colors.red[500];
+const secondaryColorMain: string = colors.orange[700];
 
 const themeColor = createTheme({
     
@@ -55,6 +55,17 @@ const themeColor = createTheme({
                     width: '100%'
                 }
             }
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    height: '55px',
+                    backgroundColor: secondaryColorMain,
+                    '&:hover': {
+                        backgroundColor: primaryColorMain,
+                    }
+                }
+            }
         }
     },
     typography: {
@@ -63,7 +74,7 @@ const themeColor = createTheme({
             fontWeight:'lighter',
             paddingBottom:'0.5rem',
             color: primaryColorMain
-        },
+        }
     }    
 });
 
@@ -155,6 +166,7 @@ export const SearchContainer = styled('div')(({ theme }) => ({
     borderRadius: '.3rem',
     marginTop: '4rem',
     paddingTop:'1rem',
+    paddingBottom: '1rem',
     backgroundColor: 'whitesmoke',
     [theme.breakpoints.up("xs")]: {
         width: searchContainerXSWidth,

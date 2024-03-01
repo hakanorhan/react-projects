@@ -1,14 +1,16 @@
 import * as React from 'react'
 import { Box, Button, Grid } from '@mui/material';
-
-import { SearchContainer } from '../../themes/ThemeColor';
+import axios from 'axios';
+import { SearchContainer, primaryColorMain } from '../../themes/ThemeColor';
+import { IResponseSearch } from '../../../../autos-backend/src/interfaces/search/IResponseSearch';
+import { ICarInformationRequest } from '../../../../autos-backend/src/interfaces/search/IRequestSearch';
 
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import SearchIcon from '@mui/icons-material/Search';
 
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -28,6 +30,34 @@ const gridWithSM = 3.65;
 const gridWithXS = 5.5;
 
 const Buy: React.FC = () => {
+
+  const [countCars, setCountCars] = React.useState<number>();
+
+  // Get all cars from database at first
+  const getAllCars = async () => {
+
+    const carInformation: ICarInformationRequest = {
+      price: null,
+      km: null,
+      yearFrom: null,
+      yearTo: null,
+      brand: null,
+      model: null,
+      type: null,
+      bundesland: null
+    }
+
+    // Get a value of cars in database
+    await axios.get<number>('http://localhost:3001/fastsearchfirst')
+        .then(function (response) {
+          setCountCars(response.data)
+        })
+        .catch(err => {
+          alert("Error")
+        });
+    }
+
+  getAllCars();
 
   const [selectedBrand, setSelectedBrand] = React.useState('');
   const [selectedModel, setSelectedModel] = React.useState('');
@@ -276,7 +306,7 @@ const Buy: React.FC = () => {
   return (
     <>
       <Box >
-        <h1 style={{ textAlign: 'center', color: 'white', paddingTop: '4rem' }}>Find your next car.</h1>
+        <h1 style={{ textAlign: 'center', color: primaryColorMain, paddingTop: '4rem' }}>Find your next car.</h1>
         <SearchContainer>
           <Grid container justifyContent="center" columnSpacing={1}>
 
@@ -299,7 +329,7 @@ const Buy: React.FC = () => {
             <FederalStateComponent />
             
             <Grid item xs={11} sm={gridWithXS} md={7.3}>
-              <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem', height: '55px' }}>Suchen</Button>
+              <Button fullWidth type='submit' variant="contained"><SearchIcon /> { `${countCars}  Treffer` }</Button>
             </Grid>
           </Grid>
         </SearchContainer>

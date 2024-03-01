@@ -28,13 +28,10 @@ import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } fr
 const pages = ['Kaufen', 'Verkaufen', 'Blog'];
 const settings = ['Account', 'Dashboard', 'Logout'];
 
-const linkColorHeaderXS: string = primaryColorMain;
-const linkColorHeaderLG: string = 'white';
-
 const fontSizeIcons = '40px';
 const drawerFontSize = '28px';
 
-const drawerSizes = { fontSize: drawerFontSize, fontWeight:'bold', paddingLeft:'25px' };
+const drawerSizes = { color: primaryColorMain, fontSize: drawerFontSize, fontWeight:'bold', paddingLeft:'25px' };
 
 function Header() {
   const [accountMenuState, setAccountMenuState] = React.useState<null | HTMLElement>(null);
@@ -68,7 +65,7 @@ function Header() {
               fontWeight: 700,
               letterSpacing: '.3rem',
               textDecoration: 'none',
-              color: linkColorHeaderLG
+              color: primaryColorMain
             }}
           >
             {Company.COMPANYNAME}
@@ -86,7 +83,7 @@ function Header() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleHamburgerMenu}
-              sx={{ color: linkColorHeaderLG }}
+              sx={{ color: primaryColorMain }}
             >
               <MenuIcon />
             </IconButton>
@@ -99,7 +96,7 @@ function Header() {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
-                <AccountCircleIcon sx={{ color: linkColorHeaderLG, fontSize: { xs: '20px', lg: '25px'} }}/>
+                <AccountCircleIcon sx={{ color: primaryColorMain, fontSize: { xs: '20px', lg: '25px'} }}/>
               </IconButton>
             </Tooltip>
             <Menu
@@ -131,10 +128,10 @@ function Header() {
     return <Drawer anchor='right' open={ drawerOpen } onClose={ handleOnCloseDrawer }>
       <Box p={2} sx={{ width: {xs: '100vw', sm:'500px'} }} role='presentation'>
         <Box sx={{ display:'flex', flexDirection:'row', justifyContent:'end', paddingTop:'20px' }}>
-        <IconButton sx={{ backgroundColor:'transparent', "&.MuiButtonBase-root:hover": {
+        <IconButton onClick={() => { setDrawerOpen(false) }}  sx={{ backgroundColor:'transparent', "&.MuiButtonBase-root:hover": {
                 bgcolor: "transparent"
               } }}>
-        <CloseOutlinedIcon onClick={() => { setDrawerOpen(false) }} sx={{ color: primaryColorMain, fontSize: '70px', fontWeight: 'bold', marginRight:'40px', borderStyle:'solid', borderRadius:'5px', padding:'10px' }}/>
+        <CloseOutlinedIcon sx={{ color: primaryColorMain, fontSize: '70px', fontWeight: 'bold', marginRight:'40px', borderStyle:'solid', borderRadius:'5px', padding:'10px' }}/>
         </IconButton>
         </Box>
         <List>
@@ -142,8 +139,7 @@ function Header() {
         <ListItem>
             <ListItemButton>
               <ListItemIcon>
-                <CarRentalOutlinedIcon sx={{ fontSize: fontSizeIcons }}/>
-                <ListItemText primary='Rent' primaryTypographyProps={ drawerSizes } />
+                <ListItemText primary='Suchen' primaryTypographyProps={ drawerSizes } />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -151,7 +147,14 @@ function Header() {
           <ListItem>
             <ListItemButton>
               <ListItemIcon>
-                <AccountCircleIcon sx={{ fontSize: fontSizeIcons }}/>
+                <ListItemText primary='Inserieren' primaryTypographyProps={ drawerSizes } />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
                 <ListItemText primary='Account' primaryTypographyProps={ drawerSizes } />
               </ListItemIcon>
             </ListItemButton>
@@ -160,17 +163,7 @@ function Header() {
           <ListItem>
             <ListItemButton>
               <ListItemIcon>
-                <LocalParkingOutlinedIcon sx={{ fontSize: fontSizeIcons }}/>
-                <ListItemText primary='Unsere Flotte' primaryTypographyProps={ drawerSizes } />
-              </ListItemIcon>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton>
-              <ListItemIcon>
-                <LocationOnOutlinedIcon sx={{ fontSize: fontSizeIcons }}/>
-                <ListItemText primary='Standorte' primaryTypographyProps={ drawerSizes } />
+                <ListItemText primary='Unser Service' primaryTypographyProps={ drawerSizes } />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -180,7 +173,7 @@ function Header() {
   }
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'transparent' }}>
+    <AppBar elevation={1} position="static" sx={{ backgroundColor: 'transparent' }}>
       <Container maxWidth='xl' sx={{flexDirection:'row' }}>
         <DrawerMenuComponent />
         <Toolbar disableGutters sx={{ width:'100%', display:'flex', flexDirection:'row'}}>
