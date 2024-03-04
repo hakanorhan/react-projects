@@ -6,7 +6,6 @@ const selectQuery = 'SELECT * FROM person WHERE email = ?';
 async function performQuery(requestData, res) {
     const { email, password } = requestData;
     let connection;
-    console.log("Ausgabe: " + email.match(REGEX_EMAIL) + " " + password.match(REGEX_PASSWORD));
     if (!REGEX_EMAIL.test(email) && !REGEX_PASSWORD.test(password)) {
         return res.status(401).json({ message: 'Password or email invalid Server' });
     }
@@ -15,7 +14,6 @@ async function performQuery(requestData, res) {
         const queryResult = await connection.query(selectQuery, [email]);
         const result = queryResult;
         if (result[0].length === 0) {
-            console.log("emal not found");
             return res.status(401).json({ message: 'Wrong email address or password' });
         }
         const resultPassword = result[0][0].password;

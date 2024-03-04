@@ -13,7 +13,6 @@ const TextFieldEmail: React.FC<IUseForm> = ({ id, label, inputRef: ref }) => {
 
   const handleEmail  = () => {
     const emailValue:string | undefined = ref.current?.value;
-    console.log(emailValue);
     if(emailValue) setEmailMatch(ValidHelper.formularEmailValid(emailValue));
     }
   

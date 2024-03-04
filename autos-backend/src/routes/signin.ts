@@ -15,8 +15,6 @@ async function performQuery(requestData: LoginUser, res: express.Response){
 
     const { email, password } = requestData;
     let connection;
-
-    console.log("Ausgabe: " + email.match(REGEX_EMAIL) + " " + password.match(REGEX_PASSWORD))
     
     // Email or password aren't valid
     if(!REGEX_EMAIL.test(email) && !REGEX_PASSWORD.test(password)) {
@@ -32,7 +30,6 @@ async function performQuery(requestData: LoginUser, res: express.Response){
             
             // Email not found
             if(result[0].length === 0) {
-                console.log("emal not found")
                 return res.status(401).json({message: 'Wrong email address or password'});
             }
 

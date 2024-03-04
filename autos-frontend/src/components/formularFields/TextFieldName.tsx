@@ -15,7 +15,7 @@ const TextFieldName: React.FC<IUseForm> = ({ id, label, inputRef: ref }) => {
 
   return (
     <FormControl required fullWidth variant="outlined" >
-    <InputLabel htmlFor="outlined-adornment-password">Name</InputLabel>
+    <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <OutlinedInput
       id= {id}
       onChange= {handleName}

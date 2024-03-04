@@ -19,6 +19,10 @@ import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 
+import { useSpring, animated } from 'react-spring';
+
+
+
 const kmsFrom = [2_500, 5_000, 10_000, 25_000, 35_000, 50_000, 60_000, 85_000, 100_000, 150_000, 250_000, "ab 250000"];
 
 const transmissions = ["Automatik", "Schaltgetriebe"];
@@ -29,41 +33,59 @@ const federalStates = ["Berlin", "Brandenburg", "Mecklenburg-Vorpommern", "Nordr
 const gridWithSM = 3.65;
 const gridWithXS = 5.5;
 
-const Buy: React.FC = () => {
+const searchButtonText = " Treffer";
 
+const Search: React.FC = () => {
+
+const Number = ({ n }) => {
+  const { number } = useSpring({
+    from: { number: 0 },
+    number: n,
+    delay: 200,
+    config: { mass:1, tension: 20, friction: 10 }
+  });
+  return <animated.div>{number.to(n => n.toFixed(0))}</animated.div>
+}
+
+  // available cars 
   const [countCars, setCountCars] = React.useState<number>();
 
-  // Get all cars from database at first
-  const getAllCars = async () => {
+  const initalValue: ICarInformationRequest = {
+    price: null,
+    km: null,
+    yearFrom: null,
+    yearTo: null,
+    brand: null,
+    model: null,
+    type: null,
+    bundesland: null
+  }
 
-    const carInformation: ICarInformationRequest = {
-      price: null,
-      km: null,
-      yearFrom: null,
-      yearTo: null,
-      brand: null,
-      model: null,
-      type: null,
-      bundesland: null
-    }
+  // 
+  const [carInformation, setCarInformation] = React.useState<ICarInformationRequest>(initalValue);
 
-    // Get a value of cars in database
-    await axios.get<number>('http://localhost:3001/fastsearchfirst')
-        .then(function (response) {
-          setCountCars(response.data)
-        })
-        .catch(err => {
-          alert("Error")
-        });
-    }
+  // Get once all cars from database at first
+  React.useEffect(() => {
+    const fetchAllCarsInformations = async () => {
+      // Get a value of cars in database
+      await axios.get<number>('http://localhost:3001/fastsearchfirst')
+          .then(function (response) {
+            setCountCars(response.data);
+          })
+          .catch(err => {
+            
+          });
+      }
 
-  getAllCars();
+      fetchAllCarsInformations();
 
-  const [selectedBrand, setSelectedBrand] = React.useState('');
-  const [selectedModel, setSelectedModel] = React.useState('');
-  const [selectedKmState, setSelectedKmState] = React.useState('');
+  }, [])
+
+  const [selectedBrand, setSelectedBrand] = React.useState<string>("");
+  const [selectedModel, setSelectedModel] = React.useState<string>("");
+  const [selectedKmState, setSelectedKmState] = React.useState<string>("");
   const [selectedTransmissionState, setSelectedTransmissionState] = React.useState<string[]>([]);
-  const [selectedPriceState, setSelectedPriceState] = React.useState('');
+  const [selectedPriceState, setSelectedPriceState] = React.useState<string>("");
   const [selectedCarTypeState, setSelectedCarTypeState] = React.useState<string[]>([]);
   const [selectedFederalState, setSelectedFederalState] = React.useState<string[]>([]);
 
@@ -258,7 +280,12 @@ const Buy: React.FC = () => {
 
 
   const handleChangeBrand = (event: SelectChangeEvent) => {
-    setSelectedBrand(event.target.value as string);
+    const brand = event.target.value as string;
+    setSelectedBrand(brand);
+    setCarInformation(prevState => ({
+      ...prevState,
+      brand: brand
+    }))
   };
 
   const handleChangeModel = (event: SelectChangeEvent) => {
@@ -312,6 +339,7 @@ const Buy: React.FC = () => {
 
             {/* Brand */}
             <BrandComponent />
+
             {/* Model */}
             <ModelComponent />
 
@@ -323,13 +351,15 @@ const Buy: React.FC = () => {
 
             {/* Year from */}
             <YearFromComponent />
+
             {/* Year to */}
             <YearToComponent />
 
+            {/* Federal State */}
             <FederalStateComponent />
             
             <Grid item xs={11} sm={gridWithXS} md={7.3}>
-              <Button fullWidth type='submit' variant="contained"><SearchIcon /> { `${countCars}  Treffer` }</Button>
+              <Button fullWidth type='submit' variant="contained"><SearchIcon />  <Number n={countCars} /> { ` ${searchButtonText}` }</Button>
             </Grid>
           </Grid>
         </SearchContainer>
@@ -339,4 +369,4 @@ const Buy: React.FC = () => {
   )
 }
 
-export default Buy;
+export default Search;

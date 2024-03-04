@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 /* Interfaces */
 import LoginUser from '../../../../../autos-backend/src/interfaces/LoginUser.js';
@@ -14,6 +14,9 @@ import { IResponseSignInData } from '..7../../../../autos-backend/src/interfaces
 
 import * as validHelper from '../../../helper/validHelper.js';
 import { useNavigate } from 'react-router-dom';
+
+import { setNewImage } from "../../../redux/features/imageSlice.js";
+import { useDispatch } from "react-redux";
 
 /* Hot Toast */
 import toast, { Toaster } from 'react-hot-toast';
@@ -32,6 +35,12 @@ const notifySuccess = (message: string) => toast.success(message, {
 });
 
 const SignIn: React.FC = () => {
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setNewImage('signin'));
+  }, [dispatch])  
+  
 
   const location = useLocation();
   const { state } = location;

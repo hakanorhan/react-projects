@@ -43,7 +43,6 @@ async function performQuery(requestData: ISignUpUser, res: express.Response){
             const message: IResponseSignup = { message: "Password not matches. Please try again" }
             return res.status(409).json(message);
         }
-        //console.log(result[0][0].email);
         
         // hash password
         const salt = genSaltSync(10);

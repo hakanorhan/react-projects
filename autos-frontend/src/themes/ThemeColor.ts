@@ -1,5 +1,6 @@
 import { colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
+import { yellow } from "@mui/material/colors";
 
 /*
     xs, extra-small: 0px
@@ -27,7 +28,7 @@ export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
 
 export const primaryColorMain: string = colors.grey[900];
-const primaryColorLight: string = colors.grey[300];
+export const primaryColorLight: string = colors.grey[300];
 
 const secondaryColorMain: string = colors.orange[700];
 
@@ -166,7 +167,7 @@ export const SearchContainer = styled('div')(({ theme }) => ({
     borderRadius: '.3rem',
     marginTop: '4rem',
     paddingTop:'1rem',
-    paddingBottom: '1rem',
+    paddingBottom: '2rem',
     backgroundColor: 'whitesmoke',
     [theme.breakpoints.up("xs")]: {
         width: searchContainerXSWidth,

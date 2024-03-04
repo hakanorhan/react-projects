@@ -1,13 +1,15 @@
 
 import IAxiosDataSignUp from '../../../../../autos-backend/src/interfaces/ISignUp.js';
-import { IResponseSignup } from '../../../../../autos-backend/src/interfaces/IResponseSignup.js';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Button, Checkbox, FormControlLabel, Box, Typography } from '@mui/material';
 import * as ReduxHelper from '../../../helper/validHelper.js';
 import { DivFormularAdmin, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderIcon, primaryColorMain } from '../../../themes/ThemeColor.js';
+
+import { setNewImage } from "../../../redux/features/imageSlice.js";
+import { useDispatch } from "react-redux";
 
 /* Hot Toast */
 import toast, { Toaster } from 'react-hot-toast';
@@ -28,6 +30,11 @@ const notifySuccess = (message: string) => toast.success(message, {
 });
 
 const SignUpUser: React.FC = () => {
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setNewImage('signin'));
+  }, [dispatch]) 
 
   const navigate = useNavigate();
   

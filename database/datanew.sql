@@ -71,12 +71,20 @@ CREATE TABLE brands(
     PRIMARY KEY (brandid)
 );
 
+CREATE TABLE cartypes(
+    typeid INT NOT NULL AUTO_INCREMENT,
+    typename VARCHAR(55) NOT NULL UNIQUE,
+    PRIMARY KEY(typeid)
+);
+
 CREATE TABLE models(
     modelid INT NOT NULL AUTO_INCREMENT,
     model VARCHAR(255) NOT NULL,
     brandid INT NOT NULL,
+    typeid INT NOT NULL,
     PRIMARY KEY(modelid),
-    FOREIGN KEY (brandid) REFERENCES brands(brandid)
+    FOREIGN KEY (brandid) REFERENCES brands(brandid),
+    FOREIGN KEY (typeid) REFERENCES cartypes(typeid)
 );
 
 CREATE TABLE fuels(
@@ -85,22 +93,25 @@ CREATE TABLE fuels(
     PRIMARY KEY (fuelid)
 );
 
+CREATE TABLE baureihe(
+    baureiheid INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    baureihename VARCHAR(50) NOT NULL,
+    modelid INT NOT NULL,
+    FOREIGN KEY(modelid) REFERENCES models(modelid)
+);
+
 CREATE TABLE motorization(
 	motorizationid INT AUTO_INCREMENT NOT NULL,
     motorization VARCHAR(50) NOT NULL,
     ps INT NOT NULL,
     hubraum INT NOT NULL,
     fuelid INT NOT NULL,
-    modelid INT NOT NULL,
+    yearFrom INT NOT NULL,
+    yearTo INT NULL,
+    baureiheid INT NOT NULL,
     PRIMARY KEY(motorizationid),
     FOREIGN KEY(fuelid) REFERENCES fuels(fuelid),
-	FOREIGN KEY(modelid) REFERENCES models(modelid)
-);
-
-CREATE TABLE cartypes(
-    typeid INT NOT NULL AUTO_INCREMENT,
-    typename VARCHAR(55) NOT NULL UNIQUE,
-    PRIMARY KEY(typeid)
+    FOREIGN KEY(baureiheid) REFERENCES baureihe(baureiheid)
 );
 
 CREATE TABLE transmissions(
@@ -149,22 +160,16 @@ CREATE TABLE selectedexterior(
 
 CREATE TABLE cars(
     carid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    price INT NOT NULL UNIQUE,
-    km INT NOT NULL UNIQUE,
-    year DATE NOT NULL UNIQUE,
-    brandid INT NOT NULL UNIQUE,
-    modelid INT NOT NULL UNIQUE,
-    typeid INT NOT NULL UNiQUE,
-    transmissionid INT NOT NULL UNIQUE,
-    motorizationid INT NOT NULL UNIQUE,
-    advertiseinfoid INT NOT NULL UNIQUE,
-    selectedexteriorid INT NOT NULL UNIQUE,
-    selectedinteriorid INT NOT NULL UNIQUE,
-    FOREIGN KEY(brandid) REFERENCES brands(brandid),
-    FOREIGN KEY(modelid) REFERENCES models(modelid),
+    price INT NOT NULL,
+    km INT NOT NULL,
+    year DATE NOT NULL,
+    transmissionid INT NOT NULL,
+    motorizationid INT NOT NULL,
+    advertiseinfoid INT NOT NULL,
+    selectedexteriorid INT,
+    selectedinteriorid INT,
     FOREIGN KEY(advertiseinfoid) REFERENCES advertiseinfo(advertiseinfoid),
     FOREIGN KEY (motorizationid) REFERENCES motorization(motorizationid),
-    FOREIGN KEY (typeid) REFERENCES cartypes (typeid),
     FOREIGN KEY (transmissionid) REFERENCES transmissions (transmissionid),
     FOREIGN KEY (selectedexteriorid ) REFERENCES selectedexterior(selectedexteriorid ), 
 	FOREIGN KEY (selectedinteriorid) REFERENCES selectedinterior(selectedinteriorid)
@@ -182,16 +187,6 @@ CREATE TABLE cargrants(
     FOREIGN KEY (carid) REFERENCES cars(carid)
 );
 
-
-CREATE TABLE tuning(
-	tuningid INT AUTO_INCREMENT NOT NULL,
-    ps INT NOT NULL,
-    hubraum INT NOT NULL,
-    carid INT NOT NULL,
-    PRIMARY KEY(tuningid),
-    FOREIGN KEY(carid) REFERENCES cars(carid)
-);
-
 CREATE TABLE message(
 	messageid INT AUTO_INCREMENT NOT NULL,
     senderid INT NOT NULL,
@@ -203,6 +198,31 @@ CREATE TABLE message(
     FOREIGN KEY(receiverid) REFERENCES user(userid),
     FOREIGN KEY(carid) REFERENCES cars(carid)
 );
+
+-- Bundesministerium für Bildung und Forschung
+INSERT INTO bundesland(kuerzel, bundesland) values("BW", "Baden-Württemberg");
+INSERT INTO bundesland(kuerzel, bundesland) values("BY", "Bayern");
+INSERT INTO bundesland(kuerzel, bundesland) values("BE", "Berlin");
+INSERT INTO bundesland(kuerzel, bundesland) values("BB", "Brandenburg");
+INSERT INTO bundesland(kuerzel, bundesland) values("HB", "Bremen");
+INSERT INTO bundesland(kuerzel, bundesland) values("HH", "Hamburg");
+INSERT INTO bundesland(kuerzel, bundesland) values("HE", "Hessen");
+INSERT INTO bundesland(kuerzel, bundesland) values("MV", "Mecklenburg-Vorpommern");
+INSERT INTO bundesland(kuerzel, bundesland) values("NI", "Niedersachsen");
+INSERT INTO bundesland(kuerzel, bundesland) values("NW", "Nordrhein-Westfalen");
+INSERT INTO bundesland(kuerzel, bundesland) values("RP", "Rheinland-Pfalz");
+INSERT INTO bundesland(kuerzel, bundesland) values("SL", "Saarland");
+INSERT INTO bundesland(kuerzel, bundesland) values("SN", "Sachsen");
+INSERT INTO bundesland(kuerzel, bundesland) values("ST", "Sachsen-Anhalt");
+INSERT INTO bundesland(kuerzel, bundesland) values("SH", "Schleswig-Holstein");
+INSERT INTO bundesland(kuerzel, bundesland) values("TH", "Thüringen");
+
+INSERT INTO cartypes(typename) VALUES ("Limousine");
+INSERT INTO cartypes(typename) VALUES ("Kombi");
+INSERT INTO cartypes(typename) VALUES ("Coupe");
+INSERT INTO cartypes(typename) VALUES ("Cabrio");
+INSERT INTO cartypes(typename) VALUES ("Kleinwagen");
+INSERT INTO cartypes(typename) VALUES ("SUV");
 
 -- static data
 INSERT INTO brands (brandname) VALUES ("Alfa Romeo");
@@ -258,66 +278,105 @@ INSERT INTO brands (brandname) VALUES ("Toyota");
 INSERT INTO brands (brandname) VALUES ("Volvo");
 INSERT INTO brands (brandname) VALUES ("Volkswagen");
 
+-- Model Audi
+INSERT INTO models(model, brandid, typeid) VALUES ("100", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("80", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("A1", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("A1", 4, 5);
+INSERT INTO models(model, brandid, typeid) VALUES ("A2", 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("A3", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("A3", 4, 5);
+INSERT INTO models(model, brandid, typeid) VALUES ("A4", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("A4", 4, 2);
+INSERT INTO models(model, brandid, typeid) VALUES ("A4", 4, 4);
+INSERT INTO models(model, brandid, typeid) VALUES ("A4 Allraod", 4, 2);
+INSERT INTO models(model, brandid, typeid) VALUES ("A5", 4, 4);
+INSERT INTO models(model, brandid, typeid) VALUES ("A5", 4, 3);
+INSERT INTO models(model, brandid, typeid) VALUES ("A5", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("A6", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("A6", 4, 2);
+INSERT INTO models(model, brandid, typeid) VALUES ("A6 Allroad", 4, 2);
+INSERT INTO models(model, brandid, typeid) VALUES ("A7", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("A8", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("e-tron", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("e-tron gt", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("Q1", 4, 6);
+INSERT INTO models(model, brandid, typeid) VALUES ("Q2", 4, 6);
+INSERT INTO models(model, brandid, typeid) VALUES ("Q3", 4, 6);
+INSERT INTO models(model, brandid, typeid) VALUES ("Q7", 4, 6);
+INSERT INTO models(model, brandid, typeid) VALUES ("Q8", 4, 6);
+INSERT INTO models(model, brandid, typeid) VALUES ("R8", 4, 4);
+INSERT INTO models(model, brandid, typeid) VALUES ("R8", 4, 3);
+INSERT INTO models(model, brandid, typeid) VALUES ("RS3", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("RS4", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("RS4", 4, 2);
+INSERT INTO models(model, brandid, typeid) VALUES ("RS5", 4, 3);
+INSERT INTO models(model, brandid, typeid) VALUES ("RS5", 4, 4);
+INSERT INTO models(model, brandid, typeid) VALUES ("RS6", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("RS6", 4, 2);
+INSERT INTO models(model, brandid, typeid) VALUES ("S3", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("S4", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("S4", 4, 2);
+INSERT INTO models(model, brandid, typeid) VALUES ("S5", 4, 3);
+INSERT INTO models(model, brandid, typeid) VALUES ("S5", 4, 4);
+INSERT INTO models(model, brandid, typeid) VALUES ("S6", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("S6", 4, 2);
+INSERT INTO models(model, brandid, typeid) VALUES ("S8", 4, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("TT", 4, 3);
+INSERT INTO models(model, brandid, typeid) VALUES ("TT", 4, 4);
+INSERT INTO models(model, brandid, typeid) VALUES ("TTRS", 4, 3);
+INSERT INTO models(model, brandid, typeid) VALUES ("TTRS", 4, 4);
+INSERT INTO models(model, brandid, typeid) VALUES ("TTS", 4, 3);
+INSERT INTO models(model, brandid, typeid) VALUES ("TTS", 4, 4);
 
-
-INSERT INTO models(model, brandid) VALUES ("A4", 1);
-INSERT INTO models(model, brandid) VALUES ("A5", 1);
-INSERT INTO models(model, brandid) VALUES ("A", 2);
-INSERT INTO models(model, brandid) VALUES ("E", 2);
+-- Skoda
+INSERT INTO models(model, brandid, typeid) VALUES ("Fabia", 45, 1);
+INSERT INTO models(model, brandid, typeid) VALUES ("Kodiaq", 45, 6);
 
 INSERT INTO fuels (fuelname) VALUES ("Benzin");
 INSERT INTO fuels (fuelname) VALUES ("Diesel");
 INSERT INTO fuels (fuelname) VALUES ("Hybrid");
 INSERT INTO fuels (fuelname) VALUES ("Elektro");
 
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid)
-VALUES("1.4 TFSI", 150, 1395, 1, 1);
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid)
-VALUES("3.0 TFSI", 354, 2995, 1, 1);
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid)
-VALUES("160", 109, 1332, 1, 3);
-
-INSERT INTO cartypes(typename) VALUES ("Limousine");
-INSERT INTO cartypes(typename) VALUES ("Kombi");
-INSERT INTO cartypes(typename) VALUES ("Coupe");
-INSERT INTO cartypes(typename) VALUES ("Cabrio");
-INSERT INTO cartypes(typename) VALUES ("Kleinwagen");
+-- Motorization Wikipedia
+-- Audi A3 Benzin https://de.wikipedia.org/wiki/Audi_A3_8L
+INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("30 TFSI", 110, 999, 1, 5, 2020);
+INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("35 TFSI", 150, 1498, 1, 5, 2020);
+INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("40 TFSI", 190, 1984, 1, 5, 2020);
+INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("S3 TFSI", 310, 1984, 1, 33, 2020);
+INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("RS3 TFSI", 400, 2480, 1, 27, 2020);
+-- Audi A3 Diesel https://de.wikipedia.org/wiki/Audi_A3_8L
+INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("30 TDI", 116, 1968, 2, 5, 2020);
+INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("35 TDI", 150, 1968, 2, 5, 2020);
+INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("40 TDI", 200, 1968, 2, 5, 2020);
 
 INSERT INTO transmissions(transmissionname) VALUES ("Automatik");
 INSERT INTO transmissions(transmissionname) VALUES ("Schaltgetriebe");
 
-
--- Bundesministerium für Bildung und Forschung
-INSERT INTO bundesland(kuerzel, bundesland) values("BW", "Baden-Württemberg");
-INSERT INTO bundesland(kuerzel, bundesland) values("BY", "Bayern");
-INSERT INTO bundesland(kuerzel, bundesland) values("BE", "Berlin");
-INSERT INTO bundesland(kuerzel, bundesland) values("BB", "Brandenburg");
-INSERT INTO bundesland(kuerzel, bundesland) values("HB", "Bremen");
-INSERT INTO bundesland(kuerzel, bundesland) values("HH", "Hamburg");
-INSERT INTO bundesland(kuerzel, bundesland) values("HE", "Hessen");
-INSERT INTO bundesland(kuerzel, bundesland) values("MV", "Mecklenburg-Vorpommern");
-INSERT INTO bundesland(kuerzel, bundesland) values("NI", "Niedersachsen");
-INSERT INTO bundesland(kuerzel, bundesland) values("NRW", "Nordrhein-Westfalen");
-INSERT INTO bundesland(kuerzel, bundesland) values("RP", "Rheinland-Pfalz");
-INSERT INTO bundesland(kuerzel, bundesland) values("SL", "Saarland");
-INSERT INTO bundesland(kuerzel, bundesland) values("SN", "Sachsen");
-INSERT INTO bundesland(kuerzel, bundesland) values("ST", "Sachsen-Anhalt");
-INSERT INTO bundesland(kuerzel, bundesland) values("SH", "Schleswig-Holstein");
-INSERT INTO bundesland(kuerzel, bundesland) values("TH", "Thüringen");
-
 INSERT INTO exteriors(exteriorname) VALUES("Einparkhilfe");
 INSERT INTO exteriors(exteriorname) VALUES("Tempomat");
 
+-- User erstellt ein neuen Account
+INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 95", "49889", "Essen", 10);
+INSERT INTO person (name, familyname, email, password, telnr, birth, addressid)
+VALUES ("Hakan", "Orhan", "hakan@mail.de", "Hakan.89!", "015478xx", "2000-09-24", 1);
+Insert INTO user(userid) VALUES(1);
+
+-- Fahrzeug inserieren 
+INSERT INTO advertiseinfo(userid) VALUES (1);
+INSERT INTO cars(price, km, year, transmissionid, motorizationid, advertiseinfoid) VALUES (45000, 0, "2024-02-25", 1, 8,1);
+
+INSERT INTO advertiseinfo(userid) VALUES (1);
+INSERT INTO cars(price, km, year, transmissionid, motorizationid, advertiseinfoid) VALUES (32500, 2500, "2022-02-25", 1, 1, 1);
 
 
-
+/*
 -- ADMIN
 INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 45", "45889", "Gelsenkirchen", 10);
 INSERT INTO person (name, familyname, email, password, telnr, birth, addressid, role)
 VALUES ("Hakan", "Orhan", "hakan@cars.de", "1234", "+4915000000000", "2000-10-04", 1, 'admin');
 INSERT INTO admin(adminid) VALUES(1);
 insert into whocreatedeletedemployee(personid, createdfrom) values(1, 1);
-
 
 -- Admin erstellt ein neues Admin Account
 INSERT INTO address(streetnr, zipcode, city, blandid) values("Abendtr. 459", "47889", "Dortmund", "NW");
@@ -333,12 +392,6 @@ VALUES ("Sahra", "Musterfrau", "musterin@test.de", "1234", "015478xx", "2006-09-
 INSERT INTO service(serviceid) VALUES (3);
 insert into whocreatedeletedemployee(personid, createdfrom) values(3, 2);
 
--- User erstellt ein neuen Account
-INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 95", "49889", "Essen", "NW");
-INSERT INTO person (name, familyname, email, password, telnr, birth, addressid)
-VALUES ("User Hallo", "Hallomann", "hallo@test.de", "1234HBa", "015478xx", "2000-09-24", 4);
-Insert INTO user(userid) VALUES(4);
-
 INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 95", "49889", "Nürnberg", "BY");
 INSERT INTO person (name, familyname, email, password, telnr, birth, addressid)
 VALUES ("Userin", "Tachfrau", "tach@test.de", "1234HBa", "015478xx", "1999-09-24", 5);
@@ -350,4 +403,4 @@ update whocreatedeletedemployee SET deletedfrom = 1 where personid = 2;
 
 -- User4 inseriert ein neues Fahrzeug
 INSERT INTO advertiseinfo(userid) VALUES(4);
-
+*/
