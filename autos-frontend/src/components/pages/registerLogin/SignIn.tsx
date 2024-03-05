@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 /* Interfaces */
 import LoginUser from '../../../../../autos-backend/src/interfaces/LoginUser.js';
 import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
@@ -13,7 +13,6 @@ import { DivFormularAdmin, HeaderIcon, primaryColorMain } from '../../../themes/
 import { IResponseSignInData } from '..7../../../../autos-backend/src/interfaces/signin/IResponseSignInData.js';
 
 import * as validHelper from '../../../helper/validHelper.js';
-import { useNavigate } from 'react-router-dom';
 
 import { setNewImage } from "../../../redux/features/imageSlice.js";
 import { useDispatch } from "react-redux";
@@ -35,18 +34,15 @@ const notifySuccess = (message: string) => toast.success(message, {
 });
 
 const SignIn: React.FC = () => {
-
+/*
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setNewImage('signin'));
-  }, [dispatch])  
-  
+    //dispatch(setNewImage('signin'));
+  }, [])  
+  */
 
-  const location = useLocation();
-  const { state } = location;
-
-  const successMessage = state && state.successMessage;
-  if (successMessage) { }
+  //const successMessage = state && state.successMessage;
+  //if (successMessage) { }
 
   const navigate = useNavigate();
 
@@ -77,7 +73,7 @@ const SignIn: React.FC = () => {
               } break;
               case Roles.SERVICE: { } break;
               case Roles.USER: {
-                navigate('/inseratecar', { state: { id: response.data.personId, name: response.data.name, role: response.data.role } });
+                navigate('/inserieren');
               } break;
             }
           }

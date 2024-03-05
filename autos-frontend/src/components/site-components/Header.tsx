@@ -57,7 +57,7 @@ export default function Header() {
         <ListItem>
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText primary={<Link style={LinkDrawer} to='/'>Suchen</Link>} primaryTypographyProps={ drawerSizes } />
+                <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/'>Suchen</Link>} primaryTypographyProps={ drawerSizes } />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -65,7 +65,7 @@ export default function Header() {
           <ListItem>
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText primary={<Link style={LinkDrawer} to='/inserieren'>Inserieren</Link>} primaryTypographyProps={ drawerSizes } />
+                <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/inserieren'>Inserieren</Link>} primaryTypographyProps={ drawerSizes } />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -73,7 +73,7 @@ export default function Header() {
           <ListItem>
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText primary={<Link style={LinkDrawer} to='/'>Mein Profil</Link>} primaryTypographyProps={ drawerSizes } />
+                <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/'>Mein Profil</Link>} primaryTypographyProps={ drawerSizes } />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
@@ -81,7 +81,7 @@ export default function Header() {
           <ListItem>
             <ListItemButton>
               <ListItemIcon>
-                <ListItemText primary={<Link style={LinkDrawer} to='/our-service'>Unser Service</Link>} primaryTypographyProps={ drawerSizes } />
+                <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/our-service'>Unser Service</Link>} primaryTypographyProps={ drawerSizes } />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>

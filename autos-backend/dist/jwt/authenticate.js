@@ -9,7 +9,6 @@ const authenticate = (req, res, next) => {
                 console.log(err.message);
             }
             else {
-                console.log("Tut sich etwas");
                 console.log(decodedToken);
                 next();
             }

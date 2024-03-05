@@ -9,6 +9,6 @@ export default function InserateCar() {
   
 
   return (
-    <div style={{ height: '400px' }}>Hallo</div>
+    <div style={{ height: '400px' }}>Inserieren</div>
   )
 }
