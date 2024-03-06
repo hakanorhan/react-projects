@@ -69,9 +69,9 @@ const SignIn: React.FC = () => {
           if (response.data.personId && response.data.name && response.data.role) {
             switch (response.data.role) {
               case Roles.ADMIN: {
-                navigate('/dashboard/admin');
+                console.log("Navigate");
+                navigate('/admin/writedata');
               } break;
-              case Roles.SERVICE: { } break;
               case Roles.USER: {
                 navigate('/inserieren');
               } break;

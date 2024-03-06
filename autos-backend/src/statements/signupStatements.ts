@@ -4,7 +4,7 @@ export const insertPerson: string =
     `INSERT INTO ${Roles.PERSON} (name, familyname, email, password, role) VALUES (?, ?, ?, ?, ?);`;
 
 export const insertPersonFull: string =
-    `INSERT INTO ${Roles.PERSON} (name, familyname, email, password, telnr, birth, addressid, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    `INSERT INTO ${Roles.PERSON} (name, familyname, email, password, telnr, birth, role) VALUES (?, ?, ?, ?, ?, ?, ?)`
 
 export const insertAdress: string =
     `INSERT INTO address (streetnr, zipcode, city, blandid) VALUES (?, ?, ?, ?)`;
@@ -17,3 +17,7 @@ export const insertAdmin: string =
 
 export const insertWhoCreatedDeletedEmployee: string =
     `INSERT INTO whocreatedeletedemployee (personid, createdfrom) VALUES (?, ?)`;
+
+/* -------- SELECT -------------- */
+export const selectTokenInstanceCheck: string = 
+    'SELECT COUNT(personid) as count FROM person WHERE personid = ? AND name = ? AND email = ? AND role = ?';

@@ -106,7 +106,7 @@ export default function Header() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            { Company.COMPANYNAME }
+            <Link style={{ textDecoration:'none', color:primaryColorMain, letterSpacing:'0.1rem' }} to='/'>{ Company.COMPANYNAME }</Link>
           </Typography>
          
             <div>

@@ -18,6 +18,7 @@ async function performQuery(requestData, res) {
         }
         const resultPassword = result[0][0].password;
         const resultPersonId = result[0][0].personid;
+        const resultEmail = result[0][0].email;
         const resultName = result[0][0].name;
         const resultRole = result[0][0].role;
         bcrypt.compare(password, resultPassword).then(result => {
@@ -27,12 +28,12 @@ async function performQuery(requestData, res) {
                     name: resultName,
                     role: resultRole
                 };
-                const accessToken = createToken(resultPersonId);
+                const accessToken = createToken(resultPersonId, resultName, resultEmail, resultRole);
                 res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 });
                 res.status(201).send(responseSignInData);
             }
             else {
-                return res.status(401).json({ message: 'Wrong email address or password' });
+                return res.status(401).json({ message: 'Unauthorized' });
             }
         });
     }

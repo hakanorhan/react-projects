@@ -36,6 +36,7 @@ async function performQuery(requestData: LoginUser, res: express.Response){
             // Email found, select hashed password
             const resultPassword = result[0][0].password;
             const resultPersonId = result[0][0].personid;
+            const resultEmail = result[0][0].email;
             const resultName = result[0][0].name;
             const resultRole = result[0][0].role;
 
@@ -49,17 +50,17 @@ async function performQuery(requestData: LoginUser, res: express.Response){
                         role: resultRole
                     }
                     // jwt
-                    const accessToken = createToken(resultPersonId);
+                    const accessToken = createToken(resultPersonId, resultName, resultEmail, resultRole);
                     // milliseconds
                     res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 })
                     res.status(201).send(responseSignInData);
                 } else {
-                    return res.status(401).json({message: 'Wrong email address or password'});
+                    return res.status(401).json({message: 'Unauthorized'});
                 }
             })
       }catch (error) {
         // Handle any errors
-        return res.status(500).json({message:'Error occured. Please try again.'})
+        return res.status(500).json({message:'Error occured. Please try again.'});
     } finally {
         connection?.release();
     }

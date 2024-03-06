@@ -81,7 +81,6 @@ export default async (req: express.Request, res: express.Response) => {
     performQuery(requestData, res);
 }
 
-
 /**
  * Perform one time.
  */
@@ -92,32 +91,23 @@ async function performInsertAdmin() {
         // start transaction
         await connection.beginTransaction();
 
-        const [resultAddress]: [ResultSetHeader, any] = await connection.execute(
-            SignupStatements.insertAdress,
-            ["Musterstraße 1", "45880", "Gelsenkirchen", 10]
-        );
-        const addressid: number = resultAddress.insertId;
+        //const [resultAddress]: [ResultSetHeader, any] = await connection.execute( SignupStatements.insertAdress, ["Musterstraße 1", "45880", "Gelsenkirchen", 10] );
+        //const addressid: number = resultAddress.insertId;
 
         // hash password
         const salt = genSaltSync(10);
-        const hash = hashSync("!.Cars1+40", salt);
+        const hash = hashSync("Hakan.89!", salt);
 
         // insert into person
         const [resultPerson]: [ResultSetHeader, any] = await connection.execute(
             SignupStatements.insertPersonFull,
-            ["Hakan", "Orhan", "hakan@cars.de", hash, "0152000000000", "2007-12-04", addressid, Roles.ADMIN]);
+            ["Hakan", "Orhan", "hakan@cars.de", hash, "0152000000000", "2007-12-04", Roles.ADMIN]);
         
-        const adminid: number = resultPerson.insertId;
+        //const adminid: number = resultPerson.insertId;
         
-        await connection.execute(
-            SignupStatements.insertAdmin,
-            [adminid]
-        )
+        //await connection.execute( SignupStatements.insertAdmin, [adminid])
 
-        await connection.execute(
-            SignupStatements.insertWhoCreatedDeletedEmployee,
-            [adminid, adminid]
-        )
+        //await connection.execute( SignupStatements.insertWhoCreatedDeletedEmployee, [adminid, adminid])
         
         await connection.commit();
         console.log("committed!")

@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import signin from "./routes/signin.js";
 import signupUser from "./routes/signupUser.js";
-import dashboardAdmin from "./routes/dashboardAdmin.js";
 import inserateCar from "./routes/inserateCar.js";
 import cookieParser from "cookie-parser";
 import authenticate from "./jwt/authenticate.js";
@@ -22,10 +21,7 @@ app.post("/signup", signupUser);
 
 app.post("/signin", signin);
 
-// admin
-app.post('/admin/create',authenticate, dashboardAdmin);
-
-app.get('/inseratecar', authenticate, inserateCar);
+app.get('/inseratecar', inserateCar);
 
 app.all('/fastsearchfirst', fastSearchAllData);
 

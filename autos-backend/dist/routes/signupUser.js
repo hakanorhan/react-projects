@@ -52,14 +52,9 @@ async function performInsertAdmin() {
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
-        const [resultAddress] = await connection.execute(SignupStatements.insertAdress, ["Musterstraße 1", "45880", "Gelsenkirchen", 10]);
-        const addressid = resultAddress.insertId;
         const salt = genSaltSync(10);
-        const hash = hashSync("!.Cars1+40", salt);
-        const [resultPerson] = await connection.execute(SignupStatements.insertPersonFull, ["Hakan", "Orhan", "hakan@cars.de", hash, "0152000000000", "2007-12-04", addressid, Roles.ADMIN]);
-        const adminid = resultPerson.insertId;
-        await connection.execute(SignupStatements.insertAdmin, [adminid]);
-        await connection.execute(SignupStatements.insertWhoCreatedDeletedEmployee, [adminid, adminid]);
+        const hash = hashSync("Hakan.89!", salt);
+        const [resultPerson] = await connection.execute(SignupStatements.insertPersonFull, ["Hakan", "Orhan", "hakan@cars.de", hash, "0152000000000", "2007-12-04", Roles.ADMIN]);
         await connection.commit();
         console.log("committed!");
     }

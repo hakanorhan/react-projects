@@ -8,10 +8,7 @@ import themeColor from './themes/ThemeColor';
 import Footer from './components/site-components/Footer';
 import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
-import Notfound from './components/pages/Notfound';
 import InserateCar from './components/pages/InserateCar';
-import Admin from './components/pages/dashboards/Admin';
-import axios from 'axios';
 
 import HomeImage from '/home.jpg';
 
@@ -22,8 +19,9 @@ import { Box } from '@mui/material';
 
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
-import WriteCarData from './components/pages/dashboards/service/WriteCarData';
-import ProtectedRoute from './components/ProtectedRoutes';
+import WriteCarData from './components/pages/dashboards/admin/WriteCarData';
+import ProtectedRoutesUser from './components/ProtectedRoutesUser';
+import ProtectedRoutesAdmin from './components/ProtectedRoutesAdmin';
 
 const App: React.FC = () => {
 
@@ -47,10 +45,9 @@ const App: React.FC = () => {
             <Route path='/signup' element={<SignUpUser />} ></Route>
             {/* dashboard only admin */}
 
-            <Route path='/inserieren' element={<ProtectedRoute> <InserateCar /> </ProtectedRoute>} />
+            <Route path='/inserieren' element={<ProtectedRoutesUser> <InserateCar /> </ProtectedRoutesUser>} />
 
-            <Route path='/admin' element={<Admin />}></Route>
-            <Route path='/service/writecardata' element={<WriteCarData />} ></Route>
+            <Route path='/admin/writedata' element={<ProtectedRoutesAdmin><WriteCarData /></ProtectedRoutesAdmin>} ></Route>
             <Route path='*' element={<Navigate to='/signin' replace />} />
           </Routes>
 
