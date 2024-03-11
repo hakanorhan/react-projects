@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "../autos-backend/src/interfaces/ITableProps.ts", "../autos-backend/src/enums/URLs.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

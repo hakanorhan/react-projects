@@ -22,6 +22,7 @@ import { useSelector } from 'react-redux';
 import WriteCarData from './components/pages/dashboards/admin/WriteCarData';
 import ProtectedRoutesUser from './components/ProtectedRoutesUser';
 import ProtectedRoutesAdmin from './components/ProtectedRoutesAdmin';
+import Beispiel from './beispiel';
 
 const App: React.FC = () => {
 

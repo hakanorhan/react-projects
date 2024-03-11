@@ -15,20 +15,21 @@ const ProtectedRoutesAdmin = ({ children }) => {
                 const tokenInstanceTemp: AuthResponse = { authenticated: exists.authenticated, role: exists.role }
                 setTokenInstance(tokenInstanceTemp);
             } catch(error) {
-                const tokenInstanceTemp: AuthResponse = { authenticated: false, role: null }
+                const tokenInstanceTemp: AuthResponse = { authenticated: false, role: Roles.ADMIN }
                 setTokenInstance(tokenInstanceTemp);
             } finally {
                 setLoading(false)
             }
         }
         checkToken();
+        return () => {  }
     }, [])
 
     if(loading) {
         return <p>Loading...</p>
     }
 
-    return (tokenInstance?.authenticated && tokenInstance.role === Roles.ADMIN) ? children : <Navigate to='/signin' />
+    return (tokenInstance?.role && tokenInstance?.authenticated && tokenInstance.role === Roles.ADMIN) ? children : <Navigate to='/signin' />
 };
 
 export default ProtectedRoutesAdmin;

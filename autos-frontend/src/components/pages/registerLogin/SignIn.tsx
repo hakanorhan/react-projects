@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 /* Interfaces */
 import LoginUser from '../../../../../autos-backend/src/interfaces/LoginUser.js';
@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import toast, { Toaster } from 'react-hot-toast';
 import TextFieldEmail from '../../formularFields/TextFieldEmail.js';
 import TextFieldPassword from '../../formularFields/TextFieldPassword.js';
+import { URLs } from '../../../../../autos-backend/src/enums/URLs.js';
 const notifyError = (message: string) => toast.error(message, {
   duration: 4000,
   position: 'bottom-center'
@@ -48,42 +49,60 @@ const SignIn: React.FC = () => {
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
     
     const email: string | undefined = emailRef.current?.value;
     const password: string | undefined = passwordRef.current?.value;
+    console.log("Siginin.tsx Zeile 58");
     // if email and password is valid
     if (email && password && validHelper.formularValuesValidSignIn(email, password)) {
       const formData: LoginUser = {
         email: email,
         password: password
       }
-
-      await axios.post<IResponseSignInData>('http://localhost:3001/signin',
+      console.log(`${URLs.ORIGIN_SERVER}${URLs.POST_SIGNIN}`)
+      setLoading(true);
+      await axios.post<IResponseSignInData>(`${URLs.ORIGIN_SERVER}${URLs.POST_SIGNIN}`,
         formData, { withCredentials: true })
         .then(function (response) {
-
+          console.log(response)
           // personId name and role exists
           if (response.data.personId && response.data.name && response.data.role) {
+            setLoading(false);
             switch (response.data.role) {
               case Roles.ADMIN: {
-                console.log("Navigate");
+                console.log("Navigate Admin");
                 navigate('/admin/writedata');
               } break;
               case Roles.USER: {
+                console.log("Navigate User");
                 navigate('/inserieren');
               } break;
+              default : { 
+                navigate('/signin'); 
+                console.log("Default signin");
+            }
             }
           }
         })
         .catch(err => {
+          setLoading(false);
+          console.log("SignIn.tsx Error: Zeile 91");
           notifyError(err.response.data.message);
         });
     } else {
+      setLoading(false);
+      console.log("Email Password invalid 96");
       notifyError("Email or Password is invalid");
     }
+  }
+
+  if(loading) {
+    console.log("Div ...loading");
+    return <div>...Loading</div>
   }
 
   return (

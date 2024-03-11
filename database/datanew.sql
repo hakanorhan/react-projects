@@ -67,7 +67,7 @@ CREATE TABLE whocreatedeletedemployee(
 -- static properties
 CREATE TABLE brands(
     brandid INT NOT NULL AUTO_INCREMENT,
-    brandname VARCHAR(255) NOT NULL UNIQUE,
+    marke VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (brandid)
 );
 
@@ -79,13 +79,11 @@ CREATE TABLE cartypes(
 
 CREATE TABLE models(
     modelid INT NOT NULL AUTO_INCREMENT,
-    model VARCHAR(255) NOT NULL,
+    modell VARCHAR(255) NOT NULL,
     brandid INT NOT NULL,
-    typeid INT NOT NULL,
     PRIMARY KEY(modelid),
-    FOREIGN KEY (brandid) REFERENCES brands(brandid),
-    FOREIGN KEY (typeid) REFERENCES cartypes(typeid)
-);
+    FOREIGN KEY (brandid) REFERENCES brands(brandid)
+    );
 
 CREATE TABLE fuels(
     fuelid INT NOT NULL AUTO_INCREMENT,
@@ -95,22 +93,24 @@ CREATE TABLE fuels(
 
 CREATE TABLE baureihe(
     baureiheid INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    baureihename VARCHAR(50) NOT NULL,
+    baureihe VARCHAR(50) NOT NULL,
+    von DATE NOT NULL,
+    bis DATE NOT NULL,
+    typeid INT NOT NULL,
     modelid INT NOT NULL,
+    FOREIGN KEY(typeid) REFERENCES cartypes(typeid),
     FOREIGN KEY(modelid) REFERENCES models(modelid)
 );
 
 CREATE TABLE motorization(
 	motorizationid INT AUTO_INCREMENT NOT NULL,
-    motorization VARCHAR(50) NOT NULL,
+    motorisierung VARCHAR(50) NOT NULL,
     ps INT NOT NULL,
     hubraum INT NOT NULL,
     fuelid INT NOT NULL,
-    yearFrom INT NOT NULL,
-    yearTo INT NULL,
     baureiheid INT NOT NULL,
     PRIMARY KEY(motorizationid),
-    FOREIGN KEY(fuelid) REFERENCES fuels(fuelid),
+    FOREIGN KEY (fuelid) REFERENCES fuels(fuelid),
     FOREIGN KEY(baureiheid) REFERENCES baureihe(baureiheid)
 );
 

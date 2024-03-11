@@ -20,6 +20,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 
 import { useSpring, animated } from 'react-spring';
+import SelectField from '../formularFields/SelectField';
 
 
 
@@ -109,26 +110,7 @@ const Number = ({ n }) => {
     },
   };
 
-  // Components
-  const BrandComponent = () => {
 
-    return <Grid item xs={11} sm={gridWithXS} md={gridWithSM}>
-      <FormControl>
-        <InputLabel id="demo-simple-select-label">Marke</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={selectedBrand}
-          label="Marke"
-          onChange={handleChangeBrand}
-        >
-          <MenuItem value={10}>Audi</MenuItem>
-          <MenuItem value={20}>BMW</MenuItem>
-          <MenuItem value={30}>Mercedes</MenuItem>
-        </Select>
-      </FormControl>
-    </Grid>
-  };
 
   const ModelComponent = () => {
     return <Grid item xs={11} sm={gridWithXS} md={gridWithSM}>
@@ -338,7 +320,7 @@ const Number = ({ n }) => {
           <Grid container justifyContent="center" columnSpacing={1}>
 
             {/* Brand */}
-            <BrandComponent />
+            <SelectField selectedValue={selectedBrand} handleChange={handleChangeBrand} />
 
             {/* Model */}
             <ModelComponent />

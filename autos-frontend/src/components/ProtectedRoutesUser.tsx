@@ -13,23 +13,23 @@ const ProtectedRoute = ({ children }) => {
             try {
                 const exists = await tokenExists();
                 const tokenInstanceTemp: AuthResponse = { authenticated: exists.authenticated, role: exists.role }
-                console.log(tokenInstanceTemp)
                 setTokenInstance(tokenInstanceTemp);
             } catch(error) {
-                const tokenInstanceTemp: AuthResponse = { authenticated: false, role: null }
+                const tokenInstanceTemp: AuthResponse = { authenticated: false, role: Roles.USER }
                 setTokenInstance(tokenInstanceTemp);
             } finally {
                 setLoading(false)
             }
         }
         checkToken();
+        return () => {  }
     }, [])
 
     if(loading) {
         return <p>Loading...</p>
     }
 
-    return tokenInstance?.authenticated && tokenInstance.role === Roles.USER ? children : <Navigate to='/signin' />
+    return tokenInstance?.role && tokenInstance?.authenticated && tokenInstance.role === Roles.USER ? children : <Navigate to='/signin' />
 };
 
 export default ProtectedRoute;

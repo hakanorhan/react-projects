@@ -6,6 +6,7 @@ const checkAuth = async (req, res, next) => {
     let tokenVerified = false;
     let token;
     if (accessToken) {
+        console.log("-------- checkAuth -----------");
         jwt.verify(accessToken, 'secret', (err, decodedToken) => {
             if (err) {
                 console.log("Error: Zeile 26 " + err);
@@ -26,17 +27,19 @@ const checkAuth = async (req, res, next) => {
         console.log("Token oder tokenVerified: Zeile 39");
         return res.status(403).json({ authenticated: false });
     }
+    console.log("Prepare connection database");
     let connection;
     try {
         connection = await pool.getConnection();
         const queryResult = await connection.query(selectTokenInstanceCheck, [token.id, token.name, token.email, token.role]);
         const result = queryResult;
+        console.log("Connection: database");
         if (result[0][0].count === 0) {
             console.log("User not found: Zeile 48");
             return res.status(401).json({ authenticated: false });
         }
         const authResponse = { authenticated: true, role: token.role };
-        console.log("Alles gut: Zeile 52");
+        console.log("Alles gut: Zeile 52 " + token.role);
         return res.status(200).json(authResponse);
     }
     catch (error) {
@@ -46,6 +49,7 @@ const checkAuth = async (req, res, next) => {
     finally {
         connection?.release;
         console.log("----------------------------------------------------");
+        console.log("");
     }
 };
 export default checkAuth;

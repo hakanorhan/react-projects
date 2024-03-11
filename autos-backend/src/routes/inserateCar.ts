@@ -6,5 +6,4 @@ async function performQuery(requestData: any, res: express.Response){
 export default async (req: express.Request, res: express.Response) => {
     const requestData: string = req.body;
     performQuery(requestData, res);
-
 }
