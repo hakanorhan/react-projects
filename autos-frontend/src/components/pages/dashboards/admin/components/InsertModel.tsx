@@ -1,77 +1,67 @@
-import axios from "axios";
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import TextFieldName from "../../../../formularFields/TextFieldName";
 
 import { SelectChangeEvent, Box, Button, Paper, Typography } from '@mui/material';
 
 /* Hot Toast */
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
-import { InsertOneProps } from "../../../../../interfaces/componentProps/IPropsInsert";
 import { DivFormularAdmin } from "../../../../../themes/ThemeColor";
-import SelectField from "../../../../formularFields/SelectField";
-import { handleSubmitPostData } from "../../../../../helper/submits";
-import { useEffectFetch } from "../../../../../helper/useEffectFetch";
-
+import { handleSubmitPostBrand, handleSubmitPostModel } from "../../../../../helper/submits";
+import { packageAxiosBrand } from "../../../../../helper/PackageAxios";
+import { useEffectFetch } from "../../../../../helper/DataLoading";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
+import SelectField from "../../../../formularFields/SelectField";
 
 // Components
-const InsertModel:React.FC<{props: InsertOneProps, propsModel: InsertOneProps}> = ({props, propsModel}) => {
-    // Fields
-    const [selectedBrand, setSelectedBrand] = React.useState<string>("");
-    const modelRef = useRef<HTMLInputElement>(null);
+const InsertModel = () => {
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const modelRef = useRef<HTMLInputElement>(null);
+  const [listValues, setListValues] = useState<any[]>([]);
+  const [insertId, setInsertId] = useState<number | null>(null)
+  const [loading, setLoading] = useState(false);
 
-    // Fetched data. brand
-    const [fetchedBrand, setFetchedBrand] = useState<string[]>([])
+  useEffectFetch(setLoading, URLs.FETCH_BRAND, setListValues);
 
-    // States
-    const [listValues, setListValues] = useState<any[]>([]);
-    const [loading, setLoading] = useState(false);
-
-    // Fetch Data from database
-    useEffectFetch(setLoading, URLs.FETCH_BRAND , setFetchedBrand);
-
-    const handleChangeBrand = (event: SelectChangeEvent) => {
-      const brand = event.target.value as string;
-      setSelectedBrand(brand);
-    };
-
-
-    const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
-      event.preventDefault();
-
-
-      const model: string | undefined = modelRef.current?.value;
-      const value = {
-        selectedBrand: selectedBrand,
-        model: model
-      };
-
-      handleSubmitPostData(value, props, setListValues, setLoading );
-
-    }
-
-  if(loading) {
-      return <p>Loading...</p>
-  }
-
-
-    return <>
-    <Toaster />
-      <DivFormularAdmin>
-        <form onSubmit={handleSubmit} noValidate>
-            <SelectField values={listValues} selectedValue={selectedBrand} handleChange={handleChangeBrand} />
-            <TextFieldName id={propsModel.id} label={propsModel.textFieldlabel} inputRef={modelRef} />
-          
-          <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
-        </form>
-
-      {/* All Brands */}
-      <Typography sx={{ textAlign: 'center', marginBottom:'1.5rem' }} variant='h3' component='h1'> {props.tableHeadline} </Typography>
-        <TableNormal listValues={listValues}/>
-      </DivFormularAdmin>
-      </>
+  const handleChangeBrand = (event: SelectChangeEvent) => {
+    const brand = event.target.value as string;
+    setSelectedBrand(brand);
   };
 
-  export default InsertModel;
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const model: string | undefined = modelRef.current?.value;
+    const brandId: string = selectedBrand;
+    // submit after click button
+    handleSubmitPostModel({ brandId, model }, URLs.POST_WRITE_MODEL, setLoading);
+  }
+
+  if (loading) {
+    return <p>Loading...</p>
+  }
+  
+  return <><Toaster />
+    <DivFormularAdmin>
+      <form onSubmit={handleSubmit} noValidate>
+        <SelectField values={listValues} objectName="brand" idOfSelect="brandid" selectedValue={selectedBrand} handleChange={handleChangeBrand} label="Marke"/>
+        <TextFieldName id={"model"} label={"Modell"} inputRef={modelRef} />
+
+        <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
+      </form>
+
+    </DivFormularAdmin>
+  </>
+};
+
+export default InsertModel;
+
+/*
+    const [selectedBrand, setSelectedBrand] = useState("");
+
+  const handleChangeBrand = (event: SelectChangeEvent) => {
+    const brand = event.target.value as string;
+    setSelectedBrand(brand);
+  };
+  */

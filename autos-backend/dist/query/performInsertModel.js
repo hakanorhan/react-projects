@@ -1,16 +1,17 @@
-import { pool } from "../../dbConnect.js";
-const insertIntoBrand = "INSERT INTO brands (brand) VALUES (?)";
-const selectBrandQuery = "SELECT * FROM brands";
-export default async (req, res) => {
-    const { value } = req.body;
-    console.log(value + " writeBrand.ts");
+import { pool } from "../dbConnect.js";
+import { REGEX_NAMES } from "../regex/regex.js";
+export default async function performInsertModel(brandid, model, res, insertQuery) {
+    const insertValue = brandid;
+    if (!REGEX_NAMES.test(insertValue)) {
+        return res.status(401).json({ message: 'Bitte Marke korrigieren' });
+    }
     let connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
-        const [resultBrand] = await connection.execute(insertIntoBrand, [value]);
+        const [resultBrand] = await connection.execute(insertQuery, [insertValue]);
         const insertId = resultBrand.insertId;
         console.log(insertId + ": InsertId");
-        const queryResult = await connection.query(selectBrandQuery);
+        const queryResult = await connection.query(selectQuery);
         const result = queryResult;
         const resultTableCell = result[0];
         console.log(resultTableCell);
@@ -19,9 +20,10 @@ export default async (req, res) => {
     }
     catch {
         connection.rollback();
-        return res.status(500).json({ message: `${value} existiert bereits` });
+        return res.status(500).json({ message: `${insertValue} existiert bereits` });
     }
     finally {
         connection.release();
     }
-};
+}
+;

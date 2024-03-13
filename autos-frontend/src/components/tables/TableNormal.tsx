@@ -12,7 +12,6 @@ import { primaryColorLight, primaryColorMain } from '../../themes/ThemeColor'
 const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
 
   const [indexState, setIndexState] = useState(0);
-  console.log(insertId)
     const markLastInsert = (value, index1) => {
 
       if( value == insertId) {

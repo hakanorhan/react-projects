@@ -57,7 +57,7 @@ const checkAuth = async (req: express.Request, res: express.Response, next: expr
                 console.log("Error: Zeile 55 " + error)
                 return res.status(500).json({message:'Error occured. Please try again.'});
             } finally {
-                connection?.release;
+                connection?.release();
                 console.log("----------------------------------------------------")
                 console.log("");
             }

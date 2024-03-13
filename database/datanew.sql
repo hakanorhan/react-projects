@@ -67,23 +67,15 @@ CREATE TABLE whocreatedeletedemployee(
 -- static properties
 CREATE TABLE brands(
     brandid INT NOT NULL AUTO_INCREMENT,
-    marke VARCHAR(255) NOT NULL UNIQUE,
+    brand VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (brandid)
 );
 
 CREATE TABLE cartypes(
-    typeid INT NOT NULL AUTO_INCREMENT,
-    typename VARCHAR(55) NOT NULL UNIQUE,
-    PRIMARY KEY(typeid)
+    cartypeid INT NOT NULL AUTO_INCREMENT,
+    cartype VARCHAR(55) NOT NULL UNIQUE,
+    PRIMARY KEY(cartypeid)
 );
-
-CREATE TABLE models(
-    modelid INT NOT NULL AUTO_INCREMENT,
-    modell VARCHAR(255) NOT NULL,
-    brandid INT NOT NULL,
-    PRIMARY KEY(modelid),
-    FOREIGN KEY (brandid) REFERENCES brands(brandid)
-    );
 
 CREATE TABLE fuels(
     fuelid INT NOT NULL AUTO_INCREMENT,
@@ -91,27 +83,25 @@ CREATE TABLE fuels(
     PRIMARY KEY (fuelid)
 );
 
-CREATE TABLE baureihe(
-    baureiheid INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    baureihe VARCHAR(50) NOT NULL,
+CREATE TABLE models(
+    modelid INT NOT NULL AUTO_INCREMENT,
+    model VARCHAR(255) NOT NULL UNIQUE,
+    brandid INT NOT NULL,
+    PRIMARY KEY(modelid),
+    FOREIGN KEY (brandid) REFERENCES brands(brandid)
+    );
+
+CREATE TABLE baureihen(
+    baureiheid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    baureihe VARCHAR(50) NOT NULL UNIQUE,
+    cartypeid INT NOT NULL,
     von DATE NOT NULL,
     bis DATE NOT NULL,
-    typeid INT NOT NULL,
-    modelid INT NOT NULL,
-    FOREIGN KEY(typeid) REFERENCES cartypes(typeid),
-    FOREIGN KEY(modelid) REFERENCES models(modelid)
-);
-
-CREATE TABLE motorization(
-	motorizationid INT AUTO_INCREMENT NOT NULL,
-    motorisierung VARCHAR(50) NOT NULL,
-    ps INT NOT NULL,
+    kw INT NOT NULL,
     hubraum INT NOT NULL,
-    fuelid INT NOT NULL,
-    baureiheid INT NOT NULL,
-    PRIMARY KEY(motorizationid),
-    FOREIGN KEY (fuelid) REFERENCES fuels(fuelid),
-    FOREIGN KEY(baureiheid) REFERENCES baureihe(baureiheid)
+    modelid INT NOT NULL,
+    FOREIGN KEY (modelid) REFERENCES models(modelid),
+    FOREIGN KEY (cartypeid) REFERENCES cartypes(cartypeid)
 );
 
 CREATE TABLE transmissions(
@@ -217,12 +207,18 @@ INSERT INTO bundesland(kuerzel, bundesland) values("ST", "Sachsen-Anhalt");
 INSERT INTO bundesland(kuerzel, bundesland) values("SH", "Schleswig-Holstein");
 INSERT INTO bundesland(kuerzel, bundesland) values("TH", "Thüringen");
 
-INSERT INTO cartypes(typename) VALUES ("Limousine");
-INSERT INTO cartypes(typename) VALUES ("Kombi");
-INSERT INTO cartypes(typename) VALUES ("Coupe");
-INSERT INTO cartypes(typename) VALUES ("Cabrio");
-INSERT INTO cartypes(typename) VALUES ("Kleinwagen");
-INSERT INTO cartypes(typename) VALUES ("SUV");
+INSERT INTO cartypes(cartype) VALUES ("Limousine");
+INSERT INTO cartypes(cartype) VALUES ("Kombi");
+INSERT INTO cartypes(cartype) VALUES ("Coupe");
+INSERT INTO cartypes(cartype) VALUES ("Cabrio");
+INSERT INTO cartypes(cartype) VALUES ("Kleinwagen");
+INSERT INTO cartypes(cartype) VALUES ("SUV");
+
+
+INSERT INTO fuels (fuelname) VALUES ("Benzin");
+INSERT INTO fuels (fuelname) VALUES ("Diesel");
+INSERT INTO fuels (fuelname) VALUES ("Hybrid");
+INSERT INTO fuels (fuelname) VALUES ("Elektro");
 
 -- static data
 INSERT INTO brands (brandname) VALUES ("Alfa Romeo");
@@ -332,11 +328,6 @@ INSERT INTO models(model, brandid, typeid) VALUES ("TTS", 4, 4);
 -- Skoda
 INSERT INTO models(model, brandid, typeid) VALUES ("Fabia", 45, 1);
 INSERT INTO models(model, brandid, typeid) VALUES ("Kodiaq", 45, 6);
-
-INSERT INTO fuels (fuelname) VALUES ("Benzin");
-INSERT INTO fuels (fuelname) VALUES ("Diesel");
-INSERT INTO fuels (fuelname) VALUES ("Hybrid");
-INSERT INTO fuels (fuelname) VALUES ("Elektro");
 
 -- Motorization Wikipedia
 -- Audi A3 Benzin https://de.wikipedia.org/wiki/Audi_A3_8L

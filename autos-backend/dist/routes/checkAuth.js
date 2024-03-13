@@ -47,7 +47,7 @@ const checkAuth = async (req, res, next) => {
         return res.status(500).json({ message: 'Error occured. Please try again.' });
     }
     finally {
-        connection?.release;
+        connection?.release();
         console.log("----------------------------------------------------");
         console.log("");
     }

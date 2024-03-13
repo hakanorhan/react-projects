@@ -7,15 +7,14 @@ import { SelectChangeEvent, Box, Button, Paper, Typography } from '@mui/material
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
-import { InsertOneProps } from "../../../../../interfaces/componentProps/IPropsInsert";
 import { DivFormularAdmin } from "../../../../../themes/ThemeColor";
-import { handleSubmitPostData } from "../../../../../helper/submits";
+import { handleSubmitPostBrand } from "../../../../../helper/submits";
 import { packageAxiosBrand } from "../../../../../helper/PackageAxios";
-import { useEffectFetch } from "../../../../../helper/useEffectFetch";
+import { useEffectFetch } from "../../../../../helper/DataLoading";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 
 // Components
-const InsertOneComponent = ({ props }: { props: InsertOneProps }) => {
+const InsertBrand = () => {
   const brandRef = useRef<HTMLInputElement>(null);
   const [listValues, setListValues] = useState<any[]>([]);
   const [insertId, setInsertId] = useState<number | null>(null)
@@ -29,7 +28,7 @@ const InsertOneComponent = ({ props }: { props: InsertOneProps }) => {
     const value: string | undefined = brandRef.current?.value;
 
     // submit after click button
-    handleSubmitPostData(value, props, setListValues, setLoading, setInsertId);
+    handleSubmitPostBrand(value, URLs.POST_WRITE_BRAND, setListValues, setLoading, setInsertId);
   }
 
   if (loading) {
@@ -39,19 +38,19 @@ const InsertOneComponent = ({ props }: { props: InsertOneProps }) => {
   return <><Toaster />
     <DivFormularAdmin>
       <form onSubmit={handleSubmit} noValidate>
-        <TextFieldName id={props.id} label={props.textFieldlabel} inputRef={brandRef} />
+        <TextFieldName id={"marke"} label={"Marke"} inputRef={brandRef} />
 
         <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
       </form>
 
       {/* All Brands */}
-      <Typography sx={{ textAlign: 'center', marginBottom: '1.5rem' }} variant='h3' component='h1'> {props.tableHeadline} </Typography>
+      <Typography sx={{ textAlign: 'center', marginBottom: '1.5rem' }} variant='h3' component='h1'> {"Alle Automarken"} </Typography>
        <TableNormal listValues={listValues} insertId={insertId}/>
     </DivFormularAdmin>
   </>
 };
 
-export default InsertOneComponent;
+export default InsertBrand;
 
 /*
     const [selectedBrand, setSelectedBrand] = useState("");

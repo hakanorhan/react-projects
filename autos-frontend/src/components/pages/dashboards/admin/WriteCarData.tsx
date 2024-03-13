@@ -13,8 +13,9 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InsertBrand from './components/InsertBrand';
 import { InsertOneProps } from '../../../../interfaces/componentProps/IPropsInsert';
-import InsertModel from './components/InsertModel';
+import InsertBaureihe from './components/InsertBaureihe';
 import { URLs } from '../../../../../../autos-backend/src/enums/URLs';
+import InsertModel from './components/InsertModel';
 
 const headlineStyle = { paddingLeft: '20px', fontSize: '1rem', color: 'whitesmoke', backgroundColor: 'transparent', ':hover': { color: 'orange' }, justifyContent: 'flex-start' };
 
@@ -50,12 +51,10 @@ export default function WriteCarData() {
       </AccordionSummary>
       <AccordionDetails>
         <Box sx={oneProcessBoxStyle}>
-          <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_CAR)} > Auto </Button>
           <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_BRAND)} > Marke </Button>
-          <Button sx={headlineStyle} > Baureihe </Button>
           <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_MODEL)}> Modell </Button>
-          <Button sx={headlineStyle} > Motorisierung </Button>
-        </Box>
+          <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_BAUREIHE)}>Baureihe</Button>
+          </Box>
       </AccordionDetails>
     </Accordion>
   }
@@ -106,20 +105,16 @@ export default function WriteCarData() {
 
     switch (whichButtonClicked) {
       case ButtonNames.ADD_BRAND: {
-        const props: InsertOneProps = { id:'brand', url:URLs.POST_WRITE_BRAND, textFieldlabel:'Marke', textFieldText:'Marke hinzufügen', tableHeadline:'Alle Automarken' }
-        return <InsertBrand props={props}/> 
+        return <InsertBrand /> 
       }
+
       case ButtonNames.ADD_BAUREIHE: {
-        const props: InsertOneProps = { id:'brand', url:'write/brand', textFieldlabel:'Marke', textFieldText:'Marke hinzufügen', tableHeadline:'Alle Automarken' }
-        return <InsertBrand props={props}/>
+        return <InsertBaureihe />
       }
+
       case ButtonNames.ADD_MODEL: { 
-        const props: InsertOneProps = { id:'brand', url:URLs.FETCH_BRAND, textFieldlabel:'Marke', textFieldText:'Marke hinzufügen', tableHeadline:'Alle Modelle' }
-        const propsModel: InsertOneProps = { id:'model', url:'/model', textFieldlabel:'Modell', textFieldText:'Modell hinzufügen', tableHeadline:'Alle Modelle' }
-        
-        return <>
-          <InsertModel props={props} propsModel={propsModel} />
-        </>}
+        return <InsertModel />
+          }
     }
   }
 

@@ -2,17 +2,26 @@ import express from "express";
 import { REGEX_NAMES } from "../../regex/regex.js";
 import { pool } from "../../dbConnect.js";
 
-const insertIntoModels: string = "insert into models(model, brandid)VALUES(?, ?)";
+const insertIntoModels: string = "insert into models(modell, brandid)VALUES(?, ?)";
 
 export default async (req: express.Request, res: express.Response) => {
-    const { model, brandId } = req.body;
-    console.log("////// " + model + " " + brandId)
-    
+    const { formDataModel } = req.body;
+    const brandid = formDataModel.brandId;
+    const model = formDataModel.model;
+    const baureihe = formDataModel.baureihe;
+    const carTypeId = formDataModel.carTypeId;
+    const kW = formDataModel.kW;
+    const hubraum = formDataModel.hubraum;
+    const from = formDataModel.from;
+    const to = formDataModel.to;
+
+    console.log(formDataModel);
+
     let connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
             // query Brand
-            await connection.execute(insertIntoModels, [model, brandId]);
+            await connection.execute(insertIntoModels, [model, brandid]);
             
             await connection.commit();
                 

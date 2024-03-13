@@ -9,8 +9,11 @@ import checkAuth from "./routes/checkAuth.js";
 import writeBrand from "./routes/dashboard/writeBrand.js";
 import writeModel from "./routes/dashboard/writeModel.js";
 import fetchBrand from "./routes/dashboard/fetchBrand.js";
+import fetchModel from "./routes/dashboard/fetchModel.js";
 import { URLs } from './enums/URLs.js';
 import authenticate from "./jwt/authenticate.js";
+import fetchBaureihe from "./routes/dashboard/fetchBaureihe.js";
+import fetchBaureiheModel from "./routes/dashboard/fetchBaureiheModel.js";
 
 const app = express();
 
@@ -35,8 +38,11 @@ app.get(URLs.GET_CHECK_AUTH, checkAuth);
 
 app.post(URLs.POST_WRITE_BRAND, authenticate, writeBrand);
 app.get(URLs.FETCH_BRAND, authenticate, fetchBrand); 
+app.get(URLs.FETCH_MODEL, authenticate, fetchModel);
+app.get(URLs.FETCH_BAUREIHE, authenticate, fetchBaureihe);
+app.post(URLs.FETCH_BAUREIHE_MODEL, authenticate, fetchBaureiheModel);
 
-app.post('/write/model', authenticate, writeModel);
+app.post(URLs.POST_WRITE_MODEL, authenticate, writeModel);
 
 
 app.listen(3001, () => {
