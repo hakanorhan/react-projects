@@ -14,7 +14,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
 import { DivFormularAdmin, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow } from "../../../../../themes/ThemeColor";
 import SelectField from "../../../../formularFields/SelectField";
-import { FormDataModel, handleSubmitPostBrand, handleSubmitPostDataBrandModel } from "../../../../../helper/submits";
+import { FormDataModel, handleSubmitPostBaureihe } from "../../../../../helper/submits";
 import { useEffectFetch, useEffectModel } from "../../../../../helper/DataLoading";
 
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
@@ -99,7 +99,7 @@ const InsertBaureihe = () => {
         from: selectedDateFrom?.format('YYYY'),
         to: selectedDateTo?.format('YYYY')
       }
-      handleSubmitPostDataBrandModel(formDataModl, setLoading);
+      handleSubmitPostBaureihe(formDataModl, setLoading);
     } else {
     }
   }
@@ -146,10 +146,10 @@ const InsertBaureihe = () => {
 
         <DivTwoFieldsWithSpaceBetween>
           <DivWidthTwoFieldsRow>
-            <TextFieldName id={"leistung"} label={"Leistung"} inputRef={kWRef} />
+            <TextFieldName id={"leistung"} label={"Leistung KW"} inputRef={kWRef} />
           </DivWidthTwoFieldsRow>
           <DivWidthTwoFieldsRow>
-            <TextFieldName id={"hubraum"} label={"Hubraum"} inputRef={hubraumRef} />
+            <TextFieldName id={"hubraum"} label={"Hubraum ccm³"} inputRef={hubraumRef} />
           </DivWidthTwoFieldsRow>
         </DivTwoFieldsWithSpaceBetween>
 

@@ -8,6 +8,7 @@ export var URLs;
     URLs["FETCH_BAUREIHE_MODEL"] = "/baureihemodel";
     URLs["POST_SIGINUP"] = "/signup";
     URLs["POST_SIGNIN"] = "/signin";
+    URLs["POST_WRITE_BAUREIHE"] = "/admin/writebaueihe";
     URLs["POST_INSERATE_CAR"] = "/inseratecar";
     URLs["ALL_FAST_SEARCH_FIRST"] = "/fastsearchfirst";
     URLs["GET_CHECK_AUTH"] = "/api/checkAuth";

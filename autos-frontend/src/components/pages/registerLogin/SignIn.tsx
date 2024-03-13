@@ -22,6 +22,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import TextFieldEmail from '../../formularFields/TextFieldEmail.js';
 import TextFieldPassword from '../../formularFields/TextFieldPassword.js';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs.js';
+import { setRole, setUserLoggedIn } from '../../../redux/features/userlogged.js';
 const notifyError = (message: string) => toast.error(message, {
   duration: 4000,
   position: 'bottom-center'
@@ -44,6 +45,8 @@ const SignIn: React.FC = () => {
 
   //const successMessage = state && state.successMessage;
   //if (successMessage) { }
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -75,10 +78,14 @@ const SignIn: React.FC = () => {
             switch (response.data.role) {
               case Roles.ADMIN: {
                 console.log("Navigate Admin");
+                dispatch(setRole(Roles.ADMIN));
+                dispatch(setUserLoggedIn(true));
                 navigate('/admin/writedata');
               } break;
               case Roles.USER: {
                 console.log("Navigate User");
+                dispatch(setUserLoggedIn(true));
+                dispatch(setRole(Roles.USER));
                 navigate('/inserieren');
               } break;
               default : { 

@@ -51,13 +51,13 @@ export const handleSubmitPostBrand = async (value: any , url: string,
     }
   }
 
-  export const handleSubmitPostDataBrandModel = async (formDataModel: FormDataModel , setLoading: Dispatch<SetStateAction<boolean>>) => {
+  export const handleSubmitPostBaureihe = async (formDataModel: FormDataModel , setLoading: Dispatch<SetStateAction<boolean>>) => {
 
     setLoading(true)
     // valid brand
     try {
 
-      const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_INSERATE_CAR}`, { formDataModel }, { withCredentials: true })
+      const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_WRITE_BAUREIHE}`, { formDataModel }, { withCredentials: true })
       toast.success(response.data.message);
     } catch (error) {
       toast.error("Bitte versuchen Sie erneut");

@@ -1,5 +1,5 @@
 import { pool } from "../../dbConnect.js";
-const insertIntoModels = "insert into models(modell, brandid)VALUES(?, ?)";
+const insertInto = "INSERT INTO baureihen(baureihe, cartypeid, von, bis, kw, hubraum, modelid) VALUES(?, ?, ?, ?, ?, ?, ?)";
 export default async (req, res) => {
     const { formDataModel } = req.body;
     const brandid = formDataModel.brandId;
@@ -13,12 +13,11 @@ export default async (req, res) => {
     console.log(formDataModel);
     let connection = await pool.getConnection();
     try {
-        await connection.beginTransaction();
-        await connection.execute(insertIntoModels, [model, brandid]);
-        await connection.commit();
+        await connection.execute(insertInto, [baureihe, carTypeId, from, to, kW, hubraum, model]);
         return res.status(200).json({ message: 'Erfolgreich hinzugefügt' });
     }
-    catch {
+    catch (err) {
+        console.log(err);
         connection.rollback();
         return res.status(500).json({ message: `${model} existiert bereits` });
     }

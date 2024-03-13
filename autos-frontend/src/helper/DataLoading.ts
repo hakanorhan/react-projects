@@ -24,7 +24,6 @@ export const useEffectFetch =  (setLoading: Dispatch<SetStateAction<boolean>>, u
 
 export const useEffectModel =  (setLoading: Dispatch<SetStateAction<boolean>>, url: string, setListValues: Dispatch<SetStateAction<string[]>>, selectedBrand: string) => {
   useEffect(() => {
-    alert(selectedBrand);
       
   // valid brand
   const fetchData = async() => {   

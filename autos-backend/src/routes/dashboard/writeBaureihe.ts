@@ -2,7 +2,7 @@ import express from "express";
 import { REGEX_NAMES } from "../../regex/regex.js";
 import { pool } from "../../dbConnect.js";
 
-const insertIntoModels: string = "insert into models(modell, brandid)VALUES(?, ?)";
+const insertInto: string = "INSERT INTO baureihen(baureihe, cartypeid, von, bis, kw, hubraum, modelid) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
 export default async (req: express.Request, res: express.Response) => {
     const { formDataModel } = req.body;
@@ -19,14 +19,12 @@ export default async (req: express.Request, res: express.Response) => {
 
     let connection = await pool.getConnection();
     try {
-        await connection.beginTransaction();
-            // query Brand
-            await connection.execute(insertIntoModels, [model, brandid]);
+            // query Baureihe
+            await connection.execute(insertInto, [baureihe, carTypeId, from, to, kW, hubraum, model]);
             
-            await connection.commit();
-                
             return res.status(200).json({ message: 'Erfolgreich hinzugefügt'})
-        } catch {
+        } catch (err){
+            console.log(err);
             connection.rollback();
             return res.status(500).json({ message: `${model} existiert bereits` });
         } finally {

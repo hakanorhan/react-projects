@@ -158,7 +158,6 @@ export const ValidParagraph = styled('p')(({}) => ({
     paddingLeft: '.2rem',
 }));
 
-
 /**
  * All Search Container have the same width.
  */

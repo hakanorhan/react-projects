@@ -2,11 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IUserState {
-    userLoggedIn: boolean
+    userLoggedIn: boolean,
+    role: string
 }
 
 const initialState: IUserState = {
-    userLoggedIn : true
+    userLoggedIn : false,
+    role: ""
 }
 
 export const userLoggedSlice = createSlice({
@@ -15,9 +17,12 @@ export const userLoggedSlice = createSlice({
     reducers: {
         setUserLoggedIn: (state, action: PayloadAction<boolean>) => {
             state.userLoggedIn = action.payload;
+        },
+        setRole: (state, action: PayloadAction<string>) => {
+            state.role = action.payload;
         }
     }
 })
 
-export const { setUserLoggedIn } = userLoggedSlice.actions;
+export const { setUserLoggedIn, setRole } = userLoggedSlice.actions;
 export default userLoggedSlice.reducer;

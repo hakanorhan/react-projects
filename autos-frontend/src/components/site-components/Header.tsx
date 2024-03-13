@@ -13,7 +13,11 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { primaryColorMain } from '../../themes/ThemeColor';
 import { Company } from '../../constants/Company';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Roles } from '../../../../autos-backend/src/enums/Roles';
+
+import type { RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
 
 const drawerFontSize = '28px';
 
@@ -22,9 +26,13 @@ const LinkDrawer = { color: primaryColorMain, textDecoration: 'none'};
 
 
 export default function Header() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+  const loggedIn = useSelector((state: RootState) => state.userLoggedIn.userLoggedIn);
+  const role = useSelector((state: RootState) => state.userLoggedIn.role)
 
   const handleHamburgerMenu = () => {
     setDrawerOpen(true);
@@ -90,6 +98,19 @@ export default function Header() {
     </Drawer>
   }
 
+  const handleMenuRole = () => {
+    handleClose();
+    switch(role) {
+      case Roles.ADMIN:
+        break;
+      case Roles.USER:
+        navigate("/inserieren");
+        break;
+      default:
+        navigate("/signin");
+    }
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar elevation={1} position="static" sx={{ backgroundColor:'transparent', color: primaryColorMain }}>
@@ -135,9 +156,8 @@ export default function Header() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Dashboard</MenuItem>
-                <MenuItem onClick={handleClose}>Mein Profil</MenuItem>
-                <MenuItem onClick={handleClose}>Abmelden</MenuItem>
+                <MenuItem onClick={ handleMenuRole }>{ (role === Roles.ADMIN) ? "Dashboard" : "Inserieren" }</MenuItem>
+                <MenuItem onClick={(() => { handleClose(); (loggedIn) ? navigate('/signin') : navigate('/signin'); })}> { loggedIn ? "Abmelden" : "Anmelden" }</MenuItem>
               </Menu>
             </div>
         </Toolbar>

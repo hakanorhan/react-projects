@@ -14,6 +14,7 @@ import { URLs } from './enums/URLs.js';
 import authenticate from "./jwt/authenticate.js";
 import fetchBaureihe from "./routes/dashboard/fetchBaureihe.js";
 import fetchBaureiheModel from "./routes/dashboard/fetchBaureiheModel.js";
+import writeBaureihe from "./routes/dashboard/writeBaureihe.js";
 const app = express();
 app.use(cors({
     credentials: true,
@@ -32,6 +33,7 @@ app.get(URLs.FETCH_BRAND, authenticate, fetchBrand);
 app.get(URLs.FETCH_MODEL, authenticate, fetchModel);
 app.get(URLs.FETCH_BAUREIHE, authenticate, fetchBaureihe);
 app.post(URLs.FETCH_BAUREIHE_MODEL, authenticate, fetchBaureiheModel);
+app.post(URLs.POST_WRITE_BAUREIHE, authenticate, writeBaureihe);
 app.post(URLs.POST_WRITE_MODEL, authenticate, writeModel);
 app.listen(3001, () => {
     console.log("Server started!");
