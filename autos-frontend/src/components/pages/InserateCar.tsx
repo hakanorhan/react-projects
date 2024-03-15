@@ -9,8 +9,9 @@ import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import { notifySuccess, notifyError } from '../../helper/toastHelper';
 import TextFieldCars from '../formularFields/TextFieldCars';
 import TextFieldArea from '../formularFields/TextArea';
-import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { Box } from '@mui/material';
 import SelectField from '../formularFields/SelectField';
+import UploadImage from './UploadImage';
 export default function InserateCar() {
 
   const initialSelect: InserateSelect = {
@@ -31,6 +32,8 @@ export default function InserateCar() {
   const [form, setForm] = useState<InserateData>(initalInserate);
   const [formSelect, setFormSelect] = useState<InserateSelect>(initialSelect);
   const [toggleValue, setToggleValue] = useState<string>("");
+
+  const [submitClicked, setSubmitClicked] = useState(false);
 
   // States
   const [listValues, setListValues] = useState<any[]>([]);
@@ -56,33 +59,44 @@ export default function InserateCar() {
     event.preventDefault();
     console.log(form + " Toggle value: " + toggleValue)
 
+    {// TODO: Add validation 
+    }
     if (true) {
-
-
       const axiosData: AxiosDataInserate = {
         inserateData: form,
         inserateSelect: formSelect
       }
       // valid brand
-
       try {
-        const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_INSERATE_CAR}`, axiosData, { withCredentials: true });
-        notifySuccess(response.data.message);
+        
+        //const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_INSERATE_CAR}`, axiosData, { withCredentials: true });
+        //notifySuccess(response.data.message);
+        
+        // Image upload on submit
+        setSubmitClicked(true);
+
       } catch (error) {
         notifyError("Fehler");
-      }
+      } 
     } else {
       notifyError("Bitte beachten Sie alle Eingaben");
-    }
+    } 
+    
   }
 
   return (<>
     <DivFormularAdmin>
       <Typography textAlign='center' component={'h2'} variant='h2'>Fahrzeug inserieren</Typography>
       <form onSubmit={handleSubmit} noValidate>
-        <SelectField values={[]} objectName='' idOfSelect='' selectedValue='' handleChange={handleChangeSelect} label='Marke' />
-        <SelectField values={[]} objectName='' idOfSelect='' selectedValue='' handleChange={handleChangeSelect} label='Modell' />
-        
+        <DivTwoFieldsWithSpaceBetween>
+          <DivWidthTwoFieldsRow>
+          <SelectField values={[]} objectName='' idOfSelect='' selectedValue='' handleChange={handleChangeSelect} label='Marke' />
+          </DivWidthTwoFieldsRow>
+          <DivWidthTwoFieldsRow>
+          <SelectField values={[]} objectName='' idOfSelect='' selectedValue='' handleChange={handleChangeSelect} label='Modell' />
+          </DivWidthTwoFieldsRow>
+        </DivTwoFieldsWithSpaceBetween>
+
         <DivTwoFieldsWithSpaceBetween>
           <DivWidthTwoFieldsRow>
             <SelectField values={[]} objectName='' idOfSelect='' selectedValue='' handleChange={handleChangeSelect} label='Typ' />
@@ -91,7 +105,7 @@ export default function InserateCar() {
             <SelectField values={[]} objectName='' idOfSelect='' selectedValue='' handleChange={handleChangeSelect} label='Getriebe' />
           </DivWidthTwoFieldsRow>
         </DivTwoFieldsWithSpaceBetween>
-        
+
         <DivTwoFieldsWithSpaceBetween>
           <DivWidthTwoFieldsRow>
             <TextFieldCars id='kilometerstand' label='Kilometerstand' onChange={value => handleOnChange('kilometerstand', value)} regex={REGEX_HUBRAUM} />
@@ -100,7 +114,7 @@ export default function InserateCar() {
             <TextFieldCars id='kw' label='Leistung in KW' onChange={value => handleOnChange('kw', value)} regex={REGEX_HUBRAUM} />
           </DivWidthTwoFieldsRow>
         </DivTwoFieldsWithSpaceBetween>
-        
+
         <DivTwoFieldsWithSpaceBetween>
           <DivWidthTwoFieldsRow>
             <SelectField values={[]} objectName='' idOfSelect='' selectedValue='' handleChange={handleChangeSelect} label='Kraftstoff' />
@@ -109,8 +123,10 @@ export default function InserateCar() {
             <SelectField values={[]} objectName='' idOfSelect='' selectedValue='' handleChange={handleChangeSelect} label='Anzahl Türen' />
           </DivWidthTwoFieldsRow>
         </DivTwoFieldsWithSpaceBetween>
-        
-        
+        <Box sx={{ height: '100%', marginBottom: '1rem'}}>
+          <UploadImage submitClicked={ submitClicked }/>
+        </Box>
+
         <TextFieldArea id='beschreibung' label='Beschreibung' onChange={value => handleOnChange('beschreibung', value)} placeholder='Fügen Sie bitte eine Beschreibung hinzu' minRows={8} maxRows={10} />
         <Button fullWidth type='submit' variant='contained'>Inserieren</Button>
       </form>

@@ -10,15 +10,6 @@ import { yellow } from "@mui/material/colors";
     xl, extra-large: 1536px
 */
 
-/**
- * Responsive.
- * Formularfield on mobile device have 85% width.
- */
-const textFieldXSWitdh = '85%';
-/**
- * Desktop view, at 600px breakpoint.
- */
-const textFieldSMWitdh = '550px';
 
 const searchContainerXSWidth = '90%';
 const searchContainerMDWidth = '90%';
@@ -92,15 +83,15 @@ export const DivFormularAdmin = styled('div')(({ theme }) => ({
     margin: 'auto',
     flexDirection: 'column',
     [theme.breakpoints.up("xs")]: {
-        width: textFieldXSWitdh,
+        width: '90%',
         
     },
     [theme.breakpoints.up("sm")]: {
-        width: textFieldSMWitdh,
+        width: '560px',
 
     },
-    [theme.breakpoints.up("lg")]: {
-        width: textFieldSMWitdh
+    [theme.breakpoints.up("md")]: {
+        width: '850px'
     }
 
 }));
@@ -132,8 +123,9 @@ export const DivWidthTwoFieldsRow = styled('div')(({ theme }) => ({
         width: '100%' 
     },
     [theme.breakpoints.up("md")]: {
-        width:'270px'
-    }
+        width:'49%'
+    },
+
 
 }));
 

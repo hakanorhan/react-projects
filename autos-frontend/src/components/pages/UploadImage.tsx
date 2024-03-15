@@ -1,11 +1,19 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Container, Grid } from '@mui/material';
+import { Button, Box, Grid } from '@mui/material';
 
 import { notifyError, notifySuccess } from '../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
 
-const UploadImage: React.FC = () => {
+interface UploadImagesProp {
+    submitClicked: boolean
+}
+
+/**
+ * imagename+id
+ * @returns imagename
+ */
+const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
     const [files, setFiles] = useState<File[]>([]);
   const [uploadStatus, setUploadStatus] = useState<string>('');
 
@@ -16,7 +24,16 @@ const UploadImage: React.FC = () => {
     }
   };
 
-  const handleUpload = async () => {
+
+  useEffect(() => {
+    console.log("Wird ausgeführt!")
+    if(submitClicked) {
+        handleImageUpload();
+    }
+    
+  }, [submitClicked])
+
+   const handleImageUpload = async () => {
     if (files.length === 0) {
         notifyError('Keine Bilder ausgwählt.')
       return;
@@ -46,7 +63,7 @@ const UploadImage: React.FC = () => {
   
 
   return (
-    <Container>
+    <Box>
         <Toaster />
     <input
       accept="image/*"
@@ -57,22 +74,14 @@ const UploadImage: React.FC = () => {
       onChange={handleFileChange}
     />
     <label htmlFor="contained-button-file">
-      <Button variant="contained" color="primary" component="span">
-        Choose Files
+      <Button fullWidth variant="contained" color="primary" component="span">
+        Bild wählen
       </Button>
     </label>
-    <Button
-      variant="contained"
-      color="primary"
-      disabled={files.length === 0}
-      onClick={handleUpload}
-    >
-      Upload
-    </Button>
-    <Grid container spacing={2}>
+    <Grid sx={{ marginTop:'0.4rem' }} container spacing={2}>
       {files.map((file, index) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-          <img src={URL.createObjectURL(file)} alt={`Uploaded ${index + 1}`} style={{ width: '100%', height: 'auto' }} />
+        <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+          <img src={URL.createObjectURL(file)} alt={`Uploaded ${index + 1}`} style={{ width: '100%', height:'100%' }} />
         </Grid>
       ))}
     </Grid>
@@ -81,7 +90,7 @@ const UploadImage: React.FC = () => {
         {uploadStatus}
       </div>
     )}
-  </Container>
+  </Box>
   );
 };
 
