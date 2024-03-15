@@ -1,28 +1,43 @@
-import { useState, useRef, useEffect } from "react";
-
-import TextFieldName from "../../../../formularFields/TextFieldName";
-
-import { SelectChangeEvent, Box, Button, Paper, Typography } from '@mui/material';
-
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { SelectChangeEvent, Button } from '@mui/material';
+import { notifySuccess, notifyError } from "../../../../../helper/toastHelper";
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
-import TableNormal from "../../../../tables/TableNormal";
 import { DivFormularAdmin } from "../../../../../themes/ThemeColor";
-import { handleSubmitPostBrand, handleSubmitPostModel } from "../../../../../helper/submits";
-import { packageAxiosBrand } from "../../../../../helper/PackageAxios";
-import { useEffectFetch } from "../../../../../helper/DataLoading";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import SelectField from "../../../../formularFields/SelectField";
+import TextFieldCars from "../../../../formularFields/TextFieldCars";
+import { REGEX_NAMES } from "../../../../../../../autos-backend/src/regex/regex";
+import { AxiosDataModel } from "../../../../../../../autos-backend/src/interfaces/IAxiosData";
 
 // Components
 const InsertModel = () => {
-  const [selectedBrand, setSelectedBrand] = useState<string>("");
-  const modelRef = useRef<HTMLInputElement>(null);
-  const [listValues, setListValues] = useState<any[]>([]);
-  const [insertId, setInsertId] = useState<number | null>(null)
-  const [loading, setLoading] = useState(false);
 
-  useEffectFetch(setLoading, URLs.FETCH_BRAND, setListValues);
+  const [form, setForm] = useState({
+    model: ""
+  });
+
+  const handleChange = (fieldName: string, fieldValue: string) => {
+    setForm({...form, [fieldName] : fieldValue})
+  }
+
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [listValues, setListValues] = useState<any[]>([]);
+  
+  useEffect(() => {
+// valid brand
+const fetchData = async() => {   
+  await axios.get(`${URLs.ORIGIN_SERVER}` + URLs.FETCH_BRAND, { withCredentials: true })
+        
+  .then(response => { 
+          //toast.success(response.data.message);
+        setListValues(response.data.tableValues);
+         })
+         .catch(error => console.log(error))
+}
+fetchData();
+}, [])
 
   const handleChangeBrand = (event: SelectChangeEvent) => {
     const brand = event.target.value as string;
@@ -32,21 +47,27 @@ const InsertModel = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const model: string | undefined = modelRef.current?.value;
-    const brandId: string = selectedBrand;
-    // submit after click button
-    handleSubmitPostModel({ brandId, model }, URLs.POST_WRITE_MODEL, setLoading);
-  }
+    const axiosDataModel: AxiosDataModel = {
+      brandid: selectedBrand,
+      model: form.model
+    }
 
-  if (loading) {
-    return <p>Loading...</p>
+    try {
+      const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_WRITE_MODEL}`, axiosDataModel, { withCredentials: true })
+      notifySuccess(response.data.message);
+      //setListValues(response.data.tableValues);
+      //setInsertId(response.data.insertId);
+
+    } catch (error) {
+      notifyError("Bitte versuchen Sie erneut");
+    }
   }
   
   return <><Toaster />
     <DivFormularAdmin>
       <form onSubmit={handleSubmit} noValidate>
         <SelectField values={listValues} objectName="brand" idOfSelect="brandid" selectedValue={selectedBrand} handleChange={handleChangeBrand} label="Marke"/>
-        <TextFieldName id={"model"} label={"Modell"} inputRef={modelRef} />
+        <TextFieldCars id="model" label="Modell" onChange={value => handleChange('model', value)} regex={REGEX_NAMES} />
 
         <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
       </form>

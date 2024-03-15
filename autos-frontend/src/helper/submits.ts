@@ -2,6 +2,9 @@ import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import toast from 'react-hot-toast'
 import { URLs } from "../../../autos-backend/src/enums/URLs";
+import { FormBaureihe, FormBaureiheSelect } from "../../../autos-backend/src/interfaces/IAxiosData";
+import dayjs from "dayjs";
+import { AxiosDataBaureihe } from "../../../autos-backend/src/interfaces/IAxiosData";
 
 export interface FormDataModel {
   brandId: string,
@@ -14,22 +17,17 @@ export interface FormDataModel {
   baureihe: string
 }
 
-export const handleSubmitPostBrand = async (value: any , url: string,
-    setListValues: Dispatch<SetStateAction<any[]>>, setLoading: Dispatch<SetStateAction<boolean>>, setInsertId: Dispatch<SetStateAction<number | null>>) => {
+export const handleSubmitPostBrand = async (value: any , url: string, setListValues: Dispatch<SetStateAction<any[]>>, setInsertId: Dispatch<SetStateAction<number | null>>) => {
 
-    setLoading(true)
     // valid brand
     try {
-
-      const response = await axios.post(`${URLs.ORIGIN_SERVER}${url}`, { value }, { withCredentials: true })
+     const response = await axios.post(`${URLs.ORIGIN_SERVER}${url}`, { value }, { withCredentials: true })
       toast.success(response.data.message);
       setListValues(response.data.tableValues);
       //setInsertId(response.data.insertId);
 
     } catch (error) {
       toast.error("Bitte versuchen Sie erneut");
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -44,21 +42,6 @@ export const handleSubmitPostBrand = async (value: any , url: string,
       //setListValues(response.data.tableValues);
       //setInsertId(response.data.insertId);
 
-    } catch (error) {
-      toast.error("Bitte versuchen Sie erneut");
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  export const handleSubmitPostBaureihe = async (formDataModel: FormDataModel , setLoading: Dispatch<SetStateAction<boolean>>) => {
-
-    setLoading(true)
-    // valid brand
-    try {
-
-      const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_WRITE_BAUREIHE}`, { formDataModel }, { withCredentials: true })
-      toast.success(response.data.message);
     } catch (error) {
       toast.error("Bitte versuchen Sie erneut");
     } finally {

@@ -8,11 +8,11 @@ export enum URLs {
     FETCH_BAUREIHE_MODEL = '/baureihemodel',
     POST_SIGINUP = '/signup',
     POST_SIGNIN = '/signin',
-    POST_WRITE_BAUREIHE = '/admin/writebaueihe',
+    POST_INSERT_BAUREIHE = '/admin/writebaueihe',
     POST_INSERATE_CAR = '/inseratecar',
     ALL_FAST_SEARCH_FIRST = '/fastsearchfirst',
     GET_CHECK_AUTH = '/api/checkAuth',
     POST_WRITE_BRAND = '/admin/writebrand',
-    POST_WRITE_MODEL = '/admin/writemodel'
+    POST_INSERT_MODEL = '/admin/writemodel'
     
 }

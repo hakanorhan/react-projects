@@ -31,6 +31,8 @@ export const primaryColorMain: string = colors.grey[900];
 export const primaryColorLight: string = colors.grey[300];
 
 const secondaryColorMain: string = colors.orange[700];
+export const secondaryColorLight: string = colors.green[300];
+export const colorDanger: string = colors.red[700];
 
 const themeColor = createTheme({
     
@@ -43,7 +45,7 @@ const themeColor = createTheme({
         },
         secondary: {
             main: secondaryColorMain,
-            light: primaryColorLight,
+            light: secondaryColorLight,
             dark: colors.grey[900],
             contrastText: 'white'
         }

@@ -1,9 +1,8 @@
-import axios from "axios";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, ChangeEvent, FormEvent } from "react";
 import { Grid } from "@mui/material";
-import TextFieldName from "../../../../formularFields/TextFieldName";
+import axios from "axios";
 
-import { SelectChangeEvent, Box, Button, Paper, Typography } from '@mui/material';
+import { SelectChangeEvent, Button } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -16,34 +15,51 @@ import { DivFormularAdmin, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow } 
 import SelectField from "../../../../formularFields/SelectField";
 import { FormDataModel, handleSubmitPostBaureihe } from "../../../../../helper/submits";
 import { useEffectFetch, useEffectModel } from "../../../../../helper/DataLoading";
+import { FormBaureiheSelect, FormBaureihe, AxiosDataBaureihe} from "../../../../../../../autos-backend/src/interfaces/IAxiosData";
 
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
+import TextFieldCars from "../../../../formularFields/TextFieldCars";
+import { REGEX_BAUREIHE, REGEX_HUBRAUM, REGEX_NAMES } from "../../../../../../../autos-backend/src/regex/regex";
+import { formularBaureiheIsValid } from "../../../../../helper/validHelper";
 
-
+import { notifySuccess, notifyError } from "../../../../../helper/toastHelper";
 
 const gridWithSM = 3.65;
 const gridWithXS = 5.5;
 
+
+
+const initialFormSelect: FormBaureiheSelect = {
+  brand: "",
+  model: "",
+  cartype: ""
+}
+
+const initalFormBaureihe: FormBaureihe = {
+  baureihe: "",
+  kw: "",
+  hubraum: ""
+}
+
 // Components
 const InsertBaureihe = () => {
 
-  // Fields
-  const [selectedBrand, setSelectedBrand] = React.useState<string>("");
-  const [selectedModel, setSelectedModel] = React.useState<string>("");
-  const [selectedFuel, setSelectedFuel] = React.useState<string>("");
-  const [selectedCarType, setSelectedCarType] = React.useState<string>("");
-  const kWRef = useRef<HTMLInputElement>(null);
-  const hubraumRef = useRef<HTMLInputElement>(null);
-  const baureiheRef = useRef<HTMLInputElement>(null);
+  const [formSelect, setFormSelect] = useState(initialFormSelect);
+  const [formBaureihe, setFormBaureihe] = useState(initalFormBaureihe);
 
+  const handleChangeSelect = (event: SelectChangeEvent<string>) => {
+    setFormSelect(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value
+    }));
+  }
 
-  // Fetched data. brand
-  const [fetchedBrand, setFetchedBrand] = useState<string[]>([])
-  const [insertId, setInsertId] = useState<number | null>(null)
+  const handleChange = (fieldName: string, fieldValue: string | boolean) => {
+    setFormBaureihe({ ...formBaureihe , [fieldName]: fieldValue })
+  }
 
   // States
   const [listValues, setListValues] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
   const [listModels, setListModels] = useState<string[]>([]);
 
   const minDateConst = dayjs('1900');
@@ -56,51 +72,38 @@ const InsertBaureihe = () => {
 
 
   // Fetch Data from database
-  useEffectFetch(setLoading, URLs.FETCH_BAUREIHE, setListValues);
+  useEffectFetch(URLs.FETCH_BAUREIHE, setListValues);
 
 
   // Fetch Model after select value changed
-  useEffectModel(setLoading, URLs.FETCH_BAUREIHE_MODEL, setListModels, selectedBrand);
+  useEffectModel(URLs.FETCH_BAUREIHE_MODEL, setListModels, formSelect.brand);
 
+  const handleSubmit = async (event: FormEvent) => {
 
-  const handleChangeBrand = (event: SelectChangeEvent) => {
-    const brand = event.target.value as string;
-    setSelectedBrand(brand);
-  };
-
-  const handleChangeModel =(event:SelectChangeEvent) => {
-    const model = event.target.value as string;
-    setSelectedModel(model);
-  }
-
-  const handleChangeCarType = (event: SelectChangeEvent) => {
-    const carType = event.target.value as string;
-    setSelectedCarType(carType);
-  }
-
-  const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
 
-    const model: string = selectedModel;
-    const baureihe: string | undefined = baureiheRef.current?.value;
-    const brandId: string = selectedBrand;
-    const carTypeId: string = selectedCarType;
-    const kW: string | undefined = kWRef.current?.value;
-    const hubraum: string | undefined = hubraumRef.current?.value;
+    if (formularBaureiheIsValid(formBaureihe, formSelect)) {
 
-    if (model && baureihe && brandId && carTypeId && kW && hubraum) {
-      const formDataModl: FormDataModel = {
-        model: model,
-        baureihe: baureihe,
-        brandId: brandId,
-        carTypeId: carTypeId,
-        kW: kW,
-        hubraum: hubraum,
-        from: selectedDateFrom?.format('YYYY'),
-        to: selectedDateTo?.format('YYYY')
+      const numberFrom: number | undefined = selectedDateFrom?.year();
+      const numberTo: number | undefined = selectedDateTo?.year();
+
+      const axiosData: AxiosDataBaureihe = { 
+        formBaureiheSelect: formSelect,
+        formBaureihe: formBaureihe,
+        from: numberFrom,
+        to: numberTo
       }
-      handleSubmitPostBaureihe(formDataModl, setLoading);
+      // valid brand
+      
+      try {
+        const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_WRITE_BAUREIHE}`, axiosData , { withCredentials: true });
+        notifySuccess(response.data.message);
+      } catch (error) {
+        notifyError("Fehler");
+      } 
     } else {
+      notifyError("Bitte beachten Sie alle Eingaben");
     }
   }
 
@@ -121,35 +124,30 @@ const InsertBaureihe = () => {
     </Grid>
   }
 
-  console.log(listValues[2])
-
-  if (loading) {
-    return <p>Loading...</p>
-  }
-
 
   return <>
     <Toaster />
     <DivFormularAdmin>
       <form onSubmit={handleSubmit} noValidate>
-        <SelectField values={listValues[0]} objectName="brand" idOfSelect="brandid" selectedValue={selectedBrand} handleChange={handleChangeBrand} label="Marke" />
+        <SelectField values={listValues[0]} objectName="brand" idOfSelect="brandid" selectedValue={formSelect.brand} handleChange={handleChangeSelect} label="Marke" />
         <DivTwoFieldsWithSpaceBetween>
           <DivWidthTwoFieldsRow>
-            <SelectField  values={listModels} objectName="model" idOfSelect="modelid" selectedValue={selectedModel} handleChange={handleChangeModel} label="Modell" />
+            <SelectField  values={listModels} objectName="model" idOfSelect="modelid" selectedValue={formSelect.model} handleChange={handleChangeSelect} label="Modell" />
+            
           </DivWidthTwoFieldsRow>
           <DivWidthTwoFieldsRow>
-            <TextFieldName id={"baureihe"} label={"Baureihe"} inputRef={baureiheRef} />
+            <TextFieldCars id="baureihe" label="Baureihe" onChange={value => handleChange("baureihe", value)} regex={REGEX_BAUREIHE} />
           </DivWidthTwoFieldsRow>
         </DivTwoFieldsWithSpaceBetween>
 
-            <SelectField values={listValues[1]} objectName="cartype" idOfSelect="cartypeid" selectedValue={selectedCarType} handleChange={handleChangeCarType} label="Typ" />
+            <SelectField values={listValues[1]} objectName="cartype" idOfSelect="cartypeid" selectedValue={formSelect.cartype} handleChange={handleChangeSelect} label="Typ" />
 
         <DivTwoFieldsWithSpaceBetween>
           <DivWidthTwoFieldsRow>
-            <TextFieldName id={"leistung"} label={"Leistung KW"} inputRef={kWRef} />
+            <TextFieldCars id="kw" label="Leistung" onChange={value => handleChange("kw", value)} regex={REGEX_HUBRAUM} />
           </DivWidthTwoFieldsRow>
           <DivWidthTwoFieldsRow>
-            <TextFieldName id={"hubraum"} label={"Hubraum ccm³"} inputRef={hubraumRef} />
+            <TextFieldCars id="hubraum" label="Hubraum ccm³" onChange={value => handleChange("hubraum", value)} regex={REGEX_HUBRAUM} />
           </DivWidthTwoFieldsRow>
         </DivTwoFieldsWithSpaceBetween>
 

@@ -1,21 +1,25 @@
-import React, { useState } from 'react'
-import { IUseForm } from '../../interfaces/IUseForm'
+import React, { ChangeEvent, useState } from 'react'
+import { IUseForm2 } from '../../interfaces/IUseForm'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check'
 
-import * as validHelper from '../../helper/validHelper';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { colorDanger, secondaryColorLight } from '../../themes/ThemeColor';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-const TextFieldPassword1: React.FC<IUseForm> = ({ id, label, inputRef: ref }) => {
+const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => {
 
      // Check icon
   const [passwordMatch, setPasswordMatch] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(true);
   // Show password
   const [showPassword, setShowPassword] = useState(false);
 
-  const handlePassword = () => {
-    const passwordValue: string | undefined = ref.current?.value;
-    if(passwordValue) {setPasswordMatch(validHelper.formularPasswordValid(passwordValue));}
+  const handlePassword = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    onChange(value);
+    setIsEmpty(value.length === 0);
+    setPasswordMatch(regex.test(value));
   }
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -25,10 +29,9 @@ const TextFieldPassword1: React.FC<IUseForm> = ({ id, label, inputRef: ref }) =>
 
   return (
     <FormControl  variant="outlined">
-    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+    <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <OutlinedInput
       id= {id}
-      inputRef={ref}
       onChange={handlePassword}
       type={showPassword ? 'text' : 'password'}
       endAdornment={
@@ -36,7 +39,8 @@ const TextFieldPassword1: React.FC<IUseForm> = ({ id, label, inputRef: ref }) =>
           <IconButton disabled
             aria-label="check visibility"
           >
-            {passwordMatch ? <CheckIcon /> : ""}
+            {passwordMatch ? <CheckIcon sx={{ color: secondaryColorLight }} /> : 
+              isEmpty ? "" : <ErrorOutlineIcon sx={{ color: colorDanger }} />}
           </IconButton>
           <IconButton
             aria-label="toggle password visibility"
@@ -48,10 +52,10 @@ const TextFieldPassword1: React.FC<IUseForm> = ({ id, label, inputRef: ref }) =>
           </IconButton>
         </InputAdornment>
       }
-      label= {label}
+      label= { label }
     />
   </FormControl>
   )
 }
 
-export default TextFieldPassword1;
+export default TextFieldCarsPassword1;

@@ -6,12 +6,12 @@ import bcrypt from 'bcrypt';
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import { IResponseSignInData } from "../interfaces/signin/IResponseSignInData.js";
 import { createToken } from "../jwt/jwtToken.js";
+import { SignInForm } from "../interfaces/IAxiosData.js";
 
 const selectQuery: string = 'SELECT * FROM person WHERE email = ?';
 
-
 // disable autocommit and perform transaction
-async function performQuery(requestData: LoginUser, res: express.Response){
+async function performQuery(requestData: SignInForm, res: express.Response){
 
     const { email, password } = requestData;
     let connection;
@@ -68,7 +68,7 @@ async function performQuery(requestData: LoginUser, res: express.Response){
 }
 
 export default async (req: express.Request, res: express.Response) => {
-    const requestData: LoginUser = req.body;
+    const requestData: SignInForm = req.body;
     performQuery(requestData, res);
 
 }

@@ -4,33 +4,33 @@ import { Roles } from "../enums/Roles.js";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import * as SignupStatements from "../statements/signupStatements.js";
 async function performQuery(requestData, res) {
-    const { name, familyname, email, password, password2, isCarDealer } = requestData;
-    if (!email.match(REGEX_EMAIL)) {
+    const { form, isChecked } = requestData;
+    if (!form.email.match(REGEX_EMAIL)) {
         return console.log("Email not matches");
     }
-    if (!password.match(REGEX_PASSWORD)) {
+    if (!form.password1.match(REGEX_PASSWORD)) {
         return console.log("Password not matches");
     }
     const connection = await pool.getConnection();
     try {
-        console.log("is cardealer " + isCarDealer);
+        console.log("is cardealer " + isChecked);
         await connection.beginTransaction();
         const selectQuery = 'SELECT email FROM person WHERE email = ?';
-        const queryResult = await connection.query(selectQuery, [email]);
+        const queryResult = await connection.query(selectQuery, [form.email]);
         const result = queryResult;
         if (result[0].length === 1) {
             const message = { message: "Email already exists. Please try another email" };
             return res.status(409).json(message);
         }
-        if (password !== password2) {
+        if (form.password1 !== form.password2) {
             const message = { message: "Password not matches. Please try again" };
             return res.status(409).json(message);
         }
         const salt = genSaltSync(10);
-        const hash = hashSync(password, salt);
-        const [resultPerson] = await connection.execute(SignupStatements.insertPerson, [name, familyname, email, hash, Roles.USER]);
+        const hash = hashSync(form.password1, salt);
+        const [resultPerson] = await connection.execute(SignupStatements.insertPerson, [form.name, form.familyname, form.email, hash, Roles.USER]);
         const userId = resultPerson.insertId;
-        const [resultUser] = await connection.execute(SignupStatements.insertUser, [userId, isCarDealer]);
+        const [resultUser] = await connection.execute(SignupStatements.insertUser, [userId, isChecked]);
         await connection.commit();
         const responseData = { message: "Sie haben erfolgreich eingeloggt" };
         return res.status(200).json(responseData);

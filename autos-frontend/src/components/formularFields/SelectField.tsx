@@ -1,11 +1,13 @@
 import { FormControl, InputLabel, Select, Grid, MenuItem } from "@mui/material"
+import { SelectChangeEvent } from "@mui/material";
 import React from "react";
 
 const gridWithSM = 3.65;
 const gridWithXS = 5.5;
 
 // Components
-const SelectField: React.FC<{ values: any[], objectName: string, idOfSelect: string, selectedValue: string, handleChange: any, label: string }> = ({ values, objectName, idOfSelect, selectedValue, handleChange, label }) => {
+const SelectField: React.FC<{ values: any[], objectName: string, idOfSelect: string, selectedValue: string,
+   handleChange:(event: SelectChangeEvent<string>) => void, label: string }> = ({ values, objectName, idOfSelect, selectedValue, handleChange, label }) => {
 
 
   return <Grid item xs={11} sm={gridWithXS} md={gridWithSM}>
@@ -16,6 +18,7 @@ const SelectField: React.FC<{ values: any[], objectName: string, idOfSelect: str
         id="demo-simple-select"
         value={selectedValue}
         label={label}
+        name={objectName}
         onChange={handleChange}
       >
         {

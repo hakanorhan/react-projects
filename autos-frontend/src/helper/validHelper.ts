@@ -1,3 +1,4 @@
+import { FormBaureihe, FormBaureiheSelect } from "../../../autos-backend/src/interfaces/IAxiosData";
 import * as REGEX from "../../../autos-backend/src/regex/regex";
 
 export interface IAtLeastMessage {
@@ -74,4 +75,10 @@ export function formularSignUpIsValid(name: string, familyname: string, email: s
 
 export function formularNameValid(value: string) {
     return REGEX.REGEX_NAMES.test(value);
+}
+
+export function formularBaureiheIsValid(form: FormBaureihe, formSelect: FormBaureiheSelect) {
+    
+    return REGEX.REGEX_BAUREIHE.test(form.baureihe) && REGEX.REGEX_HUBRAUM.test(form.kw) && REGEX.REGEX_HUBRAUM.test(form.hubraum) && 
+        formSelect.brand && formSelect.cartype && formSelect.model;
 }

@@ -11,26 +11,26 @@ import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import * as SignupStatements from "../statements/signupStatements.js"; 
 
 // disable autocommit and perform transaction
-async function performQuery(requestData: ISignUpUser, res: express.Response){
-    const {name, familyname, email, password, password2, isCarDealer} = requestData;
+async function performQuery(requestData: any, res: express.Response){
+    const { form, isChecked } = requestData;
     
-    if(!email.match(REGEX_EMAIL)) {
+    if(!form.email.match(REGEX_EMAIL)) {
         return console.log("Email not matches");
     }
 
-    if(!password.match(REGEX_PASSWORD)) {
+    if(!form.password1!.match(REGEX_PASSWORD)) {
         return console.log("Password not matches")
     }
 
     const connection = await pool.getConnection();
     try {
-        console.log("is cardealer " + isCarDealer)
+        console.log("is cardealer " + isChecked)
         // start transaction
         await connection.beginTransaction();
 
         // Exists email
         const selectQuery = 'SELECT email FROM person WHERE email = ?';
-        const queryResult = await connection.query(selectQuery, [email]);
+        const queryResult = await connection.query(selectQuery, [form.email]);
         const result = queryResult as RowDataPacket[];
         
         if(result[0].length === 1) {
@@ -39,35 +39,35 @@ async function performQuery(requestData: ISignUpUser, res: express.Response){
         }
 
         // passwort not matches, process password matches is used in frontend for better user experience
-        if(password !== password2) {
-            const message: IResponseSignup = { message: "Password not matches. Please try again" }
+        if(form.password1 !== form.password2) {
+            const message = { message: "Password not matches. Please try again" }
             return res.status(409).json(message);
         }
         
         // hash password
         const salt = genSaltSync(10);
-        const hash = hashSync(password, salt);
+        const hash = hashSync(form.password1, salt);
 
 
         // insert into user
         const [resultPerson]: [ResultSetHeader, any] = await connection.execute(
             SignupStatements.insertPerson,
-            [name, familyname, email, hash, Roles.USER]);
+            [form.name, form.familyname, form.email, hash, Roles.USER]);
         
         const userId: number = resultPerson.insertId;
         
         const [resultUser]: [ResultSetHeader, any] = await connection.execute(
             SignupStatements.insertUser,
-            [userId, isCarDealer]);
+            [userId, isChecked]);
         
         await connection.commit();
-        const responseData: IResponseSignup = { message: "Sie haben erfolgreich eingeloggt"} 
+        const responseData = { message: "Sie haben erfolgreich eingeloggt"} 
         return res.status(200).json(responseData)
 
     } catch(err) {
         // rollback
         await connection.rollback();
-        const responseData: IResponseSignup = { message: "Error occured. Please try again."} 
+        const responseData = { message: "Error occured. Please try again."} 
         return res.status(500).json(responseData);
         
     } finally {
@@ -77,7 +77,7 @@ async function performQuery(requestData: ISignUpUser, res: express.Response){
 }
 
 export default async (req: express.Request, res: express.Response) => {
-    const requestData: IRequestSignUp = req.body;
+    const requestData = req.body;
     performQuery(requestData, res);
 }
 

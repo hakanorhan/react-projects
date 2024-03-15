@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 /* Interfaces */
-import LoginUser from '../../../../../autos-backend/src/interfaces/LoginUser.js';
 import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
 
 /* Material UI */
@@ -19,10 +18,12 @@ import { useDispatch } from "react-redux";
 
 /* Hot Toast */
 import toast, { Toaster } from 'react-hot-toast';
-import TextFieldEmail from '../../formularFields/TextFieldEmail.js';
-import TextFieldPassword from '../../formularFields/TextFieldPassword.js';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs.js';
 import { setRole, setUserLoggedIn } from '../../../redux/features/userlogged.js';
+import TextFieldCars from '../../formularFields/TextFieldCars.js';
+import { REGEX_EMAIL, REGEX_PASSWORD } from '../../../../../autos-backend/src/regex/regex.js';
+import TextFieldCarsPassword1 from '../../formularFields/TextFieldCarsPassword.js';
+import { SignInForm } from '../../../../../autos-backend/src/interfaces/IAxiosData.js';
 const notifyError = (message: string) => toast.error(message, {
   duration: 4000,
   position: 'bottom-center'
@@ -35,46 +36,40 @@ const notifySuccess = (message: string) => toast.success(message, {
 
 });
 
+
 const SignIn: React.FC = () => {
-/*
+
+  const signInForm: SignInForm = {
+    email: "",
+    password: ""
+  }
+
+  const [form, setForm] = useState<SignInForm>(
+    signInForm
+  );
+
+    const handleOnChange = (fieldName: string, fieldValue: string) => {
+      setForm({...form, [fieldName] : fieldValue})
+    }
+
   const dispatch = useDispatch();
-  useEffect(() => {
-    //dispatch(setNewImage('signin'));
-  }, [])  
-  */
-
-  //const successMessage = state && state.successMessage;
-  //if (successMessage) { }
-
-  const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
     
-    const email: string | undefined = emailRef.current?.value;
-    const password: string | undefined = passwordRef.current?.value;
     console.log("Siginin.tsx Zeile 58");
     // if email and password is valid
-    if (email && password && validHelper.formularValuesValidSignIn(email, password)) {
-      const formData: LoginUser = {
-        email: email,
-        password: password
-      }
+    if (form.email && form.password && validHelper.formularValuesValidSignIn(form.email, form.password)) {
+      
       console.log(`${URLs.ORIGIN_SERVER}${URLs.POST_SIGNIN}`)
-      setLoading(true);
       await axios.post<IResponseSignInData>(`${URLs.ORIGIN_SERVER}${URLs.POST_SIGNIN}`,
-        formData, { withCredentials: true })
+        form, { withCredentials: true })
         .then(function (response) {
           console.log(response)
           // personId name and role exists
           if (response.data.personId && response.data.name && response.data.role) {
-            setLoading(false);
+            
             switch (response.data.role) {
               case Roles.ADMIN: {
                 console.log("Navigate Admin");
@@ -96,20 +91,13 @@ const SignIn: React.FC = () => {
           }
         })
         .catch(err => {
-          setLoading(false);
           console.log("SignIn.tsx Error: Zeile 91");
           notifyError(err.response.data.message);
         });
     } else {
-      setLoading(false);
       console.log("Email Password invalid 96");
       notifyError("Email or Password is invalid");
     }
-  }
-
-  if(loading) {
-    console.log("Div ...loading");
-    return <div>...Loading</div>
   }
 
   return (
@@ -120,8 +108,8 @@ const SignIn: React.FC = () => {
         <Typography variant='h4' component="h1">Sign In</Typography>
         <form onSubmit={handleSubmit} noValidate>
 
-          <TextFieldEmail id='email' label='Email' inputRef={emailRef} />
-          <TextFieldPassword id='password' label='Password' inputRef={passwordRef} />
+          <TextFieldCars id='email' label='Email' onChange={ value => handleOnChange('email', value)} regex={REGEX_EMAIL} /> 
+          <TextFieldCarsPassword1 id='password' label='Password' onChange={ value => handleOnChange('password', value) } regex={REGEX_PASSWORD}  />
 
           <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Sign in</Button>
           <div style={{ display: 'flex', marginBottom: '4rem' }}>
@@ -139,3 +127,14 @@ const SignIn: React.FC = () => {
 }
 
 export default SignIn;
+
+
+/*
+  const dispatch = useDispatch();
+  useEffect(() => {
+    //dispatch(setNewImage('signin'));
+  }, [])  
+  */
+
+  //const successMessage = state && state.successMessage;
+  //if (successMessage) { }

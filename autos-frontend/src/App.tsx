@@ -23,6 +23,7 @@ import WriteCarData from './components/pages/dashboards/admin/WriteCarData';
 import ProtectedRoutesUser from './components/ProtectedRoutesUser';
 import ProtectedRoutesAdmin from './components/ProtectedRoutesAdmin';
 import Beispiel from './beispiel';
+import UploadImage from './components/pages/UploadImage';
 
 const App: React.FC = () => {
 
@@ -49,6 +50,7 @@ const App: React.FC = () => {
             <Route path='/inserieren' element={<ProtectedRoutesUser> <InserateCar /> </ProtectedRoutesUser>} />
 
             <Route path='/admin/writedata' element={<ProtectedRoutesAdmin><WriteCarData /></ProtectedRoutesAdmin>} ></Route>
+            <Route path='/upload' element={<ProtectedRoutesUser><UploadImage /></ProtectedRoutesUser>}></Route>
             <Route path='*' element={<Navigate to='/signin' replace />} />
           </Routes>
 

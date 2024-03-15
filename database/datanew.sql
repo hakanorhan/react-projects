@@ -83,26 +83,18 @@ CREATE TABLE fuels(
     PRIMARY KEY (fuelid)
 );
 
+CREATE TABLE doors(
+    doorid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    doors VARCHAR(10) NOT NULL UNIQUE
+);
+
 CREATE TABLE models(
     modelid INT NOT NULL AUTO_INCREMENT,
-    model VARCHAR(255) NOT NULL UNIQUE,
+    model VARCHAR(255) NOT NULL,
     brandid INT NOT NULL,
     PRIMARY KEY(modelid),
     FOREIGN KEY (brandid) REFERENCES brands(brandid)
     );
-
-CREATE TABLE baureihen(
-    baureiheid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    baureihe VARCHAR(50) NOT NULL UNIQUE,
-    cartypeid INT NOT NULL,
-    von INT NOT NULL,
-    bis INT NOT NULL,
-    kw INT NOT NULL,
-    hubraum INT NOT NULL,
-    modelid INT NOT NULL,
-    FOREIGN KEY (modelid) REFERENCES models(modelid),
-    FOREIGN KEY (cartypeid) REFERENCES cartypes(cartypeid)
-);
 
 CREATE TABLE transmissions(
     transmissionid INT AUTO_INCREMENT NOT NULL,
@@ -150,19 +142,27 @@ CREATE TABLE selectedexterior(
 
 CREATE TABLE cars(
     carid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    modelid INT NOT NULL,
     price INT NOT NULL,
     km INT NOT NULL,
-    year DATE NOT NULL,
+    cartypeid INT NOT NULL,
+    erstzulassung DATE NOT NULL,
     transmissionid INT NOT NULL,
-    motorizationid INT NOT NULL,
     advertiseinfoid INT NOT NULL,
+    fuelid INT NOT NULL,
     selectedexteriorid INT,
     selectedinteriorid INT,
+    kw INT NOT NULL,
+    hubraum INT NOT NULL,
+    doorid INT NOT NULL,
+    FOREIGN KEY (modelid) REFERENCES models(modelid),
     FOREIGN KEY(advertiseinfoid) REFERENCES advertiseinfo(advertiseinfoid),
-    FOREIGN KEY (motorizationid) REFERENCES motorization(motorizationid),
     FOREIGN KEY (transmissionid) REFERENCES transmissions (transmissionid),
     FOREIGN KEY (selectedexteriorid ) REFERENCES selectedexterior(selectedexteriorid ), 
-	FOREIGN KEY (selectedinteriorid) REFERENCES selectedinterior(selectedinteriorid)
+	FOREIGN KEY (selectedinteriorid) REFERENCES selectedinterior(selectedinteriorid),
+    FOREIGN KEY (cartypeid) REFERENCES cartypes(cartypeid),
+    FOREIGN KEY (fuelid) REFERENCES fuels(fuelid),
+    FOREIGN KEY (doorid) REFERENCES doors(doorid)
 );
 
 -- cargrants created if service grant for public
