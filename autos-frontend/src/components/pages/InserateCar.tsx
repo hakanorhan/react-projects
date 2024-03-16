@@ -3,7 +3,7 @@ import { SelectChangeEvent, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import { Button } from '@mui/material';
 import { REGEX_EMAIL, REGEX_HUBRAUM } from '../../../../autos-backend/src/regex/regex';
-import { DivFormularAdmin, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow } from '../../themes/ThemeColor';
+import { DivFormularAdmin, DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow } from '../../themes/ThemeColor';
 import { AxiosDataInserate, InserateData, InserateSelect } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import { notifySuccess, notifyError } from '../../helper/toastHelper';
@@ -85,7 +85,7 @@ export default function InserateCar() {
   }
 
   return (<>
-    <DivFormularAdmin>
+    <DivSearchInserate>
       <Typography textAlign='center' component={'h2'} variant='h2'>Fahrzeug inserieren</Typography>
       <form onSubmit={handleSubmit} noValidate>
         <DivTwoFieldsWithSpaceBetween>
@@ -130,7 +130,7 @@ export default function InserateCar() {
         <TextFieldArea id='beschreibung' label='Beschreibung' onChange={value => handleOnChange('beschreibung', value)} placeholder='Fügen Sie bitte eine Beschreibung hinzu' minRows={8} maxRows={10} />
         <Button fullWidth type='submit' variant='contained'>Inserieren</Button>
       </form>
-    </DivFormularAdmin>
+    </DivSearchInserate>
   </>
   )
 }

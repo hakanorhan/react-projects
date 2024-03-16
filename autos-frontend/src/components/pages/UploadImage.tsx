@@ -1,9 +1,10 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Box, Grid } from '@mui/material';
+import { Button, Box, Grid, Tooltip } from '@mui/material';
 
 import { notifyError, notifySuccess } from '../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 interface UploadImagesProp {
     submitClicked: boolean
@@ -60,6 +61,10 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
       setUploadStatus('Fehler beim Hochladen aufgetreten.');
     }
   };
+
+  const handleDeleteImage = (indexToRemove: number) => {
+    setFiles(prevFies => prevFies.filter((_, index) => index !== indexToRemove))
+  } 
   
 
   return (
@@ -80,8 +85,11 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
     </label>
     <Grid sx={{ marginTop:'0.4rem' }} container spacing={2}>
       {files.map((file, index) => (
-        <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
-          <img src={URL.createObjectURL(file)} alt={`Uploaded ${index + 1}`} style={{ width: '100%', height:'100%' }} />
+        <Grid item xs={12} sm={12} md={6} lg={6} key={index} sx={{ position:'relative', width:'50%' }}>
+          <img src={URL.createObjectURL(file)} alt={`Uploaded image ${index + 1}`} style={{ width: '100%', height:'100%' }} />
+          <Tooltip title="Löschen">
+          <Button onClick={() => { handleDeleteImage(index) }} sx={{ position:'absolute', top:'50%', left:'50%', height:'auto', opacity:'70%' }}><DeleteOutlineIcon sx={{ color:'white' }} /></Button>
+          </Tooltip>
         </Grid>
       ))}
     </Grid>

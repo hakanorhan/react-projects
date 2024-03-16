@@ -10,6 +10,8 @@ import { yellow } from "@mui/material/colors";
     xl, extra-large: 1536px
 */
 
+const textFieldXSWitdh = '90%';
+const textFieldSMWitdh = '560px';
 
 const searchContainerXSWidth = '90%';
 const searchContainerMDWidth = '90%';
@@ -77,6 +79,27 @@ const themeColor = createTheme({
  * Width for Formular.
  */
 export const DivFormularAdmin = styled('div')(({ theme }) => ({
+    display:'flex',
+    paddingTop: '3rem',
+    paddingBottom: '3rem',
+    margin: 'auto',
+    flexDirection: 'column',
+    [theme.breakpoints.up("xs")]: {
+        width: '90%',
+        
+    },
+    [theme.breakpoints.up("sm")]: {
+        width: '560px',
+
+    }
+
+}));
+
+/**
+ * Responsive.
+ * Width for Formular.
+ */
+export const DivSearchInserate = styled('div')(({ theme }) => ({
     display:'flex',
     paddingTop: '3rem',
     paddingBottom: '3rem',
