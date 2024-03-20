@@ -1,29 +1,3 @@
-/*
-import jwt, { VerifyErrors } from 'jsonwebtoken';
-import express from 'express';
-
-const authenticate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const accessToken = req.cookies.jwt;
-    console.log(accessToken)
-    if(accessToken) {
-        // if jwt exists
-        jwt.verify(accessToken, 'secret', (err: VerifyErrors | null, decodedToken: any) => {
-            if(err) {
-                console.log("not logged in!")
-                console.log(err.message);
-            } else {
-                console.log(decodedToken);
-                next();
-            }
-        });
-    } else {
-        res.status(200).json({ name: "Token not existent!" })
-    }
-}
-
-export default authenticate;
-*/
-
 import jwt, { VerifyErrors } from 'jsonwebtoken';
 import express from 'express';
 import { pool } from '../dbConnect.js';
@@ -89,4 +63,13 @@ const authenticate = async (req: express.Request, res: express.Response, next: e
             }
 }
 
+export const verifyUser = (accessToken: string) => {
+    let userId = -1;
+    jwt.verify(accessToken, 'secret', (err: VerifyErrors | null, decodedToken: any) => {
+        userId = decodedToken.id;
+        console.log(userId);
+    });
+
+    return userId;
+}
 export default authenticate;

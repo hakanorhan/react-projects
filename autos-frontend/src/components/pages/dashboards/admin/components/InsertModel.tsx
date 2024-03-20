@@ -8,7 +8,7 @@ import { DivFormularAdmin } from "../../../../../themes/ThemeColor";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import SelectField from "../../../../formularFields/SelectField";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
-import { REGEX_NAMES } from "../../../../../../../autos-backend/src/regex/regex";
+import { REGEX_BAUREIHE } from "../../../../../../../autos-backend/src/regex/regex";
 import { AxiosDataModel } from "../../../../../../../autos-backend/src/interfaces/IAxiosData";
 
 // Components
@@ -53,7 +53,7 @@ fetchData();
     }
 
     try {
-      const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_WRITE_MODEL}`, axiosDataModel, { withCredentials: true })
+      const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_INSERT_MODEL}`, axiosDataModel, { withCredentials: true })
       notifySuccess(response.data.message);
       //setListValues(response.data.tableValues);
       //setInsertId(response.data.insertId);
@@ -67,7 +67,7 @@ fetchData();
     <DivFormularAdmin>
       <form onSubmit={handleSubmit} noValidate>
         <SelectField values={listValues} objectName="brand" idOfSelect="brandid" selectedValue={selectedBrand} handleChange={handleChangeBrand} label="Marke"/>
-        <TextFieldCars id="model" label="Modell" onChange={value => handleChange('model', value)} regex={REGEX_NAMES} />
+        <TextFieldCars id="model" label="Modell" onChange={value => handleChange('model', value)} regex={REGEX_BAUREIHE} />
 
         <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
       </form>

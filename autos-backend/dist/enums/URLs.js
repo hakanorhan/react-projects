@@ -6,6 +6,7 @@ export var URLs;
     URLs["FETCH_MODEL"] = "/fetchmodel";
     URLs["FETCH_BAUREIHE"] = "/fetchbaureihe";
     URLs["FETCH_BAUREIHE_MODEL"] = "/baureihemodel";
+    URLs["FETCH_INSERATE_DATA"] = "/inseratedata";
     URLs["POST_SIGINUP"] = "/signup";
     URLs["POST_SIGNIN"] = "/signin";
     URLs["POST_INSERT_BAUREIHE"] = "/admin/writebaueihe";

@@ -40,19 +40,31 @@ export interface AxiosDataModel {
 export interface InserateSelect {
   brand: string,
   model: string,
-  baureihe: string,
   cartype: string,
-  transmission: string,
-  fuel: string
+  transmissionname: string,
+  fuelname: string,
+  doors: string
 }
 
 export interface InserateData {
-  kilometerstand : string,
-  kw: string,
-  beschreibung: string
+  km : number,
+  ps: number,
+  description: string,
+  previousOwner: number,
+  year: number,
+  month: number,
+  price: number,
+  hubraum: number
+}
+
+export interface InserateCheckbox {
+  auNew: boolean,
+  huNew: boolean,
+  unfallFahrzeug: boolean
 }
 
 export interface AxiosDataInserate {
   inserateSelect: InserateSelect,
-  inserateData: InserateData
+  inserateData: InserateData,
+  inserateCheckbox: InserateCheckbox
 }

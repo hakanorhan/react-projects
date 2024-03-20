@@ -1,10 +1,15 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Box, Grid, Tooltip } from '@mui/material';
+import { Fab, Button, Box, Grid, Tooltip } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
-import { notifyError, notifySuccess } from '../../helper/toastHelper';
+
+import { notifyError, notifySuccess } from '../../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
+import * as UploadInfo from '../../../constants/Images';
+import { primaryColorMain } from '../../../themes/ThemeColor';
 
 interface UploadImagesProp {
     submitClicked: boolean
@@ -15,13 +20,16 @@ interface UploadImagesProp {
  * @returns imagename
  */
 const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
-    const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
   const [uploadStatus, setUploadStatus] = useState<string>('');
+  const [maxFiles, setMaxFiles] = useState<number>(0);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
+    if (e.target.files && e.target.files.length > 0 && e.target.files.length <= UploadInfo.Images.MAX_SIZE_IMAGE) {
       const selectedFiles = Array.from(e.target.files);
       setFiles([...files, ...selectedFiles]);
+    } else {
+      notifyError(`Es dürfen maximal ${UploadInfo.Images.MAX_SIZE_IMAGE} vorhanden sein`);
     }
   };
 
@@ -78,11 +86,6 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
       style={{ display: 'none' }}
       onChange={handleFileChange}
     />
-    <label htmlFor="contained-button-file">
-      <Button fullWidth variant="contained" color="primary" component="span">
-        Bild wählen
-      </Button>
-    </label>
     <Grid sx={{ marginTop:'0.4rem' }} container spacing={2}>
       {files.map((file, index) => (
         <Grid item xs={12} sm={12} md={6} lg={6} key={index} sx={{ position:'relative', width:'50%' }}>
@@ -93,6 +96,13 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
         </Grid>
       ))}
     </Grid>
+    <Box sx={{ textAlign:'center' }}>
+    <label htmlFor="contained-button-file">
+    <Fab sx={{ backgroundColor: primaryColorMain, color: 'white' }} component="span" aria-label="add">
+      <AddIcon />
+    </Fab>
+    </label>
+    </Box>
     {uploadStatus && (
       <div>
         {uploadStatus}

@@ -1,6 +1,5 @@
 import { colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
-import { yellow } from "@mui/material/colors";
 
 /*
     xs, extra-small: 0px

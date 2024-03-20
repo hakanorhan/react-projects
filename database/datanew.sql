@@ -3,7 +3,7 @@ USE cars;
 
 CREATE TABLE bundesland(
 	blandid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	kuerzel VARCHAR(10) NOT NULL,
+	kuerzel VARCHAR(10) NOT NULL UNIQUE,
     bundesland VARCHAR(50) NOT NULL UNIQUE
 );
 
@@ -22,7 +22,7 @@ CREATE TABLE person(
     personid INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(30) NOT NULL,
     familyname VARCHAR(50) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     telnr VARCHAR(50),
     birth DATE,
@@ -93,7 +93,8 @@ CREATE TABLE models(
     model VARCHAR(255) NOT NULL,
     brandid INT NOT NULL,
     PRIMARY KEY(modelid),
-    FOREIGN KEY (brandid) REFERENCES brands(brandid)
+    FOREIGN KEY (brandid) REFERENCES brands(brandid),
+    UNIQUE (model, brandid)
     );
 
 CREATE TABLE transmissions(
@@ -104,13 +105,13 @@ CREATE TABLE transmissions(
 
 CREATE TABLE interiors(
     interiorid INT AUTO_INCREMENT NOT NULL,
-    interiorname VARCHAR(255) NOT NULL,
+    interiorname VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (interiorid)
 );
 
 CREATE TABLE exteriors(
     exteriorid INT AUTO_INCREMENT NOT NULL,
-    exteriorname VARCHAR(255) NOT NULL,
+    exteriorname VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (exteriorid)
 );
 
@@ -146,15 +147,20 @@ CREATE TABLE cars(
     price INT NOT NULL,
     km INT NOT NULL,
     cartypeid INT NOT NULL,
-    erstzulassung DATE NOT NULL,
+    year INT NOT NULL,
+    month INT NOT NULL,
     transmissionid INT NOT NULL,
     advertiseinfoid INT NOT NULL,
     fuelid INT NOT NULL,
     selectedexteriorid INT,
     selectedinteriorid INT,
-    kw INT NOT NULL,
+    ps INT NOT NULL,
+    previousowner INT NOT NULL,
     hubraum INT NOT NULL,
     doorid INT NOT NULL,
+    aunew TINYINT NOT NULL DEFAULT 0,
+    hunew TINYINT NOT NULL DEFAULT 0,
+    accident TINYINT NOT NULL DEFAULT 0,
     FOREIGN KEY (modelid) REFERENCES models(modelid),
     FOREIGN KEY(advertiseinfoid) REFERENCES advertiseinfo(advertiseinfoid),
     FOREIGN KEY (transmissionid) REFERENCES transmissions (transmissionid),
@@ -219,6 +225,14 @@ INSERT INTO fuels (fuelname) VALUES ("Benzin");
 INSERT INTO fuels (fuelname) VALUES ("Diesel");
 INSERT INTO fuels (fuelname) VALUES ("Hybrid");
 INSERT INTO fuels (fuelname) VALUES ("Elektro");
+
+INSERT INTO transmissions(transmissionname) VALUES ("Automatik");
+INSERT INTO transmissions(transmissionname) VALUES ("Schaltgetriebe");
+
+INSERT INTO doors(doors) VALUES(2);
+INSERT INTO doors(doors) VALUES(4);
+INSERT INTO doors(doors) VALUES(6);
+
 
 -- static data
 INSERT INTO brands (brandname) VALUES ("Alfa Romeo");

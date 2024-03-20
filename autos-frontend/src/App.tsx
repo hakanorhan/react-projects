@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/site-components/Header';
-import DashboardAdmin from './components/pages/dashboards/DashboardAdmin';
 import { ThemeProvider } from '@emotion/react';
 import themeColor from './themes/ThemeColor';
 import Footer from './components/site-components/Footer';
 import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
-import InserateCar from './components/pages/InserateCar';
+import InserateCar from './components/pages/inserate/InserateCar';
 
 import HomeImage from '/home.jpg';
 
@@ -22,8 +21,7 @@ import { useSelector } from 'react-redux';
 import WriteCarData from './components/pages/dashboards/admin/WriteCarData';
 import ProtectedRoutesUser from './components/ProtectedRoutesUser';
 import ProtectedRoutesAdmin from './components/ProtectedRoutesAdmin';
-import Beispiel from './beispiel';
-import UploadImage from './components/pages/UploadImage';
+import UploadImage from './components/pages/inserate/UploadImage';
 
 const App: React.FC = () => {
 

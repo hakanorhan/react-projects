@@ -36,12 +36,7 @@ const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ id, label, onChange, rege
       type={showPassword ? 'text' : 'password'}
       endAdornment={
         <InputAdornment position="end">
-          <IconButton disabled
-            aria-label="check visibility"
-          >
-            {passwordMatch ? <CheckIcon sx={{ color: secondaryColorLight }} /> : 
-              isEmpty ? "" : <ErrorOutlineIcon sx={{ color: colorDanger }} />}
-          </IconButton>
+          
           <IconButton
             aria-label="toggle password visibility"
             onClick={handleClickShowPassword}

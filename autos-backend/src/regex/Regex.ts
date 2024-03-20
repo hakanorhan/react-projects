@@ -8,3 +8,4 @@ export const REGEX_SPECIAL = /[#?!@$%^&*-]/;
 export const REGEX_NAMES = /^(?=.{3,25}$)[a-zA-Z]+(?:['\s-][a-zA-Z]+)*$/;
 export const REGEX_BAUREIHE = /^[a-zA-Z0-9]{1,20}$/;
 export const REGEX_HUBRAUM = /^\d{1,5}$/;
+export const REGEX_PRICE = /^\d{1,9}$/;

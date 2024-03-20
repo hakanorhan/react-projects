@@ -6,6 +6,7 @@ export enum URLs {
     FETCH_MODEL = '/fetchmodel',
     FETCH_BAUREIHE = '/fetchbaureihe',
     FETCH_BAUREIHE_MODEL = '/baureihemodel',
+    FETCH_INSERATE_DATA = '/inseratedata',
     POST_SIGINUP = '/signup',
     POST_SIGNIN = '/signin',
     POST_INSERT_BAUREIHE = '/admin/writebaueihe',

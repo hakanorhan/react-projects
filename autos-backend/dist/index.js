@@ -17,6 +17,7 @@ import fetchBaureiheModel from "./routes/dashboard/fetchBaureiheModel.js";
 import writeBaureihe from "./routes/dashboard/writeBaureihe.js";
 import multer from "multer";
 import path from "path";
+import fetchInserateData from "./routes/fetchInserateData.js";
 const app = express();
 app.use(cors({
     credentials: true,
@@ -27,7 +28,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.post(URLs.POST_SIGINUP, signupUser);
 app.post(URLs.POST_SIGNIN, signin);
-app.get(URLs.POST_INSERATE_CAR, authenticate, inserateCar);
+app.post(URLs.POST_INSERATE_CAR, authenticate, inserateCar);
 app.all(URLs.ALL_FAST_SEARCH_FIRST, fastSearchAllData);
 app.get(URLs.GET_CHECK_AUTH, checkAuth);
 app.post(URLs.POST_WRITE_BRAND, authenticate, writeBrand);
@@ -37,6 +38,7 @@ app.get(URLs.FETCH_BAUREIHE, authenticate, fetchBaureihe);
 app.post(URLs.FETCH_BAUREIHE_MODEL, authenticate, fetchBaureiheModel);
 app.post(URLs.POST_INSERT_BAUREIHE, authenticate, writeBaureihe);
 app.post(URLs.POST_INSERT_MODEL, authenticate, writeModel);
+app.get(URLs.FETCH_INSERATE_DATA, authenticate, fetchInserateData);
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads');

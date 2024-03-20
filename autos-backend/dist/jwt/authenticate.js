@@ -51,4 +51,12 @@ const authenticate = async (req, res, next) => {
         console.log("");
     }
 };
+export const verifyUser = (accessToken) => {
+    let userId = -1;
+    jwt.verify(accessToken, 'secret', (err, decodedToken) => {
+        userId = decodedToken.id;
+        console.log(userId);
+    });
+    return userId;
+};
 export default authenticate;
