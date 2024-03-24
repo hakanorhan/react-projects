@@ -9,6 +9,6 @@ const tokenExists = async(): Promise<AuthResponse> => {
         const response: AuthResponse = { authenticated: false, role: null };
         return response;
     }
-};
 
-export default tokenExists;
+
+};

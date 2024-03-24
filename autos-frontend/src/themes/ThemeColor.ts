@@ -70,14 +70,14 @@ const themeColor = createTheme({
             paddingBottom:'0.5rem',
             color: primaryColorMain
         }
-    }    
+    }   
 });
 
 /**
  * Responsive.
  * Width for Formular.
  */
-export const DivFormularAdmin = styled('div')(({ theme }) => ({
+export const MainComponentWidth = styled('div')(({ theme }) => ({
     display:'flex',
     paddingTop: '3rem',
     paddingBottom: '3rem',
@@ -164,6 +164,21 @@ export const HeaderIcon = styled('div')(({ theme }) => ({
     },
     [theme.breakpoints.up("sm")]: {
         width: textFieldSMWitdh,
+
+    },
+
+}));
+
+export const HeaderInserateH1 = styled('h1')(({ theme }) => ({
+    margin:'auto',
+    textAlign: 'center',
+    color: primaryColorMain,
+    [theme.breakpoints.up("xs")]: {
+        fontSize: '1rem'
+        
+    },
+    [theme.breakpoints.up("md")]: {
+        fontSize: '1.5rem'
 
     },
 

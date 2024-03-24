@@ -7,6 +7,7 @@ import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import { IResponseSignInData } from "../interfaces/signin/IResponseSignInData.js";
 import { createToken } from "../jwt/jwtToken.js";
 import { SignInForm } from "../interfaces/IAxiosData.js";
+import { CONSOLE_DEV } from "../globalConfig.js";
 
 const selectQuery: string = 'SELECT * FROM person WHERE email = ?';
 
@@ -14,6 +15,7 @@ const selectQuery: string = 'SELECT * FROM person WHERE email = ?';
 async function performQuery(requestData: SignInForm, res: express.Response){
 
     const { email, password } = requestData;
+    console.log("Keine Ausgabe!")
     let connection;
     
     // Email or password aren't valid
@@ -53,7 +55,7 @@ async function performQuery(requestData: SignInForm, res: express.Response){
                     const accessToken = createToken(resultPersonId, resultName, resultEmail, resultRole);
                     // milliseconds
                     res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 })
-                    res.status(201).send(responseSignInData);
+                    res.status(200).json(responseSignInData);
                 } else {
                     return res.status(401).json({message: 'Unauthorized'});
                 }

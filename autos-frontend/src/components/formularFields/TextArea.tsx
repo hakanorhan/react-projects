@@ -1,13 +1,20 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseForm2, IUseFormTextArea } from '../../interfaces/IUseForm';
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
 
 import { secondaryColorLight } from '../../themes/ThemeColor';
 
-const TextFieldArea: React.FC<IUseFormTextArea> = ({ id, label, onChange, placeholder, minRows, maxRows}) => {
+const TextFieldArea: React.FC<IUseFormTextArea> = ({ id, label, onChange, placeholder, minRows, maxRows, refresh}) => {
+
+    const [value, setValue] = useState("");
+
+    useEffect(() => {
+      setValue("")
+    },[refresh])
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
+        setValue(value);
         onChange(value);
       }
 
@@ -18,6 +25,7 @@ const TextFieldArea: React.FC<IUseFormTextArea> = ({ id, label, onChange, placeh
     multiline
     minRows={minRows}
     maxRows={maxRows}
+    value={value}
     placeholder={placeholder}
       id= {id}
       onChange= { handleOnChange }

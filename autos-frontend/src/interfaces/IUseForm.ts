@@ -8,7 +8,8 @@ export interface IUseForm {
     id: string,
     label: string,
     onChange: (value: string) => void; // callback,
-    regex: RegExp  
+    regex: RegExp,
+    refresh?: boolean
   }
 
   export interface IUseFormTextArea {
@@ -17,7 +18,8 @@ export interface IUseForm {
     onChange: (value: string) => void; // callback,
     placeholder: string,
     minRows: number,
-    maxRows: number
+    maxRows: number,
+    refresh?: boolean
   }
 
   export interface IUseFormPasswordConfirm {
@@ -33,4 +35,11 @@ export interface IUseForm {
     zipcodeField: IUseForm,
     cityField: IUseForm,
     bundeslandField:IUseForm
+  }
+
+  export interface IUseFormCheckbox {
+    onChange: (value: string) => void;
+    id: string;
+    label: string;
+    refresh: boolean;
   }

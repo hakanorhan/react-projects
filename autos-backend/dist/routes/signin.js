@@ -5,6 +5,7 @@ import { createToken } from "../jwt/jwtToken.js";
 const selectQuery = 'SELECT * FROM person WHERE email = ?';
 async function performQuery(requestData, res) {
     const { email, password } = requestData;
+    console.log("Keine Ausgabe!");
     let connection;
     if (!REGEX_EMAIL.test(email) && !REGEX_PASSWORD.test(password)) {
         return res.status(401).json({ message: 'Password or email invalid Server' });
@@ -30,7 +31,7 @@ async function performQuery(requestData, res) {
                 };
                 const accessToken = createToken(resultPersonId, resultName, resultEmail, resultRole);
                 res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 });
-                res.status(201).send(responseSignInData);
+                res.status(200).json(responseSignInData);
             }
             else {
                 return res.status(401).json({ message: 'Unauthorized' });

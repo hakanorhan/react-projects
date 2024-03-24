@@ -10,17 +10,11 @@ export default async (req: express.Request, res: express.Response) => {
     try {
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0] as RowDataPacket[];
-        const resultForSelect = result;
-        console.log('++++++++++++++++');
-        console.log(resultForSelect);
-        console.log('++++++++++++++++');
-        return res.status(200).json({ message: 'Data send', tableValues: resultForSelect});
+        return res.status(200).json({ message: 'Data send', tableValues: result});
     } catch (error) {
         console.log("Error:", error);
-        // Verwende res.status() und res.json(), um den Fehler zurückzugeben
         return res.status(500).json({ message: 'Fehler beim Abrufen der Daten' });
     } finally {
-        // Stelle sicher, dass die Verbindung geschlossen wird
         connection.release();
     } 
 }

@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Button, Checkbox, FormControlLabel, Box, Typography } from '@mui/material';
 import * as ReduxHelper from '../../../helper/validHelper.js';
-import { DivFormularAdmin, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderIcon, primaryColorMain } from '../../../themes/ThemeColor.js';
+import { MainComponentWidth, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderIcon, primaryColorMain } from '../../../themes/ThemeColor.js';
 
 import { setNewImage } from "../../../redux/features/imageSlice.js";
 import { useDispatch } from "react-redux";
@@ -87,7 +87,7 @@ const SignUpUser: React.FC = () => {
 
   return (<>
     < Toaster />
-    <DivFormularAdmin>
+    <MainComponentWidth>
       <HeaderIcon><LockPersonIcon fontSize='large' /></HeaderIcon>
       <Typography variant='h4' component='h1'>Sign Up</Typography>
       <form onSubmit={handleSubmit} noValidate>
@@ -123,7 +123,7 @@ const SignUpUser: React.FC = () => {
           <div style={{ display: 'flex', width: '60%', justifyContent: 'end' }}><Link to="/signin" style={{ textDecoration: 'none', color: primaryColorMain }}>Have an account? Sign In</Link></div>
         </div>
       </form>
-    </DivFormularAdmin>
+    </MainComponentWidth>
   </>
   )
 }

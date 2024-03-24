@@ -16,6 +16,9 @@ import { InsertOneProps } from '../../../../interfaces/componentProps/IPropsInse
 import InsertBaureihe from './components/InsertBaureihe';
 import { URLs } from '../../../../../../autos-backend/src/enums/URLs';
 import InsertModel from './components/InsertModel';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
+import PublishInserate from './components/PublishInserate';
 
 const headlineStyle = { paddingLeft: '20px', fontSize: '1rem', color: 'whitesmoke', backgroundColor: 'transparent', ':hover': { color: 'orange' }, justifyContent: 'flex-start' };
 
@@ -27,18 +30,17 @@ const enum ButtonNames {
   ADD_CAR = "addCar",
   ADD_BAUREIHE = "addBaureihe",
   ADD_BRAND = "addBrand",
-  ADD_MODEL = 'addModel'
+  ADD_MODEL = 'addModel',
+  PUBLISH = 'publish'
 }
 
 
 
 export default function WriteCarData() {
 
-  const [whichButtonClicked, setWhickButtonClicked] = React.useState<string>("");
+  const [whichButtonClicked, setWhichButtonClicked] = React.useState<string>("");
 
-  const handleButton = (buttonName: ButtonNames): MouseEventHandler<HTMLButtonElement> => { return event => setWhickButtonClicked(buttonName) };
-
-  
+  const handleButton = (buttonName: ButtonNames): MouseEventHandler<HTMLButtonElement> => { return event => setWhichButtonClicked(buttonName) };  
 
   const AccordionHinzufügen = () => {
     return <Accordion sx={accordionStyle}>
@@ -115,6 +117,9 @@ export default function WriteCarData() {
       case ButtonNames.ADD_MODEL: { 
         return <InsertModel />
           }
+      case ButtonNames.PUBLISH: {
+        return <PublishInserate />
+      }
     }
   }
 
@@ -128,6 +133,8 @@ export default function WriteCarData() {
           <AccordionHinzufügen />
           <AccordionUpdate />
           <AccordionEntfernen />
+          <Button onClick={handleButton(ButtonNames.PUBLISH)} sx={{ marginTop:'0.8rem' }} fullWidth variant="outlined" startIcon={<PublishedWithChangesIcon />}> Veröffentlichen </Button>
+          <Button sx={{ marginTop:'0.8rem' }} fullWidth variant="outlined" startIcon={<UnpublishedIcon />}> AUFHEBEN </Button>
 
         </Box>
         <Box sx={{ width: '100%', height: '100vh', backgroundColor: 'whitesmoke' }}>

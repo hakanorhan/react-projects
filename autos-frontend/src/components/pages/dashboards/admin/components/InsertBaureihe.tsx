@@ -11,7 +11,7 @@ import dayjs, { Dayjs } from 'dayjs';
 /* Hot Toast */
 import toast, { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
-import { DivFormularAdmin, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow } from "../../../../../themes/ThemeColor";
+import { MainComponentWidth, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow } from "../../../../../themes/ThemeColor";
 import SelectField from "../../../../formularFields/SelectField";
 import { FormDataModel, handleSubmitPostBaureihe } from "../../../../../helper/submits";
 import { useEffectFetch, useEffectModel } from "../../../../../helper/DataLoading";
@@ -127,7 +127,7 @@ const InsertBaureihe = () => {
 
   return <>
     <Toaster />
-    <DivFormularAdmin>
+    <MainComponentWidth>
       <form onSubmit={handleSubmit} noValidate>
         <SelectField values={listValues[0]} objectName="brand" idOfSelect="brandid" selectedValue={formSelect.brand} handleChange={handleChangeSelect} label="Marke" />
         <DivTwoFieldsWithSpaceBetween>
@@ -163,7 +163,7 @@ const InsertBaureihe = () => {
         <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
       </form>
 
-    </DivFormularAdmin>
+    </MainComponentWidth>
   </>
 };
 

@@ -161,6 +161,7 @@ CREATE TABLE cars(
     aunew TINYINT NOT NULL DEFAULT 0,
     hunew TINYINT NOT NULL DEFAULT 0,
     accident TINYINT NOT NULL DEFAULT 0,
+    brandid INT NOT NULL,
     FOREIGN KEY (modelid) REFERENCES models(modelid),
     FOREIGN KEY(advertiseinfoid) REFERENCES advertiseinfo(advertiseinfoid),
     FOREIGN KEY (transmissionid) REFERENCES transmissions (transmissionid),
@@ -168,7 +169,8 @@ CREATE TABLE cars(
 	FOREIGN KEY (selectedinteriorid) REFERENCES selectedinterior(selectedinteriorid),
     FOREIGN KEY (cartypeid) REFERENCES cartypes(cartypeid),
     FOREIGN KEY (fuelid) REFERENCES fuels(fuelid),
-    FOREIGN KEY (doorid) REFERENCES doors(doorid)
+    FOREIGN KEY (doorid) REFERENCES doors(doorid),
+    FOREIGN KEY (brandid) REFERENCES brands(brandid)
 );
 
 -- cargrants created if service grant for public
@@ -372,8 +374,7 @@ INSERT INTO advertiseinfo(userid) VALUES (1);
 INSERT INTO cars(price, km, year, transmissionid, motorizationid, advertiseinfoid) VALUES (45000, 0, "2024-02-25", 1, 8,1);
 
 INSERT INTO advertiseinfo(userid) VALUES (1);
-INSERT INTO cars(price, km, year, transmissionid, motorizationid, advertiseinfoid) VALUES (32500, 2500, "2022-02-25", 1, 1, 1);
-
+INSERT INTO cars(modelid, price, km, cartypeid, year, month) VALUES (32500, 2500, "2022-02-25", 1, 1, 1);
 
 /*
 -- ADMIN

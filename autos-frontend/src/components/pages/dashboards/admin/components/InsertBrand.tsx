@@ -5,7 +5,7 @@ import { Button, Typography } from '@mui/material';
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
-import { DivFormularAdmin } from "../../../../../themes/ThemeColor";
+import { MainComponentWidth } from "../../../../../themes/ThemeColor";
 import { handleSubmitPostBrand } from "../../../../../helper/submits";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
@@ -45,7 +45,7 @@ const InsertBrand = () => {
   }
 
   return <><Toaster />
-    <DivFormularAdmin>
+    <MainComponentWidth>
       <form onSubmit={handleSubmit} noValidate>
         <TextFieldCars id="brand" label="Marke" onChange={value => handleOnChange('brand', value)} regex={REGEX_NAMES} />
 
@@ -55,7 +55,7 @@ const InsertBrand = () => {
       {/* All Brands */}
       <Typography sx={{ textAlign: 'center', marginBottom: '1.5rem' }} variant='h3' component='h1'> {"Alle Automarken"} </Typography>
       <TableNormal listValues={listValues} insertId={insertId} />
-    </DivFormularAdmin>
+    </MainComponentWidth>
   </>
 };
 

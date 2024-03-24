@@ -16,7 +16,7 @@ import { MuiTelInput } from 'mui-tel-input';
 
 /* Hot Toast */
 import toast, { Toaster } from 'react-hot-toast';
-import { DivFormularAdmin, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, ValidParagraph, primaryColorMain } from '../../../themes/ThemeColor.js';
+import { MainComponentWidth, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, ValidParagraph, primaryColorMain } from '../../../themes/ThemeColor.js';
 import TextFieldName from '../../formularFields/TextFieldName.js';
 import TextFieldEmail from '../../formularFields/TextFieldEmail.js';
 import TextFieldPasswordConfirm from '../../formularFields/TextFieldPasswordConfirm.js';
@@ -137,7 +137,7 @@ const AdminSignup: React.FC = () => {
     return (<>
         < Toaster />
         <form onSubmit={handleSubmit} noValidate>
-            <DivFormularAdmin>
+            <MainComponentWidth>
 
                 {/* Left side */}
                 
@@ -184,7 +184,7 @@ const AdminSignup: React.FC = () => {
                     <Button fullWidth type='submit' variant="contained">Create</Button>
                 </Box>
 
-            </DivFormularAdmin>
+            </MainComponentWidth>
 
         </form>
     </>

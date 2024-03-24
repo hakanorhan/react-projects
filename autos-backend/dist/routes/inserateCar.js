@@ -1,19 +1,18 @@
 import { pool } from "../dbConnect.js";
-import { verifyUser } from "../jwt/authenticate.js";
+import { verifyUserJwt } from "../jwt/authenticate.js";
 const INSERT_INTO_ADVERTISEINFO = "INSERT INTO advertiseinfo (userid) VALUES(?)";
 const INSERT_INTO_CARS = "INSERT INTO cars(modelid, price, km, cartypeid, year, month, transmissionid, advertiseinfoid, fuelid, ps, hubraum, doorid, previousowner, aunew, hunew, accident ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 export default async (req, res) => {
     const accessToken = req.cookies.jwt;
-    const userId = verifyUser(accessToken);
+    console.log("Wird öfters ausgeführt!");
+    const token = await verifyUserJwt(accessToken);
     const data = req.body;
-    console.log(data.inserateData.year);
-    performQuery(data, userId, res);
+    performQuery(data, token.id, res);
 };
 async function performQuery(data, userId, res) {
     const inserateSelect = data.inserateSelect;
     const inserateData = data.inserateData;
     const inserateCheckBox = data.inserateCheckbox;
-    console.log(inserateCheckBox.unfallFahrzeug);
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
@@ -23,7 +22,7 @@ async function performQuery(data, userId, res) {
             inserateSelect.transmissionname, advertiseId, inserateSelect.fuelname, inserateData.ps, inserateData.hubraum, inserateSelect.doors, inserateData.previousOwner,
             inserateCheckBox.auNew, inserateCheckBox.huNew, inserateCheckBox.unfallFahrzeug]);
         await connection.commit();
-        console.log("committed!");
+        return res.status(200).json({ message: 'Erfolgreich' });
     }
     catch (err) {
         await connection.rollback();

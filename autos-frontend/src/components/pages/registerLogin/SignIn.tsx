@@ -7,7 +7,7 @@ import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Button, Typography } from '@mui/material';
-import { DivFormularAdmin, HeaderIcon, primaryColorMain } from '../../../themes/ThemeColor.js';
+import { MainComponentWidth, HeaderIcon, primaryColorMain } from '../../../themes/ThemeColor.js';
 
 import { IResponseSignInData } from '..7../../../../autos-backend/src/interfaces/signin/IResponseSignInData.js';
 
@@ -58,11 +58,9 @@ const SignIn: React.FC = () => {
   const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
     
-    console.log("Siginin.tsx Zeile 58");
     // if email and password is valid
     if (form.email && form.password && validHelper.formularValuesValidSignIn(form.email, form.password)) {
       
-      console.log(`${URLs.ORIGIN_SERVER}${URLs.POST_SIGNIN}`)
       await axios.post<IResponseSignInData>(`${URLs.ORIGIN_SERVER}${URLs.POST_SIGNIN}`,
         form, { withCredentials: true })
         .then(function (response) {
@@ -103,7 +101,7 @@ const SignIn: React.FC = () => {
   return (
     <>
       <Toaster />
-      <DivFormularAdmin>
+      <MainComponentWidth>
         <HeaderIcon><LockPersonIcon fontSize='large' /></HeaderIcon>
         <Typography variant='h4' component="h1">Sign In</Typography>
         <form onSubmit={handleSubmit} noValidate>
@@ -121,7 +119,7 @@ const SignIn: React.FC = () => {
             </div>
           </div>
         </form>
-      </DivFormularAdmin>
+      </MainComponentWidth>
     </>
   )
 }

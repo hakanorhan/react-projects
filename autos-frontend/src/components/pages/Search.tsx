@@ -21,13 +21,11 @@ import Checkbox from '@mui/material/Checkbox';
 
 import { useSpring, animated } from 'react-spring';
 import SelectField from '../formularFields/SelectField';
+import { useEffectFetch, useEffectModel } from '../../helper/DataLoading';
+import { URLs } from '../../../../autos-backend/src/enums/URLs';
+import { AxiosSearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
+import { CONSOLE_DEV } from '../../helper/helper';
 
-
-
-const kmsFrom = [2_500, 5_000, 10_000, 25_000, 35_000, 50_000, 60_000, 85_000, 100_000, 150_000, 250_000, "ab 250000"];
-
-const transmissions = ["Automatik", "Schaltgetriebe"];
-const carTypes = ["Cabrio", "Kombi", "Limousine", "Coupe", "Kleinwagen"];
 const prices = [500, 1_000, 2_500, 5_000, 7_500, 10_000, 15_000, 20_000, 30_000, 40_000, 50_000, 60_000, 70_000, 80_000, 90_000, 100_000, 200_000, "ab 200000"];
 const federalStates = ["Berlin", "Brandenburg", "Mecklenburg-Vorpommern", "Nordrhein-Westfalen"];
 
@@ -51,27 +49,27 @@ const Number = ({ n }) => {
   // available cars 
   const [countCars, setCountCars] = React.useState<number>();
 
-  const initalValue: ICarInformationRequest = {
-    price: null,
-    km: null,
-    yearFrom: null,
-    yearTo: null,
-    brand: null,
-    model: null,
-    type: null,
-    bundesland: null
+  const initalValue: AxiosSearch = {
+    price: 0,
+    yearFrom: 0,
+    yearTo: 0,
+    brand: "",
+    model: "",
+    cartype: "",
+    bundesland: ""
   }
 
-  // 
-  const [carInformation, setCarInformation] = React.useState<ICarInformationRequest>(initalValue);
+  const [formSelect, setFormSelect] = React.useState<AxiosSearch>(initalValue);
 
   // Get once all cars from database at first
   React.useEffect(() => {
     const fetchAllCarsInformations = async () => {
       // Get a value of cars in database
-      await axios.get<number>('http://localhost:3001/fastsearchfirst')
+      await axios.get<number>(`${URLs.ORIGIN_SERVER}${URLs.ALL_FAST_SEARCH_FIRST}`)
           .then(function (response) {
             setCountCars(response.data);
+            
+            CONSOLE_DEV(response.data);
           })
           .catch(err => {
             
@@ -82,13 +80,13 @@ const Number = ({ n }) => {
 
   }, [])
 
-  const [selectedBrand, setSelectedBrand] = React.useState<string>("");
-  const [selectedModel, setSelectedModel] = React.useState<string>("");
-  const [selectedKmState, setSelectedKmState] = React.useState<string>("");
-  const [selectedTransmissionState, setSelectedTransmissionState] = React.useState<string[]>([]);
   const [selectedPriceState, setSelectedPriceState] = React.useState<string>("");
   const [selectedCarTypeState, setSelectedCarTypeState] = React.useState<string[]>([]);
   const [selectedFederalState, setSelectedFederalState] = React.useState<string[]>([]);
+
+  const [listBrands, setListBrands] = React.useState<string[]>([])
+  const [listModel, setListModel] = React.useState<string[]>([]);
+  const [listCarTypes, setListCarTypes] = React.useState<string[]>([]);
 
   const minDateConst = dayjs('1900');
   const maxDateConst = dayjs();
@@ -98,7 +96,17 @@ const Number = ({ n }) => {
   const [selectedDateTo, setSelectedDateTo] = React.useState(selectedDateFrom);
   const [maxDate, setMaxDate] = React.useState(dayjs());
 
-  // Getriebe
+  useEffectFetch(URLs.FETCH_BRAND, setListBrands);
+  useEffectModel(URLs.FETCH_BAUREIHE_MODEL, setListModel, formSelect.brand);
+
+  const handleChangeSelect = (event: SelectChangeEvent<string>) => {
+    setFormSelect(prevState => ({
+      ...prevState,
+      [event.target.name]: event.target.value
+    }));
+
+  }
+
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -109,27 +117,6 @@ const Number = ({ n }) => {
       },
     },
   };
-
-
-
-  const ModelComponent = () => {
-    return <Grid item xs={11} sm={gridWithXS} md={gridWithSM}>
-      <FormControl>
-        <InputLabel id="demo-simple-select-label">Model</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={selectedModel}
-          label="Marke"
-          onChange={handleChangeModel}
-        >
-          <MenuItem value={10}>Audi</MenuItem>
-          <MenuItem value={20}>BMW</MenuItem>
-          <MenuItem value={30}>Mercedes</MenuItem>
-        </Select>
-      </FormControl>
-    </Grid>
-  }
 
   const YearFromComponent: React.FC = () => {
     return <Grid item xs={gridWithXS} md={gridWithSM}>
@@ -148,25 +135,6 @@ const Number = ({ n }) => {
     </Grid>
   }
 
-  const KilometerstandComponent = () => {
-    return <Grid item xs={gridWithXS}>
-      <FormControl>
-        <InputLabel id="demo-simple-select-label">Kilometerstand bis</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={selectedKmState}
-          label="Kilometerstand bis"
-          onChange={handleChangeKilometerstand}
-        >
-          {kmsFrom.map((km) => (
-            <MenuItem key={km} value={km}>{km}</MenuItem>))}
-
-        </Select>
-      </FormControl>
-    </Grid>
-  }
-
   const PreiseBisComponent = () => {
     return <Grid item xs={gridWithXS} md={gridWithSM}>
       <FormControl>
@@ -180,56 +148,6 @@ const Number = ({ n }) => {
         >
           {prices.map(preis => (<MenuItem key={preis} value={preis}>{preis + "€"}</MenuItem>))}
 
-        </Select>
-      </FormControl>
-    </Grid>
-  }
-
-  const GetriebeComponent = () => {
-    return <Grid item xs={gridWithXS}>
-      <FormControl>
-        <InputLabel id="demo-multiple-checkbox-label">Getriebe</InputLabel>
-        <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
-          multiple
-          value={selectedTransmissionState}
-          onChange={handleChangeGetriebe}
-          input={<OutlinedInput label="Getriebe" />}
-          renderValue={(selected) => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {transmissions.map((name) => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={selectedTransmissionState.indexOf(name) > -1} />
-              <ListItemText primary={name} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Grid>
-  }
-
-  const CarTypeComponent = () => {
-    return <Grid  item xs={gridWithXS} md={gridWithSM}>
-      <FormControl>
-        <InputLabel id="demo-multiple-checkbox-label">Fahrzeugtyp</InputLabel>
-        <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
-          multiple
-          value={selectedCarTypeState}
-          onChange={handleChangeCarType}
-          input={<OutlinedInput label="Fahrzeugtyp" />}
-          renderValue={(selected) => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {carTypes.map((name) => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={selectedCarTypeState.indexOf(name) > -1} />
-              <ListItemText primary={name} />
-            </MenuItem>
-          ))}
         </Select>
       </FormControl>
     </Grid>
@@ -259,34 +177,6 @@ const Number = ({ n }) => {
       </FormControl>
     </Grid>
   }
-
-
-  const handleChangeBrand = (event: SelectChangeEvent) => {
-    const brand = event.target.value as string;
-    setSelectedBrand(brand);
-    setCarInformation(prevState => ({
-      ...prevState,
-      brand: brand
-    }))
-  };
-
-  const handleChangeModel = (event: SelectChangeEvent) => {
-    setSelectedModel(event.target.value as string);
-  };
-
-  const handleChangeKilometerstand = (event: SelectChangeEvent) => {
-    setSelectedKmState(event.target.value);
-  };
-
-  const handleChangeGetriebe = (event: SelectChangeEvent<typeof selectedTransmissionState>) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedTransmissionState(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
 
   const handleChangePreisBis = (event: SelectChangeEvent) => {
     setSelectedPriceState(event.target.value);
@@ -320,13 +210,13 @@ const Number = ({ n }) => {
           <Grid container justifyContent="center" columnSpacing={1}>
 
             {/* Brand */}
-            <SelectField selectedValue={selectedBrand} handleChange={handleChangeBrand} />
+            <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brandid' handleChange={handleChangeSelect} label='Marke'/>
 
             {/* Model */}
-            <ModelComponent />
+            <SelectField values={listModel} selectedValue={formSelect.model} objectName='model' idOfSelect='modelid' handleChange={handleChangeSelect} label='Modell' />
 
             {/* Cartype */}
-            <CarTypeComponent />
+            <SelectField idOfSelect='cartypeid' objectName='cartype' handleChange={handleChangeSelect} label='Fahrzeugtyp' values={listCarTypes} selectedValue={formSelect.cartype} />
 
             {/* Preis */}
             <PreiseBisComponent />

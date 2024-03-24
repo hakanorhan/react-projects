@@ -5,7 +5,7 @@ import signupUser from "./routes/signupUser.js";
 import inserateCar from "./routes/inserateCar.js";
 import cookieParser from "cookie-parser";
 import fastSearchAllData from "./routes/fastSearchAllData.js";
-import checkAuth from "./routes/checkAuth.js";
+import checkAuth from "./jwt/checkAuth.js";
 import writeBrand from "./routes/dashboard/writeBrand.js";
 import writeModel from "./routes/dashboard/writeModel.js";
 import fetchBrand from "./routes/dashboard/fetchBrand.js";
@@ -18,6 +18,7 @@ import writeBaureihe from "./routes/dashboard/writeBaureihe.js";
 import multer from "multer";
 import path from "path";
 import fetchInserateData from "./routes/fetchInserateData.js";
+import dynamicSearch from "./routes/dynamicSearch.js";
 const app = express();
 app.use(cors({
     credentials: true,
@@ -32,29 +33,35 @@ app.post(URLs.POST_INSERATE_CAR, authenticate, inserateCar);
 app.all(URLs.ALL_FAST_SEARCH_FIRST, fastSearchAllData);
 app.get(URLs.GET_CHECK_AUTH, checkAuth);
 app.post(URLs.POST_WRITE_BRAND, authenticate, writeBrand);
-app.get(URLs.FETCH_BRAND, authenticate, fetchBrand);
-app.get(URLs.FETCH_MODEL, authenticate, fetchModel);
-app.get(URLs.FETCH_BAUREIHE, authenticate, fetchBaureihe);
-app.post(URLs.FETCH_BAUREIHE_MODEL, authenticate, fetchBaureiheModel);
+app.get(URLs.FETCH_BRAND, fetchBrand);
+app.get(URLs.FETCH_MODEL, fetchModel);
+app.get(URLs.FETCH_BAUREIHE, fetchBaureihe);
+app.post(URLs.FETCH_BAUREIHE_MODEL, fetchBaureiheModel);
 app.post(URLs.POST_INSERT_BAUREIHE, authenticate, writeBaureihe);
+app.post(URLs.POST_INSERT_DYNAMIC_SEARCH, dynamicSearch);
 app.post(URLs.POST_INSERT_MODEL, authenticate, writeModel);
 app.get(URLs.FETCH_INSERATE_DATA, authenticate, fetchInserateData);
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads');
-        const accessToken = req.cookies.jwt;
-        console.log(accessToken + " accesToken");
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '' + Date.now() + path.extname(file.originalname));
     }
 });
 const upload = multer({ storage: storage });
-app.post('/upload', authenticate, upload.array('images', 5), (req, res) => {
+app.post('/upload', upload.array('images', 5), (req, res) => {
     if (!req.files || req.files.length === 0) {
         return res.status(400).send('No files uploaded.');
     }
     res.status(200).send('Files uploaded successfully.');
+});
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.get('/uploads/images', (req, res) => {
+    console.log('Müsse ankommen!');
+    res.sendFile('images1711199003685.jpeg', { root: './uploads' });
 });
 app.listen(3001, () => {
     console.log("Server started!");

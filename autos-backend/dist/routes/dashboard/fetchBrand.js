@@ -5,11 +5,7 @@ export default async (req, res) => {
     try {
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0];
-        const resultForSelect = result;
-        console.log('++++++++++++++++');
-        console.log(resultForSelect);
-        console.log('++++++++++++++++');
-        return res.status(200).json({ message: 'Data send', tableValues: resultForSelect });
+        return res.status(200).json({ message: 'Data send', tableValues: result });
     }
     catch (error) {
         console.log("Error:", error);

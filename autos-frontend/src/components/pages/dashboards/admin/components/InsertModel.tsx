@@ -4,7 +4,7 @@ import { SelectChangeEvent, Button } from '@mui/material';
 import { notifySuccess, notifyError } from "../../../../../helper/toastHelper";
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
-import { DivFormularAdmin } from "../../../../../themes/ThemeColor";
+import { MainComponentWidth } from "../../../../../themes/ThemeColor";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import SelectField from "../../../../formularFields/SelectField";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
@@ -64,7 +64,7 @@ fetchData();
   }
   
   return <><Toaster />
-    <DivFormularAdmin>
+    <MainComponentWidth>
       <form onSubmit={handleSubmit} noValidate>
         <SelectField values={listValues} objectName="brand" idOfSelect="brandid" selectedValue={selectedBrand} handleChange={handleChangeBrand} label="Marke"/>
         <TextFieldCars id="model" label="Modell" onChange={value => handleChange('model', value)} regex={REGEX_BAUREIHE} />
@@ -72,7 +72,7 @@ fetchData();
         <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
       </form>
 
-    </DivFormularAdmin>
+    </MainComponentWidth>
   </>
 };
 

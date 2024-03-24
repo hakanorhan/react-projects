@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm';
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
@@ -6,16 +6,24 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 import { colorDanger, secondaryColorLight } from '../../themes/ThemeColor';
 
-const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex}) => {
+const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refresh}) => {
 
     const [valueMatch, setValueMatch] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
+    const [value, setValue] = useState("");
+
+    useEffect(() => {
+      setValue('');
+      setValueMatch(false);
+      setIsEmpty(true);
+    }, [refresh])
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        onChange(value);
-        setValueMatch(regex.test(value));
-        setIsEmpty(value.length === 0);
+        const currentValue = event.target.value;
+        setValue(currentValue);
+        onChange(currentValue);
+        setValueMatch(regex.test(currentValue));
+        setIsEmpty(currentValue.length === 0);
       }
 
   return (
@@ -25,6 +33,7 @@ const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex}) => {
       id= {id}
       onChange= { handleOnChange }
       label= {label}
+      value={value}
       endAdornment={
         <InputAdornment position="end">
           <IconButton disabled

@@ -18,10 +18,10 @@ import { Box } from '@mui/material';
 
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
-import WriteCarData from './components/pages/dashboards/admin/WriteCarData';
-import ProtectedRoutesUser from './components/ProtectedRoutesUser';
-import ProtectedRoutesAdmin from './components/ProtectedRoutesAdmin';
+import DashboardProcess from './components/pages/dashboards/admin/DashboardProcess';
+import ProtectedRoute from './components/ProtectedRoute';
 import UploadImage from './components/pages/inserate/UploadImage';
+import { Roles } from '../../autos-backend/src/enums/Roles';
 
 const App: React.FC = () => {
 
@@ -45,10 +45,10 @@ const App: React.FC = () => {
             <Route path='/signup' element={<SignUpUser />} ></Route>
             {/* dashboard only admin */}
 
-            <Route path='/inserieren' element={<ProtectedRoutesUser> <InserateCar /> </ProtectedRoutesUser>} />
+            <Route path='/inserieren' element={<ProtectedRoute role={Roles.USER}> <InserateCar /> </ProtectedRoute>} />
 
-            <Route path='/admin/writedata' element={<ProtectedRoutesAdmin><WriteCarData /></ProtectedRoutesAdmin>} ></Route>
-            <Route path='/upload' element={<ProtectedRoutesUser><UploadImage /></ProtectedRoutesUser>}></Route>
+            <Route path='/admin/writedata' element={<ProtectedRoute role={Roles.ADMIN} ><DashboardProcess /></ProtectedRoute>} ></Route>
+            <Route path='/upload' element={<ProtectedRoute role={Roles.USER}><UploadImage /></ProtectedRoute>}></Route>
             <Route path='*' element={<Navigate to='/signin' replace />} />
           </Routes>
 

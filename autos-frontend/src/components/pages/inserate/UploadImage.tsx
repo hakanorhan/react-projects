@@ -10,6 +10,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import * as UploadInfo from '../../../constants/Images';
 import { primaryColorMain } from '../../../themes/ThemeColor';
+import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 
 interface UploadImagesProp {
     submitClicked: boolean
@@ -35,7 +36,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
 
 
   useEffect(() => {
-    console.log("Wird ausgeführt!")
+    console.log("Wird ausgeführtzzt!")
     if(submitClicked) {
         handleImageUpload();
     }
@@ -52,7 +53,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
       const formData = new FormData();
       files.forEach(file => formData.append('images', file));
 
-      const response = await axios.post('http://localhost:3001/upload', formData, {
+      const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.UPLOAD}`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -96,7 +97,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
         </Grid>
       ))}
     </Grid>
-    <Box sx={{ textAlign:'center' }}>
+    <Box sx={{ marginTop:'5rem', marginBottom:'5rem', textAlign:'center' }}>
     <label htmlFor="contained-button-file">
     <Fab sx={{ backgroundColor: primaryColorMain, color: 'white' }} component="span" aria-label="add">
       <AddIcon />

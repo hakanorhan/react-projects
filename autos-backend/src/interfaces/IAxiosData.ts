@@ -68,3 +68,13 @@ export interface AxiosDataInserate {
   inserateData: InserateData,
   inserateCheckbox: InserateCheckbox
 }
+
+export interface AxiosSearch {
+  brand: string,
+  model: string,
+  cartype: string,
+  price: number,
+  yearFrom: number,
+  yearTo: number,
+  bundesland: string
+}
