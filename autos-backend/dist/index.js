@@ -56,12 +56,10 @@ app.post('/upload', upload.array('images', 5), (req, res) => {
     }
     res.status(200).send('Files uploaded successfully.');
 });
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.get('/uploads/images', (req, res) => {
-    console.log('Müsse ankommen!');
-    res.sendFile('images1711199003685.jpeg', { root: './uploads' });
+app.get('/uploads/:imageName', (req, res) => {
+    const imageName = req.params.imageName;
+    console.log(imageName);
+    res.sendFile(imageName, { root: './uploads' });
 });
 app.listen(3001, () => {
     console.log("Server started!");

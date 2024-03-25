@@ -19,6 +19,7 @@ import multer from "multer";
 import path from "path";
 import fetchInserateData from "./routes/fetchInserateData.js";
 import dynamicSearch from "./routes/dynamicSearch.js";
+import fs from 'fs'
 
 const app = express();
 
@@ -71,16 +72,15 @@ app.post('/upload', upload.array('images', 5), (req, res) => {
   if (!req.files || req.files.length === 0) {
     return res.status(400).send('No files uploaded.');
   }
-  // Handle file upload
+  
   res.status(200).send('Files uploaded successfully.');
 });
 
-app.get('/uploads/images', (req, res) => {
-  res.sendFile('images1711199003685.jpeg', { root: './uploads' });
-});
-
-
-
+app.get('/uploads/:imageName', (req, res) => {
+  const imageName = req.params.imageName;
+  console.log(imageName)
+  res.sendFile(imageName, { root: './uploads' });
+}); 
 
 app.listen(3001, () => {
   console.log("Server started!");

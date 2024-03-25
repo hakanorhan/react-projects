@@ -1,38 +1,51 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../../../../../autos-backend/src/enums/URLs';
+import { Button } from '@mui/material';
 
 export default function CarImages() {
-  const [imageSrc, setImageSrc] = useState<string>('');
 
-  useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        const response = await axios.get(`${URLs.ORIGIN_SERVER}/uploads/images`, {
-          responseType: 'blob',
-          withCredentials: true
-        });
+  const [imagesToFetch, setImagesToFetch] = useState(['images1711199003683.jpeg',
+    'images1711199003685.jpeg', 'images1711199003685.jpg']);
 
-        const imageUrl = URL.createObjectURL(response.data);
-        setImageSrc(imageUrl);
-      } catch (error) {
-        console.error('Fehler beim Herunterladen des Bildes:', error);
-      }
-    };
+  const [imageSrc, setImageSrc] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
-    fetchImage();
-
-    return () => {
-      URL.revokeObjectURL(imageSrc); // URL freigeben, um Speicherleck zu verhindern
-    };
-  }, []);
-
+  
+  const fetchImages = async () => {
+    setLoading(true);
+    try {
+      const fetchedImages = await Promise.all(
+        imagesToFetch.map(async imageName => {
+          const response = await axios.get(`${URLs.ORIGIN_SERVER}/uploads/${imageName}`, {
+            responseType: 'blob',
+            withCredentials: true
+          });
+          return URL.createObjectURL(response.data);
+        })
+      );
+      setImageSrc(fetchedImages);
+    } catch (error) {
+      console.error('Fehler beim Herunterladen der Bilder:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  if (loading) {
+    return <p>loading...</p>;
+  }
   
   return (
     <>
+      <Button onClick={fetchImages}>Fetch Images</Button>
       <div>CarImages</div>
-      {imageSrc ? (
-        <img width='400px' src={imageSrc} alt="Bild" />
+      {imageSrc.length > 0 ? (
+        imageSrc.map((image, index) => (
+          <div key={index}>
+            <img width='400px' src={image} alt="Bild" />
+          </div>
+        ))
       ) : (
         <p>Lade Bild...</p>
       )}
