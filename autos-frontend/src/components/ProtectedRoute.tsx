@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthResponse } from '../../../autos-backend/src/interfaces/auth/AuthResponse';
 import { Roles } from '../../../autos-backend/src/enums/Roles';
@@ -28,6 +28,8 @@ const ProtectedRoute = ({ children, role } : ProtectedRoteProps) => {
                 const tokenInstanceTemp: AuthResponse = { authenticated: false, role: null }
                 setTokenInstance(tokenInstanceTemp);
                 setLoading(false)
+                // TODO: handle error
+                console.log(error);
             })
         }
         checkToken();

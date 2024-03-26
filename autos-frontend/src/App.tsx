@@ -9,10 +9,12 @@ import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
 import InserateCar from './components/pages/inserate/InserateCar';
 
-import HomeImage from '/home.jpg';
+// TODO: HomeImage
+//import HomeImage from '/home.jpg';
 
-import CssBaseline from '@mui/material/CssBaseline';
-import darkTheme from './themes/ThemeDark';
+// TODO: Css Baseline
+//import CssBaseline from '@mui/material/CssBaseline';
+//import darkTheme from './themes/ThemeDark';
 import Search from './components/pages/Search';
 import { Box } from '@mui/material';
 

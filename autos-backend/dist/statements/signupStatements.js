@@ -5,4 +5,4 @@ export const insertAdress = `INSERT INTO address (streetnr, zipcode, city, bland
 export const insertUser = `INSERT INTO ${Roles.USER} (userid, iscardealer) VALUES(?, ?)`;
 export const insertAdmin = `INSERT INTO ${Roles.ADMIN} (adminid) VALUES(?)`;
 export const insertWhoCreatedDeletedEmployee = `INSERT INTO whocreatedeletedemployee (personid, createdfrom) VALUES (?, ?)`;
-export const selectTokenInstanceCheck = 'SELECT COUNT(personid) as count FROM person WHERE personid = ? AND name = ? AND email = ? AND role = ?';
+export const selectTokenInstanceCheck = 'SELECT COUNT(personid) as count FROM person WHERE personid = ? AND name = ? AND role = ?';

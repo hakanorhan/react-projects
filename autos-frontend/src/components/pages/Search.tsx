@@ -2,8 +2,6 @@ import * as React from 'react'
 import { Box, Button, Grid } from '@mui/material';
 import axios from 'axios';
 import { SearchContainer, primaryColorMain } from '../../themes/ThemeColor';
-import { IResponseSearch } from '../../../../autos-backend/src/interfaces/search/IResponseSearch';
-import { ICarInformationRequest } from '../../../../autos-backend/src/interfaces/search/IRequestSearch';
 
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -72,7 +70,8 @@ const Number = ({ n }) => {
             CONSOLE_DEV(response.data);
           })
           .catch(err => {
-            
+            // TODO: console.log
+            console.log(err);
           });
       }
 

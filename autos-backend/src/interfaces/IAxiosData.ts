@@ -78,3 +78,13 @@ export interface AxiosSearch {
   yearTo: number,
   bundesland: string
 }
+
+export interface AxiosImageData {
+  form: FormData,
+  imageName: string
+}
+
+export interface AxiosInserateResponse {
+  carId: number,
+  message: string
+}

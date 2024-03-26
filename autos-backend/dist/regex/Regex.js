@@ -6,6 +6,6 @@ export const REGEX_LOWERCASE = /[a-z]/;
 export const REGEX_NUMBER = /[0-9]/;
 export const REGEX_SPECIAL = /[#?!@$%^&*-]/;
 export const REGEX_NAMES = /^(?=.{3,25}$)[a-zA-Z]+(?:['\s-][a-zA-Z]+)*$/;
-export const REGEX_BAUREIHE = /^[a-zA-Z0-9]{1,20}$/;
+export const REGEX_BAUREIHE = /^(?!.*\s\s)[a-zA-Z0-9\s-]{1,20}(?<!\s)$/;
 export const REGEX_HUBRAUM = /^\d{1,5}$/;
 export const REGEX_PRICE = /^\d{1,9}$/;

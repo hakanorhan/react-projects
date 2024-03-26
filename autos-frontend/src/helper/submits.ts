@@ -2,9 +2,6 @@ import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import toast from 'react-hot-toast'
 import { URLs } from "../../../autos-backend/src/enums/URLs";
-import { FormBaureihe, FormBaureiheSelect } from "../../../autos-backend/src/interfaces/IAxiosData";
-import dayjs from "dayjs";
-import { AxiosDataBaureihe } from "../../../autos-backend/src/interfaces/IAxiosData";
 
 export interface FormDataModel {
   brandId: string,

@@ -1,8 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { IUseForm2, IUseFormTextArea } from '../../interfaces/IUseForm';
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
-
-import { secondaryColorLight } from '../../themes/ThemeColor';
+import { IUseFormTextArea } from '../../interfaces/IUseForm';
+import { FormControl, InputLabel, OutlinedInput } from '@mui/material';
 
 const TextFieldArea: React.FC<IUseFormTextArea> = ({ id, label, onChange, placeholder, minRows, maxRows, refresh}) => {
 

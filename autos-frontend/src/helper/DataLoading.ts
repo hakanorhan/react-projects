@@ -1,6 +1,5 @@
 import axios from "axios"
 import { useEffect, Dispatch, SetStateAction } from "react"
-import toast from "react-hot-toast"
 import { URLs } from "../../../autos-backend/src/enums/URLs"
 
 export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>) => {

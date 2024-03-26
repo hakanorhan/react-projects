@@ -55,3 +55,20 @@ export async function insertTransaction(insertQuery: string, values: any[], res:
             connection.release();
         }
 }
+
+export const insertImageName = async (imageName: string, carId: number, firstplace: boolean) => {
+
+    const insertInto: string = "INSERT INTO images(imageName, firstplace, carid) VALUES(?, ?, ?)"
+
+    let connection = await pool.getConnection();
+    try {
+            // query Baureihe
+            await connection.execute(insertInto, [imageName, firstplace, carId]);
+            connection.release();
+            return true;
+        } catch (err){
+            connection.release();
+            console.log(err);
+            return false;
+        }
+}

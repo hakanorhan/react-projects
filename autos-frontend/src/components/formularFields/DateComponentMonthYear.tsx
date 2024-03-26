@@ -1,13 +1,19 @@
-import { DatePicker, DesktopDatePicker, LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers'
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs from 'dayjs';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import 'dayjs/locale/de';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function DateComponentMonthYear({ setYear, setMonth, newInserate }) {
+interface DateMonthYearProps {
+  setYear: (date: number) => void;
+  setMonth: (date: number) => void;
+  newInserate: boolean
+}
+
+export const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, setMonth, newInserate }) => {
 
     const theme = useTheme();
     const isLGDown = useMediaQuery(theme.breakpoints.down('lg'));
@@ -18,7 +24,7 @@ export default function DateComponentMonthYear({ setYear, setMonth, newInserate 
       setValue(dayjs())
     }, [newInserate])
 
-    const handleOnChange = (date) => {  
+    const handleOnChange = (date: any) => {  
         setYear(date ? date.year() : null);
         setMonth(date ? date.month() + 1 : null);
     }

@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { FormGroup, Paper, SelectChangeEvent, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { FormGroup, SelectChangeEvent, Step, StepLabel, Stepper } from '@mui/material';
 import axios from 'axios';
 import { Button, FormControlLabel, Checkbox } from '@mui/material';
-import { REGEX_HUBRAUM, REGEX_NAMES } from '../../../../../autos-backend/src/regex/regex';
-import { MainComponentWidth, DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderInserateH1, HeaderIcon } from '../../../themes/ThemeColor';
-import { AxiosDataInserate, InserateCheckbox, InserateData, InserateSelect } from '../../../../../autos-backend/src/interfaces/IAxiosData';
+import { REGEX_HUBRAUM } from '../../../../../autos-backend/src/regex/regex';
+import { DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderInserateH1, HeaderIcon } from '../../../themes/ThemeColor';
+import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 import { notifySuccess, notifyError } from '../../../helper/toastHelper';
 import TextFieldCars from '../../formularFields/TextFieldCars';
@@ -14,10 +14,10 @@ import SelectField from '../../formularFields/SelectField';
 import UploadImage from './UploadImage';
 import { useEffectModel } from '../../../helper/DataLoading';
 import { primaryColorMain } from '../../../themes/ThemeColor';
-import DateComponentMonthYear from '../../formularFields/DateComponentMonthYear';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Zoom from '@mui/material/Zoom';
 import dayjs from 'dayjs';
+import { DateComponentMonthYear } from '../../formularFields/DateComponentMonthYear';
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 
@@ -73,6 +73,8 @@ export default function InserateCar() {
   const [month, setMonth] = useState(dayjs().month() + 1);
   const [requestSuccess, setRequestSuccess] = useState(false);
   const [refresh, setRefresh] = useState(false);
+
+  const [carId, setCarId] = useState<number>(-1);
 
   const setAllFormsToInitial = () => {
     setActiveStep(0);
@@ -139,14 +141,15 @@ export default function InserateCar() {
       }
       // valid brand
       try {
-        const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_INSERATE_CAR}`, axiosData, { withCredentials: true });
+        const response = await axios.post<AxiosInserateResponse>(`${URLs.ORIGIN_SERVER}${URLs.POST_INSERATE_CAR}`, axiosData, { withCredentials: true });
         notifySuccess(response.data.message);
-        notifySuccess("Erfolgreich hinzugefügt");
+        notifySuccess("Erfolgreich hinzugefügt " + response.data.carId);
         console.log("Status: " + response.status)
         if(response.status === 200) {
         // Image upload on submit
           setRequestSuccess(true);
           setActiveStep(activeStep + 1);
+          setCarId(response.data.carId);
           setSubmitClicked(true);
           setLoading(false);
         }
@@ -171,6 +174,7 @@ export default function InserateCar() {
     if (activeStep === 1) { setDisabledPreviousSep(true); setActiveStep(activeStep -1); }
   }
 
+  // TODO: uncomment PersonalInfoComponent
   const PersonalInfoComponent = () => {
     return <>
       <FormGroup>
@@ -202,7 +206,6 @@ export default function InserateCar() {
         }
       </Stepper>
       <form onSubmit={handleSubmit} noValidate>
-        <p> { refresh ? 'true' : 'false' } </p>
         <Box sx={{  display: requestSuccess ? 'none' : activeStep == 0 ? 'block' : 'none' }}>
         <DivTwoFieldsWithSpaceBetween>
         <DivWidthTwoFieldsRow>
@@ -218,7 +221,7 @@ export default function InserateCar() {
           <TextFieldCars id='previousOwner' onChange={value => handleOnChange('previousOwner', value)} label='Anzahl Vorbesitzer' regex={REGEX_HUBRAUM} refresh={refresh}/>
         </DivWidthTwoFieldsRow>
         <DivWidthTwoFieldsRow>
-          <DateComponentMonthYear setYear={setYear} setMonth={setMonth} newInserate={refresh}/>
+          <DateComponentMonthYear setYear={setYear} setMonth={setMonth} newInserate= {refresh} />
         </DivWidthTwoFieldsRow>
       </DivTwoFieldsWithSpaceBetween>
 
@@ -267,7 +270,7 @@ export default function InserateCar() {
         </Box>
 
         <Box sx={{ display: requestSuccess ? 'none' : activeStep == 0 ? 'none' : 'block' }}>
-          <UploadImage submitClicked={ submitClicked } />
+          <UploadImage submitClicked={ submitClicked } carId={ carId } />
         </Box>
 
         <Box sx={{ display: requestSuccess ? 'block' : 'none' }}>

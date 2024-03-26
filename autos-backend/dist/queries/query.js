@@ -37,3 +37,17 @@ export async function insertTransaction(insertQuery, values, res) {
         connection.release();
     }
 }
+export const insertImageName = async (imageName, carId, firstplace) => {
+    const insertInto = "INSERT INTO images(imageName, firstplace, carid) VALUES(?, ?, ?)";
+    let connection = await pool.getConnection();
+    try {
+        await connection.execute(insertInto, [imageName, firstplace, carId]);
+        connection.release();
+        return true;
+    }
+    catch (err) {
+        connection.release();
+        console.log(err);
+        return false;
+    }
+};

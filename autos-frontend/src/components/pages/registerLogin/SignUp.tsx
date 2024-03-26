@@ -1,6 +1,4 @@
-
-import IAxiosDataSignUp from '../../../../../autos-backend/src/interfaces/ISignUp.js';
-import React, { useRef, useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import LockPersonIcon from '@mui/icons-material/LockPerson';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TableContainer, Table, Paper, TableHead, TableCell, TableRow } from '@mui/material'
+import { TableContainer, Table, Paper, TableHead, TableCell, TableRow, Tooltip } from '@mui/material'
 import { primaryColorLight, primaryColorMain } from '../../themes/ThemeColor'
 
 
@@ -49,7 +49,9 @@ const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
           <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             { /* Table cell */}
             { Object.values(tableRow).map((value: any, index1) => (
-              <TableCell sx={{ fontSize:'1.2rem', backgroundColor: markLastInsert(value, index1) }} component='th' scope='row' key={index1} > {value} </TableCell>
+              <Tooltip title="Anzeigen">
+              <TableCell onClick={() => {  }} sx={{ fontSize:'1.2rem', backgroundColor: markLastInsert(value, index1) }} component='th' scope='row' key={index1} > {value} </TableCell>
+              </Tooltip>
             )) }
           </TableRow>
         )) }

@@ -7,6 +7,7 @@ export default async (req, res) => {
     console.log("Wird öfters ausgeführt!");
     const token = await verifyUserJwt(accessToken);
     const data = req.body;
+    console.log(data.inserateSelect.brand + " " + data.inserateSelect.model);
     performQuery(data, token.id, res);
 };
 async function performQuery(data, userId, res) {
@@ -18,11 +19,13 @@ async function performQuery(data, userId, res) {
         await connection.beginTransaction();
         const [resultAdvertise] = await connection.execute(INSERT_INTO_ADVERTISEINFO, [userId]);
         const advertiseId = resultAdvertise.insertId;
-        await connection.execute(INSERT_INTO_CARS, [inserateSelect.model, inserateData.price, inserateData.km, inserateSelect.cartype, inserateData.year, inserateData.month,
+        const [resultCarId] = await connection.execute(INSERT_INTO_CARS, [inserateSelect.model, inserateData.price, inserateData.km, inserateSelect.cartype, inserateData.year, inserateData.month,
             inserateSelect.transmissionname, advertiseId, inserateSelect.fuelname, inserateData.ps, inserateData.hubraum, inserateSelect.doors, inserateData.previousOwner,
             inserateCheckBox.auNew, inserateCheckBox.huNew, inserateCheckBox.unfallFahrzeug]);
+        const carId = resultCarId.insertId;
+        const axiosData = { carId: carId, message: 'succes' };
         await connection.commit();
-        return res.status(200).json({ message: 'Erfolgreich' });
+        return res.status(200).json(axiosData);
     }
     catch (err) {
         await connection.rollback();

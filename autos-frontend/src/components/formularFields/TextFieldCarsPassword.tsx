@@ -1,11 +1,8 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check'
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { colorDanger, secondaryColorLight } from '../../themes/ThemeColor';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => {
 

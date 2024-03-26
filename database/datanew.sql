@@ -161,7 +161,6 @@ CREATE TABLE cars(
     aunew TINYINT NOT NULL DEFAULT 0,
     hunew TINYINT NOT NULL DEFAULT 0,
     accident TINYINT NOT NULL DEFAULT 0,
-    brandid INT NOT NULL,
     FOREIGN KEY (modelid) REFERENCES models(modelid),
     FOREIGN KEY(advertiseinfoid) REFERENCES advertiseinfo(advertiseinfoid),
     FOREIGN KEY (transmissionid) REFERENCES transmissions (transmissionid),
@@ -169,14 +168,21 @@ CREATE TABLE cars(
 	FOREIGN KEY (selectedinteriorid) REFERENCES selectedinterior(selectedinteriorid),
     FOREIGN KEY (cartypeid) REFERENCES cartypes(cartypeid),
     FOREIGN KEY (fuelid) REFERENCES fuels(fuelid),
-    FOREIGN KEY (doorid) REFERENCES doors(doorid),
-    FOREIGN KEY (brandid) REFERENCES brands(brandid)
+    FOREIGN KEY (doorid) REFERENCES doors(doorid)
 );
 
--- cargrants created if service grant for public
+CREATE TABLE images(
+    imageid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    imagename VARCHAR(255) NOT NULL,
+    firstplace TINYINT DEFAULT 0 NOT NULL,
+    carid INT NOT NULL,
+    FOREIGN KEY (carid) REFERENCES cars(carid)
+);
+
+-- cargrants created if admin grant for public
 CREATE TABLE cargrants(
 	grantid INT AUTO_INCREMENT PRIMARY KEY,
-    -- service department can public the advertise
+    -- admin can public the advertise
 	grantedpublic TINYINT(1) NOT NULL DEFAULT 0,
     granteddate TIMESTAMP,
     grantedbyid INT NOT NULL,
@@ -227,6 +233,12 @@ INSERT INTO fuels (fuelname) VALUES ("Benzin");
 INSERT INTO fuels (fuelname) VALUES ("Diesel");
 INSERT INTO fuels (fuelname) VALUES ("Hybrid");
 INSERT INTO fuels (fuelname) VALUES ("Elektro");
+INSERT INTO fuels (fuelname) VALUES ("Erdgas CNG");
+INSERT INTO fuels (fuelname) VALUES ("Wasserstoff");
+INSERT INTO fuels (fuelname) VALUES ("Ethanol");
+INSERT INTO fuels (fuelname) VALUES ("Plug-in-Hybrid");
+
+
 
 INSERT INTO transmissions(transmissionname) VALUES ("Automatik");
 INSERT INTO transmissions(transmissionname) VALUES ("Schaltgetriebe");

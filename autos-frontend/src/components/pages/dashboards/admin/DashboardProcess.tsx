@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useRef } from 'react'
+import React, { MouseEventHandler } from 'react'
 import { Box, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -7,14 +7,10 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import { primaryColorMain } from '../../../../themes/ThemeColor';
 
 import Accordion from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InsertBrand from './components/InsertBrand';
-import { InsertOneProps } from '../../../../interfaces/componentProps/IPropsInsert';
-import InsertBaureihe from './components/InsertBaureihe';
-import { URLs } from '../../../../../../autos-backend/src/enums/URLs';
 import InsertModel from './components/InsertModel';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
@@ -28,7 +24,6 @@ const accordionStyle = { backgroundColor: primaryColorMain, fontSize: '1rem', co
 const enum ButtonNames {
   VIEW_CARS = "viewCars",
   ADD_CAR = "addCar",
-  ADD_BAUREIHE = "addBaureihe",
   ADD_BRAND = "addBrand",
   ADD_MODEL = 'addModel',
   PUBLISH = 'publish'
@@ -55,7 +50,6 @@ export default function WriteCarData() {
         <Box sx={oneProcessBoxStyle}>
           <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_BRAND)} > Marke </Button>
           <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_MODEL)}> Modell </Button>
-          <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_BAUREIHE)}>Baureihe</Button>
           </Box>
       </AccordionDetails>
     </Accordion>
@@ -108,10 +102,6 @@ export default function WriteCarData() {
     switch (whichButtonClicked) {
       case ButtonNames.ADD_BRAND: {
         return <InsertBrand /> 
-      }
-
-      case ButtonNames.ADD_BAUREIHE: {
-        return <InsertBaureihe />
       }
 
       case ButtonNames.ADD_MODEL: { 

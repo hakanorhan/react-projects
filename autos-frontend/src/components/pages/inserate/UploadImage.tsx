@@ -13,14 +13,15 @@ import { primaryColorMain } from '../../../themes/ThemeColor';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 
 interface UploadImagesProp {
-    submitClicked: boolean
+    submitClicked?: boolean,
+    carId: number
 }
 
 /**
  * imagename+id
  * @returns imagename
  */
-const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
+const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
   const [files, setFiles] = useState<File[]>([]);
   const [uploadStatus, setUploadStatus] = useState<string>('');
   const [maxFiles, setMaxFiles] = useState<number>(0);
@@ -36,7 +37,6 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
 
 
   useEffect(() => {
-    console.log("Wird ausgeführtzzt!")
     if(submitClicked) {
         handleImageUpload();
     }
@@ -51,6 +51,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked }) => {
 
     try {
       const formData = new FormData();
+      formData.append('carId', carId.toString());
       files.forEach(file => formData.append('images', file));
 
       const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.UPLOAD}`, formData, {

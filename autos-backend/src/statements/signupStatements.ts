@@ -20,4 +20,4 @@ export const insertWhoCreatedDeletedEmployee: string =
 
 /* -------- SELECT -------------- */
 export const selectTokenInstanceCheck: string = 
-    'SELECT COUNT(personid) as count FROM person WHERE personid = ? AND name = ? AND email = ? AND role = ?';
+    'SELECT COUNT(personid) as count FROM person WHERE personid = ? AND name = ? AND role = ?';

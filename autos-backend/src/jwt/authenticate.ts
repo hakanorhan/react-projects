@@ -7,7 +7,6 @@ import { AuthResponse } from '../interfaces/auth/AuthResponse.js';
 
 export interface DecodedToken {
     id: string,
-    email: string,
     role: string,
     name: string
 }
@@ -34,7 +33,7 @@ export async function authenticateUser(req: express.Request | null, res: express
         let connection;
                 try {
                     connection = await pool.getConnection();
-                    const queryResult = await connection.query(selectTokenInstanceCheck, [decodedToken.id, decodedToken.name, decodedToken.email, decodedToken.role]);
+                    const queryResult = await connection.query(selectTokenInstanceCheck, [decodedToken.id, decodedToken.name, decodedToken.role]);
                     const result = queryResult as RowDataPacket[];
                     // User not found
                     console.log("Connection: database");
@@ -64,12 +63,24 @@ export async function authenticateUser(req: express.Request | null, res: express
             }
 }
 
+export const verifyForInserate =async (accessToken: string) => {
+    return new Promise<DecodedToken>((resolve, reject) => {
+        jwt.verify(accessToken, 'secret', (err: VerifyErrors | null, decodedToken: any) => {
+            if(err) reject(err);
+            else {
+                const token: DecodedToken = { id: decodedToken.id, role: decodedToken.role, name: decodedToken.name }
+                resolve(token)
+            };
+        })
+    })
+}
+
 export const verifyUserJwt =async (accessToken: string) => {
     return new Promise<DecodedToken>((resolve, reject) => {
         jwt.verify(accessToken, 'secret', (err: VerifyErrors | null, decodedToken: any) => {
             if(err) reject(err);
             else {
-                const token: DecodedToken = { id: decodedToken.id, email: decodedToken.email, role: decodedToken.role, name: decodedToken.name }
+                const token: DecodedToken = { id: decodedToken.id, role: decodedToken.role, name: decodedToken.name }
                 resolve(token)
             };
         })

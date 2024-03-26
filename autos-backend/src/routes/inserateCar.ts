@@ -2,7 +2,7 @@ import express from "express";
 import jwt, { VerifyErrors } from 'jsonwebtoken';
 import { ResultSetHeader } from "mysql2";
 import { pool } from "../dbConnect.js";
-import { AxiosDataInserate } from "../interfaces/IAxiosData.js";
+import { AxiosDataInserate as AxiosDataInserateRequest, AxiosInserateResponse } from "../interfaces/IAxiosData.js";
 import { DecodedToken, verifyUserJwt } from "../jwt/authenticate.js";
 
 const INSERT_INTO_ADVERTISEINFO: string = "INSERT INTO advertiseinfo (userid) VALUES(?)";
@@ -14,14 +14,15 @@ export default async (req: express.Request, res: express.Response) => {
     // if jwt exists
     console.log("Wird öfters ausgeführt!")
     const token: DecodedToken = await verifyUserJwt(accessToken);
-    const data: AxiosDataInserate = req.body;
+    const data: AxiosDataInserateRequest = req.body;
+    // TODO: console.log
+    console.log(data.inserateSelect.brand + " " + data.inserateSelect.model)
     // TODO: message user not authenticated
     performQuery(data, token.id, res)
     
 }
 
-
-async function performQuery(data: AxiosDataInserate, userId: string, res: express.Response) {
+async function performQuery(data: AxiosDataInserateRequest, userId: string, res: express.Response) {
 
     const inserateSelect = data.inserateSelect;
     const inserateData = data.inserateData;
@@ -38,14 +39,17 @@ async function performQuery(data: AxiosDataInserate, userId: string, res: expres
             [userId]);
         const advertiseId = resultAdvertise.insertId;
 
-        // insert into person
-         await connection.execute( INSERT_INTO_CARS,
+         const [resultCarId]: [ResultSetHeader, any] = await connection.execute( INSERT_INTO_CARS,
             [inserateSelect.model, inserateData.price, inserateData.km, inserateSelect.cartype, inserateData.year, inserateData.month,
                 inserateSelect.transmissionname, advertiseId, inserateSelect.fuelname, inserateData.ps, inserateData.hubraum, inserateSelect.doors, inserateData.previousOwner,
                 inserateCheckBox.auNew, inserateCheckBox.huNew, inserateCheckBox.unfallFahrzeug]);
         
+        const carId = resultCarId.insertId;
+
+        const axiosData: AxiosInserateResponse = { carId: carId, message:'succes' };
+
         await connection.commit();
-        return res.status(200).json({ message: 'Erfolgreich' })
+        return res.status(200).json( axiosData )
         
     } catch(err) {
         // rollback
