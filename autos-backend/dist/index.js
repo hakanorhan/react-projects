@@ -21,6 +21,8 @@ import fetchInserateData from "./routes/fetchInserateData.js";
 import dynamicSearch from "./routes/dynamicSearch.js";
 import fs from 'fs';
 import { insertImageName } from "./queries/query.js";
+import fetchInserateForPublish from "./routes/dashboard/fetchInserateForPublish.js";
+import fetchDetailSearch from "./routes/fetchDetailSearch.js";
 const app = express();
 app.use(cors({
     credentials: true,
@@ -34,6 +36,7 @@ app.post(URLs.POST_SIGNIN, signin);
 app.post(URLs.POST_INSERATE_CAR, authenticate, inserateCar);
 app.all(URLs.ALL_FAST_SEARCH_FIRST, fastSearchAllData);
 app.get(URLs.GET_CHECK_AUTH, checkAuth);
+app.get(URLs.FETCH_INSERATE_PUBLISH, authenticate, fetchInserateForPublish);
 app.post(URLs.POST_WRITE_BRAND, authenticate, writeBrand);
 app.get(URLs.FETCH_BRAND, fetchBrand);
 app.get(URLs.FETCH_MODEL, fetchModel);
@@ -43,6 +46,7 @@ app.post(URLs.POST_INSERT_BAUREIHE, authenticate, writeBaureihe);
 app.post(URLs.POST_INSERT_DYNAMIC_SEARCH, dynamicSearch);
 app.post(URLs.POST_INSERT_MODEL, authenticate, writeModel);
 app.get(URLs.FETCH_INSERATE_DATA, authenticate, fetchInserateData);
+app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const carId = req.body.carId;

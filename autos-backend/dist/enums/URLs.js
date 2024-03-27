@@ -8,6 +8,8 @@ export var URLs;
     URLs["FETCH_BAUREIHE_MODEL"] = "/baureihemodel";
     URLs["FETCH_CARS"] = "/fetchcars";
     URLs["FETCH_INSERATE_DATA"] = "/inseratedata";
+    URLs["FETCH_INSERATE_PUBLISH"] = "/fetch-inserate-publish";
+    URLs["FETCH_DETAIL_SEARCH"] = "/detailsuche";
     URLs["POST_SIGINUP"] = "/signup";
     URLs["POST_SIGNIN"] = "/signin";
     URLs["POST_INSERT_BAUREIHE"] = "/admin/writebaueihe";

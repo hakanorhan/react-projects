@@ -8,6 +8,8 @@ export enum URLs {
     FETCH_BAUREIHE_MODEL = '/baureihemodel',
     FETCH_CARS = '/fetchcars',
     FETCH_INSERATE_DATA = '/inseratedata',
+    FETCH_INSERATE_PUBLISH = '/fetch-inserate-publish',
+    FETCH_DETAIL_SEARCH = '/detailsuche',
     POST_SIGINUP = '/signup',
     POST_SIGNIN = '/signin',
     POST_INSERT_BAUREIHE = '/admin/writebaueihe',

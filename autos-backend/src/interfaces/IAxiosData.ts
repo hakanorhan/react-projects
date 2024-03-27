@@ -88,3 +88,23 @@ export interface AxiosInserateResponse {
   carId: number,
   message: string
 }
+
+export interface AxiosDetailsearch {
+  carId: number,
+  brand: string,
+  model: string,
+  price: number,
+  km: number,
+  year: number,
+  month: number,
+  transmission: string,
+  advertiseddate: string,
+  ps: number,
+  hubraum: number,
+  auNew: boolean,
+  huNew: boolean,
+  accident: boolean,
+  cartype: string,
+  previousOwner: number,
+  doors: number
+}

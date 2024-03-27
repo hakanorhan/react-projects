@@ -184,8 +184,8 @@ CREATE TABLE cargrants(
 	grantid INT AUTO_INCREMENT PRIMARY KEY,
     -- admin can public the advertise
 	grantedpublic TINYINT(1) NOT NULL DEFAULT 0,
-    granteddate TIMESTAMP,
-    grantedbyid INT NOT NULL,
+    granteddate TIMESTAMP NULL,
+    grantedbyid INT NULL,
     carid INT NOT NULL,
     FOREIGN KEY (grantedbyid) REFERENCES service(serviceid),
     FOREIGN KEY (carid) REFERENCES cars(carid)

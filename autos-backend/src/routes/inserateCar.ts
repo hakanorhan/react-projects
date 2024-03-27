@@ -9,6 +9,8 @@ const INSERT_INTO_ADVERTISEINFO: string = "INSERT INTO advertiseinfo (userid) VA
 const INSERT_INTO_CARS : string 
     = "INSERT INTO cars(modelid, price, km, cartypeid, year, month, transmissionid, advertiseinfoid, fuelid, ps, hubraum, doorid, previousowner, aunew, hunew, accident ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+const INSERT_INTO_CARGRANTS: string = "INSERT INTO cargrants (carid) VALUES(?)";
+
 export default async (req: express.Request, res: express.Response) => {
     const accessToken = req.cookies.jwt;
     // if jwt exists
@@ -45,6 +47,8 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
                 inserateCheckBox.auNew, inserateCheckBox.huNew, inserateCheckBox.unfallFahrzeug]);
         
         const carId = resultCarId.insertId;
+
+        await connection.execute(INSERT_INTO_CARGRANTS, [carId]);
 
         const axiosData: AxiosInserateResponse = { carId: carId, message:'succes' };
 

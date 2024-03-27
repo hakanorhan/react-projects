@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { FormGroup, SelectChangeEvent, Step, StepLabel, Stepper } from '@mui/material';
 import axios from 'axios';
 import { Button, FormControlLabel, Checkbox } from '@mui/material';
-import { REGEX_HUBRAUM } from '../../../../../autos-backend/src/regex/regex';
+import { REGEX_HUBRAUM, REGEX_PRICE } from '../../../../../autos-backend/src/regex/regex';
 import { DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderInserateH1, HeaderIcon } from '../../../themes/ThemeColor';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
@@ -236,7 +236,7 @@ export default function InserateCar() {
 
       <DivTwoFieldsWithSpaceBetween>
         <DivWidthTwoFieldsRow>
-          <TextFieldCars id='km' label='Kilometerstand' onChange={value => handleOnChange('km', value)} regex={REGEX_HUBRAUM} refresh={refresh}/>
+          <TextFieldCars id='km' label='Kilometerstand' onChange={value => handleOnChange('km', value)} regex={REGEX_PRICE} refresh={refresh}/>
         </DivWidthTwoFieldsRow>
         <DivWidthTwoFieldsRow>
           <TextFieldCars id='ps' label='Leistung in PS' onChange={value => handleOnChange('ps', value)} regex={REGEX_HUBRAUM} refresh={refresh}/>
@@ -257,7 +257,7 @@ export default function InserateCar() {
           <TextFieldCars id='hubraum' label='Hubraum in ccm³' onChange={value => handleOnChange('hubraum', value)} regex={REGEX_HUBRAUM} refresh={refresh}/>
         </DivWidthTwoFieldsRow>
         <DivWidthTwoFieldsRow>
-          <TextFieldCars id='price' onChange={value => handleOnChange('price', value)} label='Preis' regex={REGEX_HUBRAUM} refresh={refresh}/>
+          <TextFieldCars id='price' onChange={value => handleOnChange('price', value)} label='Preis' regex={REGEX_PRICE} refresh={refresh}/>
         </DivWidthTwoFieldsRow>
       </DivTwoFieldsWithSpaceBetween>
 

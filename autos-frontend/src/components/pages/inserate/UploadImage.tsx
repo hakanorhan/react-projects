@@ -25,6 +25,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
   const [files, setFiles] = useState<File[]>([]);
   const [uploadStatus, setUploadStatus] = useState<string>('');
   const [maxFiles, setMaxFiles] = useState<number>(0);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0 && e.target.files.length <= UploadInfo.Images.MAX_SIZE_IMAGE) {
@@ -38,19 +39,21 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
 
   useEffect(() => {
     if(submitClicked) {
+      setIsUploading(true);
         handleImageUpload();
     }
     
   }, [submitClicked])
 
    const handleImageUpload = async () => {
-    if (files.length === 0) {
+    if (files.length === 0 && isUploading) {
         notifyError('Keine Bilder ausgwählt.')
       return;
     }
 
     try {
       const formData = new FormData();
+      // image folder id
       formData.append('carId', carId.toString());
       files.forEach(file => formData.append('images', file));
 
@@ -63,12 +66,17 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
 
       if (response.status === 200) {
         notifySuccess('Erfolgreich hochgeladen.');
+        // delete files after uploaded
+        setFiles([]);
       } else {
         setUploadStatus('Fehler beim Hochladen aufgetreten.');
       }
     } catch (error) {
       console.error('Error uploading files:', error);
       setUploadStatus('Fehler beim Hochladen aufgetreten.');
+    } finally {
+      setIsUploading(false);
+
     }
   };
 

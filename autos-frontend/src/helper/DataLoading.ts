@@ -18,6 +18,7 @@ export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAct
 }
 
 
+
 export const useEffectModel =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>, selectedBrand: string) => {
   useEffect(() => {
       
