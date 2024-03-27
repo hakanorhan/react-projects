@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import * as UploadInfo from '../../../constants/Images';
-import { primaryColorMain } from '../../../themes/ThemeColor';
+import { ImgImageUpload, primaryColorMain } from '../../../themes/ThemeColor';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 
 interface UploadImagesProp {
@@ -26,6 +26,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
   const [uploadStatus, setUploadStatus] = useState<string>('');
   const [maxFiles, setMaxFiles] = useState<number>(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [indexFirstPlace, setIndexFirstPlace] = useState(0);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0 && e.target.files.length <= UploadInfo.Images.MAX_SIZE_IMAGE) {
@@ -55,7 +56,13 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
       const formData = new FormData();
       // image folder id
       formData.append('carId', carId.toString());
-      files.forEach(file => formData.append('images', file));
+      files.forEach(file => { 
+        formData.append('images', file)
+        if(indexFirstPlace === 0) {formData.append('isFirstPlace', 'true')}
+        else formData.append('isFirstPlace', 'false')
+      
+        setIndexFirstPlace(indexFirstPlace + 1);
+      });
 
       const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.UPLOAD}`, formData, {
         withCredentials: true,
@@ -76,7 +83,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
       setUploadStatus('Fehler beim Hochladen aufgetreten.');
     } finally {
       setIsUploading(false);
-
+      setIndexFirstPlace(0);
     }
   };
 
@@ -99,7 +106,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
     <Grid sx={{ marginTop:'0.4rem' }} container spacing={2}>
       {files.map((file, index) => (
         <Grid item xs={12} sm={12} md={6} lg={6} key={index} sx={{ position:'relative', width:'50%' }}>
-          <img src={URL.createObjectURL(file)} alt={`Uploaded image ${index + 1}`} style={{ width: '100%', height:'100%' }} />
+          <ImgImageUpload src={URL.createObjectURL(file)} alt={`Uploaded image ${index + 1}`}/>
           <Tooltip title="Löschen">
           <Button onClick={() => { handleDeleteImage(index) }} sx={{ position:'absolute', top:'50%', left:'50%', height:'auto', opacity:'70%' }}><DeleteOutlineIcon sx={{ color:'white' }} /></Button>
           </Tooltip>

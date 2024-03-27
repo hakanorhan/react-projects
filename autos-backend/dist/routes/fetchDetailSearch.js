@@ -1,5 +1,4 @@
 import { pool } from '../dbConnect.js';
-const selectQuery = 'SELECT * from cars where carid = ?';
 const selectQueryDetail = "SELECT c.carid, b.brand, m.model, c.price, ct.cartype, c.km, c.year, c.month, t.transmissionname, ai.advertiseddate, c.ps, c.previousowner, c.hubraum, c.aunew, d.doors, c.hunew, c.accident"
     + " FROM cars c "
     + " JOIN models m ON c.modelid = m.modelid"

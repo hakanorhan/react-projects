@@ -3,6 +3,7 @@ import { DivSearchInserate } from '../../themes/ThemeColor'
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
 import { AxiosDetailsearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
+import CarImages from './dashboards/admin/components/CarImages';
 
 interface ViewCarComponentProps {
     id: number | null
@@ -25,12 +26,12 @@ const ViewCarComponent: React.FC<ViewCarComponentProps> = ({ id }) => {
                  })
                  .catch(error => console.log(error))
                 }
-        fetchData();
+        //fetchData();
         }, [])
 
     return (
     <DivSearchInserate>
-        { id }
+        <CarImages />
     </DivSearchInserate>
   )
 }

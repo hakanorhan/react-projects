@@ -214,4 +214,10 @@ export const SearchContainer = styled('div')(({ theme }) => ({
     }
 }))
 
+export const ImgImageUpload = styled('img')(({ theme }) => ({
+    width: '100%',
+    objectFit:'contain',
+    height: '100%'
+}))
+
 export default themeColor;

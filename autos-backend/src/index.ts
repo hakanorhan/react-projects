@@ -74,8 +74,9 @@ const storage = multer.diskStorage({
   filename: function (req: express.Request, file, cb) {
     
     const carId = req.body.carId;
+    const firstPlace = req.body.isFirstPlace === 'true'
     const imageName = file.fieldname + '' + Date.now() + path.extname(file.originalname);
-    const imageNameInDatabase = insertImageName(imageName, carId, false)
+    const imageNameInDatabase = insertImageName(imageName, carId, firstPlace)
     
     cb(null, imageName);
   }
@@ -92,13 +93,11 @@ app.post('/upload', authenticate, upload.array('images', 5), (req, res) => {
 });
 
 // send image 
-app.get('/uploads/:imageName', (req, res) => {
+app.get('/uploads/2/:imageName', (req, res) => {
   const imageName = req.params.imageName;
 
-  
-
   console.log(imageName)
-  res.sendFile(imageName, { root: './uploads' });
+  res.sendFile(imageName, { root: './uploads/2' });
 }); 
 
 app.listen(3001, () => {

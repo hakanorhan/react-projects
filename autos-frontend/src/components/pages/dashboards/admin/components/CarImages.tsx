@@ -1,12 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../../../../../autos-backend/src/enums/URLs';
-import { Button } from '@mui/material';
+import { Button, Slide } from '@mui/material';
 
-export default function CarImages() {
-
-  const [imagesToFetch, setImagesToFetch] = useState(['images1711199003683.jpeg',
-    'images1711199003685.jpeg', 'images1711199003685.jpg']);
+const CarImages = () => {
+  const [imagesToFetch, setImagesToFetch] = useState(['images1711549341635.jpg']);
 
   const [imageSrc, setImageSrc] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -17,7 +15,7 @@ export default function CarImages() {
     try {
       const fetchedImages = await Promise.all(
         imagesToFetch.map(async imageName => {
-          const response = await axios.get(`${URLs.ORIGIN_SERVER}/uploads/${imageName}`, {
+          const response = await axios.get(`${URLs.ORIGIN_SERVER}/uploads/2/${imageName}`, {
             responseType: 'blob',
             withCredentials: true
           });
@@ -50,6 +48,8 @@ export default function CarImages() {
         <p>Lade Bild...</p>
       )}
     </>
-  )
-}
+  );
+};
+
+export default CarImages;
 
