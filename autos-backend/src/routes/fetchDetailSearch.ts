@@ -16,7 +16,6 @@ const selectQueryDetail: string = "SELECT c.carid, b.brand, m.model, c.price, ct
 
 export default async (req: express.Request, res: express.Response) => {
     const carId = req.params.id
-    console.log("param: " + carId)
     let connection = await pool.getConnection();
     try {
         const queryResult = await connection.execute(selectQueryDetail, [carId]);

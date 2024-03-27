@@ -15,7 +15,6 @@ const selectQuery: string = 'SELECT * FROM person WHERE email = ?';
 async function performQuery(requestData: SignInForm, res: express.Response){
 
     const { email, password } = requestData;
-    console.log("Keine Ausgabe!")
     let connection;
     
     // Email or password aren't valid

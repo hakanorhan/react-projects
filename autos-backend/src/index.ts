@@ -11,7 +11,7 @@ import writeModel from "./routes/dashboard/writeModel.js";
 import fetchBrand from "./routes/dashboard/fetchBrand.js";
 import fetchModel from "./routes/dashboard/fetchModel.js";
 import { URLs } from './enums/URLs.js';
-import authenticate, { DecodedToken, verifyUserJwt } from "./jwt/authenticate.js";
+import authenticate from "./jwt/authenticate.js";
 import fetchBaureihe from "./routes/dashboard/fetchBaureihe.js";
 import fetchBaureiheModel from "./routes/dashboard/fetchBaureiheModel.js";
 import writeBaureihe from "./routes/dashboard/writeBaureihe.js";
@@ -99,6 +99,7 @@ app.get('/uploads/2/:imageName', (req, res) => {
   console.log(imageName)
   res.sendFile(imageName, { root: './uploads/2' });
 }); 
+
 
 app.listen(3001, () => {
   console.log("Server started!");

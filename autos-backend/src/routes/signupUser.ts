@@ -24,7 +24,6 @@ async function performQuery(requestData: any, res: express.Response){
 
     const connection = await pool.getConnection();
     try {
-        console.log("is cardealer " + isChecked)
         // start transaction
         await connection.beginTransaction();
 

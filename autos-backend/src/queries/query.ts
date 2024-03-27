@@ -1,6 +1,6 @@
 import express from "express";
 import { pool } from "../dbConnect.js";
-import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { ResultSetHeader } from "mysql2";
 
 interface InsertTransactionResult {
     insertId: number | null,
