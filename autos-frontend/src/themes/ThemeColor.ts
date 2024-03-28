@@ -55,9 +55,10 @@ const themeColor = createTheme({
             styleOverrides: {
                 root: {
                     height: '55px',
-                    backgroundColor: secondaryColorMain,
+                    backgroundColor: secondaryColorLight,
                     '&:hover': {
                         backgroundColor: primaryColorMain,
+                        color: 'white'
                     }
                 }
             }

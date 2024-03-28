@@ -11,7 +11,6 @@ const selectQueryDetail = "SELECT c.carid, b.brand, m.model, c.price, ct.cartype
     + " WHERE c.carid = ?";
 export default async (req, res) => {
     const carId = req.params.id;
-    console.log("param: " + carId);
     let connection = await pool.getConnection();
     try {
         const queryResult = await connection.execute(selectQueryDetail, [carId]);

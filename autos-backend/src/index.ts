@@ -93,11 +93,11 @@ app.post('/upload', authenticate, upload.array('images', 5), (req, res) => {
 });
 
 // send image 
-app.get('/uploads/2/:imageName', (req, res) => {
+app.get('/uploads/1/:imageName', (req, res) => {
   const imageName = req.params.imageName;
 
   console.log(imageName)
-  res.sendFile(imageName, { root: './uploads/2' });
+  res.sendFile(imageName, { root: './uploads/1' });
 }); 
 
 

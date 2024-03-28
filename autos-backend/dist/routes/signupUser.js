@@ -13,7 +13,6 @@ async function performQuery(requestData, res) {
     }
     const connection = await pool.getConnection();
     try {
-        console.log("is cardealer " + isChecked);
         await connection.beginTransaction();
         const selectQuery = 'SELECT email FROM person WHERE email = ?';
         const queryResult = await connection.query(selectQuery, [form.email]);
