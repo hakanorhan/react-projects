@@ -23,6 +23,7 @@ import fs from 'fs'
 import { insertImageName } from "./queries/query.js";
 import fetchInserateForPublish from "./routes/dashboard/fetchInserateForPublish.js";
 import fetchDetailSearch from "./routes/fetchDetailSearch.js";
+import fetchImageNames from "./routes/fetchImageNames.js";
 
 const app = express();
 
@@ -55,7 +56,8 @@ app.post(URLs.POST_INSERT_BAUREIHE, authenticate,writeBaureihe );
 app.post(URLs.POST_INSERT_DYNAMIC_SEARCH, dynamicSearch);
 app.post(URLs.POST_INSERT_MODEL, authenticate, writeModel);
 app.get(URLs.FETCH_INSERATE_DATA, authenticate, fetchInserateData);
-app.get(URLs.FETCH_DETAIL_SEARCH+"/:id", fetchDetailSearch);
+app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
+app.get(URLs.FETCH_IMAGENAMES + "/:id", fetchImageNames);
 
 const storage = multer.diskStorage({
   destination: function (req: express.Request, file, cb) {
@@ -93,11 +95,11 @@ app.post('/upload', authenticate, upload.array('images', 5), (req, res) => {
 });
 
 // send image 
-app.get('/uploads/1/:imageName', (req, res) => {
+app.get('/uploads/:id/:imageName', (req, res) => {
   const imageName = req.params.imageName;
+  const id = req.params.id;
 
-  console.log(imageName)
-  res.sendFile(imageName, { root: './uploads/1' });
+  res.sendFile(imageName, { root: `./uploads/${id}` });
 }); 
 
 

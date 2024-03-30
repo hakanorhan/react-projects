@@ -2,7 +2,6 @@ import { pool } from '../../dbConnect.js';
 const selectQueryModels = 'SELECT * from models WHERE brandid = ?';
 export default async (req, res) => {
     const brandid = req.body;
-    console.log("Brandid: " + brandid);
     let connection = await pool.getConnection();
     try {
         const queryResult = await connection.execute(selectQueryModels, [brandid]);

@@ -7,7 +7,7 @@ const selectQueryModels: string = 'SELECT * from models WHERE brandid = ?';
 
 export default async (req: express.Request, res: express.Response) => {
     const brandid = req.body;
-    console.log("Brandid: " + brandid);
+    
     let connection = await pool.getConnection();
     try {
         const queryResult = await connection.execute(selectQueryModels, [brandid]);

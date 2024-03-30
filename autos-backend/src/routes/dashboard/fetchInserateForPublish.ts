@@ -11,12 +11,11 @@ const selectQuery: string = "SELECT cars.carid, brands.brand, models.model, cars
     + " WHERE advertiseinfo.isactive = 1 AND cargrants.grantedpublic = 0"; 
 
 export default async (req: express.Request, res: express.Response) => {
-    console.log("Ausführen bitte.")
     let connection = await pool.getConnection();
     try {
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0] as RowDataPacket[];
-        console.log(result + " was?")
+        
         return res.status(200).json( result );
     } catch (error) {
         console.log("Error:", error);

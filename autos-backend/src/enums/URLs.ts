@@ -20,6 +20,7 @@ export enum URLs {
     POST_INSERT_MODEL = '/admin/writemodel',
     POST_INSERT_DYNAMIC_SEARCH = '/dynamicsearch',
     UPLOAD = '/upload',
-    IMAGE_PATH = '/uploads'
+    IMAGE_PATH = '/uploads',
+    FETCH_IMAGENAMES = '/fetchimagenames'
     
 }

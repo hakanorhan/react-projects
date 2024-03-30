@@ -108,3 +108,9 @@ export interface AxiosDetailsearch {
   previousOwner: number,
   doors: number
 }
+
+export interface AxiosDataImagesNames {
+  imagename: string,
+  firstplace: boolean,
+  carId: number
+}

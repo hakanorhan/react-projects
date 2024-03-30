@@ -5,11 +5,11 @@ import axios from 'axios';
 import { AxiosDetailsearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import CarImages from './dashboards/admin/components/CarImages';
 
-interface ViewCarComponentProps {
+interface ViewDetailSearchComponentProps {
     id: number | null
 }
 
-const ViewCarComponent: React.FC<ViewCarComponentProps> = ({ id }) => {
+const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
     
     const [listValues, setListValues] = useState([]);
     
@@ -30,10 +30,10 @@ const ViewCarComponent: React.FC<ViewCarComponentProps> = ({ id }) => {
         }, [])
 
     return (
-    <DivSearchInserate>
-        <CarImages />
+    <DivSearchInserate sx={{ backgroundColor:'yellowgreen' }}>
+        <CarImages id={id}/>
     </DivSearchInserate>
   )
 }
 
-export default ViewCarComponent;
+export default ViewDetailSearch;

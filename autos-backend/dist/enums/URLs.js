@@ -21,4 +21,5 @@ export var URLs;
     URLs["POST_INSERT_DYNAMIC_SEARCH"] = "/dynamicsearch";
     URLs["UPLOAD"] = "/upload";
     URLs["IMAGE_PATH"] = "/uploads";
+    URLs["FETCH_IMAGENAMES"] = "/fetchimagenames";
 })(URLs || (URLs = {}));

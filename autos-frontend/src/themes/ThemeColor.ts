@@ -54,6 +54,7 @@ const themeColor = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
+                    borderRadius:'0px',
                     height: '55px',
                     backgroundColor: secondaryColorLight,
                     '&:hover': {
@@ -219,6 +220,32 @@ export const ImgImageUpload = styled('img')(({ theme }) => ({
     width: '100%',
     objectFit:'contain',
     height: '100%'
+}))
+
+export const ParagraphSideMenu = styled('p')(({ theme }) => ({
+    marginLeft:'0.5rem',
+    [theme.breakpoints.up("xs")]: {
+    },
+    [theme.breakpoints.up("sm")]: {
+    },
+    [theme.breakpoints.up("md")]: {
+    },
+    [theme.breakpoints.up("lg")]: {
+    }
+}))
+
+export const SpanSideMenu = styled('span')(({ theme }) => ({
+    
+    [theme.breakpoints.up("xs")]: {
+           display:'none'
+    },
+    [theme.breakpoints.up("sm")]: {
+    },
+    [theme.breakpoints.up("md")]: {
+    },
+    [theme.breakpoints.up("lg")]: {
+        display: 'block'
+    }
 }))
 
 export default themeColor;
