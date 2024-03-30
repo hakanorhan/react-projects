@@ -4,7 +4,7 @@ import { URLs } from '../../../../../../../autos-backend/src/enums/URLs';
 import { Box, IconButton, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { primaryColorMain, secondaryColorLight } from '../../../../../themes/ThemeColor';
+import { ImageCar, primaryColorMain, secondaryColorLight } from '../../../../../themes/ThemeColor';
 import { AxiosDataImagesNames } from '../../../../../../../autos-backend/src/interfaces/IAxiosData';
 
 interface CarImagesProps {
@@ -71,10 +71,10 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
     const [sliderIndex, setSliderIndex] = useState(0);
 
     return (<>
-      <Box sx={{ position: 'relative', width:'600px', backgroundColor:'yellow'}}>
+      <Box sx={{ position: 'relative'}}>
       <IconButton sx={ iconButtonSX(0) } onClick={() => { sliderIndex === imageSrc.length - 1 ? setSliderIndex(0) : setSliderIndex(sliderIndex + 1) }}><ArrowBackIosIcon /></IconButton>
       <IconButton sx={ iconButtonSX(1) } onClick={() => { sliderIndex === 0 ? setSliderIndex(imageSrc.length - 1) : setSliderIndex(sliderIndex - 1) }}><ArrowForwardIosIcon /></IconButton>
-      <img width='600px' height='300px' style={{ objectFit:'contain' }} src={imageSrc[sliderIndex]} alt="Bild" />
+      <ImageCar src={imageSrc[sliderIndex]} alt="Bild" />
     </Box>
     </>
     )

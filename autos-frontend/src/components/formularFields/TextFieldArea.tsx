@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseFormTextArea } from '../../interfaces/IUseForm';
 import { FormControl, InputLabel, OutlinedInput } from '@mui/material';
 
-const TextFieldArea: React.FC<IUseFormTextArea> = ({ id, label, onChange, placeholder, minRows, maxRows, refresh}) => {
+const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, label, onChange, placeholder, minRows, maxRows, refresh, disbled, areaText }) => {
 
     const [value, setValue] = useState("");
 
@@ -13,17 +13,19 @@ const TextFieldArea: React.FC<IUseFormTextArea> = ({ id, label, onChange, placeh
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setValue(value);
-        onChange(value);
+        if(onChange)
+          onChange(value);
       }
 
   return (
-    <FormControl fullWidth variant="outlined" >
+    <FormControl sx={{ padding: padding }} fullWidth variant="outlined" >
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
-    <OutlinedInput
+    <OutlinedInput 
+    disabled = { disbled }
     multiline
     minRows={minRows}
     maxRows={maxRows}
-    value={value}
+    value={areaText ? areaText : value}
     placeholder={placeholder}
       id= {id}
       onChange= { handleOnChange }

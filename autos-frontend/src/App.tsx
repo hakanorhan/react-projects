@@ -36,7 +36,7 @@ const App: React.FC = () => {
       <ThemeProvider theme={themeColor}>
         {/* dark theme */}
         {/* <CssBaseline /> */}
-        <Box sx={{ backgroundImage: `url(${imageName}.jpg)`, width: '100%', paddingBottom: '4rem' }}>
+        <Box sx={{  backgroundImage: `url(${imageName}.jpg)`, width: '100%', paddingBottom: '4rem' }}>
           <Header />
           {/* Routes */}
           <Routes>

@@ -11,9 +11,6 @@ export default async (req, res) => {
             const obj = { imagename: value.imagename, firstplace: value.firstplace, carId: value.carid };
             axiosData.push(obj);
         });
-        console.log('------------------------------------------------------');
-        console.log(axiosData);
-        console.log('------------------------------------------------------');
         return res.status(200).json(axiosData);
     }
     catch (error) {

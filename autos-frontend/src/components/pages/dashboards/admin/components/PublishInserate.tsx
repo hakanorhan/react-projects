@@ -1,5 +1,5 @@
 import axios from "axios"
-import { DivSearchInserate } from "../../../../../themes/ThemeColor"
+import { DivViewDetail } from "../../../../../themes/ThemeColor"
 import { PublishList } from "./PublishList"
 import { useEffect, useState } from "react"
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs"
@@ -19,8 +19,8 @@ export default function PublishInserate() {
   }, [])
 
   return (
-    <DivSearchInserate>
+    <DivViewDetail>
       <PublishList listItems={listItems} />
-    </DivSearchInserate>
+    </DivViewDetail>
   )
 }

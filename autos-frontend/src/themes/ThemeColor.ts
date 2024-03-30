@@ -248,4 +248,35 @@ export const SpanSideMenu = styled('span')(({ theme }) => ({
     }
 }))
 
+export const ImageCar = styled('img')(({ theme }) => ({
+    width: '100%',
+    height:'280px',
+    objectFit:'contain', 
+    padding: '0',
+    margin: '0',
+    [theme.breakpoints.up('xs')]: {
+        
+        
+    },
+    [theme.breakpoints.up('lg')]: {
+
+    }
+}))
+
+export const DivViewDetail = styled('div')(({ theme }) => ({
+    margin:'auto',
+    [theme.breakpoints.up("xs")]: {
+        width: '95%',
+           
+    },
+    [theme.breakpoints.up("sm")]: {
+        width: searchContainerXSWidth
+    },
+    [theme.breakpoints.up("lg")]: {
+        width: searchContainerLGWidth
+    }
+}))
+
+export const ViewDetailIconStyle = {color: secondaryColorLight, fontSize:'3rem'};
+
 export default themeColor;

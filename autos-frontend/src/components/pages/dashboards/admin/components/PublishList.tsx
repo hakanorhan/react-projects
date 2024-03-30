@@ -26,7 +26,7 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
                             secondary={"Datum: " + item.advertiseddate } >
                         </ListItemText>
                     </ListItem>        
-                )) : <div>Keine neue Inserate.</div>
+                )) : <Box sx={{ marginLeft:'1rem' }}>Keine neue Inserate.</Box>
 
             }
         </List>

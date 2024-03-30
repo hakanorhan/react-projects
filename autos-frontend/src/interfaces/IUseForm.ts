@@ -13,13 +13,16 @@ export interface IUseForm {
   }
 
   export interface IUseFormTextArea {
-    id: string,
-    label: string,
-    onChange: (value: string) => void; // callback,
-    placeholder: string,
+    padding?: string,
+    id?: string,
+    label?: string,
+    onChange?: (value: string) => void; // callback,
+    placeholder?: string,
     minRows: number,
     maxRows: number,
-    refresh?: boolean
+    refresh?: boolean,
+    disbled: boolean,
+    areaText?: string
   }
 
   export interface IUseFormPasswordConfirm {

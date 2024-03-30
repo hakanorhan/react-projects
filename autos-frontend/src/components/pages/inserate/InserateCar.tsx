@@ -8,7 +8,7 @@ import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateDat
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 import { notifySuccess, notifyError } from '../../../helper/toastHelper';
 import TextFieldCars from '../../formularFields/TextFieldCars';
-import TextFieldArea from '../../formularFields/TextArea';
+import TextFieldArea from '../../formularFields/TextFieldArea';
 import { Box } from '@mui/material';
 import SelectField from '../../formularFields/SelectField';
 import UploadImage from './UploadImage';

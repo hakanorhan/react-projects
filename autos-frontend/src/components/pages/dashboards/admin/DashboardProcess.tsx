@@ -114,17 +114,17 @@ export default function WriteCarData() {
   return (
     <>
       
-      <Box  sx={{ display: 'flex', flexDirection: 'row', maxWidth: 'xl', margin: 'auto' }}>
+      <Box  sx={{ display: 'flex', flexDirection: 'row', maxWidth: 'xl', margin: {lg: 'auto'} }}>
         {/* <lg */}
         { !isButtonClicked &&
-        <Box sx={{ width: '40px', height: '100vh', backgroundColor: primaryColorMain }}>
+        <Box sx={{ width: { xs:'75px' }, backgroundColor: primaryColorMain }}>
           <Button onClick={ () => { 
             setIsButtonClicked(true)
              } } sx={{ height:'100%', backgroundColor:primaryColorMain }} fullWidth variant="outlined"> <KeyboardArrowRightIcon sx={{ color:'white' }} /></Button>
         </Box>
 }
         { isButtonClicked &&
-        <Box sx={{ width: {xs: '250px', lg:'300px'}, height: '100vh', backgroundColor: primaryColorMain, position: 'fixed', zIndex: 1000 }}>
+        <Box sx={{ width: {xs: '250px', lg:'300px'}, backgroundColor: primaryColorMain, position: 'fixed', zIndex: 1000 }}>
           <AccordionHinzufuegen />
           <AccordionUpdate />
           <AccordionEntfernen />
@@ -132,7 +132,7 @@ export default function WriteCarData() {
           <Button sx={{ marginTop:'0.8rem' }} fullWidth variant="outlined" startIcon={<UnpublishedIcon />}> <p>AUFHEBEN </p></Button>
         </Box>
 }
-        <Box  onClick={() => { setIsButtonClicked(false) }} sx={{ width: '100%', height: '100vh', backgroundColor: 'whitesmoke' }}>
+        <Box  onClick={() => { setIsButtonClicked(false) }} sx={{ width: '100%', backgroundColor: 'whitesmoke' }}>
           <ShowUI />
         </Box>
       </Box>
