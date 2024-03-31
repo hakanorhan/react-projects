@@ -6,6 +6,6 @@ export const CONSOLE_DEV = (message: any) => {
     if(import.meta.env.DEV) console.log(message);
 }
 
-export const seperateThousand = (numberData: number): string => {
-    return numberData.toLocaleString('de-DE'); 
+export const seperateThousand = (numberData: number | undefined): string | undefined => {
+    return numberData?.toLocaleString('de-DE'); 
 };

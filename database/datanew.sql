@@ -141,6 +141,11 @@ CREATE TABLE selectedexterior(
 	FOREIGN KEY (exteriorid) REFERENCES exteriors(exteriorid)
 );
 
+CREATE TABLE klima (
+    klimaid INT AUTO_INCREMENT  NOT NULL PRIMARY KEY,
+    klimaname VARCHAR(55) NOT NULL UNIQUE
+);
+
 CREATE TABLE cars(
     carid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     modelid INT NOT NULL,
@@ -155,12 +160,21 @@ CREATE TABLE cars(
     selectedexteriorid INT,
     selectedinteriorid INT,
     ps INT NOT NULL,
+    klimaid INT NOT NULL,
     previousowner INT NOT NULL,
     hubraum INT NOT NULL,
     doorid INT NOT NULL,
     aunew TINYINT NOT NULL DEFAULT 0,
     hunew TINYINT NOT NULL DEFAULT 0,
+    scheckheft TINYINT NOT NULL DEFAULT 0,
     accident TINYINT NOT NULL DEFAULT 0,
+    fittodrive TINYINT NOT NULL DEFAULT 0,
+    color VARCHAR(35) NULL,
+    abstandstempomat TINYINT NOT NULL DEFAULT 0,
+    ambientbeleuchtung TINYINT NOT NULL DEFAULT 0,
+    headupdisplay TINYINT NOT NULL DEFAULT 0,
+    totwinkelassistent TINYINT NOT NULL DEFAULT 0,
+    description VARCHAR(255) NULL,
     FOREIGN KEY (modelid) REFERENCES models(modelid),
     FOREIGN KEY(advertiseinfoid) REFERENCES advertiseinfo(advertiseinfoid),
     FOREIGN KEY (transmissionid) REFERENCES transmissions (transmissionid),
@@ -168,7 +182,8 @@ CREATE TABLE cars(
 	FOREIGN KEY (selectedinteriorid) REFERENCES selectedinterior(selectedinteriorid),
     FOREIGN KEY (cartypeid) REFERENCES cartypes(cartypeid),
     FOREIGN KEY (fuelid) REFERENCES fuels(fuelid),
-    FOREIGN KEY (doorid) REFERENCES doors(doorid)
+    FOREIGN KEY (doorid) REFERENCES doors(doorid),
+    FOREIGN KEY (klimaid) REFERENCES klima(klimaid)
 );
 
 CREATE TABLE images(
@@ -246,6 +261,10 @@ INSERT INTO transmissions(transmissionname) VALUES ("Schaltgetriebe");
 INSERT INTO doors(doors) VALUES(2);
 INSERT INTO doors(doors) VALUES(4);
 INSERT INTO doors(doors) VALUES(6);
+
+INSERT INTO klima(klimaname) VALUES("Keine");
+INSERT INTO klima(klimaname) VALUES("Klimaanlage");
+INSERT INTO klima(klimaname) VALUES("Klimaautomatik");
 
 
 -- static data

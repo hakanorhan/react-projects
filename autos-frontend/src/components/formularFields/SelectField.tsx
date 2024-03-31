@@ -7,7 +7,7 @@ const gridWithXS = 5.5;
 
 // Components
 const SelectField: React.FC<{ values: any[], objectName: string, idOfSelect: string, selectedValue: string,
-   handleChange:(event: SelectChangeEvent<string>) => void, label: string }> = ({ values, objectName, idOfSelect, selectedValue, handleChange, label }) => {
+   handleChange:(event: SelectChangeEvent<string>) => void, label: string, itemXSValue?: number }> = ({ values, objectName, idOfSelect, selectedValue, handleChange, label, itemXSValue }) => {
 
     // TODO: update disabled
     //const [disabled, setDisabled] = useState<boolean>(false);
@@ -24,9 +24,8 @@ const SelectField: React.FC<{ values: any[], objectName: string, idOfSelect: str
       updateDisabled();
     }, [selectedValue])
 */
-
-  return <Grid item xs={11} sm={gridWithXS} md={gridWithSM}>
-    <FormControl>
+    {/* Grid item xs={itemXSValue ? itemXSValue : 11} sm={gridWithXS} md={gridWithSM}> */}
+  return <FormControl>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
       <Select   
         labelId="demo-simple-select-label"
@@ -45,7 +44,6 @@ const SelectField: React.FC<{ values: any[], objectName: string, idOfSelect: str
 
       </Select>
     </FormControl>
-  </Grid>
 };
 
 export default SelectField;

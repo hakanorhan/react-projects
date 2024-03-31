@@ -11,6 +11,7 @@ export default async (req, res) => {
     try {
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0];
+        console.log(result);
         return res.status(200).json(result);
     }
     catch (error) {

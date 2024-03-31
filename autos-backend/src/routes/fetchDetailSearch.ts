@@ -3,7 +3,9 @@ import { pool } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 import { AxiosDetailsearch } from '../interfaces/IAxiosData.js';
 
-const selectQueryDetail: string = "SELECT c.carid, b.brand, m.model, c.price, ct.cartype, c.km, c.year, c.month, t.transmissionname, ai.advertiseddate, c.ps, c.previousowner, c.hubraum, c.aunew, d.doors, c.hunew, c.accident" 
+const selectQueryDetail: string = "SELECT c.carid, b.brand, m.model, c.price, ct.cartype, c.km, c.year, c.month, t.transmissionname, ai.advertiseddate, c.ps, c.previousowner, c.hubraum,"
+    + " c.aunew, d.doors, c.hunew, c.accident, f.fuelname, u.iscardealer, k.klimaname, c.description, c.scheckheft, c.fittodrive, c.abstandstempomat,"
+    + " c.ambientbeleuchtung, c.headupdisplay, c.totwinkelassistent" 
     + " FROM cars c "
     + " JOIN models m ON c.modelid = m.modelid"
     + " JOIN brands b ON b.brandid = m.brandid"
@@ -12,6 +14,8 @@ const selectQueryDetail: string = "SELECT c.carid, b.brand, m.model, c.price, ct
     + " JOIN advertiseinfo ai ON c.advertiseinfoid = ai.advertiseinfoid"
     + " JOIN fuels f ON f.fuelid = c.fuelid"
     + " JOIN doors d ON d.doorid = c.doorid"
+    + " JOIN user u ON u.userid = ai.userid"
+    + " JOIN klima k ON c.klimaid = k.klimaid"
     + " WHERE c.carid = ?";
 
 export default async (req: express.Request, res: express.Response) => {
@@ -20,11 +24,13 @@ export default async (req: express.Request, res: express.Response) => {
     try {
         const queryResult = await connection.execute(selectQueryDetail, [carId]);
         const result = queryResult[0] as RowDataPacket[];
-        const { carid, brand, model, price, cartype, km,year, month, transmissionname, advertiseddate, ps, previousowner, hubraum, aunew, hunew, doors, accident } = result[0];
+        const { carid, brand, model, price, cartype, km,year, month, transmissionname, advertiseddate, ps, previousowner, hubraum, aunew, hunew, doors, accident, fuelname,
+             iscardealer, klimaname, description, scheckheft, fittodrive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent } = result[0];
         
         const axiosData: AxiosDetailsearch = {
             carId: carid, model, brand, price, cartype, km, year, month, transmission: transmissionname, advertiseddate, ps, previousOwner: previousowner, hubraum, auNew: aunew,
-            huNew: hunew, doors, accident
+            huNew: hunew, doors, accident, fuel:fuelname, isCardealer: iscardealer, klima: klimaname, description, scheckheft, fittodrive, abstandstempomat, ambientbeleuchtung,
+            headupdisplay, totwinkelassistent
         }
 
         return res.status(200).json( axiosData );

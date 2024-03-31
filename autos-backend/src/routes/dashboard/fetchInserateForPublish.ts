@@ -15,7 +15,7 @@ export default async (req: express.Request, res: express.Response) => {
     try {
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0] as RowDataPacket[];
-        
+        console.log(result);
         return res.status(200).json( result );
     } catch (error) {
         console.log("Error:", error);

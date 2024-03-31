@@ -60,13 +60,20 @@ export interface InserateData {
 export interface InserateCheckbox {
   auNew: boolean,
   huNew: boolean,
-  unfallFahrzeug: boolean
+  unfallFahrzeug: boolean,
+  scheckheft: boolean,
+  fittodrive: boolean,
+  abstandstempomat: boolean,
+  ambientbeleuchtung: boolean,
+  headupdisplay: boolean,
+  totwinkelassistent: boolean
 }
 
 export interface AxiosDataInserate {
   inserateSelect: InserateSelect,
   inserateData: InserateData,
-  inserateCheckbox: InserateCheckbox
+  inserateCheckbox: InserateCheckbox,
+  klima: string
 }
 
 export interface AxiosSearch {
@@ -106,7 +113,17 @@ export interface AxiosDetailsearch {
   accident: boolean,
   cartype: string,
   previousOwner: number,
-  doors: number
+  doors: number,
+  fuel: string,
+  isCardealer: boolean,
+  klima: string,
+  description: string,
+  scheckheft: boolean,
+  fittodrive: boolean,
+  abstandstempomat: boolean,
+  ambientbeleuchtung: boolean,
+  headupdisplay: boolean,
+  totwinkelassistent: boolean
 }
 
 export interface AxiosDataImagesNames {
