@@ -34,6 +34,7 @@ const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refres
       onChange= { handleOnChange }
       label= {label}
       value={value}
+      inputProps={{ maxLength: (id === 'zipcode') ? 5 : 55 }}
       endAdornment={
         <InputAdornment position="end">
           <IconButton disabled

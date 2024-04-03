@@ -3,7 +3,7 @@ import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import UpdateIcon from '@mui/icons-material/Update';
-import { ParagraphSideMenu, SpanSideMenu, primaryColorMain } from '../../../../themes/ThemeColor';
+import { ParagraphSideMenu, SpanSideMenu, minHeightContent, primaryColorMain, secondaryColorLight } from '../../../../themes/ThemeColor';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -18,7 +18,7 @@ import PublishInserate from './components/PublishInserate';
 const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.8rem', lg:'1rem' }, color: 'whitesmoke', backgroundColor: 'transparent', ':hover': { color: 'orange' }, justifyContent: 'flex-start' };
 
 const oneProcessBoxStyle = { display: 'flex', flexDirection: 'column', fontSize: '0.8rem', color: 'whitesmoke', backgroundColor: 'transparent', ':hover': { color: 'orange' } };
-const accordionStyle = { backgroundColor: primaryColorMain, fontSize: '1rem', color: 'whitesmoke', ':hover': { color: 'orange' }, justifyContent: 'flex-start' }
+const accordionStyle = { backgroundColor: secondaryColorLight, fontSize: '1rem', color: 'whitesmoke', ':hover': { color: 'orange' }, justifyContent: 'flex-start' }
 
 const enum ButtonNames {
   VIEW_CARS = "viewCars",
@@ -114,17 +114,17 @@ export default function WriteCarData() {
   return (
     <>
       
-      <Box  sx={{ display: 'flex', flexDirection: 'row', maxWidth: 'xl', margin: {lg: 'auto'} }}>
+      <Box  sx={{ minHeight: minHeightContent, display: 'flex', flexDirection: 'row', margin: {lg: 'auto'} }}>
         {/* <lg */}
         { !isButtonClicked &&
-        <Box sx={{ width: { xs:'75px' }, backgroundColor: primaryColorMain }}>
+        <Box sx={{ minHeight:'100%', width: { xs:'75px' }, backgroundColor: secondaryColorLight }}>
           <Button onClick={ () => { 
             setIsButtonClicked(true)
-             } } sx={{ height:'100%', backgroundColor:primaryColorMain }} fullWidth variant="outlined"> <KeyboardArrowRightIcon sx={{ color:'white' }} /></Button>
+             } } sx={{ minHeight:'100%', backgroundColor:secondaryColorLight }} fullWidth variant="outlined"> <KeyboardArrowRightIcon sx={{ color:'black' }} /></Button>
         </Box>
 }
         { isButtonClicked &&
-        <Box sx={{ width: {xs: '250px', lg:'300px'}, backgroundColor: primaryColorMain, position: 'fixed', zIndex: 1000 }}>
+        <Box sx={{ minHeight:'100%', width: {xs: '250px', lg:'300px'}, backgroundColor: secondaryColorLight, position: 'fixed', zIndex: 1000 }}>
           <AccordionHinzufuegen />
           <AccordionUpdate />
           <AccordionEntfernen />
@@ -132,7 +132,7 @@ export default function WriteCarData() {
           <Button sx={{ marginTop:'0.8rem' }} fullWidth variant="outlined" startIcon={<UnpublishedIcon />}> <p>AUFHEBEN </p></Button>
         </Box>
 }
-        <Box  onClick={() => { setIsButtonClicked(false) }} sx={{ width: '100%', backgroundColor: 'whitesmoke' }}>
+        <Box  onClick={() => { setIsButtonClicked(false) }} sx={{ minHeight:'100%', width: '100%', backgroundColor: 'whitesmoke' }}>
           <ShowUI />
         </Box>
       </Box>

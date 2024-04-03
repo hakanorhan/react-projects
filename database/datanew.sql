@@ -28,8 +28,8 @@ CREATE TABLE person(
     birth DATE,
     isactive TINYINT(1) NOT NULL DEFAULT 1,
     createddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    addressid INT,
-    role enum ('user', 'service', 'admin') NOT NULL,
+    addressid INT NOT NULL,
+    role enum ('user', 'admin') NOT NULL,
     PRIMARY KEY (personid),
     FOREIGN KEY (addressid) REFERENCES address (addressid)
 );
@@ -39,29 +39,20 @@ CREATE TABLE admin(
     FOREIGN KEY(adminid) REFERENCES person(personid)
 );
 
-CREATE TABLE service(
-	serviceid INT PRIMARY KEY,
-    cansetpublic TINYINT(1) DEFAULT 0,
-    FOREIGN KEY(serviceid) REFERENCES person(personid)
-);
-
 CREATE TABLE user(
-	userid INT PRIMARY KEY,
+	userid INT NOT NULL,
     iscardealer TINYINT(1) NOT NULL DEFAULT 0,
+    ischat TINYINT(1) NOT NULL DEFAULT 0,
+    istelefon TINYINT(1) NOT NULL DEFAULT 0,
+    isemail TINYINT(1) NOT NULL DEFAULT 0,
     FOREIGN KEY(userid) REFERENCES person(personid)
 );
 
--- Self referencing
-CREATE TABLE whocreatedeletedemployee(
-	createid INT NOT NULL AUTO_INCREMENT,
-	personid INT NOT NULL,
-    createdfrom INT NOT NULL,
-    -- can delete 
-    deletedfrom INT,
-    PRIMARY KEY(createid),
-    FOREIGN KEY (personid) REFERENCES person(personid),
-	FOREIGN KEY (createdfrom) REFERENCES admin(adminid),
-    FOREIGN KEY (deletedfrom) REFERENCES admin(adminid)
+CREATE TABLE dealerinformations (
+    dealerid INT NOT NULL,
+    companyname VARCHAR(255) NOT NULL,
+    impressumdaten VARCHAR(255) NOT NULL,
+    FOREIGN KEY (dealerid) REFERENCES user(userid)
 );
 
 -- static properties
@@ -103,42 +94,16 @@ CREATE TABLE transmissions(
     PRIMARY KEY (transmissionid)
 );
 
-CREATE TABLE interiors(
-    interiorid INT AUTO_INCREMENT NOT NULL,
-    interiorname VARCHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY (interiorid)
-);
-
-CREATE TABLE exteriors(
-    exteriorid INT AUTO_INCREMENT NOT NULL,
-    exteriorname VARCHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY (exteriorid)
-);
-
 CREATE TABLE advertiseinfo(
 	advertiseinfoid INT AUTO_INCREMENT PRIMARY KEY,
     advertiseddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     advertiseupdateddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
     userid INT NOT NULL,
     -- user can deactivate the advertise after selling the car
-    -- service department can deactivate the advertise 
+    -- admin can deactivate the advertise 
     isactive TINYINT(1) NOT NULL DEFAULT 1,
      -- advertised car belongs to user
     FOREIGN KEY (userid) REFERENCES user (userid)
-);
-
-CREATE TABLE selectedinterior(
-	selectedinteriorid INT AUTO_INCREMENT PRIMARY KEY,
-    interiorid INT NOT NULL,
-    FOREIGN KEY (interiorid) REFERENCES interiors(interiorid)
-);
-
-CREATE TABLE selectedexterior(
-	selectedexteriorid INT AUTO_INCREMENT PRIMARY KEY,
-    spiexeriorid INT NOT NULL,
-    carid INT NOT NULL,
-    exteriorid INT NOT NULL,
-	FOREIGN KEY (exteriorid) REFERENCES exteriors(exteriorid)
 );
 
 CREATE TABLE klima (
@@ -157,8 +122,6 @@ CREATE TABLE cars(
     transmissionid INT NOT NULL,
     advertiseinfoid INT NOT NULL,
     fuelid INT NOT NULL,
-    selectedexteriorid INT,
-    selectedinteriorid INT,
     ps INT NOT NULL,
     klimaid INT NOT NULL,
     previousowner INT NOT NULL,
@@ -178,8 +141,6 @@ CREATE TABLE cars(
     FOREIGN KEY (modelid) REFERENCES models(modelid),
     FOREIGN KEY(advertiseinfoid) REFERENCES advertiseinfo(advertiseinfoid),
     FOREIGN KEY (transmissionid) REFERENCES transmissions (transmissionid),
-    FOREIGN KEY (selectedexteriorid ) REFERENCES selectedexterior(selectedexteriorid ), 
-	FOREIGN KEY (selectedinteriorid) REFERENCES selectedinterior(selectedinteriorid),
     FOREIGN KEY (cartypeid) REFERENCES cartypes(cartypeid),
     FOREIGN KEY (fuelid) REFERENCES fuels(fuelid),
     FOREIGN KEY (doorid) REFERENCES doors(doorid),
@@ -202,7 +163,7 @@ CREATE TABLE cargrants(
     granteddate TIMESTAMP NULL,
     grantedbyid INT NULL,
     carid INT NOT NULL,
-    FOREIGN KEY (grantedbyid) REFERENCES service(serviceid),
+    FOREIGN KEY (grantedbyid) REFERENCES admin(adminid),
     FOREIGN KEY (carid) REFERENCES cars(carid)
 );
 
@@ -268,58 +229,58 @@ INSERT INTO klima(klimaname) VALUES("Klimaautomatik");
 
 
 -- static data
-INSERT INTO brands (brandname) VALUES ("Alfa Romeo");
-INSERT INTO brands (brandname) VALUES ("Alpina");
-INSERT INTO brands (brandname) VALUES ("Aston Martin");
-INSERT INTO brands (brandname) VALUES ("Audi");
-INSERT INTO brands (brandname) VALUES ("Bentley");
-INSERT INTO brands (brandname) VALUES ("BMW");
-INSERT INTO brands (brandname) VALUES ("Cadillac");
-INSERT INTO brands (brandname) VALUES ("Chevrolet");
-INSERT INTO brands (brandname) VALUES ("Chrysler");
-INSERT INTO brands (brandname) VALUES ("Citroen");
-INSERT INTO brands (brandname) VALUES ("Cupra");
-INSERT INTO brands (brandname) VALUES ("Dacia");
-INSERT INTO brands (brandname) VALUES ("Daihatsu");
-INSERT INTO brands (brandname) VALUES ("Dodge");
-INSERT INTO brands (brandname) VALUES ("DS Automobiles");
-INSERT INTO brands (brandname) VALUES ("Ferrari");
-INSERT INTO brands (brandname) VALUES ("Fiat");
-INSERT INTO brands (brandname) VALUES ("Ford");
-INSERT INTO brands (brandname) VALUES ("Honda");
-INSERT INTO brands (brandname) VALUES ("Hummer");
-INSERT INTO brands (brandname) VALUES ("Hynundai");
-INSERT INTO brands (brandname) VALUES ("Infiniti");
-INSERT INTO brands (brandname) VALUES ("Isuzu");
-INSERT INTO brands (brandname) VALUES ("Jaguar");
-INSERT INTO brands (brandname) VALUES ("Jeep");
-INSERT INTO brands (brandname) VALUES ("Kia");
-INSERT INTO brands (brandname) VALUES ("Alfa Romeo");
-INSERT INTO brands (brandname) VALUES ("Lexus");
-INSERT INTO brands (brandname) VALUES ("Maserati");
-INSERT INTO brands (brandname) VALUES ("Maybach");
-INSERT INTO brands (brandname) VALUES ("Mazda");
-INSERT INTO brands (brandname) VALUES ("McLaren");
-INSERT INTO brands (brandname) VALUES ("Mercdes-Benz");
-INSERT INTO brands (brandname) VALUES ("Mini");
-INSERT INTO brands (brandname) VALUES ("Mitsubishi");
-INSERT INTO brands (brandname) VALUES ("Nissan");
-INSERT INTO brands (brandname) VALUES ("Opel");
-INSERT INTO brands (brandname) VALUES ("Peugeot");
-INSERT INTO brands (brandname) VALUES ("Porsche");
-INSERT INTO brands (brandname) VALUES ("Renault");
-INSERT INTO brands (brandname) VALUES ("Rolls-Royce");
-INSERT INTO brands (brandname) VALUES ("Saab");
-INSERT INTO brands (brandname) VALUES ("Saleen");
-INSERT INTO brands (brandname) VALUES ("Seat");
-INSERT INTO brands (brandname) VALUES ("Skoda");
-INSERT INTO brands (brandname) VALUES ("Smart");
-INSERT INTO brands (brandname) VALUES ("Subaru");
-INSERT INTO brands (brandname) VALUES ("Suzuki");
-INSERT INTO brands (brandname) VALUES ("Tesla");
-INSERT INTO brands (brandname) VALUES ("Toyota");
-INSERT INTO brands (brandname) VALUES ("Volvo");
-INSERT INTO brands (brandname) VALUES ("Volkswagen");
+INSERT INTO brands (brand) VALUES ("Alfa Romeo");
+INSERT INTO brands (brand) VALUES ("Alpina");
+INSERT INTO brands (brand) VALUES ("Aston Martin");
+INSERT INTO brands (brand) VALUES ("Audi");
+INSERT INTO brands (brand) VALUES ("Bentley");
+INSERT INTO brands (brand) VALUES ("BMW");
+INSERT INTO brands (brand) VALUES ("Cadillac");
+INSERT INTO brands (brand) VALUES ("Chevrolet");
+INSERT INTO brands (brand) VALUES ("Chrysler");
+INSERT INTO brands (brand) VALUES ("Citroen");
+INSERT INTO brands (brand) VALUES ("Cupra");
+INSERT INTO brands (brand) VALUES ("Dacia");
+INSERT INTO brands (brand) VALUES ("Daihatsu");
+INSERT INTO brands (brand) VALUES ("Dodge");
+INSERT INTO brands (brand) VALUES ("DS Automobiles");
+INSERT INTO brands (brand) VALUES ("Ferrari");
+INSERT INTO brands (brand) VALUES ("Fiat");
+INSERT INTO brands (brand) VALUES ("Ford");
+INSERT INTO brands (brand) VALUES ("Honda");
+INSERT INTO brands (brand) VALUES ("Hummer");
+INSERT INTO brands (brand) VALUES ("Hynundai");
+INSERT INTO brands (brand) VALUES ("Infiniti");
+INSERT INTO brands (brand) VALUES ("Isuzu");
+INSERT INTO brands (brand) VALUES ("Jaguar");
+INSERT INTO brands (brand) VALUES ("Jeep");
+INSERT INTO brands (brand) VALUES ("Kia");
+INSERT INTO brands (brand) VALUES ("Alfa Romeo");
+INSERT INTO brands (brand) VALUES ("Lexus");
+INSERT INTO brands (brand) VALUES ("Maserati");
+INSERT INTO brands (brand) VALUES ("Maybach");
+INSERT INTO brands (brand) VALUES ("Mazda");
+INSERT INTO brands (brand) VALUES ("McLaren");
+INSERT INTO brands (brand) VALUES ("Mercdes-Benz");
+INSERT INTO brands (brand) VALUES ("Mini");
+INSERT INTO brands (brand) VALUES ("Mitsubishi");
+INSERT INTO brands (brand) VALUES ("Nissan");
+INSERT INTO brands (brand) VALUES ("Opel");
+INSERT INTO brands (brand) VALUES ("Peugeot");
+INSERT INTO brands (brand) VALUES ("Porsche");
+INSERT INTO brands (brand) VALUES ("Renault");
+INSERT INTO brands (brand) VALUES ("Rolls-Royce");
+INSERT INTO brands (brand) VALUES ("Saab");
+INSERT INTO brands (brand) VALUES ("Saleen");
+INSERT INTO brands (brand) VALUES ("Seat");
+INSERT INTO brands (brand) VALUES ("Skoda");
+INSERT INTO brands (brand) VALUES ("Smart");
+INSERT INTO brands (brand) VALUES ("Subaru");
+INSERT INTO brands (brand) VALUES ("Suzuki");
+INSERT INTO brands (brand) VALUES ("Tesla");
+INSERT INTO brands (brand) VALUES ("Toyota");
+INSERT INTO brands (brand) VALUES ("Volvo");
+INSERT INTO brands (brand) VALUES ("Volkswagen");
 
 -- Model Audi
 INSERT INTO models(model, brandid, typeid) VALUES ("100", 4, 1);

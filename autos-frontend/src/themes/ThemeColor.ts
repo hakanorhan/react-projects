@@ -24,7 +24,9 @@ export const primaryColorLight: string = colors.grey[300];
 
 const secondaryColorMain: string = colors.orange[700];
 export const secondaryColorLight: string = colors.green[300];
-export const colorDanger: string = colors.red[700];
+export const colorDanger: string = colors.red[700]; 
+
+export const minHeightContent = '750px';
 
 const themeColor = createTheme({
     
@@ -55,7 +57,9 @@ const themeColor = createTheme({
             styleOverrides: {
                 root: {
                     borderRadius:'0px',
+                    border: 'none',
                     height: '55px',
+                    width:'100%',
                     backgroundColor: secondaryColorLight,
                     '&:hover': {
                         backgroundColor: primaryColorMain,

@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/site-components/Header';
 import { ThemeProvider } from '@emotion/react';
-import themeColor from './themes/ThemeColor';
+import themeColor, { minHeightContent } from './themes/ThemeColor';
 import Footer from './components/site-components/Footer';
 import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
@@ -36,7 +36,7 @@ const App: React.FC = () => {
       <ThemeProvider theme={themeColor}>
         {/* dark theme */}
         {/* <CssBaseline /> */}
-        <Box sx={{  backgroundImage: `url(${imageName}.jpg)`, width: '100%', paddingBottom: '4rem' }}>
+        <Box sx={{  backgroundImage: `url(${imageName}.jpg)`, width: '100%', minHeight: minHeightContent, backgroundColor:'whitesmoke' }}>
           <Header />
           {/* Routes */}
           <Routes>

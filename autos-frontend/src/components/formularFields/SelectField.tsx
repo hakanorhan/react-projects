@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Select, Grid, MenuItem } from "@mui/material"
+import { FormControl, InputLabel, Select, Grid, MenuItem, Tooltip } from "@mui/material"
 import { SelectChangeEvent } from "@mui/material";
 import React from "react";
 
@@ -25,9 +25,14 @@ const SelectField: React.FC<{ values: any[], objectName: string, idOfSelect: str
     }, [selectedValue])
 */
     {/* Grid item xs={itemXSValue ? itemXSValue : 11} sm={gridWithXS} md={gridWithSM}> */}
-  return <FormControl>
+  return <>
+    {
+      values.length === 0 ? (
+        <Tooltip title={ `Kein ${label} vorhanden` }> 
+      <FormControl>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-      <Select   
+      <Select
+        disabled = {values.length === 0}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={selectedValue}
@@ -44,6 +49,31 @@ const SelectField: React.FC<{ values: any[], objectName: string, idOfSelect: str
 
       </Select>
     </FormControl>
+    </Tooltip>
+      ) : (
+      <FormControl>
+      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+      <Select
+        disabled = {values.length === 0}
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={selectedValue}
+        label={label}
+        name={objectName}
+        onChange={handleChange}
+      >
+        {
+          (values) ?
+            values.map((item, index) => (
+              <MenuItem key={index} value={item[idOfSelect]}> {item[objectName]} </MenuItem>
+            )) : null
+        }
+
+      </Select>
+    </FormControl>
+      )
+    }
+  </>
 };
 
 export default SelectField;

@@ -24,6 +24,7 @@ import { insertImageName } from "./queries/query.js";
 import fetchInserateForPublish from "./routes/dashboard/fetchInserateForPublish.js";
 import fetchDetailSearch from "./routes/fetchDetailSearch.js";
 import fetchImageNames from "./routes/fetchImageNames.js";
+import fetchBuendeslaender from "./routes/fetchBuendeslaender.js";
 
 const app = express();
 
@@ -57,6 +58,7 @@ app.post(URLs.POST_INSERT_DYNAMIC_SEARCH, dynamicSearch);
 app.post(URLs.POST_INSERT_MODEL, authenticate, writeModel);
 app.get(URLs.FETCH_INSERATE_DATA, authenticate, fetchInserateData);
 app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
+app.get(URLs.FETCH_BUNDESLAENDER, fetchBuendeslaender);
 app.get(URLs.FETCH_IMAGENAMES + "/:id", fetchImageNames);
 
 const storage = multer.diskStorage({

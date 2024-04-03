@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export interface SignInForm {
   email: string,
   password: string
@@ -9,7 +11,13 @@ export interface SignUpForm {
   email: string,
   password1: string,
   password2: string,
-  isDealer: boolean
+  impressumdaten: string | null,
+  companyname: string | null,
+  // Address
+  street: string,
+  nr: string,
+  city: string,
+  zipcode: number
 }
 
 export interface FormBaureiheSelect {
@@ -130,4 +138,15 @@ export interface AxiosDataImagesNames {
   imagename: string,
   firstplace: boolean,
   carId: number
+}
+
+export interface AxiosDataSignup {
+  form: SignUpForm,
+  selectedBundesland: string,
+  isCheckedDealer: boolean,
+  isCheckedEmail: boolean,
+  isCheckedTelefon: boolean,
+  isCheckedchat: boolean,
+  formattedDate: string,
+  telefonNr: string,
 }

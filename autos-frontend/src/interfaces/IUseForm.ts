@@ -9,7 +9,8 @@ export interface IUseForm {
     label: string,
     onChange: (value: string) => void; // callback,
     regex: RegExp,
-    refresh?: boolean
+    refresh?: boolean,
+    maxLength?: number
   }
 
   export interface IUseFormTextArea {
@@ -34,10 +35,10 @@ export interface IUseForm {
   }
 
   export interface IUseFormAdress {
-    streetNrField: IUseForm,
-    zipcodeField: IUseForm,
-    cityField: IUseForm,
-    bundeslandField:IUseForm
+    streetNrField: IUseForm2,
+    zipcodeField: IUseForm2,
+    cityField: IUseForm2,
+    bundeslandField:IUseForm2
   }
 
   export interface IUseFormCheckbox {

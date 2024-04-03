@@ -1,0 +1,21 @@
+export var TextFieldID;
+(function (TextFieldID) {
+    TextFieldID["NAME"] = "name";
+    TextFieldID["FAMILYNAME"] = "familyname";
+    TextFieldID["COMPANYNAME"] = "companyname";
+    TextFieldID["EMAIL"] = "email";
+    TextFieldID["PASSWORD1"] = "password1";
+    TextFieldID["PASSWORD2"] = "password2";
+    TextFieldID["TEL_NR"] = "telNr";
+    TextFieldID["BIRTH"] = "birth";
+    TextFieldID["BUNDESLAND"] = "bundesland";
+    TextFieldID["STREET"] = "street";
+    TextFieldID["NR"] = "nr";
+    TextFieldID["ZIPCODE"] = "zipcode";
+    TextFieldID["CITY"] = "city";
+    TextFieldID["ISCARDEALER"] = "isCarDealer";
+    TextFieldID["ISCHAT"] = "isChat";
+    TextFieldID["ISTELEFON"] = "isTelefon";
+    TextFieldID["ISEMAIL"] = "esEmail";
+    TextFieldID["IMPRESSUMDATEN"] = "impressumdaten";
+})(TextFieldID || (TextFieldID = {}));

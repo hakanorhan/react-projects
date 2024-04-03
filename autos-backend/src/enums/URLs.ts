@@ -21,6 +21,7 @@ export enum URLs {
     POST_INSERT_DYNAMIC_SEARCH = '/dynamicsearch',
     UPLOAD = '/upload',
     IMAGE_PATH = '/uploads',
-    FETCH_IMAGENAMES = '/fetchimagenames'
+    FETCH_IMAGENAMES = '/fetchimagenames',
+    FETCH_BUNDESLAENDER = "/fetchbundeslaender"
     
 }
