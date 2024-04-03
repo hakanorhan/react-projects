@@ -23,4 +23,5 @@ export var URLs;
     URLs["IMAGE_PATH"] = "/uploads";
     URLs["FETCH_IMAGENAMES"] = "/fetchimagenames";
     URLs["FETCH_BUNDESLAENDER"] = "/fetchbundeslaender";
+    URLs["POST_PUBLISH"] = "/admin/publish";
 })(URLs || (URLs = {}));

@@ -51,7 +51,7 @@ export default function InserateCar() {
     auNew: false,
     unfallFahrzeug: false,
     scheckheft: false,
-    fittodrive: false,
+    fittodrive: true,
     abstandstempomat: false,
     ambientbeleuchtung: false,
     headupdisplay: false,
@@ -239,13 +239,13 @@ export default function InserateCar() {
 
             <Grid item xs={6}> <TextFieldCars id='previousOwner' onChange={value => handleOnChange('previousOwner', value)} label='Anzahl Vorbesitzer' regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
 
-            <Grid item xs={6}> <TextFieldCars id='km' label='Kilometerstand' onChange={value => handleOnChange('km', value)} regex={REGEX_PRICE} refresh={refresh} /> </Grid>
+            <Grid item xs={6}> <TextFieldCars id='km' label='Kilometerstand in KM' onChange={value => handleOnChange('km', value)} regex={REGEX_PRICE} refresh={refresh} /> </Grid>
             <Grid item xs={6}> <TextFieldCars id='ps' label='Leistung in PS' onChange={value => handleOnChange('ps', value)} regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
 
             <Grid item xs={6}> <TextFieldCars id='hubraum' label='Hubraum in ccm³' onChange={value => handleOnChange('hubraum', value)} regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
 
             <Grid item xs={6}> <DateComponentMonthYear setYear={setYear} setMonth={setMonth} newInserate={refresh} /> </Grid>
-            <Grid item xs={6}> <TextFieldCars id='price' onChange={value => handleOnChange('price', value)} label='Preis' regex={REGEX_PRICE} refresh={refresh} /></Grid>
+            <Grid item xs={6}> <TextFieldCars id='price' onChange={value => handleOnChange('price', value)} label='Preis in €' regex={REGEX_PRICE} refresh={refresh} /></Grid>
 
             <Grid item xs={12}> <hr style={{ color: 'black' }} /> </Grid>
 

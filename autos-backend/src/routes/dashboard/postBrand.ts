@@ -6,7 +6,6 @@ const selectBrandQuery: string = "SELECT * FROM brands";
 
 export default async (req: express.Request, res: express.Response) => {
     const { value } = req.body;
-    console.log(value + " writeBrand.ts")
 
     let connection = await pool.getConnection();
     try {

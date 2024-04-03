@@ -17,6 +17,7 @@ import Check from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import TextFieldArea from '../formularFields/TextFieldArea';
 import { seperateThousand } from '../../helper/helper';
+import { Publish } from '@mui/icons-material';
 
 const paperElevationValue = 10;
 const paperMarginTopValue = '0.9rem';
@@ -76,7 +77,21 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
     return checked ? <Check sx={{ color: secondaryColorLight }} /> : <CloseIcon sx={{ color: secondaryColorLight }} />
   };
 
+  const handlePublish = (canPublish: boolean) => {
+    async function sendData() {
+      try {
+        const publishValues = { carId: detailSearchValues?.carId, canPublish }
+        const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_PUBLISH}`, publishValues , { withCredentials: true })
+        
+      }catch(error) {
+
+      }
+    }
+    sendData();
+  }
+
   return (<>
+  
     <CarImages id={id} />
     {detailSearchValues ?
       <>
@@ -155,6 +170,10 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
           <Grid item xs={12}> <hr style={{ margin: paperElevationValue }} /> </Grid>
           <Grid item xs={12}> <TextFieldArea padding= { paperPaddingValue } minRows={8} maxRows={10} disbled={true} areaText={detailSearchValues.description} /> </Grid>
         </Paper>
+        <Grid container xs={12} sx={{ marginTop:'1rem', marginBottom:'1rem' }}>
+      <Grid item xs={6}><Button onClick={() => { handlePublish(true) } } endIcon={<Publish />}>Freigeben</Button></Grid>
+      <Grid item xs={6}><Button onClick={() => { handlePublish(false) }} sx={{ backgroundColor: primaryColorMain, color:'white', '&:hover': { backgroundColor: secondaryColorLight, color: primaryColorMain } }} endIcon={<CloseIcon />}>Sperren</Button></Grid>
+    </Grid>
       </>
       : <p> Fehler </p>
     }

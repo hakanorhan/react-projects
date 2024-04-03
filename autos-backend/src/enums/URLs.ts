@@ -22,6 +22,6 @@ export enum URLs {
     UPLOAD = '/upload',
     IMAGE_PATH = '/uploads',
     FETCH_IMAGENAMES = '/fetchimagenames',
-    FETCH_BUNDESLAENDER = "/fetchbundeslaender"
-    
+    FETCH_BUNDESLAENDER = "/fetchbundeslaender",
+    POST_PUBLISH = '/admin/publish',
 }

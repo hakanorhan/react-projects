@@ -6,15 +6,15 @@ import inserateCar from "./routes/inserateCar.js";
 import cookieParser from "cookie-parser";
 import fastSearchAllData from "./routes/fastSearchAllData.js";
 import checkAuth from "./jwt/checkAuth.js";
-import writeBrand from "./routes/dashboard/writeBrand.js";
-import writeModel from "./routes/dashboard/writeModel.js";
+import writeBrand from "./routes/dashboard/postBrand.js";
+import writeModel from "./routes/dashboard/postModel.js";
 import fetchBrand from "./routes/dashboard/fetchBrand.js";
 import fetchModel from "./routes/dashboard/fetchModel.js";
 import { URLs } from './enums/URLs.js';
 import authenticate from "./jwt/authenticate.js";
 import fetchBaureihe from "./routes/dashboard/fetchBaureihe.js";
 import fetchBaureiheModel from "./routes/dashboard/fetchBaureiheModel.js";
-import writeBaureihe from "./routes/dashboard/writeBaureihe.js";
+import writeBaureihe from "./routes/dashboard/postBaureihe.js";
 import multer from "multer";
 import path from "path";
 import fetchInserateData from "./routes/fetchInserateData.js";
@@ -25,6 +25,7 @@ import fetchInserateForPublish from "./routes/dashboard/fetchInserateForPublish.
 import fetchDetailSearch from "./routes/fetchDetailSearch.js";
 import fetchImageNames from "./routes/fetchImageNames.js";
 import fetchBuendeslaender from "./routes/fetchBuendeslaender.js";
+import postPublish from "./routes/dashboard/postPublish.js";
 
 const app = express();
 
@@ -56,6 +57,7 @@ app.post(URLs.FETCH_BAUREIHE_MODEL, fetchBaureiheModel);
 app.post(URLs.POST_INSERT_BAUREIHE, authenticate,writeBaureihe );
 app.post(URLs.POST_INSERT_DYNAMIC_SEARCH, dynamicSearch);
 app.post(URLs.POST_INSERT_MODEL, authenticate, writeModel);
+app.post(URLs.POST_PUBLISH, authenticate, postPublish);
 app.get(URLs.FETCH_INSERATE_DATA, authenticate, fetchInserateData);
 app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
 app.get(URLs.FETCH_BUNDESLAENDER, fetchBuendeslaender);
