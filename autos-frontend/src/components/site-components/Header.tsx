@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState, MouseEventHandler } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import {Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import {Drawer ,Button, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -14,24 +15,59 @@ import { primaryColorMain } from '../../themes/ThemeColor';
 import { Company } from '../../constants/Company';
 import { Link, useNavigate } from 'react-router-dom';
 import { Roles } from '../../../../autos-backend/src/enums/Roles';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ParagraphSideMenu } from '../../themes/ThemeColor';
 
 import type { RootState } from '../../redux/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import UpdateIcon from '@mui/icons-material/Update';
+import { secondaryColorLight } from '../../themes/ThemeColor';
+import InsertBrand from './components/InsertBrand';
+import InsertModel from './components/InsertModel';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
+import PublishInserate from './components/PublishInserate';
+import axios from 'axios';
+import { URLs } from '../../../../autos-backend/src/enums/URLs';
+import { AuthResponse } from '../../../../autos-backend/src/interfaces/auth/AuthResponse';
+import { setWhichButtonClicked } from '../../redux/features/userlogged';
+
+const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.8rem', lg:'1rem' }, color: 'whitesmoke', backgroundColor: 'transparent', ':hover': { color: 'orange' }, justifyContent: 'flex-start' };
 
 const drawerFontSize = '28px';
 
 const drawerSizes = { color: primaryColorMain, fontSize: drawerFontSize, fontWeight:'bold', paddingLeft:'25px' };
 const LinkDrawer = { color: primaryColorMain, textDecoration: 'none'};
+const expandIconStyle = { color: primaryColorMain };
+const accordionIconStyle = { fontSize: drawerFontSize };
+const accordionStyle = { color: primaryColorMain, fontSize: drawerFontSize, fontWeight:'bold', paddingLeft:'25px', backgroundColor: secondaryColorLight, marginBottom:'0.8rem' };
+
+
+const enum ButtonNames {
+  VIEW_CARS = "viewCars",
+  ADD_CAR = "addCar",
+  ADD_BRAND = "addBrand",
+  ADD_MODEL = 'addModel',
+  PUBLISH = 'publish'
+}
 
 
 export default function Header() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const loggedIn = useSelector((state: RootState) => state.userLoggedIn.userLoggedIn);
   const role = useSelector((state: RootState) => state.userLoggedIn.role)
+  const dispatch = useDispatch();
 
   const handleHamburgerMenu = () => {
     setDrawerOpen(true);
@@ -49,6 +85,82 @@ export default function Header() {
     setAnchorEl(null);
   };
 
+  const handleMenuRole = () => {
+    handleClose();
+    switch(role) {
+      case Roles.ADMIN:
+        break;
+      case Roles.USER:
+        navigate("/inserieren");
+        break;
+      default:
+        navigate("/signin");
+    }
+  }
+
+  // -------------------------------------- ADMIN ----------------------------------------------------------
+  const AccordionHinzufuegen = () => {
+    return <Accordion sx={ accordionStyle }>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon sx={ expandIconStyle } />}
+        aria-controls="panel1-content"
+        id="panel1-header"
+      >
+        <AddIcon sx= { accordionIconStyle } /> <ParagraphSideMenu>Hinzufügen</ParagraphSideMenu>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Box >
+          <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_BRAND)} > Marke </Button>
+          <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_MODEL)}> Modell </Button>
+          </Box>
+      </AccordionDetails>
+    </Accordion>
+  }
+
+  const AccordionUpdate = () => {
+    return <Accordion sx={ accordionStyle }>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon sx={ expandIconStyle } />}
+        aria-controls="panel1-content"
+        id="panel1-header"
+      >
+        <UpdateIcon sx={ accordionIconStyle } /> <ParagraphSideMenu>Aktualisieren</ParagraphSideMenu>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Box>
+          <Button sx={headlineStyle} > Auto </Button>
+          <Button sx={headlineStyle} > Marke </Button>
+          <Button sx={headlineStyle} > Modell </Button>
+          </Box>
+      </AccordionDetails>
+    </Accordion>
+  }
+
+  const AccordionEntfernen = () => {
+    return <Accordion sx={ accordionStyle }>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon sx={{ color: primaryColorMain }} />}
+        aria-controls="panel1-content"
+        id="panel1-header"
+      >
+        <DeleteIcon sx={ accordionIconStyle } /> <ParagraphSideMenu>Entfernen</ParagraphSideMenu>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Box>
+          <Button sx={headlineStyle} > Auto </Button>
+          <Button sx={headlineStyle} > Marke </Button>
+          <Button sx={headlineStyle} > Modell </Button>
+          </Box>
+      </AccordionDetails>
+    </Accordion>
+  }
+
+  const handleButton = (buttonName: ButtonNames): MouseEventHandler<HTMLButtonElement> => { 
+    return event => { dispatch(setWhichButtonClicked(buttonName)), setDrawerOpen(false)}; 
+  }; 
+
+  // -------------------------------------- ADMIN ----------------------------------------------------------
+
   const DrawerMenuComponent = () => {
     return <Drawer anchor='right' open={ drawerOpen } onClose={ handleOnCloseDrawer }>
       <Box p={2} sx={{ width: {xs: '100vw', sm:'500px'} }} role='presentation'>
@@ -56,7 +168,7 @@ export default function Header() {
         <IconButton onClick={() => { setDrawerOpen(false) }}  sx={{ backgroundColor:'transparent', "&.MuiButtonBase-root:hover": {
                 backgroundColor: "transparent"
               } }}>
-        <CloseOutlinedIcon sx={{ color: primaryColorMain, fontSize: '70px', fontWeight: 'bold', marginRight:'40px', borderStyle:'solid', borderRadius:'5px', padding:'10px'}}/>
+        <CloseOutlinedIcon sx={{ "&:hover": { backgroundColor: secondaryColorLight, border:'0px' } ,color: primaryColorMain, fontSize: '70px', fontWeight: 'bold', marginRight:'40px', borderStyle:'solid', borderRadius:'5px', padding:'10px'}}/>
         </IconButton>
         </Box>
         <List>
@@ -93,21 +205,23 @@ export default function Header() {
             </ListItemButton>
           </ListItem>
         </List>
+      
+
+        {/* ADMIN menu */}
+      { role === Roles.ADMIN &&
+      <> <hr />
+      <Box sx={{ marginTop: '1rem' }}>
+      <AccordionHinzufuegen />
+          <AccordionUpdate />
+          <AccordionEntfernen />
+
+          <Button onClick={handleButton(ButtonNames.PUBLISH)} sx={{ marginTop:'0.8rem' }} fullWidth variant="outlined" startIcon={<PublishedWithChangesIcon />}> <p>Veröffentlichen </p></Button>
+          <Button sx={{ marginTop:'0.8rem' }} fullWidth variant="outlined" startIcon={<UnpublishedIcon />}> <p>AUFHEBEN </p></Button>
+        </Box>
+        </>
+      }
       </Box>
     </Drawer>
-  }
-
-  const handleMenuRole = () => {
-    handleClose();
-    switch(role) {
-      case Roles.ADMIN:
-        break;
-      case Roles.USER:
-        navigate("/inserieren");
-        break;
-      default:
-        navigate("/signin");
-    }
   }
 
   return (

@@ -14,6 +14,9 @@ import InsertModel from './components/InsertModel';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import PublishInserate from './components/PublishInserate';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
+import { setWhichButtonClicked } from '../../../../redux/features/userlogged';
 
 const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.8rem', lg:'1rem' }, color: 'whitesmoke', backgroundColor: 'transparent', ':hover': { color: 'orange' }, justifyContent: 'flex-start' };
 
@@ -30,72 +33,8 @@ const enum ButtonNames {
 
 export default function WriteCarData() {
 
-  const [whichButtonClicked, setWhichButtonClicked] = React.useState<string>("");
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
-
-  const handleButton = (buttonName: ButtonNames): MouseEventHandler<HTMLButtonElement> => { 
-    return event => setWhichButtonClicked(buttonName) 
-  };  
-
- useEffect(() => {
-  setIsButtonClicked(false)
- }, [whichButtonClicked])
-
-  const AccordionHinzufuegen = () => {
-    return <Accordion sx={accordionStyle}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon sx={{ color: 'whitesmoke' }} />}
-        aria-controls="panel1-content"
-        id="panel1-header"
-      >
-        <AddIcon sx={{ fontSize: '1.2rem' }} /> <ParagraphSideMenu>Hinzufügen</ParagraphSideMenu>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box sx={oneProcessBoxStyle}>
-          <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_BRAND)} > Marke </Button>
-          <Button sx={headlineStyle} onClick={handleButton(ButtonNames.ADD_MODEL)}> Modell </Button>
-          </Box>
-      </AccordionDetails>
-    </Accordion>
-  }
-
-  const AccordionUpdate = () => {
-    return <Accordion sx={accordionStyle}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon sx={{ color: 'whitesmoke' }} />}
-        aria-controls="panel1-content"
-        id="panel1-header"
-      >
-        <UpdateIcon sx={{ fontSize: '1.2rem' }} /> <ParagraphSideMenu>Aktualisieren</ParagraphSideMenu>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box sx={oneProcessBoxStyle}>
-          <Button sx={headlineStyle} > Auto </Button>
-          <Button sx={headlineStyle} > Marke </Button>
-          <Button sx={headlineStyle} > Modell </Button>
-          </Box>
-      </AccordionDetails>
-    </Accordion>
-  }
-
-  const AccordionEntfernen = () => {
-    return <Accordion sx={accordionStyle}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon sx={{ color: 'whitesmoke' }} />}
-        aria-controls="panel1-content"
-        id="panel1-header"
-      >
-        <DeleteIcon sx={{ fontSize: '1.2rem' }} /> <ParagraphSideMenu>Entfernen</ParagraphSideMenu>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box sx={oneProcessBoxStyle}>
-          <Button sx={headlineStyle} > Auto </Button>
-          <Button sx={headlineStyle} > Marke </Button>
-          <Button sx={headlineStyle} > Modell </Button>
-          </Box>
-      </AccordionDetails>
-    </Accordion>
-  }
+  // Redux
+  const whichButtonClicked = useSelector((state: RootState) => state.userLoggedIn.whichButtonClicked)
 
   const ShowUI = () => {
     switch (whichButtonClicked) {
@@ -112,30 +51,8 @@ export default function WriteCarData() {
   }
 
   return (
-    <>
-      
-      <Box  sx={{ minHeight: minHeightContent, display: 'flex', flexDirection: 'row', margin: {lg: 'auto'} }}>
-        {/* <lg */}
-        { !isButtonClicked &&
-        <Box sx={{ minHeight:'100%', width: { xs:'75px' }, backgroundColor: secondaryColorLight }}>
-          <Button onClick={ () => { 
-            setIsButtonClicked(true)
-             } } sx={{ minHeight:'100%', backgroundColor:secondaryColorLight }} fullWidth variant="outlined"> <KeyboardArrowRightIcon sx={{ color:'black' }} /></Button>
-        </Box>
-}
-        { isButtonClicked &&
-        <Box sx={{ minHeight:'100%', width: {xs: '250px', lg:'300px'}, backgroundColor: secondaryColorLight, position: 'fixed', zIndex: 1000 }}>
-          <AccordionHinzufuegen />
-          <AccordionUpdate />
-          <AccordionEntfernen />
-          <Button onClick={handleButton(ButtonNames.PUBLISH)} sx={{ marginTop:'0.8rem' }} fullWidth variant="outlined" startIcon={<PublishedWithChangesIcon />}> <p>Veröffentlichen </p></Button>
-          <Button sx={{ marginTop:'0.8rem' }} fullWidth variant="outlined" startIcon={<UnpublishedIcon />}> <p>AUFHEBEN </p></Button>
-        </Box>
-}
-        <Box  onClick={() => { setIsButtonClicked(false) }} sx={{ minHeight:'100%', width: '100%', backgroundColor: 'whitesmoke' }}>
-          <ShowUI />
-        </Box>
-      </Box>
+    <>          <ShowUI />
+        
     </>
   );
 }

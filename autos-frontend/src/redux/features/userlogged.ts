@@ -1,14 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+/**
+ * Used only for display admin menus in drawer after login.
+ */
 export interface IUserState {
     userLoggedIn: boolean,
-    role: string
+    role: string,
+    whichButtonClicked: string
 }
 
 const initialState: IUserState = {
     userLoggedIn : false,
-    role: ""
+    role: "",
+    whichButtonClicked: ""
 }
 
 export const userLoggedSlice = createSlice({
@@ -20,9 +25,12 @@ export const userLoggedSlice = createSlice({
         },
         setRole: (state, action: PayloadAction<string>) => {
             state.role = action.payload;
+        },
+        setWhichButtonClicked: (state, action: PayloadAction<string>) => {
+            state.whichButtonClicked = action.payload
         }
     }
 })
 
-export const { setUserLoggedIn, setRole } = userLoggedSlice.actions;
+export const { setUserLoggedIn, setRole, setWhichButtonClicked } = userLoggedSlice.actions;
 export default userLoggedSlice.reducer;
