@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { DivSearchInserate, DivViewDetail, ViewDetailIconStyle, primaryColorMain, secondaryColorLight } from '../../themes/ThemeColor'
+import { ViewDetailIconStyle, primaryColorMain, secondaryColorLight } from '../../themes/ThemeColor'
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
 import { AxiosDetailsearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import CarImages from './dashboards/admin/components/CarImages';
-import { Box, Button, Grid, IconProps, Paper, TextField, Typography } from '@mui/material';
+import { Button, Grid, Paper, Typography } from '@mui/material';
 
 import Person3Icon from '@mui/icons-material/Person3';
 import AddRoadIcon from '@mui/icons-material/AddRoad';

@@ -67,7 +67,7 @@ const SignIn: React.FC = () => {
                 console.log("Navigate Admin");
                 dispatch(setRole(Roles.ADMIN));
                 dispatch(setUserLoggedIn(true));
-                navigate('/admin/writedata');
+                navigate(URLs.FETCH_INSERATE_PUBLISH);
               } break;
               case Roles.USER: {
                 console.log("Navigate User");
@@ -78,7 +78,8 @@ const SignIn: React.FC = () => {
               default : { 
                 navigate('/signin'); 
                 console.log("Default signin");
-            }
+                dispatch(setRole(Roles.USER));
+              }
             }
           }
         })

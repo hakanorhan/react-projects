@@ -23,12 +23,12 @@ import { useEffectFetch, useEffectModel } from '../../helper/DataLoading';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import { AxiosSearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import { CONSOLE_DEV } from '../../helper/helper';
+import { AuthResponse } from '../../../../autos-backend/src/interfaces/auth/AuthResponse';
+import { useDispatch } from 'react-redux';
+import { setRole, setWhichButtonClicked } from '../../redux/features/userlogged';
+import { Roles } from '../../../../autos-backend/src/enums/Roles';
 
 const prices = [500, 1_000, 2_500, 5_000, 7_500, 10_000, 15_000, 20_000, 30_000, 40_000, 50_000, 60_000, 70_000, 80_000, 90_000, 100_000, 200_000, "ab 200000"];
-const federalStates = ["Berlin", "Brandenburg", "Mecklenburg-Vorpommern", "Nordrhein-Westfalen"];
-
-const gridWithSM = 3.65;
-const gridWithXS = 5.5;
 
 const searchButtonText = " Treffer";
 
@@ -59,33 +59,14 @@ const Number = ({ n }) => {
 
   const [formSelect, setFormSelect] = React.useState<AxiosSearch>(initalValue);
 
-  // Get once all cars from database at first
-  React.useEffect(() => {
-    const fetchAllCarsInformations = async () => {
-      // Get a value of cars in database
-      await axios.get<number>(`${URLs.ORIGIN_SERVER}${URLs.ALL_FAST_SEARCH_FIRST}`)
-          .then(function (response) {
-            setCountCars(response.data);
-            
-            CONSOLE_DEV(response.data);
-          })
-          .catch(err => {
-            // TODO: console.log
-            console.log(err);
-          });
-      }
-
-      fetchAllCarsInformations();
-
-  }, [])
 
   const [selectedPriceState, setSelectedPriceState] = React.useState<string>("");
   const [selectedCarTypeState, setSelectedCarTypeState] = React.useState<string[]>([]);
-  const [selectedFederalState, setSelectedFederalState] = React.useState<string[]>([]);
 
   const [listBrands, setListBrands] = React.useState<string[]>([])
   const [listModel, setListModel] = React.useState<string[]>([]);
   const [listCarTypes, setListCarTypes] = React.useState<string[]>([]);
+  const [listFederalState, setListFederalState] = React.useState<string[]>([]);
 
   const minDateConst = dayjs('1900');
   const maxDateConst = dayjs();
@@ -95,8 +76,76 @@ const Number = ({ n }) => {
   const [selectedDateTo, setSelectedDateTo] = React.useState(selectedDateFrom);
   const [maxDate, setMaxDate] = React.useState(dayjs());
 
+  // Fetch static data for select fields
   useEffectFetch(URLs.FETCH_BRAND, setListBrands);
   useEffectModel(URLs.FETCH_BAUREIHE_MODEL, setListModel, formSelect.brand);
+  
+  // Fetch static data
+  React.useEffect(() => {
+    async function fetchData() {
+      try { 
+        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_STATIC_DATA, { withCredentials: true })
+
+        if(response.data) {
+          const tableValues = response.data.tableValues;
+          setListFederalState(tableValues.resultBundesland);
+          setListCarTypes(tableValues.resultCarTypes);
+        }
+      } catch(error) {
+
+      }
+    }
+
+    fetchData();
+  }, [])
+
+  /*
+  React.useEffect(() => {
+    async function fetchData() {
+      try { 
+        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_BUNDESLAENDER, { withCredentials: true })
+
+        if(response.data) {
+          const tableValues = response.data.tableValues;
+          setListFederalState(tableValues);
+        }
+      } catch(error) {
+
+      }
+    }
+
+    fetchData();
+  }, []) */
+
+  // fetch data on every select field changes
+  React.useEffect(() => {
+    handleDynamicSearch();
+  }, [formSelect, selectedDateFrom, selectedDateTo])
+
+  // dynamic search
+  const handleDynamicSearch =async () => {
+
+    const brandId = formSelect.brand;
+    const modelId = formSelect.model;
+    const price = formSelect.price;
+    const carTypeId = formSelect.cartype;
+    const blandId = formSelect.bundesland;
+    const dateFrom = selectedDateFrom;
+    const dateTo = selectedDateTo;
+    
+    const searchParams = { brandId, modelId, price, carTypeId, blandId, dateFrom, dateTo };
+
+    try {
+      const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_DYNAMIC_SEARCH, { 
+        withCredentials: true,
+         params: searchParams
+        })
+        alert(response.data);
+         setCountCars(response.data);
+    } catch(error) {
+      console.error('Error searching', error);
+    }
+  }
 
   const handleChangeSelect = (event: SelectChangeEvent<string>) => {
     setFormSelect(prevState => ({
@@ -118,25 +167,20 @@ const Number = ({ n }) => {
   };
 
   const YearFromComponent: React.FC = () => {
-    return <Grid item xs={gridWithXS} md={gridWithSM}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+    return <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker label={'Baujahr von'} value={selectedDateFrom} views={['year']} minDate={minDateConst} maxDate={maxDateConst} onChange={(newDate) => { setSelectedDateFrom(newDate), setSelectedDateTo(newDate) }} />
         
       </LocalizationProvider>
-    </Grid>
   }
 
   const YearToComponent = () => {
-    return <Grid item xs={gridWithXS} md={gridWithSM}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+    return <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={selectedDateFrom} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
       </LocalizationProvider>
-    </Grid>
   }
 
   const PreiseBisComponent = () => {
-    return <Grid item xs={gridWithXS} md={gridWithSM}>
-      <FormControl>
+    return <FormControl>
         <InputLabel id="demo-simple-select-label">Preis bis</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -149,56 +193,11 @@ const Number = ({ n }) => {
 
         </Select>
       </FormControl>
-    </Grid>
   }
 
-  const FederalStateComponent = () => {
-    return <Grid item xs={11} sm={gridWithXS} md={gridWithSM}>
-      <FormControl>
-        <InputLabel id="demo-multiple-checkbox-label">Bundesland</InputLabel>
-        <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
-          multiple
-          value={selectedFederalState}
-          onChange={handleChangeFederalState}
-          input={<OutlinedInput label="Bundesland" />}
-          renderValue={(selected) => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {federalStates.map((name) => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={selectedFederalState.indexOf(name) > -1} />
-              <ListItemText primary={name} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Grid>
-  }
 
   const handleChangePreisBis = (event: SelectChangeEvent) => {
     setSelectedPriceState(event.target.value);
-  };
-
-  const handleChangeCarType = (event: SelectChangeEvent<typeof selectedCarTypeState>) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedCarTypeState(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
-
-  const handleChangeFederalState = (event: SelectChangeEvent<typeof selectedFederalState>) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedFederalState(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
   };
 
   return (
@@ -207,29 +206,40 @@ const Number = ({ n }) => {
         <h1 style={{ textAlign: 'center', color: primaryColorMain, paddingTop: '4rem' }}>Find your next car.</h1>
         <SearchContainer>
           <Grid container justifyContent="center" columnSpacing={1}>
-
+            <Grid item xs= {6} md={4}>
             {/* Brand */}
             <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brandid' handleChange={handleChangeSelect} label='Marke'/>
-
+            </Grid>
+            <Grid item xs={6} md={4}>
             {/* Model */}
             <SelectField values={listModel} selectedValue={formSelect.model} objectName='model' idOfSelect='modelid' handleChange={handleChangeSelect} label='Modell' />
+            </Grid>
 
+            <Grid item xs={6} md={4}>
             {/* Cartype */}
             <SelectField idOfSelect='cartypeid' objectName='cartype' handleChange={handleChangeSelect} label='Fahrzeugtyp' values={listCarTypes} selectedValue={formSelect.cartype} />
+            </Grid>
 
+            <Grid item xs={6} md={4}>
             {/* Preis */}
             <PreiseBisComponent />
+            </Grid>
 
+            <Grid item xs={6} md={4}>
             {/* Year from */}
             <YearFromComponent />
+            </Grid>
 
+            <Grid item xs={6} md={4}>
             {/* Year to */}
             <YearToComponent />
+            </Grid>
 
-            {/* Federal State */}
-            <FederalStateComponent />
-            
-            <Grid item xs={11} sm={gridWithXS} md={7.3}>
+            <Grid item xs={6} md={4}>
+              <SelectField idOfSelect='blandid' objectName='bundesland' handleChange={handleChangeSelect} label='Bundesland' values={listFederalState} selectedValue={formSelect.bundesland} />
+            </Grid>
+
+            <Grid item xs={6} md={8}>
               <Button fullWidth type='submit' variant="contained"><SearchIcon />  <Number n={countCars} /> { ` ${searchButtonText}` }</Button>
             </Grid>
           </Grid>

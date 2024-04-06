@@ -1,9 +1,6 @@
-import { FormControl, InputLabel, Select, Grid, MenuItem, Tooltip } from "@mui/material"
+import { FormControl, InputLabel, Select, MenuItem, Tooltip } from "@mui/material"
 import { SelectChangeEvent } from "@mui/material";
 import React from "react";
-
-const gridWithSM = 3.65;
-const gridWithXS = 5.5;
 
 // Components
 const SelectField: React.FC<{ values: any[], objectName: string, idOfSelect: string, selectedValue: string,

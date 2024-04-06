@@ -13,7 +13,7 @@ export interface IUserState {
 const initialState: IUserState = {
     userLoggedIn : false,
     role: "",
-    whichButtonClicked: ""
+    whichButtonClicked: "addBrand"
 }
 
 export const userLoggedSlice = createSlice({

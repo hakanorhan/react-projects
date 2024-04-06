@@ -54,7 +54,6 @@ const SignUpUser: React.FC = () => {
   const [bundesland, setBundesland] = useState<any[]>([]);
   const [selectedBundesland, setSelectedBundesland] = useState<string>("");
 
-  const maxDate = dayjs().subtract(18, 'year').toDate();
   const [dateValue, setDateValue] = useState(dayjs());
   const [telefonNr, setTelefonNr] = useState("");
 

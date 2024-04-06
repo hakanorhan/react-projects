@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 export interface SignInForm {
   email: string,
   password: string

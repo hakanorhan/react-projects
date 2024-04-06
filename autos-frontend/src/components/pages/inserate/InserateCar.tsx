@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { FormGroup, Grid, SelectChangeEvent, Step, StepLabel, Stepper, FormControl, FormLabel, RadioGroup, Radio, Typography } from '@mui/material';
+import { FormGroup, Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typography } from '@mui/material';
 import axios from 'axios';
 import { Button, FormControlLabel, Checkbox } from '@mui/material';
 import { REGEX_HUBRAUM, REGEX_PRICE } from '../../../../../autos-backend/src/regex/regex';

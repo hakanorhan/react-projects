@@ -5,7 +5,8 @@ import userlogged from "./features/userlogged";
 export const store = configureStore({
     reducer: {
        background: imageSlice,
-       userLoggedIn: userlogged
+       userLoggedIn: userlogged,
+       
     }
 })
 

@@ -65,6 +65,9 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
       borderRadius: '30px',
       top: '45%',
       position: 'absolute',
+      marginLeft: '0.4rem',
+      marginRight: '0.4rem',
+      opacity: '75%',
       backgroundColor: secondaryColorLight,
       '&:hover': { backgroundColor: primaryColorMain, color:'white' }
     });

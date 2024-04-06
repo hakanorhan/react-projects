@@ -1,6 +1,8 @@
 import axios from "axios"
 import { useEffect, Dispatch, SetStateAction } from "react"
 import { URLs } from "../../../autos-backend/src/enums/URLs"
+import { AuthResponse } from "../../../autos-backend/src/interfaces/auth/AuthResponse"
+import { Roles } from "../../../autos-backend/src/enums/Roles"
 
 export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>) => {
     useEffect(() => {
