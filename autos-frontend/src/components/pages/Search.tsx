@@ -125,15 +125,15 @@ const Number = ({ n }) => {
   // dynamic search
   const handleDynamicSearch =async () => {
 
-    const brandId = formSelect.brand;
-    const modelId = formSelect.model;
+    const brandid = formSelect.brand;
+    const modelid = formSelect.model;
     const price = formSelect.price;
-    const carTypeId = formSelect.cartype;
-    const blandId = formSelect.bundesland;
-    const dateFrom = selectedDateFrom;
-    const dateTo = selectedDateTo;
+    const cartypeid = formSelect.cartype;
+    const blandid = formSelect.bundesland;
+    const dateFrom = selectedDateFrom?.year();
+    const dateTo = selectedDateTo?.year();
     
-    const searchParams = { brandId, modelId, price, carTypeId, blandId, dateFrom, dateTo };
+    const searchParams = { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo };
 
     try {
       const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_DYNAMIC_SEARCH, { 
@@ -153,6 +153,13 @@ const Number = ({ n }) => {
       [event.target.name]: event.target.value
     }));
 
+     if(event.target.name === "brand") {
+      setFormSelect(prevState => ({
+        ...prevState,
+        ["model"]: ""
+      }));
+     }
+    
   }
 
   const ITEM_HEIGHT = 48;

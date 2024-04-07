@@ -94,6 +94,11 @@ CREATE TABLE transmissions(
     PRIMARY KEY (transmissionid)
 );
 
+CREATE TABLE prices(
+    priceid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    price INT NOT NULL UNIQUE
+);
+
 CREATE TABLE advertiseinfo(
 	advertiseinfoid INT AUTO_INCREMENT PRIMARY KEY,
     advertiseddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -282,78 +287,29 @@ INSERT INTO brands (brand) VALUES ("Toyota");
 INSERT INTO brands (brand) VALUES ("Volvo");
 INSERT INTO brands (brand) VALUES ("Volkswagen");
 
--- Model Audi
-INSERT INTO models(model, brandid, typeid) VALUES ("100", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("80", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("A1", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("A1", 4, 5);
-INSERT INTO models(model, brandid, typeid) VALUES ("A2", 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("A3", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("A3", 4, 5);
-INSERT INTO models(model, brandid, typeid) VALUES ("A4", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("A4", 4, 2);
-INSERT INTO models(model, brandid, typeid) VALUES ("A4", 4, 4);
-INSERT INTO models(model, brandid, typeid) VALUES ("A4 Allraod", 4, 2);
-INSERT INTO models(model, brandid, typeid) VALUES ("A5", 4, 4);
-INSERT INTO models(model, brandid, typeid) VALUES ("A5", 4, 3);
-INSERT INTO models(model, brandid, typeid) VALUES ("A5", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("A6", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("A6", 4, 2);
-INSERT INTO models(model, brandid, typeid) VALUES ("A6 Allroad", 4, 2);
-INSERT INTO models(model, brandid, typeid) VALUES ("A7", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("A8", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("e-tron", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("e-tron gt", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("Q1", 4, 6);
-INSERT INTO models(model, brandid, typeid) VALUES ("Q2", 4, 6);
-INSERT INTO models(model, brandid, typeid) VALUES ("Q3", 4, 6);
-INSERT INTO models(model, brandid, typeid) VALUES ("Q7", 4, 6);
-INSERT INTO models(model, brandid, typeid) VALUES ("Q8", 4, 6);
-INSERT INTO models(model, brandid, typeid) VALUES ("R8", 4, 4);
-INSERT INTO models(model, brandid, typeid) VALUES ("R8", 4, 3);
-INSERT INTO models(model, brandid, typeid) VALUES ("RS3", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("RS4", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("RS4", 4, 2);
-INSERT INTO models(model, brandid, typeid) VALUES ("RS5", 4, 3);
-INSERT INTO models(model, brandid, typeid) VALUES ("RS5", 4, 4);
-INSERT INTO models(model, brandid, typeid) VALUES ("RS6", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("RS6", 4, 2);
-INSERT INTO models(model, brandid, typeid) VALUES ("S3", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("S4", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("S4", 4, 2);
-INSERT INTO models(model, brandid, typeid) VALUES ("S5", 4, 3);
-INSERT INTO models(model, brandid, typeid) VALUES ("S5", 4, 4);
-INSERT INTO models(model, brandid, typeid) VALUES ("S6", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("S6", 4, 2);
-INSERT INTO models(model, brandid, typeid) VALUES ("S8", 4, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("TT", 4, 3);
-INSERT INTO models(model, brandid, typeid) VALUES ("TT", 4, 4);
-INSERT INTO models(model, brandid, typeid) VALUES ("TTRS", 4, 3);
-INSERT INTO models(model, brandid, typeid) VALUES ("TTRS", 4, 4);
-INSERT INTO models(model, brandid, typeid) VALUES ("TTS", 4, 3);
-INSERT INTO models(model, brandid, typeid) VALUES ("TTS", 4, 4);
-
--- Skoda
-INSERT INTO models(model, brandid, typeid) VALUES ("Fabia", 45, 1);
-INSERT INTO models(model, brandid, typeid) VALUES ("Kodiaq", 45, 6);
-
--- Motorization Wikipedia
--- Audi A3 Benzin https://de.wikipedia.org/wiki/Audi_A3_8L
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("30 TFSI", 110, 999, 1, 5, 2020);
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("35 TFSI", 150, 1498, 1, 5, 2020);
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("40 TFSI", 190, 1984, 1, 5, 2020);
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("S3 TFSI", 310, 1984, 1, 33, 2020);
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("RS3 TFSI", 400, 2480, 1, 27, 2020);
--- Audi A3 Diesel https://de.wikipedia.org/wiki/Audi_A3_8L
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("30 TDI", 116, 1968, 2, 5, 2020);
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("35 TDI", 150, 1968, 2, 5, 2020);
-INSERT INTO motorization(motorization, ps, hubraum, fuelid, modelid, yearFrom) VALUES ("40 TDI", 200, 1968, 2, 5, 2020);
-
 INSERT INTO transmissions(transmissionname) VALUES ("Automatik");
 INSERT INTO transmissions(transmissionname) VALUES ("Schaltgetriebe");
 
 INSERT INTO exteriors(exteriorname) VALUES("Einparkhilfe");
 INSERT INTO exteriors(exteriorname) VALUES("Tempomat");
+
+INSERT INTO prices(price) VALUES(0);
+INSERT INTO prices(price) VALUES(500);
+INSERT INTO prices(price) VALUES(1000);
+INSERT INTO prices(price) VALUES(2000);
+INSERT INTO prices(price) VALUES(5000);
+INSERT INTO prices(price) VALUES(7500);
+INSERT INTO prices(price) VALUES(10000);
+INSERT INTO prices(price) VALUES(15000);
+INSERT INTO prices(price) VALUES(20000);
+INSERT INTO prices(price) VALUES(30000);
+INSERT INTO prices(price) VALUES(40000);
+INSERT INTO prices(price) VALUES(50000);
+INSERT INTO prices(price) VALUES(60000);
+INSERT INTO prices(price) VALUES(70000);
+INSERT INTO prices(price) VALUES(80000);
+
+
 
 -- User erstellt ein neuen Account
 INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 95", "49889", "Essen", 10);
