@@ -7,8 +7,7 @@ const selectQuery: string = "SELECT cars.carid, brands.brand, models.model, cars
     + " JOIN models ON cars.modelid = models.modelid"
     + " JOIN brands ON brands.brandid = models.brandid"
     + " JOIN advertiseinfo ON cars.advertiseinfoid = advertiseinfo.advertiseinfoid"
-    + " JOIN cargrants ON cars.carid = cargrants.carid"
-    + " WHERE advertiseinfo.isactive = 1 AND cargrants.grantedpublic = 0"; 
+    + " WHERE advertiseinfo.isactive = 0"; 
 
 export default async (req: express.Request, res: express.Response) => {
     let connection = await pool.getConnection();

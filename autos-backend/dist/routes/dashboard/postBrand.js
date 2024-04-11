@@ -8,11 +8,9 @@ export default async (req, res) => {
         await connection.beginTransaction();
         const [resultBrand] = await connection.execute(insertIntoBrand, [value]);
         const insertId = resultBrand.insertId;
-        console.log(insertId + ": InsertId");
         const queryResult = await connection.query(selectBrandQuery);
         const result = queryResult;
         const resultTableCell = result[0];
-        console.log(resultTableCell);
         await connection.commit();
         return res.status(200).json({ message: 'Erfolgreich hinzugefügt', tableValues: resultTableCell, insertId: insertId });
     }

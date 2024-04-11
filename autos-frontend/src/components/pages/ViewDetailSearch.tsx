@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ViewDetailIconStyle, primaryColorMain, secondaryColorLight } from '../../themes/ThemeColor'
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
-import { AxiosDetailsearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
+import { AxiosDataPublish, AxiosDetailsearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import CarImages from './dashboards/admin/components/CarImages';
 import { Button, Grid, Paper, Typography } from '@mui/material';
 
@@ -18,6 +18,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextFieldArea from '../formularFields/TextFieldArea';
 import { seperateThousand } from '../../helper/helper';
 import { Publish } from '@mui/icons-material';
+import dayjs from 'dayjs';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const paperElevationValue = 10;
 const paperMarginTopValue = '0.9rem';
@@ -42,8 +45,13 @@ interface GridTechnicalDetails {
 }
 
 const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
+  
 
   const [detailSearchValues, setDetailSearchValues] = useState<AxiosDetailsearch | null>(null);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // valid brand
@@ -58,7 +66,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
         .catch(error => console.log(error))
     }
     fetchData();
-  }, [])
+  }, [id])
 
   const GridComponent: React.FC<GridComponentProps> = ({ icon, title, value }) => {
     return <Grid item xs={6}><div style={{ display: 'flex', margin: '0.5rem' }}> {icon} <div><Typography sx={{ fontSize: '0.9rem', color: 'gray', fontWeight: '300' }} display='inline-block' variant='h6' component='h2'>{title}</Typography> <Typography variant='subtitle2' component='p'>{value}</Typography></div></div></Grid>
@@ -78,10 +86,23 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
   };
 
   const handlePublish = (canPublish: boolean) => {
+
+    const timeStamp = dayjs();
+    console.log(timeStamp + " Timestamp")
+
     async function sendData() {
       try {
-        const publishValues = { carId: detailSearchValues?.carId, canPublish }
-        const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.POST_PUBLISH}`, publishValues , { withCredentials: true })
+        const carId = detailSearchValues?.carId
+        const publishValue: boolean = canPublish;
+        const axiosData: AxiosDataPublish = { carId, canPublish: publishValue };
+
+        try {
+        const response = await axios.post<AxiosDataPublish>(`${URLs.ORIGIN_SERVER}${URLs.POST_PUBLISH}`, axiosData , { withCredentials: true });
+        navigate(0);
+          
+        } catch(error) {
+          console.log(error)
+        }
         
       }catch(error) {
 
@@ -171,7 +192,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
           <Grid item xs={12}> <TextFieldArea padding= { paperPaddingValue } minRows={8} maxRows={10} disbled={true} areaText={detailSearchValues.description} /> </Grid>
         </Paper>
         <Grid container xs={12} sx={{ marginTop:'1rem', marginBottom:'1rem' }}>
-      <Grid item xs={6}><Button onClick={() => { handlePublish(true) } } endIcon={<Publish />}>Freigeben</Button></Grid>
+      <Grid item xs={6}><Button onClick={() => { handlePublish(true); dispatch(setPublishProcessSuccess(true)); } } endIcon={<Publish />}>Freigeben</Button></Grid>
       <Grid item xs={6}><Button onClick={() => { handlePublish(false) }} sx={{ backgroundColor: primaryColorMain, color:'white', '&:hover': { backgroundColor: secondaryColorLight, color: primaryColorMain } }} endIcon={<CloseIcon />}>Sperren</Button></Grid>
     </Grid>
       </>

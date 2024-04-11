@@ -1,4 +1,5 @@
 import { pool } from "../dbConnect.js";
+import { SelectFieldEnums } from "../enums/SelectFieldEnums.js";
 var E;
 (function (E) {
     E["CARS_LONG"] = "cars";
@@ -44,8 +45,8 @@ async function performQueryGet(req, res) {
     let connection;
     try {
         connection = await pool.getConnection();
-        console.log("dateFrom: " + dateFrom);
-        if (brandid === "" && modelid === "" && price === "0" && cartypeid === "" && dateFrom === undefined && dateTo === undefined) {
+        if (SelectFieldEnums.ALL_VALUE && modelid === SelectFieldEnums.ALL_VALUE &&
+            price === SelectFieldEnums.ALL_VALUE && cartypeid === SelectFieldEnums.ALL_VALUE && dateFrom === undefined && dateTo === undefined) {
             const queryResult = await connection.execute(query);
             const result = queryResult;
             const count = result[0][0].count;
@@ -53,15 +54,25 @@ async function performQueryGet(req, res) {
         }
         else {
             query = query + " WHERE";
+            let i = 0;
             for (const [key1, value1] of Object.entries(statements)) {
-                if (value1.whereValue) {
+                if (value1.whereValue === SelectFieldEnums.ALL_VALUE || value1.whereValue === "" || value1.whereValue === null) {
+                    i = i + 1;
+                }
+                else {
                     query = query + value1.whereStatement + " AND";
                     whereValues.push(value1.whereValue);
                 }
             }
-            query = query.substring(0, query.length - 4);
-            console.log(query);
-            console.log("");
+            if (i < Object.entries(statements).length) {
+                console.log("Länge sollte 8 sein: " + i);
+                query = query.substring(0, query.length - 4);
+                console.log(query);
+            }
+            else {
+                query = query.substring(0, query.length - 5);
+                console.log(query);
+            }
             const queryResult = await connection.execute(query, whereValues);
             const result = queryResult;
             const count = result[0][0].count;

@@ -2,6 +2,7 @@ import express from "express";
 import { pool } from "../dbConnect.js";
 import { RowDataPacket } from "mysql2";
 import { ICarInformationRequest } from "../interfaces/search/IRequestSearch.js";
+import { SelectFieldEnums } from "../enums/SelectFieldEnums.js";
 
 enum E {
     CARS_LONG = "cars", CARS_SHORT = "c", CAR_ID = "carid",
@@ -22,7 +23,7 @@ interface Statements {
 const statementInitialCount = "SELECT COUNT(carid) as count FROM cars c";
 
 // disable autocommit and perform transaction
-async function performQueryGet(req: express.Request, res: express.Response){
+async function performQueryGet(req: express.Request, res: express.Response) {
 
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;
 
@@ -30,17 +31,17 @@ async function performQueryGet(req: express.Request, res: express.Response){
     const modelStatement: Statements = { joinStatement: " JOIN models m ON c.modelid = m.modelid", whereStatement: " m.modelid = ?", whereValue: modelid };
     const brandStatement: Statements = { joinStatement: " JOIN brands b ON b.brandid = m.brandid", whereStatement: " b.brandid = ?", whereValue: brandid };
     const carTypesStatement: Statements = { joinStatement: " JOIN cartypes ct ON ct.cartypeid = c.cartypeid", whereStatement: " ct.cartypeid = ?", whereValue: cartypeid };
-    const advertiseInfoStatement: Statements = { joinStatement: " JOIN advertiseinfo ai ON c.advertiseinfoid = ai.advertiseinfoid", whereStatement:" ai.advertiseinfoid = ?", whereValue: null };
+    const advertiseInfoStatement: Statements = { joinStatement: " JOIN advertiseinfo ai ON c.advertiseinfoid = ai.advertiseinfoid", whereStatement: " ai.advertiseinfoid = ?", whereValue: null };
     const userStatement: Statements = { joinStatement: " JOIN user u ON ai.userid = u.userid", whereStatement: " u.userid = ?", whereValue: null };
-    const personStatement: Statements = { joinStatement: " JOIN person p ON u.userid = p.personid" , whereStatement: " p.personid = ?", whereValue: null};
+    const personStatement: Statements = { joinStatement: " JOIN person p ON u.userid = p.personid", whereStatement: " p.personid = ?", whereValue: null };
     const addressStatement: Statements = { joinStatement: " JOIN address ad ON ad.addressid = p.addressid", whereStatement: " ad.addressid = ?", whereValue: null };
     const bundeslandStatement: Statements = { joinStatement: " JOIN bundesland bl ON bl.blandid = ad.blandid", whereStatement: " bl.blandid = ?", whereValue: blandid };
 
     const statements = { modelStatement, brandStatement, carTypesStatement, advertiseInfoStatement, userStatement, personStatement, addressStatement, bundeslandStatement }
 
-    let query =  statementInitialCount + modelStatement.joinStatement + brandStatement.joinStatement + carTypesStatement.joinStatement 
-    + advertiseInfoStatement.joinStatement + userStatement.joinStatement + personStatement.joinStatement 
-    + addressStatement.joinStatement + bundeslandStatement.joinStatement;
+    let query = statementInitialCount + modelStatement.joinStatement + brandStatement.joinStatement + carTypesStatement.joinStatement
+        + advertiseInfoStatement.joinStatement + userStatement.joinStatement + personStatement.joinStatement
+        + addressStatement.joinStatement + bundeslandStatement.joinStatement;
 
     const whereValues = [];
 
@@ -48,57 +49,66 @@ async function performQueryGet(req: express.Request, res: express.Response){
     let connection;
     try {
         connection = await pool.getConnection();
-        
-        console.log("dateFrom: " + dateFrom)
-        if(brandid === "" && modelid === "" && price === "0" && cartypeid === "" && dateFrom === undefined && dateTo === undefined) {
-        const queryResult = await connection.execute(query);
-        const result = queryResult as RowDataPacket[];
+
+
+        // no value or first value from select field 
+        if (SelectFieldEnums.ALL_VALUE && modelid === SelectFieldEnums.ALL_VALUE &&
+            price === SelectFieldEnums.ALL_VALUE && cartypeid === SelectFieldEnums.ALL_VALUE && dateFrom === undefined && dateTo === undefined) {
+
+            const queryResult = await connection.execute(query);
+            const result = queryResult as RowDataPacket[];
             const count = result[0][0].count;
-            return res.status(200).json( count );
+            return res.status(200).json(count);
         } else {
             query = query + " WHERE";
-            
-                for(const [key1, value1] of Object.entries(statements)) {
+
+            let i = 0;
+
+            for (const [key1, value1] of Object.entries(statements)) {
+                if (value1.whereValue === SelectFieldEnums.ALL_VALUE || value1.whereValue === "" || value1.whereValue === null) {
+                    i = i + 1
+                } else {
                     
-                    if(value1.whereValue) {
-                        query = query + value1.whereStatement + " AND";
-                        whereValues.push(value1.whereValue);
-                    }
+                    query = query + value1.whereStatement + " AND";
+                    whereValues.push(value1.whereValue);
                 }
-                
+            }
+            if (i < Object.entries(statements).length) {
+                console.log("Länge sollte 8 sein: " + i);
                 query = query.substring(0, query.length - 4);
-
-
-
-            console.log(query)
-            console.log("")
+                console.log(query)
+            } else {
+                query = query.substring(0, query.length - 5);
+                console.log(query)
+            }
 
             const queryResult = await connection.execute(query, whereValues);
             const result = queryResult as RowDataPacket[];
             const count = result[0][0].count;
-            return res.status(200).json( count );
+            return res.status(200).json(count);
         }
-        
-            
-      }catch (error) {
+
+
+
+    } catch (error) {
         // Handle any errors
-        return res.status(500).json({message:'Error occured.'})
+        return res.status(500).json({ message: 'Error occured.' })
     } finally {
         connection?.release();
     }
-    
+
 }
 
 export default async (req: express.Request, res: express.Response) => {
-    
-    switch(req.method) {
-        case 'GET' :
+
+    switch (req.method) {
+        case 'GET':
             performQueryGet(req, res);
             break;
         case 'POST':
             const requestData: ICarInformationRequest = req.body;
             break;
-            default:
-                res.status(500).json({ message: "Error occured" })
+        default:
+            res.status(500).json({ message: "Error occured" })
     }
 }

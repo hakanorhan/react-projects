@@ -76,7 +76,7 @@ CREATE TABLE fuels(
 
 CREATE TABLE doors(
     doorid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    doors VARCHAR(10) NOT NULL UNIQUE
+    doors VARCHAR(15) NOT NULL UNIQUE
 );
 
 CREATE TABLE models(
@@ -106,7 +106,7 @@ CREATE TABLE advertiseinfo(
     userid INT NOT NULL,
     -- user can deactivate the advertise after selling the car
     -- admin can deactivate the advertise 
-    isactive TINYINT(1) NOT NULL DEFAULT 1,
+    isactive TINYINT(1) NOT NULL DEFAULT 0,
      -- advertised car belongs to user
     FOREIGN KEY (userid) REFERENCES user (userid)
 );
@@ -165,10 +165,8 @@ CREATE TABLE cargrants(
 	grantid INT AUTO_INCREMENT PRIMARY KEY,
     -- admin can public the advertise
 	grantedpublic TINYINT(1) NOT NULL DEFAULT 0,
-    granteddate TIMESTAMP NULL,
-    grantedbyid INT NULL,
+    granteddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     carid INT NOT NULL,
-    FOREIGN KEY (grantedbyid) REFERENCES admin(adminid),
     FOREIGN KEY (carid) REFERENCES cars(carid)
 );
 
@@ -202,6 +200,7 @@ INSERT INTO bundesland(kuerzel, bundesland) values("ST", "Sachsen-Anhalt");
 INSERT INTO bundesland(kuerzel, bundesland) values("SH", "Schleswig-Holstein");
 INSERT INTO bundesland(kuerzel, bundesland) values("TH", "Thüringen");
 
+
 INSERT INTO cartypes(cartype) VALUES ("Limousine");
 INSERT INTO cartypes(cartype) VALUES ("Kombi");
 INSERT INTO cartypes(cartype) VALUES ("Coupe");
@@ -219,8 +218,7 @@ INSERT INTO fuels (fuelname) VALUES ("Wasserstoff");
 INSERT INTO fuels (fuelname) VALUES ("Ethanol");
 INSERT INTO fuels (fuelname) VALUES ("Plug-in-Hybrid");
 
-
-
+INSERT INTO transmissions(transmissionname) VALUES ("Halbautomatik");
 INSERT INTO transmissions(transmissionname) VALUES ("Automatik");
 INSERT INTO transmissions(transmissionname) VALUES ("Schaltgetriebe");
 
@@ -287,13 +285,9 @@ INSERT INTO brands (brand) VALUES ("Toyota");
 INSERT INTO brands (brand) VALUES ("Volvo");
 INSERT INTO brands (brand) VALUES ("Volkswagen");
 
-INSERT INTO transmissions(transmissionname) VALUES ("Automatik");
-INSERT INTO transmissions(transmissionname) VALUES ("Schaltgetriebe");
-
 INSERT INTO exteriors(exteriorname) VALUES("Einparkhilfe");
-INSERT INTO exteriors(exteriorname) VALUES("Tempomat");
+INSERT INTO exteriors(exteriorname) VALUES("Tempomat");,
 
-INSERT INTO prices(price) VALUES(0);
 INSERT INTO prices(price) VALUES(500);
 INSERT INTO prices(price) VALUES(1000);
 INSERT INTO prices(price) VALUES(2000);
@@ -302,13 +296,24 @@ INSERT INTO prices(price) VALUES(7500);
 INSERT INTO prices(price) VALUES(10000);
 INSERT INTO prices(price) VALUES(15000);
 INSERT INTO prices(price) VALUES(20000);
+INSERT INTO prices(price) VALUES(25000);
 INSERT INTO prices(price) VALUES(30000);
+INSERT INTO prices(price) VALUES(35000);
 INSERT INTO prices(price) VALUES(40000);
+INSERT INTO prices(price) VALUES(45000);
 INSERT INTO prices(price) VALUES(50000);
+INSERT INTO prices(price) VALUES(55000);
 INSERT INTO prices(price) VALUES(60000);
+INSERT INTO prices(price) VALUES(65000);
 INSERT INTO prices(price) VALUES(70000);
+INSERT INTO prices(price) VALUES(75000);
 INSERT INTO prices(price) VALUES(80000);
-
+INSERT INTO prices(price) VALUES(85000);
+INSERT INTO prices(price) VALUES(90000);
+INSERT INTO prices(price) VALUES(100000);
+INSERT INTO prices(price) VALUES(150000);
+INSERT INTO prices(price) VALUES(200000);
+INSERT INTO prices(price) VALUES(300000);
 
 
 -- User erstellt ein neuen Account

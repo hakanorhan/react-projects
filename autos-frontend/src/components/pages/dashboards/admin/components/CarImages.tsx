@@ -18,19 +18,23 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
   const [imageSrc, setImageSrc] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const [succesFullDownloaded, setSuccessFullDownloaded] = useState(false);
+
   useEffect(() => {
+    setSuccessFullDownloaded(false);
     const fetchImageNames = async() => {
       try {
       const response = await axios.get<AxiosDataImagesNames[]>(`${URLs.ORIGIN_SERVER}${URLs.FETCH_IMAGENAMES}/${id}`, { withCredentials: true })
-        setFetchedImageInformations(response.data);
+      setFetchedImageInformations(response.data);
         setFetchImageNamesDone(true);
+        
     } catch(error) {
         console.log(error)
       }
     }
 
     fetchImageNames();
-  }, [])
+  }, [id])
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -46,10 +50,12 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
           })
         );
         setImageSrc(fetchedImages);
+        setSuccessFullDownloaded(true)
       } catch (error) {
         console.error('Fehler beim Herunterladen der Bilder:', error);
       } finally {
         setLoading(false);
+        setFetchImageNamesDone(false);
       }
     };
     if(fetchImageNamesDone)
@@ -90,7 +96,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
 
   return (
     <>
-      {fetchImageNamesDone && imageSrc.length > 0 ? <SliderComponent /> : (
+      {succesFullDownloaded && imageSrc.length > 0 ? <SliderComponent /> : (
         <p>Lade Bild...</p>
       )}
     </>

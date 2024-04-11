@@ -22,15 +22,10 @@ import SelectField from '../formularFields/SelectField';
 import { useEffectFetch, useEffectModel } from '../../helper/DataLoading';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import { AxiosSearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
-import { CONSOLE_DEV } from '../../helper/helper';
-import { AuthResponse } from '../../../../autos-backend/src/interfaces/auth/AuthResponse';
-import { useDispatch } from 'react-redux';
-import { setRole, setWhichButtonClicked } from '../../redux/features/userlogged';
-import { Roles } from '../../../../autos-backend/src/enums/Roles';
-
-const prices = [500, 1_000, 2_500, 5_000, 7_500, 10_000, 15_000, 20_000, 30_000, 40_000, 50_000, 60_000, 70_000, 80_000, 90_000, 100_000, 200_000, "ab 200000"];
+import { SelectFieldEnums } from '../../../../autos-backend/src/enums/SelectFieldEnums';
 
 const searchButtonText = " Treffer";
+const allComponents = " - Beliebig -";
 
 const Search: React.FC = () => {
 
@@ -48,25 +43,22 @@ const Number = ({ n }) => {
   const [countCars, setCountCars] = React.useState<number>();
 
   const initalValue: AxiosSearch = {
-    price: 0,
     yearFrom: 0,
     yearTo: 0,
-    brand: "",
-    model: "",
-    cartype: "",
-    bundesland: ""
+    brand: SelectFieldEnums.ALL_VALUE,
+    model: SelectFieldEnums.ALL_VALUE,
+    cartype:SelectFieldEnums.ALL_VALUE,
+    bundesland: SelectFieldEnums.ALL_VALUE,
+    prices: SelectFieldEnums.ALL_VALUE
   }
 
   const [formSelect, setFormSelect] = React.useState<AxiosSearch>(initalValue);
-
-
-  const [selectedPriceState, setSelectedPriceState] = React.useState<string>("");
-  const [selectedCarTypeState, setSelectedCarTypeState] = React.useState<string[]>([]);
 
   const [listBrands, setListBrands] = React.useState<string[]>([])
   const [listModel, setListModel] = React.useState<string[]>([]);
   const [listCarTypes, setListCarTypes] = React.useState<string[]>([]);
   const [listFederalState, setListFederalState] = React.useState<string[]>([]);
+  const [listPrices, setListPrices] = React.useState<string[]>([]);
 
   const minDateConst = dayjs('1900');
   const maxDateConst = dayjs();
@@ -90,6 +82,7 @@ const Number = ({ n }) => {
           const tableValues = response.data.tableValues;
           setListFederalState(tableValues.resultBundesland);
           setListCarTypes(tableValues.resultCarTypes);
+          setListPrices(tableValues.resultPrices);
         }
       } catch(error) {
 
@@ -98,24 +91,6 @@ const Number = ({ n }) => {
 
     fetchData();
   }, [])
-
-  /*
-  React.useEffect(() => {
-    async function fetchData() {
-      try { 
-        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_BUNDESLAENDER, { withCredentials: true })
-
-        if(response.data) {
-          const tableValues = response.data.tableValues;
-          setListFederalState(tableValues);
-        }
-      } catch(error) {
-
-      }
-    }
-
-    fetchData();
-  }, []) */
 
   // fetch data on every select field changes
   React.useEffect(() => {
@@ -127,12 +102,13 @@ const Number = ({ n }) => {
 
     const brandid = formSelect.brand;
     const modelid = formSelect.model;
-    const price = formSelect.price;
+    const price = formSelect.prices;
     const cartypeid = formSelect.cartype;
     const blandid = formSelect.bundesland;
     const dateFrom = selectedDateFrom?.year();
     const dateTo = selectedDateTo?.year();
     
+
     const searchParams = { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo };
 
     try {
@@ -140,19 +116,19 @@ const Number = ({ n }) => {
         withCredentials: true,
          params: searchParams
         })
-        alert(response.data);
          setCountCars(response.data);
     } catch(error) {
       console.error('Error searching', error);
     }
   }
 
+
   const handleChangeSelect = (event: SelectChangeEvent<string>) => {
     setFormSelect(prevState => ({
       ...prevState,
       [event.target.name]: event.target.value
     }));
-
+alert(event.target.name + " " + event.target.value)
      if(event.target.name === "brand") {
       setFormSelect(prevState => ({
         ...prevState,
@@ -186,27 +162,6 @@ const Number = ({ n }) => {
       </LocalizationProvider>
   }
 
-  const PreiseBisComponent = () => {
-    return <FormControl>
-        <InputLabel id="demo-simple-select-label">Preis bis</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={selectedPriceState}
-          label="Preis bis"
-          onChange={handleChangePreisBis}
-        >
-          {prices.map(preis => (<MenuItem key={preis} value={preis}>{preis + "€"}</MenuItem>))}
-
-        </Select>
-      </FormControl>
-  }
-
-
-  const handleChangePreisBis = (event: SelectChangeEvent) => {
-    setSelectedPriceState(event.target.value);
-  };
-
   return (
     <>
       <Box >
@@ -215,21 +170,21 @@ const Number = ({ n }) => {
           <Grid container justifyContent="center" columnSpacing={1}>
             <Grid item xs= {6} md={4}>
             {/* Brand */}
-            <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brandid' handleChange={handleChangeSelect} label='Marke'/>
+            <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brandid' handleChange={handleChangeSelect} label='Marke' allOption = { true }/>
             </Grid>
             <Grid item xs={6} md={4}>
             {/* Model */}
-            <SelectField values={listModel} selectedValue={formSelect.model} objectName='model' idOfSelect='modelid' handleChange={handleChangeSelect} label='Modell' />
+            <SelectField values={listModel} selectedValue={formSelect.model} objectName='model' idOfSelect='modelid' handleChange={handleChangeSelect} label='Modell' allOption = { true } />
             </Grid>
 
             <Grid item xs={6} md={4}>
             {/* Cartype */}
-            <SelectField idOfSelect='cartypeid' objectName='cartype' handleChange={handleChangeSelect} label='Fahrzeugtyp' values={listCarTypes} selectedValue={formSelect.cartype} />
+            <SelectField idOfSelect='cartypeid' objectName='cartype' handleChange={handleChangeSelect} label='Fahrzeugtyp' values={listCarTypes} selectedValue={formSelect.cartype} allOption = { true } />
             </Grid>
 
             <Grid item xs={6} md={4}>
             {/* Preis */}
-            <PreiseBisComponent />
+            <SelectField idOfSelect='priceid' objectName='price' handleChange={handleChangeSelect} label='Preis' values={listPrices} selectedValue={formSelect.prices} allOption= { true }/>
             </Grid>
 
             <Grid item xs={6} md={4}>
@@ -243,7 +198,7 @@ const Number = ({ n }) => {
             </Grid>
 
             <Grid item xs={6} md={4}>
-              <SelectField idOfSelect='blandid' objectName='bundesland' handleChange={handleChangeSelect} label='Bundesland' values={listFederalState} selectedValue={formSelect.bundesland} />
+              <SelectField idOfSelect='blandid' objectName='bundesland' handleChange={handleChangeSelect} label='Bundesland' values={listFederalState} selectedValue={formSelect.bundesland} allOption = { true } />
             </Grid>
 
             <Grid item xs={6} md={8}>

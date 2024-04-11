@@ -9,6 +9,7 @@ const selectQueryFuels: string = 'SELECT * FROM fuels';
 const selectQueryDoors: string = 'SELECT * FROM doors';
 const selectQuerySeats: string = 'SELECT * FROM seats';
 const selectQueryBundesland: string = 'SELECT * FROM bundesland';
+const selectQueryPrices: string = 'SELECT * FROM prices';
 //const selectQuery: string = 'SELECT brands.brandid, brands.marke, models.modell, models.modelid FROM brands JOIN models ON brands.brandid = models.brandid';
 
 export default async (req: express.Request, res: express.Response) => {
@@ -39,8 +40,12 @@ export default async (req: express.Request, res: express.Response) => {
         const queryResultBundesland = await connection.execute(selectQueryBundesland);
         const resultBundesland = queryResultBundesland[0] as RowDataPacket[];
 
+        // prices
+        const queryResultPrices = await connection.execute(selectQueryPrices);
+        const resultPrices = queryResultPrices[0] as RowDataPacket[];
+
         return res.status(200).json({ message: 'Data send',
-             tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland }});
+             tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices }});
     } catch (error) {
         console.log("Error:", error);
         // Verwende res.status() und res.json(), um den Fehler zurückzugeben

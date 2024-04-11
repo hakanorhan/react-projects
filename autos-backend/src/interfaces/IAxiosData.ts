@@ -86,10 +86,10 @@ export interface AxiosSearch {
   brand: string,
   model: string,
   cartype: string,
-  price: number,
   yearFrom: number,
   yearTo: number,
-  bundesland: string
+  bundesland: string,
+  prices: string
 }
 
 export interface AxiosImageData {
@@ -147,4 +147,9 @@ export interface AxiosDataSignup {
   isCheckedchat: boolean,
   formattedDate: string,
   telefonNr: string,
+}
+
+export interface AxiosDataPublish {
+  carId: number | undefined,
+  canPublish: boolean
 }

@@ -1,20 +1,21 @@
-import axios from "axios"
+import axios, { all } from "axios"
 import { useEffect, Dispatch, SetStateAction } from "react"
-import { URLs } from "../../../autos-backend/src/enums/URLs"
-import { AuthResponse } from "../../../autos-backend/src/interfaces/auth/AuthResponse"
-import { Roles } from "../../../autos-backend/src/enums/Roles"
+import { URLs } from "../../../autos-backend/src/enums/URLs";
 
 export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>) => {
     useEffect(() => {
     // valid brand
     const fetchData = async() => {   
-      await axios.get(`${URLs.ORIGIN_SERVER}` + url, { withCredentials: true })
-            
-      .then(response => { 
-            setListValues(response.data.tableValues);
-             })
-             .catch(error => console.log(error))
-            }
+      const response = await axios.get(`${URLs.ORIGIN_SERVER}` + url, { withCredentials: true })
+      try {
+
+        setListValues(response.data.tableValues);  
+      } catch (error) {
+        // TODO: error handling
+        console.log(error)
+      }
+      }
+
     fetchData();
     }, [])
 }

@@ -13,17 +13,12 @@ export default async (req: express.Request, res: express.Response) => {
             // query Brand
             const [resultBrand]: [ResultSetHeader, any] = await connection.execute(insertIntoBrand, [value]);
             const insertId = resultBrand.insertId;
-            console.log(insertId + ": InsertId")
-
 
             const queryResult = await connection.query(selectBrandQuery);
             const result = queryResult as RowDataPacket[];
 
-
             // Brandnames
             const resultTableCell = result[0];
-
-            console.log(resultTableCell);
 
             await connection.commit();
                 

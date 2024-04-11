@@ -6,6 +6,7 @@ const selectQueryFuels = 'SELECT * FROM fuels';
 const selectQueryDoors = 'SELECT * FROM doors';
 const selectQuerySeats = 'SELECT * FROM seats';
 const selectQueryBundesland = 'SELECT * FROM bundesland';
+const selectQueryPrices = 'SELECT * FROM prices';
 export default async (req, res) => {
     let connection = await pool.getConnection();
     try {
@@ -21,8 +22,10 @@ export default async (req, res) => {
         const resultDoors = queryResultDoors[0];
         const queryResultBundesland = await connection.execute(selectQueryBundesland);
         const resultBundesland = queryResultBundesland[0];
+        const queryResultPrices = await connection.execute(selectQueryPrices);
+        const resultPrices = queryResultPrices[0];
         return res.status(200).json({ message: 'Data send',
-            tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland } });
+            tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices } });
     }
     catch (error) {
         console.log("Error:", error);

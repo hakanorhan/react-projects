@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 import { DateComponentMonthYear } from '../../formularFields/DateComponentMonthYear';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { SelectFieldEnums } from '../../../../../autos-backend/src/enums/SelectFieldEnums';
 
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
@@ -27,11 +28,11 @@ const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 export default function InserateCar() {
 
   const initialSelect: InserateSelect = {
-    brand: "",
-    model: "",
-    cartype: "",
-    fuelname: "",
-    transmissionname: "",
+    brand: SelectFieldEnums.ALL_VALUE,
+    model: SelectFieldEnums.ALL_VALUE,
+    cartype: SelectFieldEnums.ALL_VALUE,
+    fuelname: SelectFieldEnums.ALL_VALUE,
+    transmissionname: SelectFieldEnums.ALL_VALUE,
     doors: ""
   }
 
@@ -104,7 +105,7 @@ export default function InserateCar() {
 
   useEffect(() => {
     setRefresh(false)
-    axios.get(`${URLs.ORIGIN_SERVER}${URLs.FETCH_INSERATE_DATA}`, { withCredentials: true })
+    axios.get(`${URLs.ORIGIN_SERVER}${URLs.FETCH_STATIC_DATA}`, { withCredentials: true })
       .then(response => {
         const tableValues = response.data.tableValues;
         setListBrands(tableValues.resultBrands);
@@ -147,9 +148,6 @@ export default function InserateCar() {
     {// TODO: Add validation 
     }
     if (true) {
-      console.log(form)
-      console.log(formCheckbox)
-      console.log(formSelect)
       setLoading(true);
       const axiosData: AxiosDataInserate = {
         inserateData: form,
