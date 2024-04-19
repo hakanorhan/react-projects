@@ -1,5 +1,5 @@
 import { pool } from '../../dbConnect.js';
-const selectQuery = 'SELECT * from brands';
+const selectQuery = 'SELECT * from brand';
 export default async (req, res) => {
     let connection = await pool.getConnection();
     try {

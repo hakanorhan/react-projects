@@ -7,9 +7,10 @@ import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import { IResponseSignInData } from "../interfaces/signin/IResponseSignInData.js";
 import { createToken } from "../jwt/jwtToken.js";
 import { SignInForm } from "../interfaces/IAxiosData.js";
-import { CONSOLE_DEV } from "../globalConfig.js";
+import { AuthResponse } from "../interfaces/auth/AuthResponse.js";
+import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
 
-const selectQuery: string = 'SELECT * FROM person WHERE email = ?';
+const selectQuery: string = 'SELECT * FROM account_data WHERE email = ?';
 
 // disable autocommit and perform transaction
 async function performQuery(requestData: SignInForm, res: express.Response){
@@ -31,32 +32,31 @@ async function performQuery(requestData: SignInForm, res: express.Response){
             
             // Email not found
             if(result[0].length === 0) {
-                return res.status(401).json({message: 'Wrong email address or password'});
+                const authResponse: AuthResponse = { authenticated: false, role: null, errorMessage: ERROR_MESSAGE_401 }
+                return res.status(401).json( authResponse );
             }
 
             // Email found, select hashed password
-            const resultPassword = result[0][0].password;
-            const resultPersonId = result[0][0].personid;
+            const resultId = result[0][0].account_data_id;
+            const resultPassword = result[0][0].password_secret;
             const resultEmail = result[0][0].email;
-            const resultName = result[0][0].name;
-            const resultRole = result[0][0].role;
+            const accountRole = result[0][0].account_role;
 
             bcrypt.compare(password, resultPassword).then(result => {
                 if(result) {
 
-                    // create Access Token
-                    const responseSignInData: IResponseSignInData = {
-                        personId: resultPersonId,
-                        name: resultName,
-                        role: resultRole
+                    const authResponse: AuthResponse = {
+                        authenticated: true,
+                        role: accountRole
                     }
+
                     // jwt
-                    const accessToken = createToken(resultPersonId, resultName, resultEmail, resultRole);
+                    const accessToken = createToken(resultId, resultEmail, accountRole);
                     // milliseconds
                     res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 })
-                    res.status(200).json(responseSignInData);
+                    res.status(200).json(authResponse);
                 } else {
-                    return res.status(401).json({message: 'Unauthorized'});
+                    return res.status(401).json({message: 'Bitte überprüfen Sie die Eingaben.'});
                 }
             })
       }catch (error) {

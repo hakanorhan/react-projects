@@ -11,6 +11,7 @@ export enum URLs {
     FETCH_INSERATE_PUBLISH = '/fetch-inserate-publish',
     FETCH_DETAIL_SEARCH = '/detailsuche',
     POST_SIGINUP = '/signup',
+    POST_SIGINUP_EMAILCHECK = '/signup-checkemail',
     POST_SIGNIN = '/signin',
     POST_INSERT_BAUREIHE = '/admin/writebaueihe',
     POST_INSERATE_CAR = '/inseratecar',
@@ -24,4 +25,5 @@ export enum URLs {
     FETCH_IMAGENAMES = '/fetchimagenames',
     FETCH_BUNDESLAENDER = "/fetchbundeslaender",
     POST_PUBLISH = '/admin/publish',
+    DELETE_TOKEN = '/deletetoken'
 }

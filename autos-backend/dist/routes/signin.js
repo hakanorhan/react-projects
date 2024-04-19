@@ -2,7 +2,8 @@ import { pool } from "../dbConnect.js";
 import bcrypt from 'bcrypt';
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import { createToken } from "../jwt/jwtToken.js";
-const selectQuery = 'SELECT * FROM person WHERE email = ?';
+import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
+const selectQuery = 'SELECT * FROM account_data WHERE email = ?';
 async function performQuery(requestData, res) {
     const { email, password } = requestData;
     let connection;
@@ -14,26 +15,25 @@ async function performQuery(requestData, res) {
         const queryResult = await connection.query(selectQuery, [email]);
         const result = queryResult;
         if (result[0].length === 0) {
-            return res.status(401).json({ message: 'Wrong email address or password' });
+            const authResponse = { authenticated: false, role: null, errorMessage: ERROR_MESSAGE_401 };
+            return res.status(401).json(authResponse);
         }
-        const resultPassword = result[0][0].password;
-        const resultPersonId = result[0][0].personid;
+        const resultId = result[0][0].account_data_id;
+        const resultPassword = result[0][0].password_secret;
         const resultEmail = result[0][0].email;
-        const resultName = result[0][0].name;
-        const resultRole = result[0][0].role;
+        const accountRole = result[0][0].account_role;
         bcrypt.compare(password, resultPassword).then(result => {
             if (result) {
-                const responseSignInData = {
-                    personId: resultPersonId,
-                    name: resultName,
-                    role: resultRole
+                const authResponse = {
+                    authenticated: true,
+                    role: accountRole
                 };
-                const accessToken = createToken(resultPersonId, resultName, resultEmail, resultRole);
+                const accessToken = createToken(resultId, resultEmail, accountRole);
                 res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 });
-                res.status(200).json(responseSignInData);
+                res.status(200).json(authResponse);
             }
             else {
-                return res.status(401).json({ message: 'Unauthorized' });
+                return res.status(401).json({ message: 'Bitte überprüfen Sie die Eingaben.' });
             }
         });
     }

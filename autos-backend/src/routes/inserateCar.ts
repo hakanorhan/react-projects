@@ -3,7 +3,7 @@ import jwt, { VerifyErrors } from 'jsonwebtoken';
 import { ResultSetHeader } from "mysql2";
 import { pool } from "../dbConnect.js";
 import { AxiosDataInserate as AxiosDataInserateRequest, AxiosInserateResponse } from "../interfaces/IAxiosData.js";
-import { DecodedToken, verifyUserJwt } from "../jwt/authenticate.js";
+import { DecodedToken, verifyUserJwt } from "../jwt/checkAuth.js";
 
 const INSERT_INTO_ADVERTISEINFO: string = "INSERT INTO advertiseinfo (userid) VALUES(?)";
 const INSERT_INTO_CARS : string 

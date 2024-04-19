@@ -1,12 +1,12 @@
 import { pool } from '../dbConnect.js';
-const selectQueryBrands = 'SELECT * from brands';
-const selectQueryCartypes = 'SELECT * FROM cartypes';
-const selectQueryTransmissions = 'SELECT * FROM transmissions';
-const selectQueryFuels = 'SELECT * FROM fuels';
-const selectQueryDoors = 'SELECT * FROM doors';
-const selectQuerySeats = 'SELECT * FROM seats';
-const selectQueryBundesland = 'SELECT * FROM bundesland';
-const selectQueryPrices = 'SELECT * FROM prices';
+const selectQueryBrands = 'SELECT * from brand';
+const selectQueryCartypes = 'SELECT * FROM cartype';
+const selectQueryTransmissions = 'SELECT * FROM transmission';
+const selectQueryFuels = 'SELECT * FROM fuel';
+const selectQueryDoors = 'SELECT * FROM door';
+const selectQuerySeats = 'SELECT * FROM seat';
+const selectQueryBundesland = 'SELECT * FROM federal_state';
+const selectQueryPrices = 'SELECT * FROM price';
 export default async (req, res) => {
     let connection = await pool.getConnection();
     try {

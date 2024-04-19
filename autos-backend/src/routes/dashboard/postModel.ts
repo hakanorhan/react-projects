@@ -3,7 +3,7 @@ import { REGEX_NAMES } from "../../regex/regex.js";
 import { pool } from "../../dbConnect.js";
 import { AxiosDataModel } from "../../interfaces/IAxiosData.js";
 
-const insertIntoModels: string = "insert into models(model, brandid)VALUES(?, ?)";
+const insertIntoModels: string = "insert into model(model, brand_id)VALUES(?, ?)";
 
 export default async (req: express.Request, res: express.Response) => {
     const axiosData: AxiosDataModel = req.body;

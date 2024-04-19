@@ -1,5 +1,5 @@
 export interface IResponseSignInData {
-    personId: number,
-    name: string,
+    id: number,
+    email: string,
     role: string
 }

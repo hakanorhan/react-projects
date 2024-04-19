@@ -1,12 +1,13 @@
 import toast from "react-hot-toast"; 
 
-export const notifySuccess = (message: string) => toast.success(message, {
+export const notifySuccess = (id: string, message: string) => toast.success(message, {
+    id,
     duration: 2000,
     position: 'top-center'
   });
 
-  export const notifyError = (message: string) => toast.error(message, {
+  export const notifyError = (id: string, message: string) => toast.error(message, {
+    id,
     duration: 4000,
-    position: 'bottom-center'
-  
+    position: 'top-center'
   });

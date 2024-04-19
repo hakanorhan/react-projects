@@ -82,3 +82,15 @@ export function formularBaureiheIsValid(form: FormBaureihe, formSelect: FormBaur
     return REGEX.REGEX_BAUREIHE.test(form.baureihe) && REGEX.REGEX_HUBRAUM.test(form.kw) && REGEX.REGEX_HUBRAUM.test(form.hubraum) && 
         formSelect.brand && formSelect.cartype && formSelect.model;
 }
+
+export function formularStreetIsValid(street: string) {
+    return REGEX.REGEX_STREET.test(street)
+}
+
+export function formularStreetNrIsValid(nr: string) {
+    return REGEX.REGEX_STREET_NR.test(nr);
+}
+
+export function formularZipCodeIsVald(zipcode: number) {
+    return REGEX.REGEX_ZIPCODE.test(zipcode.toString());
+}

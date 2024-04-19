@@ -2,14 +2,14 @@ import express from 'express';
 import { pool } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 
-const selectQueryBrands: string = 'SELECT * from brands';
-const selectQueryCartypes: string = 'SELECT * FROM cartypes';
-const selectQueryTransmissions: string = 'SELECT * FROM transmissions';
-const selectQueryFuels: string = 'SELECT * FROM fuels';
-const selectQueryDoors: string = 'SELECT * FROM doors';
-const selectQuerySeats: string = 'SELECT * FROM seats';
-const selectQueryBundesland: string = 'SELECT * FROM bundesland';
-const selectQueryPrices: string = 'SELECT * FROM prices';
+const selectQueryBrands: string = 'SELECT * from brand';
+const selectQueryCartypes: string = 'SELECT * FROM cartype';
+const selectQueryTransmissions: string = 'SELECT * FROM transmission';
+const selectQueryFuels: string = 'SELECT * FROM fuel';
+const selectQueryDoors: string = 'SELECT * FROM door';
+const selectQuerySeats: string = 'SELECT * FROM seat';
+const selectQueryBundesland: string = 'SELECT * FROM federal_state';
+const selectQueryPrices: string = 'SELECT * FROM price';
 //const selectQuery: string = 'SELECT brands.brandid, brands.marke, models.modell, models.modelid FROM brands JOIN models ON brands.brandid = models.brandid';
 
 export default async (req: express.Request, res: express.Response) => {

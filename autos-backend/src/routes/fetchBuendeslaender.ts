@@ -2,7 +2,7 @@ import express from 'express';
 import { pool } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 
-const selectQuery: string = 'SELECT * from bundesland';
+const selectQuery: string = 'SELECT * from federal_state';
 //const selectQuery: string = 'SELECT brands.brandid, brands.marke, models.modell, models.modelid FROM brands JOIN models ON brands.brandid = models.brandid';
 
 export default async (req: express.Request, res: express.Response) => {
@@ -10,7 +10,6 @@ export default async (req: express.Request, res: express.Response) => {
     try {
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0] as RowDataPacket[];
-        console.log(result)
         return res.status(200).json({ message: 'Data send', tableValues: result});
     } catch (error) {
         console.log("Error:", error);

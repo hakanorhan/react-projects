@@ -1,4 +1,7 @@
+import { Roles } from "../../enums/Roles.js";
+
 export interface AuthResponse {
     authenticated: boolean,
-    role: string | null
+    role: Roles | null,
+    errorMessage?: string
 }

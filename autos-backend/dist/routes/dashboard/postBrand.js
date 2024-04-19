@@ -1,6 +1,6 @@
 import { pool } from "../../dbConnect.js";
-const insertIntoBrand = "INSERT INTO brands (brand) VALUES (?)";
-const selectBrandQuery = "SELECT * FROM brands";
+const insertIntoBrand = "INSERT INTO brand (brand) VALUES (?)";
+const selectBrandQuery = "SELECT * FROM brand";
 export default async (req, res) => {
     const { value } = req.body;
     let connection = await pool.getConnection();
@@ -12,6 +12,7 @@ export default async (req, res) => {
         const result = queryResult;
         const resultTableCell = result[0];
         await connection.commit();
+        console.log(resultTableCell);
         return res.status(200).json({ message: 'Erfolgreich hinzugefügt', tableValues: resultTableCell, insertId: insertId });
     }
     catch {

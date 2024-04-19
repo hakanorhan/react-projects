@@ -10,7 +10,7 @@ import { styled } from "@mui/material";
 */
 
 const textFieldXSWitdh = '90%';
-const textFieldSMWitdh = '560px';
+export const textFieldSMWitdh = '560px';
 
 const searchContainerXSWidth = '90%';
 const searchContainerMDWidth = '90%';
@@ -25,6 +25,7 @@ export const primaryColorLight: string = colors.grey[300];
 const secondaryColorMain: string = colors.orange[700];
 export const secondaryColorLight: string = colors.green[300];
 export const colorDanger: string = colors.red[700]; 
+export const buttonHeight ='55px';
 
 export const minHeightContent = '750px';
 
@@ -58,7 +59,6 @@ const themeColor = createTheme({
                 root: {
                     borderRadius:'0px',
                     border: 'none',
-                    height: '55px',
                     width:'100%',
                     backgroundColor: secondaryColorLight,
                     '&:hover': {

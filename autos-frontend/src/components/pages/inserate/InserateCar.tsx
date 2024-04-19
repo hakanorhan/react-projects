@@ -28,11 +28,11 @@ const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 export default function InserateCar() {
 
   const initialSelect: InserateSelect = {
-    brand: SelectFieldEnums.ALL_VALUE,
-    model: SelectFieldEnums.ALL_VALUE,
-    cartype: SelectFieldEnums.ALL_VALUE,
-    fuelname: SelectFieldEnums.ALL_VALUE,
-    transmissionname: SelectFieldEnums.ALL_VALUE,
+    brand: "",
+    model: "",
+    cartype: "",
+    fuelname: "",
+    transmissionname: "",
     doors: ""
   }
 
@@ -117,7 +117,7 @@ export default function InserateCar() {
   }, [refresh])
 
   // Fetch Model after select value changed
-  useEffectModel(URLs.FETCH_BAUREIHE_MODEL, setListModels, formSelect.brand);
+  useEffectModel(URLs.FETCH_MODEL, setListModels, formSelect.brand);
 
   const handleOnChange = (fieldName: string, fieldValue: string) => {
     setForm({ ...form, [fieldName]: fieldValue })
@@ -226,14 +226,14 @@ export default function InserateCar() {
         <Box sx={{ display: requestSuccess ? 'none' : activeStep == 0 ? 'block' : 'none' }}>
           <Grid container columnSpacing={2} rowSpacing={1}>
             { /* Brand */}
-            <Grid item xs={6}> <SelectField values={listBrands} objectName='brand' idOfSelect='brandid' selectedValue={formSelect.brand} handleChange={handleChangeSelect} label='Marke' /> </Grid>
-            <Grid item xs={6}> <SelectField values={listModels} objectName='model' idOfSelect='modelid' selectedValue={formSelect.model} handleChange={handleChangeSelect} label='Modell' /> </Grid>
+            <Grid item xs={6}> <SelectField values={listBrands} objectName='brand' idOfSelect='brand_id' selectedValue={formSelect.brand} handleChange={handleChangeSelect} label='Marke' /> </Grid>
+            <Grid item xs={6}> <SelectField values={listModels} objectName='model' idOfSelect='model_id' selectedValue={formSelect.model} handleChange={handleChangeSelect} label='Modell' /> </Grid>
 
-            <Grid item xs={6}>  <SelectField values={listCarTypes} objectName='cartype' idOfSelect='cartypeid' selectedValue={formSelect.cartype} handleChange={handleChangeSelect} label='Typ' /> </Grid>
-            <Grid item xs={6}> <SelectField values={listTransmission} objectName='transmissionname' idOfSelect='transmissionid' selectedValue={formSelect.transmissionname} handleChange={handleChangeSelect} label='Getriebe' /> </Grid>
+            <Grid item xs={6}>  <SelectField values={listCarTypes} objectName='cartype' idOfSelect='cartype_id' selectedValue={formSelect.cartype} handleChange={handleChangeSelect} label='Typ' /> </Grid>
+            <Grid item xs={6}> <SelectField values={listTransmission} objectName='transmission' idOfSelect='transmission_id' selectedValue={formSelect.transmissionname} handleChange={handleChangeSelect} label='Getriebe' /> </Grid>
 
-            <Grid item xs={6}> <SelectField values={listFuels} objectName='fuelname' idOfSelect='fuelid' selectedValue={formSelect.fuelname} handleChange={handleChangeSelect} label='Kraftstoff' /> </Grid>
-            <Grid item xs={6}> <SelectField values={listDoors} objectName='doors' idOfSelect='doorid' selectedValue={formSelect.doors} handleChange={handleChangeSelect} label='Anzahl Türen' /> </Grid>
+            <Grid item xs={6}> <SelectField values={listFuels} objectName='fuel' idOfSelect='fuel_id' selectedValue={formSelect.fuelname} handleChange={handleChangeSelect} label='Kraftstoff' /> </Grid>
+            <Grid item xs={6}> <SelectField values={listDoors} objectName='door' idOfSelect='door_id' selectedValue={formSelect.doors} handleChange={handleChangeSelect} label='Anzahl Türen' /> </Grid>
 
             <Grid item xs={6}> <TextFieldCars id='previousOwner' onChange={value => handleOnChange('previousOwner', value)} label='Anzahl Vorbesitzer' regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
 

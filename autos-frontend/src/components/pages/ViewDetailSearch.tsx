@@ -20,7 +20,6 @@ import { seperateThousand } from '../../helper/helper';
 import { Publish } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 const paperElevationValue = 10;
 const paperMarginTopValue = '0.9rem';
@@ -51,7 +50,8 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+  // TODO: useNavigate VieDetailsearch
+  //const navigate = useNavigate();
 
   useEffect(() => {
     // valid brand
@@ -98,7 +98,8 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
 
         try {
         const response = await axios.post<AxiosDataPublish>(`${URLs.ORIGIN_SERVER}${URLs.POST_PUBLISH}`, axiosData , { withCredentials: true });
-        navigate(0);
+        // TODO: reolad
+        //navigate(0);
           
         } catch(error) {
           console.log(error)

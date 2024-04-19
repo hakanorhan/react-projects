@@ -8,21 +8,47 @@ import { IResponseSignup } from "../interfaces/ISignUp.js";
 import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../enums/Roles.js";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-import * as SignupStatements from "../statements/signupStatements.js"; 
 import { AxiosDataSignup } from "../interfaces/IAxiosData.js";
 
+export const insertAdress: string =
+    `INSERT INTO address (street_nr, zipcode, city, federal_state_id) VALUES (?, ?, ?, ?)`;
+
+export const insertPersonalData: string = 
+    "INSERT INTO personal_data (forename, surename, tel_nr, birthdate, address_id) VALUES (?, ?, ?, ?, ?)";
+
+export const insertAccountData: string =
+    "INSERT INTO account_data (email, password_secret, account_role) VALUES (?, ?, ?)";
+
+export const insertIntoContactPreffered: string =
+    "INSERT INTO contact_preffered (contact_telefon, contact_email, contact_chat) VALUES(?, ?, ?)";
+
+export const insertUser: string = 
+    "INSERT INTO user (personal_data_id, account_data_id, contact_preffered_id) VALUES (?, ?, ?)";
+
+export const insertIntoUserDealer: string =
+    "INSERT INTO user_dealer (user_id, companyname, impressum) VALUES (?, ?, ?)";
+    
 // disable autocommit and perform transaction
 async function performQuery(requestData: any, res: express.Response){
     const axiosData: AxiosDataSignup = requestData;
+    const form = axiosData.form;
     console.log(axiosData);
     
-    if(!axiosData.form.email.match(REGEX_EMAIL)) {
-        return console.log("Email not matches");
+    if(!form.email.match(REGEX_EMAIL)) {
+        const iResponseSignUp: IResponseSignup = { message: "Email ungültig" }
+        return res.status(401).json( iResponseSignUp )
     }
 
-    if(!axiosData.form.password1!.match(REGEX_PASSWORD)) {
-        return console.log("Password not matches")
+    if(!form.password1!.match(REGEX_PASSWORD)) {
+        const iResponseSignUp: IResponseSignup = { message: "Password ungültig" }
+        return res.status(401).json( iResponseSignUp )
     }
+
+            // passwort not matches, process password matches is used in frontend for better user experience
+    if(form.password1 !== form.password2) {
+        const iResponseSignUp: IResponseSignup = { message: "Passwörter stimmen nicht überein" }
+        return res.status(401).json(iResponseSignUp);
+            }
 
     const connection = await pool.getConnection();
     try {
@@ -30,63 +56,68 @@ async function performQuery(requestData: any, res: express.Response){
         await connection.beginTransaction();
 
         // Exists email
-        const selectQuery = 'SELECT email FROM person WHERE email = ?';
-        const queryResult = await connection.query(selectQuery, [axiosData.form.email]);
+        const selectQuery = 'SELECT email FROM account_data WHERE email = ?';
+        const queryResult = await connection.query(selectQuery, [form.email]);
         const result = queryResult as RowDataPacket[];
         
         if(result[0].length === 1) {
-            const message: IResponseSignup = { message: "Email already exists. Please try another email" }
-            return res.status(409).json(message);
-        }
-
-        // passwort not matches, process password matches is used in frontend for better user experience
-        if(axiosData.form.password1 !== axiosData.form.password2) {
-            const message = { message: "Password not matches. Please try again" }
-            return res.status(409).json(message);
+            const iResponseSignUp: IResponseSignup = { message: "Email existiert bereits" }
+            return res.status(409).json(iResponseSignUp);
         }
         
         // hash password
         const salt = genSaltSync(10);
         const hash = hashSync(axiosData.form.password1, salt);
-        const streetNr = axiosData.form.street + axiosData.form.nr;
+        const streetNr = form.street + axiosData.form.nr;
         // insert address
         const [resultAdress]: [ResultSetHeader, any] = await connection.execute(
-            SignupStatements.insertAdress,
-            [streetNr, axiosData.form.zipcode, axiosData.form.city, axiosData.selectedBundesland]
+            insertAdress,
+            [streetNr, form.zipcode, form.city, axiosData.selectedBundesland]
         );
         
         // insert adressId in user
         const addressId: number = resultAdress.insertId;
 
-        // insert into person
-        const [resultPerson]: [ResultSetHeader, any] = await connection.execute(
-            SignupStatements.insertPerson,
-            [axiosData.form.name, axiosData.form.familyname, axiosData.form.email, hash, axiosData.telefonNr,
-            axiosData.formattedDate, addressId, Roles.USER]);
-        
-        const userId: number = resultPerson.insertId;
+        // insert into personalData
+        const [resultPersonalData]: [ResultSetHeader, any] = await connection.execute(
+            insertPersonalData,
+            [axiosData.form.name, axiosData.form.familyname, axiosData.telefonNr, axiosData.formattedDate, addressId]);
+        const personalDataId: number = resultPersonalData.insertId;
+
+        // insert into personalData
+        const [resultAccountData]: [ResultSetHeader, any] = await connection.execute(
+            insertAccountData,
+            [axiosData.form.email, hash, Roles.USER]);
+        const accountDataId: number = resultAccountData.insertId;
+
+        const [resultContactPreffered]: [ResultSetHeader, any] = await connection.execute(
+            insertIntoContactPreffered,
+            [axiosData.isCheckedTelefon, axiosData.isCheckedEmail, axiosData.isCheckedchat]);
+        const contactPrefferedId = resultContactPreffered.insertId;
 
         const [resultUser]: [ResultSetHeader, any] = await connection.execute(
-            SignupStatements.insertUser,
-            [userId, axiosData.isCheckedDealer, axiosData.isCheckedchat, axiosData.isCheckedTelefon, axiosData.isCheckedEmail]);
+            insertUser,
+            [personalDataId, accountDataId, contactPrefferedId]
+        );
+        const userId = resultUser.insertId;
 
             if(axiosData.isCheckedDealer) {
                 await connection.execute(
-                    SignupStatements.insertDealerInfo,
+                    insertIntoUserDealer,
                     [userId, axiosData.form.companyname, axiosData.form.impressumdaten]
                 )
             }
         
         await connection.commit();
-        const responseData = { message: "Sie haben erfolgreich eingeloggt"} 
-        return res.status(200).json(responseData)
+        const iResponseSignUp: IResponseSignup = { message: "Sie haben erfolgreich eingeloggt"} 
+        return res.status(200).json(iResponseSignUp)
 
     } catch(err) {
         // rollback
         console.error(err);
         await connection.rollback();
-        const responseData = { message: "Error occured. Please try again."} 
-        return res.status(500).json(responseData);
+        const iResponseSignUp: IResponseSignup = { message: "Bitte versuchen Sie es erneut."} 
+        return res.status(401).json(iResponseSignUp);
         
     } finally {
         // release connection
@@ -102,6 +133,7 @@ export default async (req: express.Request, res: express.Response) => {
 /**
  * Perform one time.
  */
+
 async function performInsertAdmin() {
     
     const connection = await pool.getConnection();
@@ -109,23 +141,36 @@ async function performInsertAdmin() {
         // start transaction
         await connection.beginTransaction();
 
-        const [resultAddress]: [ResultSetHeader, any] = await connection.execute( SignupStatements.insertAdress, ["Musterstraße 1", "45880", "Gelsenkirchen", 10] );
+        const [resultAddress]: [ResultSetHeader, any] = await connection.execute( insertAdress, ["Musterstraße 1", "40213", "Düsseldorf", 10] );
         const addressid: number = resultAddress.insertId;
 
+        
         // hash password
         const salt = genSaltSync(10);
         const hash = hashSync("Hakan.89!", salt);
 
-        // insert into person
-        const [resultPerson]: [ResultSetHeader, any] = await connection.execute(
-            SignupStatements.insertPerson,
-            ["Hakan", "Orhan", "hakan@cars.de", hash, "0152000000000", "2007-12-04", addressid, Roles.ADMIN]);
+        // insert into account data
+        const [resultAccountData]: [ResultSetHeader, any] = await connection.execute(
+            insertAccountData,
+            ["hakan@cars.de", hash, Roles.ADMIN]);
+        const accountDataId: number = resultAccountData.insertId;
         
-        //const adminid: number = resultPerson.insertId;
+        // insert into personal data
+        const [resultPersonalData]: [ResultSetHeader, any] = await connection.execute(
+            insertPersonalData,
+            ["Max", "Mustermann", "+491777777777", "2000-12-04", addressid]);
+        const personalDataId: number = resultPersonalData.insertId;
         
-        //await connection.execute( SignupStatements.insertAdmin, [adminid])
+        // insert into contact preffered
+        const [resultContactPreffered]: [ResultSetHeader, any] = await connection.execute(
+            insertIntoContactPreffered,
+            [0, 0, 0]);
+        const contactPrefferedId = resultContactPreffered.insertId;
 
-        //await connection.execute( SignupStatements.insertWhoCreatedDeletedEmployee, [adminid, adminid])
+        // insert into user
+        const [resultUser]: [ResultSetHeader, any] = await connection.execute(
+            insertUser,
+            [personalDataId, accountDataId, contactPrefferedId]);
         
         await connection.commit();
         console.log("committed!")
@@ -138,5 +183,5 @@ async function performInsertAdmin() {
         // release connection
         connection.release();
     }
-}
+} 
 //performInsertAdmin();

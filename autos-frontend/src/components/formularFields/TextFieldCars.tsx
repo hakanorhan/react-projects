@@ -3,10 +3,13 @@ import { IUseForm2 } from '../../interfaces/IUseForm';
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import * as EnumTextField from '../../../../autos-backend/src/enums/TextFieldID';
 
 import { colorDanger, secondaryColorLight } from '../../themes/ThemeColor';
+import axios from 'axios';
+import { URLs } from '../../../../autos-backend/src/enums/URLs';
 
-const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refresh}) => {
+const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refresh, maxLength, checkEmail}) => {
 
     const [valueMatch, setValueMatch] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
@@ -34,14 +37,15 @@ const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refres
       onChange= { handleOnChange }
       label= {label}
       value={value}
-      inputProps={{ maxLength: (id === 'zipcode') ? 5 : 55 }}
+      inputProps={{ maxLength: (maxLength !== undefined) ? maxLength : 55 }}
       endAdornment={
         <InputAdornment position="end">
           <IconButton disabled
             aria-label="check visibility"
           >
-            {valueMatch ? <CheckIcon sx={{ color: secondaryColorLight }}/> : 
-              isEmpty ? "" : <ErrorOutlineIcon sx={{ color: colorDanger }} /> }
+            
+            { checkEmail === undefined ? valueMatch ? <CheckIcon sx={{ color: secondaryColorLight }}/> : 
+              isEmpty ? "" : <ErrorOutlineIcon sx={{ color: colorDanger }} /> : checkEmail && valueMatch ? <CheckIcon sx={{ color: secondaryColorLight }}/> : <ErrorOutlineIcon sx={{ color: colorDanger }} /> }
           </IconButton>
         </InputAdornment>
       }

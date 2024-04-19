@@ -1,12 +1,12 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 import 'dayjs/locale/de';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Button, Checkbox, FormControlLabel, Box, Typography, Stepper, StepLabel, Step, Grid, Paper, SelectChangeEvent } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, primaryColorMain } from '../../../themes/ThemeColor.js';
+import { MainComponentWidth, HeaderIcon, primaryColorMain, textFieldSMWitdh, buttonHeight } from '../../../themes/ThemeColor.js';
 
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { DatePicker, DesktopDatePicker, LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs from 'dayjs';
@@ -21,7 +21,7 @@ import * as EnumTextField from '../../../../../autos-backend/src/enums/TextField
 import { Toaster } from 'react-hot-toast';
 import { AxiosDataSignup, SignUpForm } from '../../../../../autos-backend/src/interfaces/IAxiosData.js';
 import TextFieldCars from '../../formularFields/TextFieldCars.js';
-import { REGEX_EMAIL, REGEX_NAMES, REGEX_NUMBER, REGEX_PASSWORD } from '../../../../../autos-backend/src/regex/regex.js';
+import { REGEX_EMAIL, REGEX_NAMES, REGEX_NUMBER, REGEX_PASSWORD, REGEX_STREET, REGEX_STREET_NR, REGEX_ZIPCODE } from '../../../../../autos-backend/src/regex/regex.js';
 import PasswordSignUp from '../../formularFields/PasswordSignUp.js';
 import PasswordConfirm from '../../formularFields/PasswordConfirm.js';
 
@@ -31,10 +31,15 @@ import { MuiTelInput } from 'mui-tel-input'
 import TextFieldArea from '../../formularFields/TextFieldArea.js';
 import { useEffectFetch } from '../../../helper/DataLoading.js';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs.js';
+import * as ValidHelper from '../../../helper/validHelper.js';
+import { useNavigate } from 'react-router-dom';
 
 const steps = ['Konto', 'Details', 'Adresse', 'Kontakt'];
 
 const SignUpUser: React.FC = () => {
+
+  const navigate = useNavigate();
+
   const [activeStep, setActiveStep] = useState<number>(0);
   
   const signUpForm: SignUpForm = {
@@ -51,21 +56,29 @@ const SignUpUser: React.FC = () => {
     companyname: null
   }
 
-  const [bundesland, setBundesland] = useState<any[]>([]);
+  const [federalState, setFederalState] = useState<any[]>([]);
   const [selectedBundesland, setSelectedBundesland] = useState<string>("");
 
   const [dateValue, setDateValue] = useState(dayjs());
   const [telefonNr, setTelefonNr] = useState("");
 
-  useEffectFetch(URLs.FETCH_BUNDESLAENDER, setBundesland);
+  const [emailIsValidChecked, setEmailIsValidChecked] = useState(false);
+  const [emailNotUsed, setEmailNotUsed] = useState(false);
 
+  useEffectFetch(URLs.FETCH_BUNDESLAENDER, setFederalState);
 
   const [form, setForm] = useState<SignUpForm>(
     signUpForm
   )
 
   const handleOnChange = (fieldName: string, fieldValue: string | boolean) => {
-    setForm({ ...form, [fieldName]: fieldValue })
+    setForm({ ...form, [fieldName]: fieldValue }) 
+
+    if(fieldName === "email") {
+      if(typeof fieldValue === 'string' && ValidHelper.formularEmailValid(fieldValue)) {
+        setEmailIsValidChecked(true);
+      } else setEmailIsValidChecked(false)
+    }
   }
 
   const dispatch = useDispatch();
@@ -73,17 +86,87 @@ const SignUpUser: React.FC = () => {
     dispatch(setNewImage('signin'));
   }, [dispatch])
 
-  const navigate = useNavigate();
-
-
   // Checkbox
   const [isCheckedDealer, setIsCheckedDealer] = useState(false);
   const [isCheckedTelefon, setIsCheckedTelefon] = useState(false);
   const [isCheckedchat, setIsCheckedChat] = useState(false);
   const [isCheckedEmail, setIsCheckedEmail] = useState(false);
 
+
+  useEffect(() => {
+    if(emailIsValidChecked) {
+      async function checkEmail() {
+        try {
+          const value = form.email;
+          const response = await axios.post(URLs.ORIGIN_SERVER + URLs.POST_SIGINUP_EMAILCHECK, { value }, { withCredentials: true })
+          setEmailIsValidChecked(false);
+          setEmailNotUsed(true);
+        } catch(error) {
+          setEmailNotUsed(false);
+          setEmailIsValidChecked(false);
+          // TODO: error handling
+        }
+      }
+
+      checkEmail();
+    }
+      
+  }, [emailIsValidChecked])
+
+  /**
+   * Next step if all formular fields valid
+   */
+  const activeStepHandler = () => {
+    if(activeStep === 0) {
+      const password1 = form.password1;
+      const password2 = form.password2;
+      if(!emailNotUsed) {
+        notifyError("email-field", "Bitte prüfen Sie das Email-Feld.")
+      } else if(!ValidHelper.password2Valid(password1, password2)){ 
+        notifyError("password-field", "Bitte prüfen Sie die Passwortfelder.")
+       } else {
+        setActiveStep(activeStep + 1);
+       }
+    }
+    if(activeStep === 1) {
+      const name = form.name;
+      const surname = form.familyname;
+
+      const currentDate = dayjs();
+      const diff = currentDate.diff(dateValue, 'day');
+      
+       if(!ValidHelper.formularNameValid(name)) {
+        notifyError("name-field", "Bitte prüfen Sie das Name-Feld.")
+      } else if(!ValidHelper.formularNameValid(surname)) {
+        notifyError("surname-field", "Bitte prüfen Sie das Nachname-Feld")
+      } else if(diff <= 365 * 18) {
+        notifyError("birh-field", "Geburtsdatum ist kleiner 18.")
+      } else {
+        setActiveStep(activeStep + 1);
+      }
+    } if(activeStep === 2) {
+      const street = form.street;
+      const houseNumber = form.nr;
+      const city = form.city;
+      const zipcode = form.zipcode;
+
+      if(!ValidHelper.formularStreetIsValid(street)) {
+        notifyError("street-field", "Bitte Straßenname prüfen")
+      } else if(!ValidHelper.formularStreetNrIsValid(houseNumber)) {
+        notifyError("housenumber-field", "Bitte Hausnummer prüfen")
+      } else if(!ValidHelper.formularNameValid(city)) {
+        notifyError("city-field", "Bitte Stadtangabe prüfen");
+      } else if(!ValidHelper.formularZipCodeIsVald(zipcode)) {
+        notifyError("zipcode-field", "Bitte Postleitzahl prüfen")
+      } else if(selectedBundesland === "") {
+        notifyError("federalstate-field","Bitte wählen Sie ein Bundesland");
+      } else {
+        setActiveStep(activeStep + 1);
+      }
+    }
+  }
+
   const handleOnChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
-    alert(event.target.id);
     switch (event.target.id) {
       case EnumCheck.CheckBoxID.IS_CHECKED_CHAT:
         setIsCheckedChat(event.target.checked);
@@ -107,33 +190,34 @@ const SignUpUser: React.FC = () => {
   };
 
   const handleSubmit = async (event: FormEvent) => {
-
     event.preventDefault();
+
+    if(!(isCheckedEmail || isCheckedTelefon || isCheckedchat)) {
+      notifyError("contact-field", "Bitte wählen Sie mindestens eine Kontaktmöglichkeit aus.")
+    }
 
     // TODO: change if statemnt
     // all Formular field are valid
-    if (true) {
+    else {
       const formattedDate = dateValue.format('YYYY-MM-DD');
 
       const axiosData: AxiosDataSignup = { form, selectedBundesland, isCheckedchat, isCheckedDealer, isCheckedEmail, isCheckedTelefon, formattedDate, telefonNr }
 
-      await axios.post('http://localhost:3001/signup',
+      await axios.post(URLs.ORIGIN_SERVER + URLs.POST_SIGINUP,
         axiosData, {withCredentials: true})
         .then(function (response) {
-          notifySuccess("response.data.message")
-          navigate('/signin', { state: { successMessage: response.data.message } })
+          
+          navigate(URLs.POST_SIGNIN);
 
         }).catch(function (err) {
           notifyError(err.response.data.message)
         })
-    } else {
-      notifyError("Please check your inputs");
     }
   }
 
   const SubmitComponent = () => {
     return <>
-      <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Registrieren</Button>
+      <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Registrieren</Button>
       <div style={{ display: 'flex', paddingBottom: '4rem' }}>
         <div style={{ width: '40%', color: primaryColorMain }}><p>Passwort vergessen</p></div>
         <div style={{ display: 'flex', width: '60%', justifyContent: 'end' }}><Link to="/signin" style={{ textDecoration: 'none', color: primaryColorMain }}>Bereits registriert? Login</Link></div>
@@ -142,7 +226,7 @@ const SignUpUser: React.FC = () => {
   }
 
   const ForwardComponent = () => {
-    return <Button fullWidth onClick={() => { setActiveStep(activeStep + 1) }} type='button' variant="contained" sx={{ marginBottom: '1rem' }}>Weiter</Button>
+    return <Button fullWidth onClick={() => { activeStepHandler() }} type='button' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Weiter</Button>
   }
   
   return (<>
@@ -154,7 +238,7 @@ const SignUpUser: React.FC = () => {
       <Stepper activeStep={activeStep} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
         {
           steps.map((step, index) => (
-            <Step key={index}>
+            <Step completed={index < activeStep} key={index}>
               <StepLabel> {step} </StepLabel>
             </Step>
           ))
@@ -168,7 +252,8 @@ const SignUpUser: React.FC = () => {
             ? <> {/* -------------------- Konto -------------------- */}
               {/* Email */}
               <Box>
-                <TextFieldCars id={EnumTextField.TextFieldID.EMAIL} label='Email' onChange={value => handleOnChange(EnumTextField.TextFieldID.EMAIL, value,)} regex={REGEX_EMAIL} />
+                <TextFieldCars id={EnumTextField.TextFieldID.EMAIL} label='Email' onChange={value => handleOnChange(EnumTextField.TextFieldID.EMAIL, value,)} regex={REGEX_EMAIL} checkEmail={emailNotUsed} />
+                <Typography sx={{ marginBottom: '1rem' }}>{ ValidHelper.formularEmailValid(form.email) ? emailNotUsed ? "Richtige Angabe. Email nicht vorhanden" : <b>Email bereits vorhanden</b> : '\u00A0'}</Typography>
               </Box>
               <Box sx={{ marginBottom: '1rem' }}>
                 <PasswordSignUp id={EnumTextField.TextFieldID.PASSWORD1} label='Password' onChange={value => handleOnChange(EnumTextField.TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />
@@ -201,20 +286,22 @@ const SignUpUser: React.FC = () => {
                 <TextFieldArea id={EnumTextField.TextFieldID.IMPRESSUMDATEN} disbled={false} onChange={(value) => handleOnChange(EnumTextField.TextFieldID.IMPRESSUMDATEN, value)} placeholder='Impressumdaten' minRows={8} maxRows={10} />
                 </>
                 }
-                {/* Cardealer */}
+                {/* Date */}
                 {
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='de'>
                   <DemoContainer
                     components={[
-                      'DesktopDatePicker',
+                      'MobileDatePicker',
                     ]}
                   >
                     <DemoItem>
-                      <DatePicker sx={{ width: '100%' }}
+                      <MobileDatePicker sx={{ width: { xs: '100%', md: textFieldSMWitdh} }}
+                      slotProps={{ textField: {size: 'medium', fullWidth: true} }}
                         label="Geburtsdatum"
                         //views={['month', 'year']}
                         onChange={(date) => setDateValue(date)}
                         value={ dateValue }
+                        
                       />
                     </DemoItem>
                   </DemoContainer>
@@ -229,20 +316,20 @@ const SignUpUser: React.FC = () => {
                     <hr />
                   </Grid>
                   }
-                  <Grid item xs={9} >
-                    <TextFieldCars id={EnumTextField.TextFieldID.STREET} label='Straße' onChange={value => handleOnChange(EnumTextField.TextFieldID.STREET, value)} regex={REGEX_NAMES} />
+                  <Grid item xs={8.5} >
+                    <TextFieldCars id={EnumTextField.TextFieldID.STREET} label='Straße' onChange={value => handleOnChange(EnumTextField.TextFieldID.STREET, value)} regex={REGEX_STREET} />
                   </Grid>
-                  <Grid item xs={3} >
-                    <TextFieldCars id={EnumTextField.TextFieldID.NR} label='Nr' onChange={value => handleOnChange(EnumTextField.TextFieldID.NR, value)} regex={REGEX_NUMBER} />
+                  <Grid item xs={3.5} >
+                    <TextFieldCars id={EnumTextField.TextFieldID.NR} label='Nr' onChange={value => handleOnChange(EnumTextField.TextFieldID.NR, value)} regex={REGEX_STREET_NR} maxLength={5}/>
                   </Grid>
                   <Grid item xs={8} >
                     <TextFieldCars id={EnumTextField.TextFieldID.CITY} label='Stadt' onChange={value => handleOnChange(EnumTextField.TextFieldID.CITY, value)} regex={REGEX_NAMES} />
                   </Grid>
                   <Grid item xs={4} >
-                    <TextFieldCars id={EnumTextField.TextFieldID.ZIPCODE} label='PLZ' onChange={value => handleOnChange(EnumTextField.TextFieldID.ZIPCODE, value)} regex={REGEX_NUMBER} maxLength={5} />
+                    <TextFieldCars id={EnumTextField.TextFieldID.ZIPCODE} label='PLZ' onChange={value => handleOnChange(EnumTextField.TextFieldID.ZIPCODE, value)} regex={REGEX_ZIPCODE} maxLength={5} />
                   </Grid>
                   <Grid item xs={12} >
-                    <SelectField idOfSelect='blandid' values={bundesland} objectName='bundesland' selectedValue={selectedBundesland} handleChange={handleChangeBundesland} label='Bundesland' />
+                    <SelectField idOfSelect='federal_state_id' values={federalState} objectName='federal_state' selectedValue={selectedBundesland} handleChange={handleChangeBundesland} label='Bundesland' />
                   </Grid>
                 </Grid>
               </> : <Grid sx={{ marginTop:'2rem', marginBottom:'2rem' }} container columnSpacing={2}>

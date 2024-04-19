@@ -14,7 +14,7 @@ import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 
 interface UploadImagesProp {
     submitClicked?: boolean,
-    carId: number
+    carId?: number
 }
 
 /**

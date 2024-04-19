@@ -12,7 +12,6 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { primaryColorMain } from '../../themes/ThemeColor';
 import { Company } from '../../constants/Company';
-import { Link, useNavigate } from 'react-router-dom';
 import { Roles } from '../../../../autos-backend/src/enums/Roles';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -30,6 +29,8 @@ import { secondaryColorLight } from '../../themes/ThemeColor';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
+import axios from 'axios';
+import { notifyError, notifySuccess } from '../../helper/toastHelper';
 
 const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem' }, color: primaryColorMain, backgroundColor: 'transparent', ':hover': { color: 'orange' }, justifyContent: 'flex-start' };
 
@@ -42,7 +43,11 @@ const accordionIconStyle = { fontSize: drawerFontSize };
 const accordionStyle = { color: primaryColorMain, fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px', marginBottom: '0.8rem' };
 
 export default function Header() {
-  const navigate = useNavigate();
+  // TODO: navigate Header.tsx
+  //const navigate = useNavigate();
+
+  const [logout, setLogout] = React.useState(false);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -66,18 +71,15 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  const handleMenuRole = () => {
-    handleClose();
-    switch (role) {
-      case Roles.ADMIN:
-        break;
-      case Roles.USER:
-        navigate("/inserieren");
-        break;
-      default:
-        navigate("/signin");
+  React.useEffect(() => {
+    if(logout) {
+      alert("logour")
+
+      axios.get(URLs.ORIGIN_SERVER + URLs.DELETE_TOKEN, { withCredentials: true })
+        .then(response => {})
+        .catch(error => console.log(error)) 
     }
-  }
+  }, [logout])
 
   // -------------------------------------- ADMIN ----------------------------------------------------------
   const AccordionHinzufuegen = () => {
@@ -91,8 +93,10 @@ export default function Header() {
       </AccordionSummary>
       <AccordionDetails>
         <Box >
-          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); navigate(URLs.POST_WRITE_BRAND) }} > Marke </Button>
-          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); navigate(URLs.POST_INSERT_MODEL) }}> Modell </Button>
+          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); // TODO: navigate(URLs.POST_WRITE_BRAND) 
+            }} > Marke </Button>
+          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); // TODO: navigate(URLs.POST_INSERT_MODEL) 
+            }}> Modell </Button>
         </Box>
       </AccordionDetails>
     </Accordion>
@@ -156,7 +160,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/'>Suchen</Link>} primaryTypographyProps={drawerSizes} />
+                  {/* TODO: <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/'>Suchen</Link>} primaryTypographyProps={drawerSizes} /> */}
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -164,7 +168,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/inserieren'>Inserieren</Link>} primaryTypographyProps={drawerSizes} />
+                  {/* TODO: <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/inserieren'>Inserieren</Link>} primaryTypographyProps={drawerSizes} /> */}
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -172,7 +176,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/our-service'>Unser Service</Link>} primaryTypographyProps={drawerSizes} />
+                 {/* TODO: <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/our-service'>Unser Service</Link>} primaryTypographyProps={drawerSizes} /> */}
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -187,7 +191,8 @@ export default function Header() {
               <AccordionUpdate />
               <AccordionEntfernen />
 
-              <Button onClick={() => { setDrawerOpen(false); navigate(URLs.FETCH_INSERATE_PUBLISH) }} sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<PublishedWithChangesIcon />}> <p>Veröffentlichen </p></Button>
+              <Button onClick={() => { setDrawerOpen(false); // TODO:  navigate(URLs.FETCH_INSERATE_PUBLISH) 
+                }} sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<PublishedWithChangesIcon />}> <p>Veröffentlichen </p></Button>
               <Button sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<UnpublishedIcon />}> <p>AUFHEBEN </p></Button>
             </Box>
           </>
@@ -212,7 +217,7 @@ export default function Header() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link style={{ textDecoration: 'none', color: primaryColorMain, letterSpacing: '0.1rem' }} to='/'>{Company.COMPANYNAME}</Link>
+            {/* TODO: <Link style={{ textDecoration: 'none', color: primaryColorMain, letterSpacing: '0.1rem' }} to='/'>{Company.COMPANYNAME}</Link> */}
           </Typography>
 
           <div>
@@ -241,8 +246,9 @@ export default function Header() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleMenuRole}>{(role === Roles.ADMIN) ? "Dashboard" : "Inserieren"}</MenuItem>
-              <MenuItem onClick={(() => { handleClose(); (loggedIn) ? navigate('/signin') : navigate('/signin'); })}> {loggedIn ? "Abmelden" : "Anmelden"}</MenuItem>
+              <MenuItem onClick={() => { setLogout(true); handleClose()}}>{(loggedIn) ? "Abmelden" : "Anmelden"}</MenuItem>
+              
+              {/* <MenuItem onClick={(() => { handleClose(); (loggedIn) ? navigate('/signin') : navigate('/signin'); })}> {loggedIn ? "Abmelden" : "Anmelden" } </MenuItem> */}
             </Menu>
           </div>
         </Toolbar>

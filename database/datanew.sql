@@ -1,319 +1,357 @@
 CREATE DATABASE cars;
 USE cars;
 
-CREATE TABLE bundesland(
-	blandid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	kuerzel VARCHAR(10) NOT NULL UNIQUE,
-    bundesland VARCHAR(50) NOT NULL UNIQUE
+CREATE TABLE federal_state(
+	federal_state_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	short VARCHAR(10) NOT NULL UNIQUE,
+    federal_state VARCHAR(22) NOT NULL UNIQUE
 );
 
 CREATE TABLE address(
-    addressid INT AUTO_INCREMENT NOT NULL,
-    streetnr VARCHAR(255) NOT NULL,
+    address_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    street_nr VARCHAR(255) NOT NULL,
     zipcode VARCHAR(5) NOT NULL,
     city VARCHAR(100) NOT NULL,
-    blandid INT NOT NULL,
-    updateddate TIMESTAMP,
-    PRIMARY KEY (addressid),
-    FOREIGN KEY (blandid) REFERENCES bundesland (blandid)
+    federal_state_id INT NOT NULL,
+    FOREIGN KEY (federal_state_id) REFERENCES federal_state (federal_state_id)
 );
 
-CREATE TABLE person(
-    personid INT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(30) NOT NULL,
-    familyname VARCHAR(50) NOT NULL,
+CREATE TABLE personal_data(
+    personal_data_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    forename VARCHAR(30) NOT NULL,
+    surename VARCHAR(30) NOT NULL,
+    tel_nr VARCHAR(255) NULL,
+    birthdate DATE NOT NULL,
+    address_id INT NOT NULL,
+    FOREIGN KEY (address_id) REFERENCES address(address_id)
+);
+
+CREATE TABLE contact_preffered(
+    contact_preffered_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    contact_telefon TINYINT(1) NOT NULL DEFAULT 0,
+    contact_email TINYINT(1) NOT NULL DEFAULT 0, 
+    contact_chat TINYINT(1) NOT NULL DEFAULT 0
+);
+
+CREATE TABLE account_data(
+    account_data_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    telnr VARCHAR(50),
-    birth DATE,
-    isactive TINYINT(1) NOT NULL DEFAULT 1,
-    createddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    addressid INT NOT NULL,
-    role enum ('user', 'admin') NOT NULL,
-    PRIMARY KEY (personid),
-    FOREIGN KEY (addressid) REFERENCES address (addressid)
-);
-
-CREATE TABLE admin(
-	adminid INT PRIMARY KEY,
-    FOREIGN KEY(adminid) REFERENCES person(personid)
+    password_secret VARCHAR(255) NOT NULL,
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    account_role enum('admin', 'user') NOT NULL DEFAULT 'user'
 );
 
 CREATE TABLE user(
-	userid INT NOT NULL,
-    iscardealer TINYINT(1) NOT NULL DEFAULT 0,
-    ischat TINYINT(1) NOT NULL DEFAULT 0,
-    istelefon TINYINT(1) NOT NULL DEFAULT 0,
-    isemail TINYINT(1) NOT NULL DEFAULT 0,
-    FOREIGN KEY(userid) REFERENCES person(personid)
+    user_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    personal_data_id INT NOT NULL,
+    account_data_id INT NOT NULL,
+    contact_preffered_id INT NOT NULL,
+    FOREIGN KEY (personal_data_id) REFERENCES personal_data(personal_data_id),
+    FOREIGN KEY (account_data_id) REFERENCES account_data(account_data_id),
+    FOREIGN KEY (contact_preffered_id) REFERENCES contact_preffered(contact_preffered_id)
 );
 
-CREATE TABLE dealerinformations (
-    dealerid INT NOT NULL,
-    companyname VARCHAR(255) NOT NULL,
-    impressumdaten VARCHAR(255) NOT NULL,
-    FOREIGN KEY (dealerid) REFERENCES user(userid)
+CREATE TABLE user_dealer(
+    user_dealer_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    user_id INT NOT NULL,
+    companyname VARCHAR(50) NOT NULL,
+    impressum VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
--- static properties
-CREATE TABLE brands(
-    brandid INT NOT NULL AUTO_INCREMENT,
-    brand VARCHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY (brandid)
+CREATE TABLE brand(
+    brand_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    brand VARCHAR(40) NOT NULL UNIQUE
 );
 
-CREATE TABLE cartypes(
-    cartypeid INT NOT NULL AUTO_INCREMENT,
-    cartype VARCHAR(55) NOT NULL UNIQUE,
-    PRIMARY KEY(cartypeid)
-);
-
-CREATE TABLE fuels(
-    fuelid INT NOT NULL AUTO_INCREMENT,
-    fuelname VARCHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY (fuelid)
-);
-
-CREATE TABLE doors(
-    doorid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    doors VARCHAR(15) NOT NULL UNIQUE
-);
-
-CREATE TABLE models(
-    modelid INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE model(
+    model_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     model VARCHAR(255) NOT NULL,
-    brandid INT NOT NULL,
-    PRIMARY KEY(modelid),
-    FOREIGN KEY (brandid) REFERENCES brands(brandid),
-    UNIQUE (model, brandid)
+    brand_id INT NOT NULL,
+    FOREIGN KEY (brand_id) REFERENCES brand(brand_id),
+    UNIQUE (model, brand_id)
     );
 
-CREATE TABLE transmissions(
-    transmissionid INT AUTO_INCREMENT NOT NULL,
-    transmissionname VARCHAR(55) NOT NULL UNIQUE,
-    PRIMARY KEY (transmissionid)
+CREATE TABLE cartype(
+    cartype_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    cartype VARCHAR(55) NOT NULL UNIQUE
 );
 
-CREATE TABLE prices(
-    priceid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+CREATE TABLE fuel(
+    fuel_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fuel VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE door(
+    door_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    door VARCHAR(15) NOT NULL UNIQUE
+);
+
+CREATE TABLE transmission(
+    transmission_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    transmission VARCHAR(55) NOT NULL UNIQUE
+);
+
+CREATE TABLE clima (
+    clima_id INT AUTO_INCREMENT  NOT NULL PRIMARY KEY,
+    clima VARCHAR(55) NOT NULL UNIQUE
+);
+
+CREATE TABLE price(
+    price_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     price INT NOT NULL UNIQUE
 );
 
-CREATE TABLE advertiseinfo(
-	advertiseinfoid INT AUTO_INCREMENT PRIMARY KEY,
-    advertiseddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    advertiseupdateddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-    userid INT NOT NULL,
-    -- user can deactivate the advertise after selling the car
-    -- admin can deactivate the advertise 
-    isactive TINYINT(1) NOT NULL DEFAULT 0,
-     -- advertised car belongs to user
-    FOREIGN KEY (userid) REFERENCES user (userid)
+CREATE TABLE inserate_info(
+	inserate_info_id INT AUTO_INCREMENT PRIMARY KEY,
+    inserate_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    user_id INT NOT NULL,
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    FOREIGN KEY (user_id) REFERENCES user (user_id)
 );
 
-CREATE TABLE klima (
-    klimaid INT AUTO_INCREMENT  NOT NULL PRIMARY KEY,
-    klimaname VARCHAR(55) NOT NULL UNIQUE
+CREATE TABLE tuev(
+    tuev_id INT AUTO_INCREMENT PRIMARY KEY,
+    hu_new TINYINT(1) NOT NULL DEFAULT 0,
+    au_new TINYINT(1) NOT NULL DEFAULT 0,
+    scheckheft TINYINT(1) NOT NULL DEFAULT 0
 );
 
-CREATE TABLE cars(
-    carid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    modelid INT NOT NULL,
+CREATE TABLE color(
+    color_id INT AUTO_INCREMENT PRIMARY KEY,
+    color VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE vehicle_condition(
+    vehicle_condition_id INT PRIMARY KEY AUTO_INCREMENT,
+    accident TINYINT(1) NOT NULL DEFAULT 0,
+    fit_to_drive TINYINT(1) NOT NULL DEFAULT 0
+);
+
+CREATE TABLE technical_description(
+    technical_description_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    power_ps INT NOT NULL,
+    mileage_km INT NOT NULL,
+    cartype_id INT NOT NULL,
+    registration_year INT NOT NULL,
+    registration_month INT NOT NULL,
+    transmission_id INT NOT NULL,
+    fuel_id INT NOT NULL,
+    cubic_capacity INT NOT NULL,
+    door_id INT NOT NULL,
+    vehicle_owners INT NOT NULL,
+    tuev_id INT NOT NULL,
+    color_id INT NOT NULL,
+    clima_id INT NOT NULL,
+    vehicle_condition_id INT NOT NULL,
+    FOREIGN KEY(fuel_id) REFERENCES fuel(fuel_id),
+    FOREIGN KEY(transmission_id) REFERENCES transmission(transmission_id),
+    FOREIGN KEY(cartype_id) REFERENCES cartype(cartype_id),
+    FOREIGN KEY(door_id) REFERENCES  door(door_id),
+    FOREIGN KEY(tuev_id) REFERENCES tuev(tuev_id),
+    FOREIGN KEY(color_id) REFERENCES color(color_id),
+    FOREIGN KEY(vehicle_condition_id) REFERENCES vehicle_condition(vehicle_condition_id),
+    FOREIGN KEY(clima_id) REFERENCES clima(clima_id)
+);
+
+CREATE TABLE feature(
+    feature_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    feature VARCHAR(25) NOT NULL,
+    technical_description_id INT NOT NULL,
+    FOREIGN KEY(technical_description_id) REFERENCES technical_description(technical_description_id)
+);
+
+-- key number
+CREATE TABLE car(
+    car_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    key_number VARCHAR(40) NOT NULL,
+    technical_description_id INT NOT NULL,
+    FOREIGN KEY(technical_description_id) REFERENCES technical_description(technical_description_id)
+);
+
+CREATE TABLE inserate(
+    inserate_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    inserate_headline VARCHAR(20) NOT NULL,
+    inserate_subtitle VARCHAR(30) NOT NULL,
     price INT NOT NULL,
-    km INT NOT NULL,
-    cartypeid INT NOT NULL,
-    year INT NOT NULL,
-    month INT NOT NULL,
-    transmissionid INT NOT NULL,
-    advertiseinfoid INT NOT NULL,
-    fuelid INT NOT NULL,
-    ps INT NOT NULL,
-    klimaid INT NOT NULL,
-    previousowner INT NOT NULL,
-    hubraum INT NOT NULL,
-    doorid INT NOT NULL,
-    aunew TINYINT NOT NULL DEFAULT 0,
-    hunew TINYINT NOT NULL DEFAULT 0,
-    scheckheft TINYINT NOT NULL DEFAULT 0,
-    accident TINYINT NOT NULL DEFAULT 0,
-    fittodrive TINYINT NOT NULL DEFAULT 0,
-    color VARCHAR(35) NULL,
-    abstandstempomat TINYINT NOT NULL DEFAULT 0,
-    ambientbeleuchtung TINYINT NOT NULL DEFAULT 0,
-    headupdisplay TINYINT NOT NULL DEFAULT 0,
-    totwinkelassistent TINYINT NOT NULL DEFAULT 0,
-    description VARCHAR(255) NULL,
-    FOREIGN KEY (modelid) REFERENCES models(modelid),
-    FOREIGN KEY(advertiseinfoid) REFERENCES advertiseinfo(advertiseinfoid),
-    FOREIGN KEY (transmissionid) REFERENCES transmissions (transmissionid),
-    FOREIGN KEY (cartypeid) REFERENCES cartypes(cartypeid),
-    FOREIGN KEY (fuelid) REFERENCES fuels(fuelid),
-    FOREIGN KEY (doorid) REFERENCES doors(doorid),
-    FOREIGN KEY (klimaid) REFERENCES klima(klimaid)
-);
+    model_id INT NOT NULL,
+    technical_description_id INT NOT NULL,
+    inserate_info_id INT NOT NULL,
+    car_id INT NOT NULL,
+    FOREIGN KEY(model_id) REFERENCES model(model_id),
+    FOREIGN KEY(technical_description_id) REFERENCES technical_description(technical_description_id),
+    FOREIGN KEY(inserate_info_id) REFERENCES inserate_info(inserate_info_id),
+    FOREIGN KEY(car_id) REFERENCES car(car_id)
+    );
 
-CREATE TABLE images(
-    imageid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE imagename(
+    image_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     imagename VARCHAR(255) NOT NULL,
     firstplace TINYINT DEFAULT 0 NOT NULL,
-    carid INT NOT NULL,
-    FOREIGN KEY (carid) REFERENCES cars(carid)
+    inserate_id INT NOT NULL,
+    FOREIGN KEY (inserate_id) REFERENCES inserate(inserate_id)
 );
 
 -- cargrants created if admin grant for public
-CREATE TABLE cargrants(
-	grantid INT AUTO_INCREMENT PRIMARY KEY,
-    -- admin can public the advertise
-	grantedpublic TINYINT(1) NOT NULL DEFAULT 0,
-    granteddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    carid INT NOT NULL,
-    FOREIGN KEY (carid) REFERENCES cars(carid)
+CREATE TABLE inserate_check(
+	inserate_check_id INT AUTO_INCREMENT PRIMARY KEY,
+    
+	inserate_public TINYINT(1) NOT NULL,
+    inserate_cancelled TINYINT(1) NOT NULL DEFAULT 0,
+    inserate_checked_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    inserate_cancelled_date TIMESTAMP NULL,
+    inserate_id INT NOT NULL,
+    FOREIGN KEY (inserate_id) REFERENCES inserate(inserate_id)
 );
 
 CREATE TABLE message(
-	messageid INT AUTO_INCREMENT NOT NULL,
-    senderid INT NOT NULL,
-    receiverid INT NOT NULL,
-    carid INT NOT NULL,
+	message_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    sender_id INT NOT NULL,
+    receiver_id INT NOT NULL,
+    inserate_id INT NOT NULL,
     message_text TEXT NOT NULL,
-    PRIMARY KEY(messageid),
-    FOREIGN KEY(senderid) REFERENCES user(userid),
-    FOREIGN KEY(receiverid) REFERENCES user(userid),
-    FOREIGN KEY(carid) REFERENCES cars(carid)
+    FOREIGN KEY(sender_id) REFERENCES user(user_id),
+    FOREIGN KEY(receiver_id) REFERENCES user(user_id),
+    FOREIGN KEY(inserate_id) REFERENCES inserate(inserate_id)
 );
 
+
+
+
+
 -- Bundesministerium für Bildung und Forschung
-INSERT INTO bundesland(kuerzel, bundesland) values("BW", "Baden-Württemberg");
-INSERT INTO bundesland(kuerzel, bundesland) values("BY", "Bayern");
-INSERT INTO bundesland(kuerzel, bundesland) values("BE", "Berlin");
-INSERT INTO bundesland(kuerzel, bundesland) values("BB", "Brandenburg");
-INSERT INTO bundesland(kuerzel, bundesland) values("HB", "Bremen");
-INSERT INTO bundesland(kuerzel, bundesland) values("HH", "Hamburg");
-INSERT INTO bundesland(kuerzel, bundesland) values("HE", "Hessen");
-INSERT INTO bundesland(kuerzel, bundesland) values("MV", "Mecklenburg-Vorpommern");
-INSERT INTO bundesland(kuerzel, bundesland) values("NI", "Niedersachsen");
-INSERT INTO bundesland(kuerzel, bundesland) values("NW", "Nordrhein-Westfalen");
-INSERT INTO bundesland(kuerzel, bundesland) values("RP", "Rheinland-Pfalz");
-INSERT INTO bundesland(kuerzel, bundesland) values("SL", "Saarland");
-INSERT INTO bundesland(kuerzel, bundesland) values("SN", "Sachsen");
-INSERT INTO bundesland(kuerzel, bundesland) values("ST", "Sachsen-Anhalt");
-INSERT INTO bundesland(kuerzel, bundesland) values("SH", "Schleswig-Holstein");
-INSERT INTO bundesland(kuerzel, bundesland) values("TH", "Thüringen");
+INSERT INTO federal_state(short, federal_state) values("BW", "Baden-Württemberg");
+INSERT INTO federal_state(short, federal_state) values("BY", "Bayern");
+INSERT INTO federal_state(short, federal_state) values("BE", "Berlin");
+INSERT INTO federal_state(short, federal_state) values("BB", "Brandenburg");
+INSERT INTO federal_state(short, federal_state) values("HB", "Bremen");
+INSERT INTO federal_state(short, federal_state) values("HH", "Hamburg");
+INSERT INTO federal_state(short, federal_state) values("HE", "Hessen");
+INSERT INTO federal_state(short, federal_state) values("MV", "Mecklenburg-Vorpommern");
+INSERT INTO federal_state(short, federal_state) values("NI", "Niedersachsen");
+INSERT INTO federal_state(short, federal_state) values("NW", "Nordrhein-Westfalen");
+INSERT INTO federal_state(short, federal_state) values("RP", "Rheinland-Pfalz");
+INSERT INTO federal_state(short, federal_state) values("SL", "Saarland");
+INSERT INTO federal_state(short, federal_state) values("SN", "Sachsen");
+INSERT INTO federal_state(short, federal_state) values("ST", "Sachsen-Anhalt");
+INSERT INTO federal_state(short, federal_state) values("SH", "Schleswig-Holstein");
+INSERT INTO federal_state(short, federal_state) values("TH", "Thüringen");
 
 
-INSERT INTO cartypes(cartype) VALUES ("Limousine");
-INSERT INTO cartypes(cartype) VALUES ("Kombi");
-INSERT INTO cartypes(cartype) VALUES ("Coupe");
-INSERT INTO cartypes(cartype) VALUES ("Cabrio");
-INSERT INTO cartypes(cartype) VALUES ("Kleinwagen");
-INSERT INTO cartypes(cartype) VALUES ("SUV");
+INSERT INTO cartype(cartype) VALUES ("Limousine");
+INSERT INTO cartype(cartype) VALUES ("Kombi");
+INSERT INTO cartype(cartype) VALUES ("Coupe");
+INSERT INTO cartype(cartype) VALUES ("Cabrio");
+INSERT INTO cartype(cartype) VALUES ("Kleinwagen");
+INSERT INTO cartype(cartype) VALUES ("SUV");
 
 
-INSERT INTO fuels (fuelname) VALUES ("Benzin");
-INSERT INTO fuels (fuelname) VALUES ("Diesel");
-INSERT INTO fuels (fuelname) VALUES ("Hybrid");
-INSERT INTO fuels (fuelname) VALUES ("Elektro");
-INSERT INTO fuels (fuelname) VALUES ("Erdgas CNG");
-INSERT INTO fuels (fuelname) VALUES ("Wasserstoff");
-INSERT INTO fuels (fuelname) VALUES ("Ethanol");
-INSERT INTO fuels (fuelname) VALUES ("Plug-in-Hybrid");
+INSERT INTO fuel (fuel) VALUES ("Benzin");
+INSERT INTO fuel (fuel) VALUES ("Diesel");
+INSERT INTO fuel (fuel) VALUES ("Hybrid");
+INSERT INTO fuel (fuel) VALUES ("Elektro");
+INSERT INTO fuel (fuel) VALUES ("Erdgas CNG");
+INSERT INTO fuel (fuel) VALUES ("Wasserstoff");
+INSERT INTO fuel (fuel) VALUES ("Ethanol");
+INSERT INTO fuel (fuel) VALUES ("Plug-in-Hybrid");
 
-INSERT INTO transmissions(transmissionname) VALUES ("Halbautomatik");
-INSERT INTO transmissions(transmissionname) VALUES ("Automatik");
-INSERT INTO transmissions(transmissionname) VALUES ("Schaltgetriebe");
+INSERT INTO transmission(transmission) VALUES ("Halbautomatik");
+INSERT INTO transmission(transmission) VALUES ("Automatik");
+INSERT INTO transmission(transmission) VALUES ("Schaltgetriebe");
 
-INSERT INTO doors(doors) VALUES(2);
-INSERT INTO doors(doors) VALUES(4);
-INSERT INTO doors(doors) VALUES(6);
+INSERT INTO door(door) VALUES(2);
+INSERT INTO door(door) VALUES(4);
+INSERT INTO door(door) VALUES(6);
 
-INSERT INTO klima(klimaname) VALUES("Keine");
-INSERT INTO klima(klimaname) VALUES("Klimaanlage");
-INSERT INTO klima(klimaname) VALUES("Klimaautomatik");
+INSERT INTO clima(clima) VALUES("Keine");
+INSERT INTO clima(clima) VALUES("Klimaanlage");
+INSERT INTO clima(clima) VALUES("Klimaautomatik");
 
 
 -- static data
-INSERT INTO brands (brand) VALUES ("Alfa Romeo");
-INSERT INTO brands (brand) VALUES ("Alpina");
-INSERT INTO brands (brand) VALUES ("Aston Martin");
-INSERT INTO brands (brand) VALUES ("Audi");
-INSERT INTO brands (brand) VALUES ("Bentley");
-INSERT INTO brands (brand) VALUES ("BMW");
-INSERT INTO brands (brand) VALUES ("Cadillac");
-INSERT INTO brands (brand) VALUES ("Chevrolet");
-INSERT INTO brands (brand) VALUES ("Chrysler");
-INSERT INTO brands (brand) VALUES ("Citroen");
-INSERT INTO brands (brand) VALUES ("Cupra");
-INSERT INTO brands (brand) VALUES ("Dacia");
-INSERT INTO brands (brand) VALUES ("Daihatsu");
-INSERT INTO brands (brand) VALUES ("Dodge");
-INSERT INTO brands (brand) VALUES ("DS Automobiles");
-INSERT INTO brands (brand) VALUES ("Ferrari");
-INSERT INTO brands (brand) VALUES ("Fiat");
-INSERT INTO brands (brand) VALUES ("Ford");
-INSERT INTO brands (brand) VALUES ("Honda");
-INSERT INTO brands (brand) VALUES ("Hummer");
-INSERT INTO brands (brand) VALUES ("Hynundai");
-INSERT INTO brands (brand) VALUES ("Infiniti");
-INSERT INTO brands (brand) VALUES ("Isuzu");
-INSERT INTO brands (brand) VALUES ("Jaguar");
-INSERT INTO brands (brand) VALUES ("Jeep");
-INSERT INTO brands (brand) VALUES ("Kia");
-INSERT INTO brands (brand) VALUES ("Alfa Romeo");
-INSERT INTO brands (brand) VALUES ("Lexus");
-INSERT INTO brands (brand) VALUES ("Maserati");
-INSERT INTO brands (brand) VALUES ("Maybach");
-INSERT INTO brands (brand) VALUES ("Mazda");
-INSERT INTO brands (brand) VALUES ("McLaren");
-INSERT INTO brands (brand) VALUES ("Mercdes-Benz");
-INSERT INTO brands (brand) VALUES ("Mini");
-INSERT INTO brands (brand) VALUES ("Mitsubishi");
-INSERT INTO brands (brand) VALUES ("Nissan");
-INSERT INTO brands (brand) VALUES ("Opel");
-INSERT INTO brands (brand) VALUES ("Peugeot");
-INSERT INTO brands (brand) VALUES ("Porsche");
-INSERT INTO brands (brand) VALUES ("Renault");
-INSERT INTO brands (brand) VALUES ("Rolls-Royce");
-INSERT INTO brands (brand) VALUES ("Saab");
-INSERT INTO brands (brand) VALUES ("Saleen");
-INSERT INTO brands (brand) VALUES ("Seat");
-INSERT INTO brands (brand) VALUES ("Skoda");
-INSERT INTO brands (brand) VALUES ("Smart");
-INSERT INTO brands (brand) VALUES ("Subaru");
-INSERT INTO brands (brand) VALUES ("Suzuki");
-INSERT INTO brands (brand) VALUES ("Tesla");
-INSERT INTO brands (brand) VALUES ("Toyota");
-INSERT INTO brands (brand) VALUES ("Volvo");
-INSERT INTO brands (brand) VALUES ("Volkswagen");
+INSERT INTO brand (brand) VALUES ("Alfa Romeo");
+INSERT INTO brand (brand) VALUES ("Alpina");
+INSERT INTO brand (brand) VALUES ("Aston Martin");
+INSERT INTO brand (brand) VALUES ("Audi");
+INSERT INTO brand (brand) VALUES ("Bentley");
+INSERT INTO brand (brand) VALUES ("BMW");
+INSERT INTO brand (brand) VALUES ("Cadillac");
+INSERT INTO brand (brand) VALUES ("Chevrolet");
+INSERT INTO brand (brand) VALUES ("Chrysler");
+INSERT INTO brand (brand) VALUES ("Citroen");
+INSERT INTO brand (brand) VALUES ("Cupra");
+INSERT INTO brand (brand) VALUES ("Dacia");
+INSERT INTO brand (brand) VALUES ("Daihatsu");
+INSERT INTO brand (brand) VALUES ("Dodge");
+INSERT INTO brand (brand) VALUES ("DS Automobiles");
+INSERT INTO brand (brand) VALUES ("Ferrari");
+INSERT INTO brand (brand) VALUES ("Fiat");
+INSERT INTO brand (brand) VALUES ("Ford");
+INSERT INTO brand (brand) VALUES ("Honda");
+INSERT INTO brand (brand) VALUES ("Hummer");
+INSERT INTO brand (brand) VALUES ("Hynundai");
+INSERT INTO brand (brand) VALUES ("Infiniti");
+INSERT INTO brand (brand) VALUES ("Isuzu");
+INSERT INTO brand (brand) VALUES ("Jaguar");
+INSERT INTO brand (brand) VALUES ("Jeep");
+INSERT INTO brand (brand) VALUES ("Kia");
+INSERT INTO brand (brand) VALUES ("Alfa Romeo");
+INSERT INTO brand (brand) VALUES ("Lexus");
+INSERT INTO brand (brand) VALUES ("Maserati");
+INSERT INTO brand (brand) VALUES ("Maybach");
+INSERT INTO brand (brand) VALUES ("Mazda");
+INSERT INTO brand (brand) VALUES ("McLaren");
+INSERT INTO brand (brand) VALUES ("Mercdes-Benz");
+INSERT INTO brand (brand) VALUES ("Mini");
+INSERT INTO brand (brand) VALUES ("Mitsubishi");
+INSERT INTO brand (brand) VALUES ("Nissan");
+INSERT INTO brand (brand) VALUES ("Opel");
+INSERT INTO brand (brand) VALUES ("Peugeot");
+INSERT INTO brand (brand) VALUES ("Porsche");
+INSERT INTO brand (brand) VALUES ("Renault");
+INSERT INTO brand (brand) VALUES ("Rolls-Royce");
+INSERT INTO brand (brand) VALUES ("Saab");
+INSERT INTO brand (brand) VALUES ("Saleen");
+INSERT INTO brand (brand) VALUES ("Seat");
+INSERT INTO brand (brand) VALUES ("Skoda");
+INSERT INTO brand (brand) VALUES ("Smart");
+INSERT INTO brand (brand) VALUES ("Subaru");
+INSERT INTO brand (brand) VALUES ("Suzuki");
+INSERT INTO brand (brand) VALUES ("Tesla");
+INSERT INTO brand (brand) VALUES ("Toyota");
+INSERT INTO brand (brand) VALUES ("Volvo");
+INSERT INTO brand (brand) VALUES ("Volkswagen");
+
+INSERT INTO price(price) VALUES(500);
+INSERT INTO price(price) VALUES(1000);
+INSERT INTO price(price) VALUES(2000);
+INSERT INTO price(price) VALUES(5000);
+INSERT INTO price(price) VALUES(7500);
+INSERT INTO price(price) VALUES(10000);
+INSERT INTO price(price) VALUES(15000);
+INSERT INTO price(price) VALUES(20000);
+INSERT INTO price(price) VALUES(25000);
+INSERT INTO price(price) VALUES(30000);
+INSERT INTO price(price) VALUES(35000);
+INSERT INTO price(price) VALUES(40000);
+INSERT INTO price(price) VALUES(45000);
+INSERT INTO price(price) VALUES(50000);
+INSERT INTO price(price) VALUES(55000);
+INSERT INTO price(price) VALUES(60000);
+INSERT INTO price(price) VALUES(65000);
+INSERT INTO price(price) VALUES(70000);
+INSERT INTO price(price) VALUES(75000);
+INSERT INTO price(price) VALUES(80000);
+INSERT INTO price(price) VALUES(85000);
+INSERT INTO price(price) VALUES(90000);
+INSERT INTO price(price) VALUES(100000);
+INSERT INTO price(price) VALUES(150000);
+INSERT INTO price(price) VALUES(200000);
+INSERT INTO price(price) VALUES(300000);
 
 INSERT INTO exteriors(exteriorname) VALUES("Einparkhilfe");
-INSERT INTO exteriors(exteriorname) VALUES("Tempomat");,
-
-INSERT INTO prices(price) VALUES(500);
-INSERT INTO prices(price) VALUES(1000);
-INSERT INTO prices(price) VALUES(2000);
-INSERT INTO prices(price) VALUES(5000);
-INSERT INTO prices(price) VALUES(7500);
-INSERT INTO prices(price) VALUES(10000);
-INSERT INTO prices(price) VALUES(15000);
-INSERT INTO prices(price) VALUES(20000);
-INSERT INTO prices(price) VALUES(25000);
-INSERT INTO prices(price) VALUES(30000);
-INSERT INTO prices(price) VALUES(35000);
-INSERT INTO prices(price) VALUES(40000);
-INSERT INTO prices(price) VALUES(45000);
-INSERT INTO prices(price) VALUES(50000);
-INSERT INTO prices(price) VALUES(55000);
-INSERT INTO prices(price) VALUES(60000);
-INSERT INTO prices(price) VALUES(65000);
-INSERT INTO prices(price) VALUES(70000);
-INSERT INTO prices(price) VALUES(75000);
-INSERT INTO prices(price) VALUES(80000);
-INSERT INTO prices(price) VALUES(85000);
-INSERT INTO prices(price) VALUES(90000);
-INSERT INTO prices(price) VALUES(100000);
-INSERT INTO prices(price) VALUES(150000);
-INSERT INTO prices(price) VALUES(200000);
-INSERT INTO prices(price) VALUES(300000);
+INSERT INTO exteriors(exteriorname) VALUES("Tempomat");
 
 
 -- User erstellt ein neuen Account

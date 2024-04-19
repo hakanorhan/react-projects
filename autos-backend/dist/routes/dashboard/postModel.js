@@ -1,5 +1,5 @@
 import { pool } from "../../dbConnect.js";
-const insertIntoModels = "insert into models(model, brandid)VALUES(?, ?)";
+const insertIntoModels = "insert into model(model, brand_id)VALUES(?, ?)";
 export default async (req, res) => {
     const axiosData = req.body;
     let connection = await pool.getConnection();

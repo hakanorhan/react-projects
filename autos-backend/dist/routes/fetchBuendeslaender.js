@@ -1,11 +1,10 @@
 import { pool } from '../dbConnect.js';
-const selectQuery = 'SELECT * from bundesland';
+const selectQuery = 'SELECT * from federal_state';
 export default async (req, res) => {
     let connection = await pool.getConnection();
     try {
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0];
-        console.log(result);
         return res.status(200).json({ message: 'Data send', tableValues: result });
     }
     catch (error) {

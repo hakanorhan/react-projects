@@ -2,7 +2,7 @@ import express from 'express';
 import { pool } from '../../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 
-const selectQueryModels: string = 'SELECT * from models WHERE brandid = ?';
+const selectQueryModels: string = 'SELECT * from model WHERE brand_id = ?';
 //const selectQuery: string = 'SELECT brands.brandid, brands.marke, models.modell, models.modelid FROM brands JOIN models ON brands.brandid = models.brandid';
 
 export default async (req: express.Request, res: express.Response) => {

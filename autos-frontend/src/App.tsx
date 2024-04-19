@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/site-components/Header';
 import { ThemeProvider } from '@emotion/react';
@@ -29,7 +28,19 @@ import { URLs } from '../../autos-backend/src/enums/URLs';
 import InsertModel from './components/pages/dashboards/admin/components/InsertModel';
 import PublishInserate from './components/pages/dashboards/admin/components/PublishInserate';
 
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+  // router
+  const router = createBrowserRouter([
+    { path: URLs.POST_SIGINUP, element: <SignUpUser /> },
+    { path: URLs.POST_SIGNIN, element: <SignIn /> },
+    { path: URLs.POST_INSERATE_CAR, element: <InserateCar /> },
+    { path: URLs.FETCH_INSERATE_PUBLISH, element: <PublishInserate /> } 
+  ])
+
 const App: React.FC = () => {
+
+
 
   // Background image changes on different components 
   const imageName = useSelector((state: RootState) => state.background.imageName);
@@ -43,25 +54,7 @@ const App: React.FC = () => {
         <Box sx={{  backgroundImage: `url(${imageName}.jpg)`, width: '100%', minHeight: minHeightContent, backgroundColor:'whitesmoke' }}>
           <Header />
           {/* Routes */}
-          <Routes>
-            <Route path='/' element={<Search />}></Route>
-            {/* signin */}
-            <Route path='/signin' element={<SignIn />} ></Route>
-            {/* User signup */}
-            <Route path='/signup' element={<SignUpUser />} ></Route>
-            {/* dashboard only admin */}
-
-            <Route path='/inserieren' element={<ProtectedRoute role={Roles.USER}> <InserateCar /> </ProtectedRoute>} />
-
-            <Route path='/admin/writedata' element={<ProtectedRoute role={Roles.ADMIN} ><DashboardProcess /></ProtectedRoute>} ></Route>
-
-            <Route path={ URLs.POST_WRITE_BRAND } element={<ProtectedRoute role={Roles.ADMIN}> <InsertBrand /> </ProtectedRoute>}></Route>
-            <Route path={ URLs.POST_INSERT_MODEL } element={<ProtectedRoute role={Roles.ADMIN}> <InsertModel /> </ProtectedRoute>}></Route>
-            <Route path={ URLs.FETCH_INSERATE_PUBLISH } element={<ProtectedRoute role={Roles.ADMIN}> <PublishInserate /> </ProtectedRoute>}></Route>
-
-            <Route path='/upload' element={<ProtectedRoute role={Roles.USER}><UploadImage /></ProtectedRoute>}></Route>
-            <Route path='*' element={<Navigate to='/signin' replace />} />
-          </Routes>
+          <RouterProvider router={router} />
 
         </Box>
       </ThemeProvider>
@@ -72,3 +65,12 @@ const App: React.FC = () => {
 }
 
 export default App
+
+/*
+  ,{ path: '/', element: <Search />},
+    { path: URLs.POST_SIGINUP, element: <SignUpUser /> },
+    { path: URLs.POST_INSERATE_CAR, element: <ProtectedRoute role={ Roles.USER }> <InserateCar /> </ProtectedRoute> },
+    { path: URLs.POST_WRITE_BRAND, element: <ProtectedRoute role={ Roles.ADMIN }> <InsertBrand /> </ProtectedRoute> },
+    { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role= { Roles.ADMIN }> <InsertModel /> </ProtectedRoute> },
+    { path: URLs.UPLOAD, element:<ProtectedRoute role= { Roles.ADMIN }> <UploadImage /> </ProtectedRoute> }
+*/

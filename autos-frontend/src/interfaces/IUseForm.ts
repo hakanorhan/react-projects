@@ -10,7 +10,8 @@ export interface IUseForm {
     onChange: (value: string) => void; // callback,
     regex: RegExp,
     refresh?: boolean,
-    maxLength?: number
+    maxLength?: number,
+    checkEmail?: boolean | null
   }
 
   export interface IUseFormTextArea {
