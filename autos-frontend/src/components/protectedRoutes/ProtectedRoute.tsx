@@ -4,8 +4,10 @@ import { AuthResponse } from '../../../../autos-backend/src/interfaces/auth/Auth
 import { Roles } from '../../../../autos-backend/src/enums/Roles';
 import axios from 'axios';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
-import { useDispatch } from 'react-redux';
-import { setRole } from '../../redux/features/userlogged';
+import { useDispatch, useSelector } from 'react-redux';
+import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
+import { notifyError } from '../../helper/toastHelper';
+import { RootState } from '../../redux/store';
 
 interface ProtectedRoteProps {
     children: ReactNode,
@@ -14,8 +16,7 @@ interface ProtectedRoteProps {
 
 const ProtectedRoute = ({ children, role } : ProtectedRoteProps) => {
     const [loading, setLoading] = useState(true);
-    const [authenticated, setAuthenticated] = useState(false);
-    const [useRole, setUseRole] = useState<string>(Roles.USER);
+    const userLoggedStatus = useSelector((state: RootState) => state.userLoggedIn);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -23,17 +24,12 @@ const ProtectedRoute = ({ children, role } : ProtectedRoteProps) => {
             try {
                 const response = await axios.get<AuthResponse>(URLs.ORIGIN_SERVER + URLs.GET_CHECK_AUTH, { withCredentials: true });
                 const authed = response.data.authenticated;
+                dispatch(setUserLoggedIn(authed));
                 const authRole = response.data.role;
-                setAuthenticated(authed);
-
-                // TODO: admin but jwt user
-                if(authRole) {
-                    dispatch(setRole(authRole))
-                    setUseRole(authRole)
-                }
+                dispatch(setRole(authRole));
 
         } catch(error) {
-
+            console.log(error);
         } finally{
             setLoading(false)
         }
@@ -45,10 +41,13 @@ const ProtectedRoute = ({ children, role } : ProtectedRoteProps) => {
     if(loading) {
         return <p>Loading...</p>
     }
-    if(authenticated && role === useRole) {
+    if(userLoggedStatus.userLoggedIn && role === userLoggedStatus.role) {
+        
         return children
     } else {
-        return <Navigate to='/signin' />
+        dispatch(setRole(Roles.NULL));
+        dispatch(setUserLoggedIn(false));
+        return <Navigate to= { URLs.POST_SIGNIN } />
     }
 };
 

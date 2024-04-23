@@ -2,6 +2,7 @@ import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import toast from 'react-hot-toast'
 import { URLs } from "../../../autos-backend/src/enums/URLs";
+import { notifyError } from "./toastHelper";
 
 export interface FormDataModel {
   brandId: string,
@@ -23,8 +24,8 @@ export const handleSubmitPostBrand = async (value: any , url: string, setListVal
       setListValues(response.data.tableValues);
       //setInsertId(response.data.insertId);
 
-    } catch (error) {
-      toast.error("Bitte versuchen Sie erneut");
+    } catch (error: any) {
+      notifyError(error.response.data.errno, error.response.data.message);
     }
   }
 

@@ -24,12 +24,13 @@ export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAct
 
 export const useEffectModel =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>, selectedBrand: string) => {
   useEffect(() => {
-      
   // valid brand
-  const fetchData = async() => {   
-    await axios.post(`${URLs.ORIGIN_SERVER}` + url, { selectedBrand }, { withCredentials: true })
+  const fetchData = async() => {
+    await axios.post(`${URLs.ORIGIN_SERVER}` + url, { selectedBrand } , { withCredentials: true })
           
     .then(response => { 
+      console.log(response.data.tableValues);
+
             //toast.success(response.data.message);
           setListValues(response.data.tableValues);
            })

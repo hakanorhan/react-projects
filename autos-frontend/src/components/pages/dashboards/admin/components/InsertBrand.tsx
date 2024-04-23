@@ -11,13 +11,20 @@ import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
 import { REGEX_NAMES } from "../../../../../../../autos-backend/src/regex/regex";
 
+interface IFormBrand {
+  brand: string
+};
+
+const formBrand: IFormBrand = {
+  brand: ""
+}
+
 // Components
 const InsertBrand = () => {
-  const [form, setForm] = useState({
-    brand: ""
-  });
+  const [form, setForm] = useState( formBrand );
   const [listValues, setListValues] = useState<any[]>([]);
-  const [insertId, setInsertId] = useState<number | null>(null)
+  const [insertId, setInsertId] = useState<number | null>(null);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     // valid brand
@@ -27,7 +34,9 @@ const InsertBrand = () => {
         .then(response => {
           setListValues(response.data.tableValues);
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+          console.log(error);
+        })
 
     }
     fetchData();
@@ -35,10 +44,18 @@ const InsertBrand = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setRefresh(false);
     // submit after click button
     handleSubmitPostBrand(form.brand, URLs.POST_WRITE_BRAND, setListValues, setInsertId);
   }
+
+  // if user insert new brand. Textfield changes to initialvalue
+  useEffect(() => {
+    if(listValues.length > 0) {
+      setForm( formBrand );
+      setRefresh(true);
+    }
+  }, [listValues])
 
   const handleOnChange = (fieldName: string, fieldValue: string) => {
     setForm({ ...form, [fieldName]: fieldValue })
@@ -47,7 +64,7 @@ const InsertBrand = () => {
   return <><Toaster />
     <MainComponentWidth>
       <form onSubmit={handleSubmit} noValidate>
-        <TextFieldCars id="brand" label="Marke" onChange={value => handleOnChange('brand', value)} regex={REGEX_NAMES} />
+        <TextFieldCars id="brand" label="Marke" onChange={value => handleOnChange('brand', value)} regex={REGEX_NAMES} refresh={ refresh }/>
 
         <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
       </form>

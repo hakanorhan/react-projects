@@ -3,34 +3,48 @@ import { pool } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 import { AxiosDetailsearch } from '../interfaces/IAxiosData.js';
 
-const selectQueryDetail: string = "SELECT c.carid, b.brand, m.model, c.price, ct.cartype, c.km, c.year, c.month, t.transmissionname, ai.advertiseddate, c.ps, c.previousowner, c.hubraum,"
-    + " c.aunew, d.doors, c.hunew, c.accident, f.fuelname, u.iscardealer, k.klimaname, c.description, c.scheckheft, c.fittodrive, c.abstandstempomat,"
-    + " c.ambientbeleuchtung, c.headupdisplay, c.totwinkelassistent" 
-    + " FROM cars c "
-    + " JOIN models m ON c.modelid = m.modelid"
-    + " JOIN brands b ON b.brandid = m.brandid"
-    + " JOIN cartypes ct ON c.cartypeid = ct.cartypeid"
-    + " JOIN transmissions t ON t.transmissionid = c.transmissionid"
-    + " JOIN advertiseinfo ai ON c.advertiseinfoid = ai.advertiseinfoid"
-    + " JOIN fuels f ON f.fuelid = c.fuelid"
-    + " JOIN doors d ON d.doorid = c.doorid"
-    + " JOIN user u ON u.userid = ai.userid"
-    + " JOIN klima k ON c.klimaid = k.klimaid"
-    + " WHERE c.carid = ?";
+const selectQueryDetail: string = "SELECT *" 
+    + " FROM inserate i "
+    + " LEFT JOIN inserate_info ii ON ii.inserate_info_id = i.inserate_info_id"
+    + " LEFT JOIN inserate_check ic ON i.inserate_id = ic.inserate_id"
+    + " LEFT JOIN user u ON u.user_id = ii.user_id"
+    + " LEFT JOIN user_dealer ud ON ud.user_id = u.user_id"
+    + " LEFT JOIN personal_data pd ON pd.personal_data_id = u.personal_data_id"
+    + " LEFT JOIN account_data ac ON ac.account_data_id = u.account_data_id"
+    + " LEFT JOIN address a ON a.address_id = pd.address_id"
+    + " LEFT JOIN federal_state fs ON fs.federal_state_id = a.federal_state_id"
+    + " LEFT JOIN contact_preffered cp ON cp.contact_preffered_id = u.contact_preffered_id"
+    + " LEFT JOIN model m ON m.model_id = i.model_id"
+    + " LEFT JOIN brand b ON b.brand_id = m.brand_id"
+    + " LEFT JOIN technical_description td ON td.technical_description_id = i.technical_description_id"
+    + " LEFT JOIN fuel f ON td.fuel_id = f.fuel_id"
+    + " LEFT JOIN door d ON d.door_id = td.door_id"
+    + " LEFT JOIN vehicle_condition vc ON vc.vehicle_condition_id = td.vehicle_condition_id"
+    + " LEFT JOIN cartype ct ON ct.cartype_id = td.cartype_id"
+    + " LEFT JOIN feature fe ON fe.feature_id = td.feature_id"
+    + " LEFT JOIN transmission tr ON tr.transmission_id = td.transmission_id"
+    + " LEFT JOIN clima c ON c.clima_id = td.clima_id"
+    + " LEFT JOIN tuev t ON t.tuev_id = td.tuev_id"
+    + " WHERE i.inserate_id = ?";
 
 export default async (req: express.Request, res: express.Response) => {
-    const carId = req.params.id
+    const inserateId = req.params.id
+    
     let connection = await pool.getConnection();
     try {
-        const queryResult = await connection.execute(selectQueryDetail, [carId]);
+        const queryResult = await connection.execute(selectQueryDetail, [inserateId]);
         const result = queryResult[0] as RowDataPacket[];
-        const { carid, brand, model, price, cartype, km,year, month, transmissionname, advertiseddate, ps, previousowner, hubraum, aunew, hunew, doors, accident, fuelname,
-             iscardealer, klimaname, description, scheckheft, fittodrive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent } = result[0];
+
+        
+        const { inserate_id, brand, model, price, cartype, mileage_km, registration_year, registration_month, transmission, inserate_date, power_ps, vehicle_owners, cubic_capacity,
+             au_new, hu_new, door, accident, fuel,
+             is_car_dealer, clima, description_car, scheckheft, fit_to_drive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent, color } = result[0];
         
         const axiosData: AxiosDetailsearch = {
-            carId: carid, model, brand, price, cartype, km, year, month, transmission: transmissionname, advertiseddate, ps, previousOwner: previousowner, hubraum, auNew: aunew,
-            huNew: hunew, doors, accident, fuel:fuelname, isCardealer: iscardealer, klima: klimaname, description, scheckheft, fittodrive, abstandstempomat, ambientbeleuchtung,
-            headupdisplay, totwinkelassistent
+            inseratId: inserate_id, model, brand, price, cartype, mileageKm: mileage_km, registrationYear: registration_year, registrationMonth: registration_month, transmission, inserateDate: inserate_date,
+            psPower: power_ps, vehicleOwners: vehicle_owners, cubicCapacity: cubic_capacity, auNew: au_new,
+            huNew: hu_new, doors: door, accident, fuel, isCardealer: is_car_dealer, clima, description: description_car, scheckheft, fittodrive: fit_to_drive, abstandstempomat, ambientbeleuchtung,
+            headupdisplay, totwinkelassistent, color
         }
 
         return res.status(200).json( axiosData );

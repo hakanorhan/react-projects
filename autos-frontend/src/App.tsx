@@ -28,17 +28,36 @@ import { URLs } from '../../autos-backend/src/enums/URLs';
 import InsertModel from './components/pages/dashboards/admin/components/InsertModel';
 import PublishInserate from './components/pages/dashboards/admin/components/PublishInserate';
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import Notfound from './components/pages/Notfound';
+import Service from './components/pages/Service';
+
+const App: React.FC = () => {
+
+
+  const AppLayout = () => (
+    <>
+      <Header />
+      <Outlet />
+      <Footer />
+    </>
+  )
 
   // router
   const router = createBrowserRouter([
-    { path: URLs.POST_SIGINUP, element: <SignUpUser /> },
-    { path: URLs.POST_SIGNIN, element: <SignIn /> },
-    { path: URLs.POST_INSERATE_CAR, element: <InserateCar /> },
-    { path: URLs.FETCH_INSERATE_PUBLISH, element: <PublishInserate /> } 
+    {
+      element: <AppLayout />,
+      children: [
+        { path: URLs.POST_SIGINUP, element: <SignUpUser />, errorElement: <Notfound /> },
+        { path: URLs.POST_SIGNIN, element: <SignIn />, errorElement: <Notfound /> },
+        { path: URLs.POST_INSERATE_CAR, element: <ProtectedRoute role={Roles.USER}><InserateCar /></ProtectedRoute>, errorElement: <Notfound /> },
+        { path: URLs.FETCH_INSERATE_PUBLISH, element: <ProtectedRoute role={ Roles.ADMIN }> <PublishInserate /> </ProtectedRoute> },
+        { path: URLs.POST_WRITE_BRAND, element: <ProtectedRoute role={Roles.ADMIN}> <InsertBrand /> </ProtectedRoute> },
+        { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role={Roles.ADMIN}> <InsertModel /> </ProtectedRoute> },
+        { path: "/service", element: <Service /> }
+      ]
+    }
   ])
-
-const App: React.FC = () => {
 
 
 
@@ -51,26 +70,13 @@ const App: React.FC = () => {
       <ThemeProvider theme={themeColor}>
         {/* dark theme */}
         {/* <CssBaseline /> */}
-        <Box sx={{  backgroundImage: `url(${imageName}.jpg)`, width: '100%', minHeight: minHeightContent, backgroundColor:'whitesmoke' }}>
-          <Header />
+        <Box sx={{ backgroundImage: `url(${imageName}.jpg)`, width: '100%', minHeight: minHeightContent, backgroundColor: 'whitesmoke' }}>
           {/* Routes */}
-          <RouterProvider router={router} />
-
+          <RouterProvider router={router} fallbackElement={<Notfound />} />
         </Box>
       </ThemeProvider>
-
-      <Footer />
     </>
   )
 }
 
-export default App
-
-/*
-  ,{ path: '/', element: <Search />},
-    { path: URLs.POST_SIGINUP, element: <SignUpUser /> },
-    { path: URLs.POST_INSERATE_CAR, element: <ProtectedRoute role={ Roles.USER }> <InserateCar /> </ProtectedRoute> },
-    { path: URLs.POST_WRITE_BRAND, element: <ProtectedRoute role={ Roles.ADMIN }> <InsertBrand /> </ProtectedRoute> },
-    { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role= { Roles.ADMIN }> <InsertModel /> </ProtectedRoute> },
-    { path: URLs.UPLOAD, element:<ProtectedRoute role= { Roles.ADMIN }> <UploadImage /> </ProtectedRoute> }
-*/
+export default App;

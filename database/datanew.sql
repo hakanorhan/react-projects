@@ -47,6 +47,7 @@ CREATE TABLE user(
     personal_data_id INT NOT NULL,
     account_data_id INT NOT NULL,
     contact_preffered_id INT NOT NULL,
+    is_car_dealer TINYINT(1) NOT NULL,
     FOREIGN KEY (personal_data_id) REFERENCES personal_data(personal_data_id),
     FOREIGN KEY (account_data_id) REFERENCES account_data(account_data_id),
     FOREIGN KEY (contact_preffered_id) REFERENCES contact_preffered(contact_preffered_id)
@@ -103,6 +104,14 @@ CREATE TABLE price(
     price INT NOT NULL UNIQUE
 );
 
+CREATE TABLE feature(
+    feature_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    abstandstempomat TINYINT(1) NOT NULL,
+    ambientbeleuchtung TINYINT(1) NOT NULL,
+    headupdisplay TINYINT(1) NOT NULL,
+    totwinkelassistent TINYINT(1) NOT NULL
+);
+
 CREATE TABLE inserate_info(
 	inserate_info_id INT AUTO_INCREMENT PRIMARY KEY,
     inserate_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -116,11 +125,6 @@ CREATE TABLE tuev(
     hu_new TINYINT(1) NOT NULL DEFAULT 0,
     au_new TINYINT(1) NOT NULL DEFAULT 0,
     scheckheft TINYINT(1) NOT NULL DEFAULT 0
-);
-
-CREATE TABLE color(
-    color_id INT AUTO_INCREMENT PRIMARY KEY,
-    color VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE vehicle_condition(
@@ -137,52 +141,35 @@ CREATE TABLE technical_description(
     registration_year INT NOT NULL,
     registration_month INT NOT NULL,
     transmission_id INT NOT NULL,
+    description_car VARCHAR(255) NULL,
     fuel_id INT NOT NULL,
     cubic_capacity INT NOT NULL,
     door_id INT NOT NULL,
     vehicle_owners INT NOT NULL,
     tuev_id INT NOT NULL,
-    color_id INT NOT NULL,
+    color VARCHAR(50) NOT NULL,
     clima_id INT NOT NULL,
+    feature_id INT NOT NULL,
     vehicle_condition_id INT NOT NULL,
     FOREIGN KEY(fuel_id) REFERENCES fuel(fuel_id),
     FOREIGN KEY(transmission_id) REFERENCES transmission(transmission_id),
     FOREIGN KEY(cartype_id) REFERENCES cartype(cartype_id),
     FOREIGN KEY(door_id) REFERENCES  door(door_id),
     FOREIGN KEY(tuev_id) REFERENCES tuev(tuev_id),
-    FOREIGN KEY(color_id) REFERENCES color(color_id),
     FOREIGN KEY(vehicle_condition_id) REFERENCES vehicle_condition(vehicle_condition_id),
-    FOREIGN KEY(clima_id) REFERENCES clima(clima_id)
-);
-
-CREATE TABLE feature(
-    feature_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    feature VARCHAR(25) NOT NULL,
-    technical_description_id INT NOT NULL,
-    FOREIGN KEY(technical_description_id) REFERENCES technical_description(technical_description_id)
-);
-
--- key number
-CREATE TABLE car(
-    car_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    key_number VARCHAR(40) NOT NULL,
-    technical_description_id INT NOT NULL,
-    FOREIGN KEY(technical_description_id) REFERENCES technical_description(technical_description_id)
+    FOREIGN KEY(clima_id) REFERENCES clima(clima_id),
+    FOREIGN KEY(feature_id) REFERENCES feature(feature_id)
 );
 
 CREATE TABLE inserate(
     inserate_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    inserate_headline VARCHAR(20) NOT NULL,
-    inserate_subtitle VARCHAR(30) NOT NULL,
     price INT NOT NULL,
     model_id INT NOT NULL,
     technical_description_id INT NOT NULL,
     inserate_info_id INT NOT NULL,
-    car_id INT NOT NULL,
     FOREIGN KEY(model_id) REFERENCES model(model_id),
     FOREIGN KEY(technical_description_id) REFERENCES technical_description(technical_description_id),
-    FOREIGN KEY(inserate_info_id) REFERENCES inserate_info(inserate_info_id),
-    FOREIGN KEY(car_id) REFERENCES car(car_id)
+    FOREIGN KEY(inserate_info_id) REFERENCES inserate_info(inserate_info_id)
     );
 
 CREATE TABLE imagename(
@@ -197,7 +184,7 @@ CREATE TABLE imagename(
 CREATE TABLE inserate_check(
 	inserate_check_id INT AUTO_INCREMENT PRIMARY KEY,
     
-	inserate_public TINYINT(1) NOT NULL,
+	inserate_public TINYINT(1) NOT NULL DEFAULT 0,
     inserate_cancelled TINYINT(1) NOT NULL DEFAULT 0,
     inserate_checked_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     inserate_cancelled_date TIMESTAMP NULL,
@@ -349,55 +336,3 @@ INSERT INTO price(price) VALUES(100000);
 INSERT INTO price(price) VALUES(150000);
 INSERT INTO price(price) VALUES(200000);
 INSERT INTO price(price) VALUES(300000);
-
-INSERT INTO exteriors(exteriorname) VALUES("Einparkhilfe");
-INSERT INTO exteriors(exteriorname) VALUES("Tempomat");
-
-
--- User erstellt ein neuen Account
-INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 95", "49889", "Essen", 10);
-INSERT INTO person (name, familyname, email, password, telnr, birth, addressid)
-VALUES ("Hakan", "Orhan", "hakan@mail.de", "Hakan.89!", "015478xx", "2000-09-24", 1);
-Insert INTO user(userid) VALUES(1);
-
--- Fahrzeug inserieren 
-INSERT INTO advertiseinfo(userid) VALUES (1);
-INSERT INTO cars(price, km, year, transmissionid, motorizationid, advertiseinfoid) VALUES (45000, 0, "2024-02-25", 1, 8,1);
-
-INSERT INTO advertiseinfo(userid) VALUES (1);
-INSERT INTO cars(modelid, price, km, cartypeid, year, month) VALUES (32500, 2500, "2022-02-25", 1, 1, 1);
-
-/*
--- ADMIN
-INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 45", "45889", "Gelsenkirchen", 10);
-INSERT INTO person (name, familyname, email, password, telnr, birth, addressid, role)
-VALUES ("Hakan", "Orhan", "hakan@cars.de", "1234", "+4915000000000", "2000-10-04", 1, 'admin');
-INSERT INTO admin(adminid) VALUES(1);
-insert into whocreatedeletedemployee(personid, createdfrom) values(1, 1);
-
--- Admin erstellt ein neues Admin Account
-INSERT INTO address(streetnr, zipcode, city, blandid) values("Abendtr. 459", "47889", "Dortmund", "NW");
-INSERT INTO person (name, familyname, email, password, telnr, birth, addressid)
-VALUES ("Max", "Mustermann", "muster@test.de", "1234", "015478xx", "2007-12-04", 2);
-INSERT INTO admin(adminid) VALUES(2);
-insert into whocreatedeletedemployee(personid, createdfrom) values(2, 1);
-
--- Admin 2 erstellt ein neues Service Account
-INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 45", "49889", "Essen", "NW");
-INSERT INTO person (name, familyname, email, password, telnr, birth, addressid)
-VALUES ("Sahra", "Musterfrau", "musterin@test.de", "1234", "015478xx", "2006-09-24", 3);
-INSERT INTO service(serviceid) VALUES (3);
-insert into whocreatedeletedemployee(personid, createdfrom) values(3, 2);
-
-INSERT INTO address(streetnr, zipcode, city, blandid) values("Musterstr. 95", "49889", "Nürnberg", "BY");
-INSERT INTO person (name, familyname, email, password, telnr, birth, addressid)
-VALUES ("Userin", "Tachfrau", "tach@test.de", "1234HBa", "015478xx", "1999-09-24", 5);
-Insert INTO user(userid) VALUES(5);
-
--- Admin1 setzt isactive 0 admin2
-update person SET isactive= 0 where personid = 2;
-update whocreatedeletedemployee SET deletedfrom = 1 where personid = 2;
-
--- User4 inseriert ein neues Fahrzeug
-INSERT INTO advertiseinfo(userid) VALUES(4);
-*/

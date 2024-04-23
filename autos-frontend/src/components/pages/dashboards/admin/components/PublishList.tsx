@@ -4,6 +4,7 @@ import { secondaryColorLight } from "../../../../../themes/ThemeColor";
 import React, { useEffect, useState } from "react";
 import { seperateThousand } from "../../../../../helper/helper";
 import ViewDetailSearch from "../../../ViewDetailSearch";
+import dayjs from "dayjs";
 
 interface PublishListProps {
     listItems: any[] | null
@@ -12,25 +13,25 @@ interface PublishListProps {
 export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
 
     const [viewCarComponent, setViewCarComponent] = useState(false)
-    const [carId, setCarId] = useState<number | null>(null);
+    const [inserateId, setInserateId] = useState<number | null>(null);
     
 
     
     useEffect(() => {
-        if(carId !== null)
+        if(inserateId !== null)
         setViewCarComponent(true);
-    }, [carId])
+    }, [inserateId])
 
     const ViewListComponent = () => {
         return <List>
         { 
                 (listItems && listItems.length > 0) ?
                 listItems.map((item, index) => (
-                    <ListItem onClick={() => { setCarId(item.carid) }} divider key={index} sx={{ '&:hover': {backgroundColor: secondaryColorLight, cursor: 'pointer'}  }}>
+                    <ListItem onClick={() => { setInserateId(item.inserate_id) }} divider key={index} sx={{ '&:hover': {backgroundColor: secondaryColorLight, cursor: 'pointer'}  }}>
                         <ListItemIcon> <ViewListIcon /> </ListItemIcon>
                         <ListItemText  key={index} 
-                            primary={"Inserat ID: " + item.carid + "  " + item.brand  + " " + item.model + " Preis: " + seperateThousand(item.price) + "€"} 
-                            secondary={"Datum: " + item.advertiseddate } >
+                            primary={"Inserat ID: " + item.inserate_id + "  " + item.brand  + " " + item.model + " Preis: " + seperateThousand(item.price) + "€"} 
+                            secondary={"Datum Uhrzeit: " + dayjs(item.inserate_date).format('DD.MM.YYYY HH:MM') } >
                         </ListItemText>
                     </ListItem>        
                 )) : <Box sx={{ marginLeft:'1rem' }}>Keine neue Inserate.</Box>
@@ -43,7 +44,7 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
     <Box sx={{ width: '100%' }}>
         <ViewListComponent />
         {
-            viewCarComponent ? <ViewDetailSearch id={carId} /> : <></>
+            viewCarComponent ? <ViewDetailSearch id={inserateId} /> : <></>
         }
     </Box>
   )

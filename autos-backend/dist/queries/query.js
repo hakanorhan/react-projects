@@ -38,7 +38,7 @@ export async function insertTransaction(insertQuery, values, res) {
     }
 }
 export const insertImageName = async (imageName, carId, firstplace) => {
-    const insertInto = "INSERT INTO images(imageName, firstplace, carid) VALUES(?, ?, ?)";
+    const insertInto = "INSERT INTO imagename(imagename, firstplace, inserate_id) VALUES(?, ?, ?)";
     let connection = await pool.getConnection();
     try {
         await connection.execute(insertInto, [imageName, firstplace, carId]);

@@ -199,7 +199,7 @@ const SignUpUser: React.FC = () => {
     // TODO: change if statemnt
     // all Formular field are valid
     else {
-      const formattedDate = dateValue.format('YYYY-MM-DD');
+      const formattedDate = dateValue.format('DD-MM-YYYY');
 
       const axiosData: AxiosDataSignup = { form, selectedBundesland, isCheckedchat, isCheckedDealer, isCheckedEmail, isCheckedTelefon, formattedDate, telefonNr }
 
@@ -210,7 +210,7 @@ const SignUpUser: React.FC = () => {
           navigate(URLs.POST_SIGNIN);
 
         }).catch(function (err) {
-          notifyError(err.response.data.message)
+          notifyError("signupError", "Error")
         })
     }
   }
@@ -253,7 +253,7 @@ const SignUpUser: React.FC = () => {
               {/* Email */}
               <Box>
                 <TextFieldCars id={EnumTextField.TextFieldID.EMAIL} label='Email' onChange={value => handleOnChange(EnumTextField.TextFieldID.EMAIL, value,)} regex={REGEX_EMAIL} checkEmail={emailNotUsed} />
-                <Typography sx={{ marginBottom: '1rem' }}>{ ValidHelper.formularEmailValid(form.email) ? emailNotUsed ? "Richtige Angabe. Email nicht vorhanden" : <b>Email bereits vorhanden</b> : '\u00A0'}</Typography>
+                <Typography sx={{ marginBottom: '1rem' }}>{ ValidHelper.formularEmailValid(form.email) ? emailNotUsed ? <b>Email nicht vorhanden</b> : <b>Email bereits vorhanden</b> : '\u00A0'}</Typography>
               </Box>
               <Box sx={{ marginBottom: '1rem' }}>
                 <PasswordSignUp id={EnumTextField.TextFieldID.PASSWORD1} label='Password' onChange={value => handleOnChange(EnumTextField.TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />

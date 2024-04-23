@@ -31,6 +31,7 @@ import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
 import { notifyError, notifySuccess } from '../../helper/toastHelper';
+import { Link, useNavigate } from 'react-router-dom';
 
 const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem' }, color: primaryColorMain, backgroundColor: 'transparent', ':hover': { color: 'orange' }, justifyContent: 'flex-start' };
 
@@ -44,7 +45,7 @@ const accordionStyle = { color: primaryColorMain, fontSize: drawerFontSize, font
 
 export default function Header() {
   // TODO: navigate Header.tsx
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [logout, setLogout] = React.useState(false);
 
@@ -75,8 +76,10 @@ export default function Header() {
     if(logout) {
       alert("logour")
 
-      axios.get(URLs.ORIGIN_SERVER + URLs.DELETE_TOKEN, { withCredentials: true })
-        .then(response => {})
+      axios.delete(URLs.ORIGIN_SERVER + URLs.DELETE_TOKEN, { withCredentials: true })
+        .then(response => {
+          navigate(URLs.POST_SIGNIN);
+        })
         .catch(error => console.log(error)) 
     }
   }, [logout])
@@ -93,9 +96,9 @@ export default function Header() {
       </AccordionSummary>
       <AccordionDetails>
         <Box >
-          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); // TODO: navigate(URLs.POST_WRITE_BRAND) 
+          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); navigate(URLs.POST_WRITE_BRAND) 
             }} > Marke </Button>
-          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); // TODO: navigate(URLs.POST_INSERT_MODEL) 
+          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); navigate(URLs.POST_INSERT_MODEL) 
             }}> Modell </Button>
         </Box>
       </AccordionDetails>
@@ -154,13 +157,13 @@ export default function Header() {
             <CloseOutlinedIcon sx={{ "&:hover": { backgroundColor: secondaryColorLight, border: '0px' }, color: primaryColorMain, fontSize: '70px', fontWeight: 'bold', marginRight: '40px', borderStyle: 'solid', borderRadius: '5px', padding: '10px' }} />
           </IconButton>
         </Box>
-        {role === Roles.USER &&
+        {
           <List>
 
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  {/* TODO: <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/'>Suchen</Link>} primaryTypographyProps={drawerSizes} /> */}
+                   <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={ URLs.POST_INSERATE_CAR }>Suchen</Link>} primaryTypographyProps={drawerSizes} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -168,7 +171,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  {/* TODO: <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/inserieren'>Inserieren</Link>} primaryTypographyProps={drawerSizes} /> */}
+                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={URLs.POST_INSERATE_CAR}> Inserieren</Link>} primaryTypographyProps={drawerSizes} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -176,14 +179,14 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                 {/* TODO: <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/our-service'>Unser Service</Link>} primaryTypographyProps={drawerSizes} /> */}
+                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/service'>Unser Service</Link>} primaryTypographyProps={drawerSizes} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
           </List>
         }
 
-        {/* ADMIN menu */}
+        
         {role === Roles.ADMIN &&
           <> <hr />
             <Box sx={{ marginTop: '1rem' }}>

@@ -6,7 +6,7 @@ export const insertAdress = `INSERT INTO address (street_nr, zipcode, city, fede
 export const insertPersonalData = "INSERT INTO personal_data (forename, surename, tel_nr, birthdate, address_id) VALUES (?, ?, ?, ?, ?)";
 export const insertAccountData = "INSERT INTO account_data (email, password_secret, account_role) VALUES (?, ?, ?)";
 export const insertIntoContactPreffered = "INSERT INTO contact_preffered (contact_telefon, contact_email, contact_chat) VALUES(?, ?, ?)";
-export const insertUser = "INSERT INTO user (personal_data_id, account_data_id, contact_preffered_id) VALUES (?, ?, ?)";
+export const insertUser = "INSERT INTO user (personal_data_id, account_data_id, contact_preffered_id, is_car_dealer) VALUES (?, ?, ?, ?)";
 export const insertIntoUserDealer = "INSERT INTO user_dealer (user_id, companyname, impressum) VALUES (?, ?, ?)";
 async function performQuery(requestData, res) {
     const axiosData = requestData;
@@ -39,13 +39,14 @@ async function performQuery(requestData, res) {
         const streetNr = form.street + axiosData.form.nr;
         const [resultAdress] = await connection.execute(insertAdress, [streetNr, form.zipcode, form.city, axiosData.selectedBundesland]);
         const addressId = resultAdress.insertId;
-        const [resultPersonalData] = await connection.execute(insertPersonalData, [axiosData.form.name, axiosData.form.familyname, axiosData.telefonNr, axiosData.formattedDate, addressId]);
+        const dateEnglish = axiosData.formattedDate.split('-').reverse().join('-');
+        const [resultPersonalData] = await connection.execute(insertPersonalData, [axiosData.form.name, axiosData.form.familyname, axiosData.telefonNr, dateEnglish, addressId]);
         const personalDataId = resultPersonalData.insertId;
         const [resultAccountData] = await connection.execute(insertAccountData, [axiosData.form.email, hash, Roles.USER]);
         const accountDataId = resultAccountData.insertId;
         const [resultContactPreffered] = await connection.execute(insertIntoContactPreffered, [axiosData.isCheckedTelefon, axiosData.isCheckedEmail, axiosData.isCheckedchat]);
         const contactPrefferedId = resultContactPreffered.insertId;
-        const [resultUser] = await connection.execute(insertUser, [personalDataId, accountDataId, contactPrefferedId]);
+        const [resultUser] = await connection.execute(insertUser, [personalDataId, accountDataId, contactPrefferedId, axiosData.isCheckedDealer]);
         const userId = resultUser.insertId;
         if (axiosData.isCheckedDealer) {
             await connection.execute(insertIntoUserDealer, [userId, axiosData.form.companyname, axiosData.form.impressumdaten]);
@@ -82,7 +83,7 @@ async function performInsertAdmin() {
         const personalDataId = resultPersonalData.insertId;
         const [resultContactPreffered] = await connection.execute(insertIntoContactPreffered, [0, 0, 0]);
         const contactPrefferedId = resultContactPreffered.insertId;
-        const [resultUser] = await connection.execute(insertUser, [personalDataId, accountDataId, contactPrefferedId]);
+        const [resultUser] = await connection.execute(insertUser, [personalDataId, accountDataId, contactPrefferedId, false]);
         await connection.commit();
         console.log("committed!");
     }

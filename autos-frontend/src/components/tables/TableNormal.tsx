@@ -30,7 +30,7 @@ const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
     function TableHeaders() {
       return (
         <TableHead>
-        <TableRow>
+        <TableRow key={'row'}>
           {
               Object.keys(listValues[0]).map((key, index) => (
                   <TableCell key={index}> {key} </TableCell>

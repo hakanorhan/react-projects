@@ -94,3 +94,7 @@ export function formularStreetNrIsValid(nr: string) {
 export function formularZipCodeIsVald(zipcode: number) {
     return REGEX.REGEX_ZIPCODE.test(zipcode.toString());
 }
+
+export function formularModelIsValid(model: string) {
+    return REGEX.REGEX_MODEL.test(model);
+}

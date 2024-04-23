@@ -20,8 +20,6 @@ import dayjs from 'dayjs';
 import { DateComponentMonthYear } from '../../formularFields/DateComponentMonthYear';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { SelectFieldEnums } from '../../../../../autos-backend/src/enums/SelectFieldEnums';
-
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 
@@ -31,9 +29,9 @@ export default function InserateCar() {
     brand: "",
     model: "",
     cartype: "",
-    fuelname: "",
-    transmissionname: "",
-    doors: ""
+    fuel: "",
+    transmission: "",
+    door: ""
   }
 
   const initalInserate: InserateData = {
@@ -128,6 +126,7 @@ export default function InserateCar() {
       ...prevState,
       [event.target.name]: event.target.value
     }));
+
   }
 
   const handleOnChangeCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
@@ -158,8 +157,7 @@ export default function InserateCar() {
       // valid brand
       try {
         const response = await axios.post<AxiosInserateResponse>(`${URLs.ORIGIN_SERVER}${URLs.POST_INSERATE_CAR}`, axiosData, { withCredentials: true });
-        notifySuccess(response.data.message);
-        notifySuccess("Erfolgreich hinzugefügt " + response.data.carId);
+
         console.log("Status: " + response.status)
         if (response.status === 200) {
           // Image upload on submit
@@ -170,12 +168,12 @@ export default function InserateCar() {
           setLoading(false);
         }
       } catch (error) {
-        notifyError("Fehler");
+        notifyError("1", "Fehler");
       } finally {
         setLoading(false);
       }
     } else {
-      notifyError("Bitte beachten Sie alle Eingaben");
+      notifyError("2", "Bitte beachten Sie alle Eingaben");
     }
   }
 
@@ -230,10 +228,10 @@ export default function InserateCar() {
             <Grid item xs={6}> <SelectField values={listModels} objectName='model' idOfSelect='model_id' selectedValue={formSelect.model} handleChange={handleChangeSelect} label='Modell' /> </Grid>
 
             <Grid item xs={6}>  <SelectField values={listCarTypes} objectName='cartype' idOfSelect='cartype_id' selectedValue={formSelect.cartype} handleChange={handleChangeSelect} label='Typ' /> </Grid>
-            <Grid item xs={6}> <SelectField values={listTransmission} objectName='transmission' idOfSelect='transmission_id' selectedValue={formSelect.transmissionname} handleChange={handleChangeSelect} label='Getriebe' /> </Grid>
+            <Grid item xs={6}> <SelectField values={listTransmission} objectName='transmission' idOfSelect='transmission_id' selectedValue={formSelect.transmission} handleChange={handleChangeSelect} label='Getriebe' /> </Grid>
 
-            <Grid item xs={6}> <SelectField values={listFuels} objectName='fuel' idOfSelect='fuel_id' selectedValue={formSelect.fuelname} handleChange={handleChangeSelect} label='Kraftstoff' /> </Grid>
-            <Grid item xs={6}> <SelectField values={listDoors} objectName='door' idOfSelect='door_id' selectedValue={formSelect.doors} handleChange={handleChangeSelect} label='Anzahl Türen' /> </Grid>
+            <Grid item xs={6}> <SelectField values={listFuels} objectName='fuel' idOfSelect='fuel_id' selectedValue={formSelect.fuel} handleChange={handleChangeSelect} label='Kraftstoff' /> </Grid>
+            <Grid item xs={6}> <SelectField values={listDoors} objectName='door' idOfSelect='door_id' selectedValue={formSelect.door} handleChange={handleChangeSelect} label='Anzahl Türen' /> </Grid>
 
             <Grid item xs={6}> <TextFieldCars id='previousOwner' onChange={value => handleOnChange('previousOwner', value)} label='Anzahl Vorbesitzer' regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
 
@@ -251,7 +249,7 @@ export default function InserateCar() {
             <Grid item xs={6}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.ambientbeleuchtung} id='ambientbeleuchtung' onChange={handleOnChangeCheckbox} />} label="Ambientbeleuchtung" /></Grid>
             <Grid item xs={6}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.headupdisplay} id='headupdisplay' onChange={handleOnChangeCheckbox} />} label="Head-up Display" /></Grid>
             <Grid item xs={6}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.totwinkelassistent} id='totwinkelassistent' onChange={handleOnChangeCheckbox} />} label="Totwinkelassistent" /></Grid>
-            
+
             <Grid item xs={12}>      <ToggleButtonGroup
               color="primary"
               value={klimaValue}

@@ -1,6 +1,7 @@
 import express from "express";
 import { pool } from "../../dbConnect.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { mysqlErrorMessages } from "../../helper/messages.js";
 const insertIntoBrand: string = "INSERT INTO brand (brand) VALUES (?)";
 const selectBrandQuery: string = "SELECT * FROM brand";
 
@@ -23,9 +24,10 @@ export default async (req: express.Request, res: express.Response) => {
             await connection.commit();
             console.log(resultTableCell)
             return res.status(200).json({ message: 'Erfolgreich hinzugefügt', tableValues: resultTableCell, insertId: insertId })
-        } catch {
+        } catch (error: any){
             connection.rollback();
-            return res.status(500).json({ message: `${value} existiert bereits` });
+            mysqlErrorMessages(error.errno, res);
+            
         } finally {
             connection.release();
         }

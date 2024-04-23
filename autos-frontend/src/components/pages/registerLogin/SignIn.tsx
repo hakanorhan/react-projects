@@ -25,7 +25,7 @@ import { REGEX_EMAIL, REGEX_PASSWORD } from '../../../../../autos-backend/src/re
 import TextFieldCarsPassword1 from '../../formularFields/TextFieldCarsPassword.js';
 import { SignInForm } from '../../../../../autos-backend/src/interfaces/IAxiosData.js';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper.js';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthResponse } from '../../../../../autos-backend/src/interfaces/auth/AuthResponse.js';
 
 const SignIn: React.FC = () => {
@@ -72,12 +72,12 @@ const SignIn: React.FC = () => {
             switch (authResponse.role) {
               case Roles.ADMIN: {
                 dispatch(setRole(authResponse.role));
-                dispatch(setUserLoggedIn(authResponse.authenticated));
+                dispatch(setUserLoggedIn(true));
                 // TODO: navigate signin
                 navigate(URLs.FETCH_INSERATE_PUBLISH);
               } break;
               case Roles.USER: {
-                dispatch(setUserLoggedIn(authResponse.authenticated));
+                dispatch(setUserLoggedIn(true));
                 dispatch(setRole(authResponse.role));
                 navigate(URLs.POST_INSERATE_CAR);
               } break;
@@ -114,7 +114,7 @@ const SignIn: React.FC = () => {
               <p>Forgot Password</p>
             </div>
             <div style={{ width: '60%', display: 'flex', justifyContent: 'flex-end' }}>
-              {/* TODO:  <Link to="/signup" style={{ textDecoration: 'none', color: primaryColorMain }}>Don't have an account? Sign Up </Link> */}
+              <Link to={ URLs.POST_SIGINUP } style={{ textDecoration: 'none', color: primaryColorMain }}>Don't have an account? Sign Up </Link>
             </div>
           </div>
         </form>
@@ -124,14 +124,3 @@ const SignIn: React.FC = () => {
 }
 
 export default SignIn;
-
-
-/*
-  const dispatch = useDispatch();
-  useEffect(() => {
-    //dispatch(setNewImage('signin'));
-  }, [])  
-  */
-
-  //const successMessage = state && state.successMessage;
-  //if (successMessage) { }

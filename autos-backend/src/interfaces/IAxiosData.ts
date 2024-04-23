@@ -47,9 +47,9 @@ export interface InserateSelect {
   brand: string,
   model: string,
   cartype: string,
-  transmissionname: string,
-  fuelname: string,
-  doors: string
+  transmission: string,
+  fuel: string,
+  door: string
 }
 
 export interface InserateData {
@@ -103,33 +103,34 @@ export interface AxiosInserateResponse {
 }
 
 export interface AxiosDetailsearch {
-  carId: number,
+  inseratId: number,
   brand: string,
   model: string,
   price: number,
-  km: number,
-  year: number,
-  month: number,
+  mileageKm: number,
+  registrationYear: number,
+  registrationMonth: number,
   transmission: string,
-  advertiseddate: string,
-  ps: number,
-  hubraum: number,
+  inserateDate: string,
+  psPower: number,
+  cubicCapacity: number,
   auNew: boolean,
   huNew: boolean,
   accident: boolean,
   cartype: string,
-  previousOwner: number,
+  vehicleOwners: number,
   doors: number,
   fuel: string,
   isCardealer: boolean,
-  klima: string,
+  clima: string,
   description: string,
   scheckheft: boolean,
   fittodrive: boolean,
   abstandstempomat: boolean,
   ambientbeleuchtung: boolean,
   headupdisplay: boolean,
-  totwinkelassistent: boolean
+  totwinkelassistent: boolean,
+  color: string
 }
 
 export interface AxiosDataImagesNames {
@@ -150,6 +151,6 @@ export interface AxiosDataSignup {
 }
 
 export interface AxiosDataPublish {
-  carId: number | undefined,
+  inserateId: number | undefined,
   canPublish: boolean
 }

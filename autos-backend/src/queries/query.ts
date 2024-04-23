@@ -58,7 +58,7 @@ export async function insertTransaction(insertQuery: string, values: any[], res:
 
 export const insertImageName = async (imageName: string, carId: number, firstplace: boolean) => {
 
-    const insertInto: string = "INSERT INTO images(imageName, firstplace, carid) VALUES(?, ?, ?)"
+    const insertInto: string = "INSERT INTO imagename(imagename, firstplace, inserate_id) VALUES(?, ?, ?)"
 
     let connection = await pool.getConnection();
     try {

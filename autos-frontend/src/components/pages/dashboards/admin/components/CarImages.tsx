@@ -24,7 +24,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
     setSuccessFullDownloaded(false);
     const fetchImageNames = async() => {
       try {
-      const response = await axios.get<AxiosDataImagesNames[]>(`${URLs.ORIGIN_SERVER}${URLs.FETCH_IMAGENAMES}/${id}`, { withCredentials: true })
+      const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAMES +'/' + id, { withCredentials: true })
       setFetchedImageInformations(response.data);
         setFetchImageNamesDone(true);
         

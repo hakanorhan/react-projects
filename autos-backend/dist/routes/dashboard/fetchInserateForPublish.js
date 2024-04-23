@@ -1,16 +1,16 @@
 import { pool } from '../../dbConnect.js';
-const selectQuery = "SELECT cars.carid, brands.brand, models.model, cars.price, advertiseinfo.advertiseddate"
-    + " from cars"
-    + " JOIN models ON cars.modelid = models.modelid"
-    + " JOIN brands ON brands.brandid = models.brandid"
-    + " JOIN advertiseinfo ON cars.advertiseinfoid = advertiseinfo.advertiseinfoid"
-    + " WHERE advertiseinfo.isactive = 0";
+const selectQuery = "SELECT inserate.inserate_id, brand.brand, model.model, inserate.price, inserate_info.inserate_date"
+    + " from inserate"
+    + " JOIN model ON inserate.model_id = model.model_id"
+    + " JOIN brand ON brand.brand_id = model.brand_id"
+    + " JOIN inserate_info ON inserate.inserate_info_id = inserate_info.inserate_info_id "
+    + " JOIN inserate_check ON inserate_check.inserate_id = inserate.inserate_id "
+    + " WHERE inserate_check.inserate_public = 0 AND inserate_info.is_active = 1";
 export default async (req, res) => {
     let connection = await pool.getConnection();
     try {
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0];
-        console.log(result);
         return res.status(200).json(result);
     }
     catch (error) {

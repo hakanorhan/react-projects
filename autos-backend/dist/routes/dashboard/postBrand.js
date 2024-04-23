@@ -1,4 +1,5 @@
 import { pool } from "../../dbConnect.js";
+import { mysqlErrorMessages } from "../../helper/messages.js";
 const insertIntoBrand = "INSERT INTO brand (brand) VALUES (?)";
 const selectBrandQuery = "SELECT * FROM brand";
 export default async (req, res) => {
@@ -15,9 +16,9 @@ export default async (req, res) => {
         console.log(resultTableCell);
         return res.status(200).json({ message: 'Erfolgreich hinzugefügt', tableValues: resultTableCell, insertId: insertId });
     }
-    catch {
+    catch (error) {
         connection.rollback();
-        return res.status(500).json({ message: `${value} existiert bereits` });
+        mysqlErrorMessages(error.errno, res);
     }
     finally {
         connection.release();

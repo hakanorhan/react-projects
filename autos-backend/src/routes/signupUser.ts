@@ -23,7 +23,7 @@ export const insertIntoContactPreffered: string =
     "INSERT INTO contact_preffered (contact_telefon, contact_email, contact_chat) VALUES(?, ?, ?)";
 
 export const insertUser: string = 
-    "INSERT INTO user (personal_data_id, account_data_id, contact_preffered_id) VALUES (?, ?, ?)";
+    "INSERT INTO user (personal_data_id, account_data_id, contact_preffered_id, is_car_dealer) VALUES (?, ?, ?, ?)";
 
 export const insertIntoUserDealer: string =
     "INSERT INTO user_dealer (user_id, companyname, impressum) VALUES (?, ?, ?)";
@@ -77,14 +77,15 @@ async function performQuery(requestData: any, res: express.Response){
         
         // insert adressId in user
         const addressId: number = resultAdress.insertId;
+        const dateEnglish = axiosData.formattedDate.split('-').reverse().join('-');
 
         // insert into personalData
         const [resultPersonalData]: [ResultSetHeader, any] = await connection.execute(
             insertPersonalData,
-            [axiosData.form.name, axiosData.form.familyname, axiosData.telefonNr, axiosData.formattedDate, addressId]);
+            [axiosData.form.name, axiosData.form.familyname, axiosData.telefonNr, dateEnglish, addressId]);
         const personalDataId: number = resultPersonalData.insertId;
 
-        // insert into personalData
+        // insert into accountData
         const [resultAccountData]: [ResultSetHeader, any] = await connection.execute(
             insertAccountData,
             [axiosData.form.email, hash, Roles.USER]);
@@ -97,7 +98,7 @@ async function performQuery(requestData: any, res: express.Response){
 
         const [resultUser]: [ResultSetHeader, any] = await connection.execute(
             insertUser,
-            [personalDataId, accountDataId, contactPrefferedId]
+            [personalDataId, accountDataId, contactPrefferedId, axiosData.isCheckedDealer]
         );
         const userId = resultUser.insertId;
 
@@ -170,7 +171,7 @@ async function performInsertAdmin() {
         // insert into user
         const [resultUser]: [ResultSetHeader, any] = await connection.execute(
             insertUser,
-            [personalDataId, accountDataId, contactPrefferedId]);
+            [personalDataId, accountDataId, contactPrefferedId, false]);
         
         await connection.commit();
         console.log("committed!")
@@ -184,4 +185,4 @@ async function performInsertAdmin() {
         connection.release();
     }
 } 
-//performInsertAdmin();
+performInsertAdmin();

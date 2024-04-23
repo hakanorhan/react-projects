@@ -92,9 +92,9 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
 
     async function sendData() {
       try {
-        const carId = detailSearchValues?.carId
+        const inserateId = detailSearchValues?.inseratId
         const publishValue: boolean = canPublish;
-        const axiosData: AxiosDataPublish = { carId, canPublish: publishValue };
+        const axiosData: AxiosDataPublish = { inserateId, canPublish: publishValue };
 
         try {
         const response = await axios.post<AxiosDataPublish>(`${URLs.ORIGIN_SERVER}${URLs.POST_PUBLISH}`, axiosData , { withCredentials: true });
@@ -138,16 +138,16 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
         <Paper elevation={paperElevationValue} sx={{ marginTop: paperMarginTopValue, backgroundColor: 'white' }}>
           <Grid container>
             <Grid item xs={6}>
-              <GridComponent icon={<Person3Icon sx={ViewDetailIconStyle} />} title='Fahrzeughalter' value={detailSearchValues?.previousOwner} />
+              <GridComponent icon={<Person3Icon sx={ViewDetailIconStyle} />} title='Fahrzeughalter' value={detailSearchValues?.vehicleOwners} />
             </Grid>
             <Grid item xs={6}>
-              <GridComponent icon={<AddRoadIcon sx={ViewDetailIconStyle} />} title='Kilometerstand' value={seperateThousand(detailSearchValues?.km) + " km"} />
+              <GridComponent icon={<AddRoadIcon sx={ViewDetailIconStyle} />} title='Kilometerstand' value={seperateThousand(detailSearchValues?.mileageKm) + " km"} />
             </Grid>
             <Grid item xs={6}>
-              <GridComponent icon={<CalendarTodayIcon sx={ViewDetailIconStyle} />} title='Erstzulassung' value={(detailSearchValues?.month < 10 ? '0' + detailSearchValues.month : detailSearchValues?.month) + " / " + detailSearchValues?.year} />
+              <GridComponent icon={<CalendarTodayIcon sx={ViewDetailIconStyle} />} title='Erstzulassung' value={(detailSearchValues?.registrationMonth < 10 ? '0' + detailSearchValues.registrationMonth : detailSearchValues?.registrationMonth) + " / " + detailSearchValues?.registrationYear} />
             </Grid>
             <Grid item xs={6}>
-              <GridComponent icon={<DirectionsCarIcon sx={ViewDetailIconStyle} />} title='Leistung' value={detailSearchValues?.ps + " PS"} />
+              <GridComponent icon={<DirectionsCarIcon sx={ViewDetailIconStyle} />} title='Leistung' value={detailSearchValues?.psPower + " PS"} />
             </Grid>
             <Grid item xs={6}>
               <GridComponent icon={<LocalGasStationIcon sx={ViewDetailIconStyle} />} title='Kraftstoffart' value={detailSearchValues?.fuel} />
@@ -165,7 +165,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
             <GridTechnicalComponent indexColor={1} title='Marke' value={detailSearchValues?.brand} />
             <GridTechnicalComponent indexColor={2} title='Modell' value={detailSearchValues?.model} />
             <GridTechnicalComponent indexColor={1} title='Fahrzeugtyp' value={detailSearchValues.cartype} />
-            <GridTechnicalComponent indexColor={2} title='Hubraum' value={`${detailSearchValues.hubraum} ccm³`} />
+            <GridTechnicalComponent indexColor={2} title='Hubraum' value={`${detailSearchValues.cubicCapacity} ccm³`} />
             <GridTechnicalComponent indexColor={1} title='Getriebeart' value={detailSearchValues.transmission} />
             <GridTechnicalComponent indexColor={2} title='HU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.huNew} />} />
             <GridTechnicalComponent indexColor={1} title='AU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.auNew} />} />
@@ -181,7 +181,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
             <GridTechnicalComponent indexColor={2} title='Fahrtüchtig' icon={<CheckOrFalseIcon checked={detailSearchValues.fittodrive} />} />
             <GridTechnicalComponent indexColor={1} title='Abstandstempomat' icon={<CheckOrFalseIcon checked={detailSearchValues.abstandstempomat} />} />
             <GridTechnicalComponent indexColor={2} title='Ambientbeleuchtung' icon={<CheckOrFalseIcon checked={detailSearchValues.ambientbeleuchtung} />} />
-            <GridTechnicalComponent indexColor={1} title='Klimatisierung' value={detailSearchValues.klima} />
+            <GridTechnicalComponent indexColor={1} title='Klimatisierung' value={detailSearchValues.clima} />
             <GridTechnicalComponent indexColor={2} title='Head-up Display' icon={<CheckOrFalseIcon checked={detailSearchValues.headupdisplay} />} />
             <GridTechnicalComponent indexColor={1} title='Totwinkelassistent' icon={<CheckOrFalseIcon checked={detailSearchValues.totwinkelassistent} />} />
           </Grid>
@@ -194,7 +194,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
         </Paper>
         <Grid container xs={12} sx={{ marginTop:'1rem', marginBottom:'1rem' }}>
       <Grid item xs={6}><Button onClick={() => { handlePublish(true); dispatch(setPublishProcessSuccess(true)); } } endIcon={<Publish />}>Freigeben</Button></Grid>
-      <Grid item xs={6}><Button onClick={() => { handlePublish(false) }} sx={{ backgroundColor: primaryColorMain, color:'white', '&:hover': { backgroundColor: secondaryColorLight, color: primaryColorMain } }} endIcon={<CloseIcon />}>Sperren</Button></Grid>
+      <Grid item xs={6}><Button onClick={() => { handlePublish(false) }} sx={{ backgroundColor: primaryColorMain, color:'white', '&:hover': { backgroundColor: secondaryColorLight, color: primaryColorMain } }} endIcon={<CloseIcon />}>Zurückziehen</Button></Grid>
     </Grid>
       </>
       : <p> Fehler </p>
