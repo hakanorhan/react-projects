@@ -5,7 +5,7 @@ const selectQuery = "SELECT inserate.inserate_id, brand.brand, model.model, inse
     + " JOIN brand ON brand.brand_id = model.brand_id"
     + " JOIN inserate_info ON inserate.inserate_info_id = inserate_info.inserate_info_id "
     + " JOIN inserate_check ON inserate_check.inserate_id = inserate.inserate_id "
-    + " WHERE inserate_check.inserate_public = 0 AND inserate_info.is_active = 1";
+    + " WHERE inserate_check.inserate_public = 0 AND inserate_info.is_active = 1 AND inserate_check.inserate_cancelled = 0";
 export default async (req, res) => {
     let connection = await pool.getConnection();
     try {

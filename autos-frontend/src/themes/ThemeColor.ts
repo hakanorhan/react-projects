@@ -29,6 +29,8 @@ export const buttonHeight ='55px';
 
 export const minHeightContent = '750px';
 
+export const mainComponentHeight = '84vh';
+
 const themeColor = createTheme({
     
     palette: {
@@ -71,6 +73,7 @@ const themeColor = createTheme({
     },
     typography: {
         h4: {
+            marginTop:'2rem',
             margin:'auto',
             fontWeight:'lighter',
             paddingBottom:'0.5rem',
@@ -166,11 +169,11 @@ export const HeaderIcon = styled('div')(({ theme }) => ({
     color: primaryColorMain,
     [theme.breakpoints.up("xs")]: {
         width: textFieldXSWitdh,
-        
+        transform: 'scale(1.7)'    
     },
     [theme.breakpoints.up("sm")]: {
         width: textFieldSMWitdh,
-
+        transform: 'scale(2.4)'
     },
 
 }));
@@ -254,17 +257,9 @@ export const SpanSideMenu = styled('span')(({ theme }) => ({
 
 export const ImageCar = styled('img')(({ theme }) => ({
     width: '100%',
-    height:'280px',
     objectFit:'contain', 
     padding: '0',
-    margin: '0',
-    [theme.breakpoints.up('xs')]: {
-        
-        
-    },
-    [theme.breakpoints.up('lg')]: {
-
-    }
+    margin: '0'
 }))
 
 export const DivViewDetail = styled('div')(({ theme }) => ({

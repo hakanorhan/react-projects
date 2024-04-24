@@ -20,6 +20,7 @@ import { seperateThousand } from '../../helper/helper';
 import { Publish } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const paperElevationValue = 10;
 const paperMarginTopValue = '0.9rem';
@@ -50,8 +51,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
 
   const dispatch = useDispatch();
 
-  // TODO: useNavigate VieDetailsearch
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // valid brand
@@ -86,7 +86,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
   };
 
   const handlePublish = (canPublish: boolean) => {
-
+    
     const timeStamp = dayjs();
     console.log(timeStamp + " Timestamp")
 
@@ -97,9 +97,9 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
         const axiosData: AxiosDataPublish = { inserateId, canPublish: publishValue };
 
         try {
-        const response = await axios.post<AxiosDataPublish>(`${URLs.ORIGIN_SERVER}${URLs.POST_PUBLISH}`, axiosData , { withCredentials: true });
+        const response = await axios.post<AxiosDataPublish>(URLs.ORIGIN_SERVER + URLs.POST_PUBLISH, axiosData , { withCredentials: true });
         // TODO: reolad
-        //navigate(0);
+        navigate(0);
           
         } catch(error) {
           console.log(error)
@@ -128,7 +128,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
               <Typography variant='h5' component='h2' sx={{ marginRight: '1rem', float: 'right', color: primaryColorMain, backgroundColor: secondaryColorLight }}> {seperateThousand(detailSearchValues?.price)} €</Typography>
             </Grid>
             <Grid item xs={12}> <Typography variant='subtitle1' component='h1'>{detailSearchValues.isCardealer ? 'Händler' : 'Privatanbieter'}  <Rating sx={{ verticalAlign: 'middle' }} name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly /></Typography></Grid>
-            <Grid item xs={12}> <Typography variant='subtitle1' component='h1'>Gelsenkirchen</Typography></Grid>
+            <Grid item xs={12}> <Typography variant='subtitle1' component='h1'>{detailSearchValues.city} <b>{detailSearchValues.federalState}</b></Typography></Grid>
             <Grid item xs={12}> <Button sx={{ height: '45px' }}>Kontaktieren</Button></Grid>
 
           </Grid>
@@ -165,10 +165,11 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
             <GridTechnicalComponent indexColor={1} title='Marke' value={detailSearchValues?.brand} />
             <GridTechnicalComponent indexColor={2} title='Modell' value={detailSearchValues?.model} />
             <GridTechnicalComponent indexColor={1} title='Fahrzeugtyp' value={detailSearchValues.cartype} />
-            <GridTechnicalComponent indexColor={2} title='Hubraum' value={`${detailSearchValues.cubicCapacity} ccm³`} />
-            <GridTechnicalComponent indexColor={1} title='Getriebeart' value={detailSearchValues.transmission} />
-            <GridTechnicalComponent indexColor={2} title='HU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.huNew} />} />
-            <GridTechnicalComponent indexColor={1} title='AU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.auNew} />} />
+            <GridTechnicalComponent indexColor={2} title='Farbe' value={detailSearchValues.color} />
+            <GridTechnicalComponent indexColor={1} title='Hubraum' value={`${detailSearchValues.cubicCapacity} ccm³`} />
+            <GridTechnicalComponent indexColor={2} title='Getriebeart' value={detailSearchValues.transmission} />
+            <GridTechnicalComponent indexColor={1} title='HU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.huNew} />} />
+            <GridTechnicalComponent indexColor={2} title='AU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.auNew} />} />
 
           </Grid>
         </Paper>
@@ -193,7 +194,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
           <Grid item xs={12}> <TextFieldArea padding= { paperPaddingValue } minRows={8} maxRows={10} disbled={true} areaText={detailSearchValues.description} /> </Grid>
         </Paper>
         <Grid container xs={12} sx={{ marginTop:'1rem', marginBottom:'1rem' }}>
-      <Grid item xs={6}><Button onClick={() => { handlePublish(true); dispatch(setPublishProcessSuccess(true)); } } endIcon={<Publish />}>Freigeben</Button></Grid>
+      <Grid item xs={6}><Button onClick={() => { handlePublish(true); } } endIcon={<Publish />}>Freigeben</Button></Grid>
       <Grid item xs={6}><Button onClick={() => { handlePublish(false) }} sx={{ backgroundColor: primaryColorMain, color:'white', '&:hover': { backgroundColor: secondaryColorLight, color: primaryColorMain } }} endIcon={<CloseIcon />}>Zurückziehen</Button></Grid>
     </Grid>
       </>

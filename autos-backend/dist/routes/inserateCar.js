@@ -9,19 +9,14 @@ const INSERT_INSERATE = "INSERT INTO inserate (price, model_id, technical_descri
 const INSERT_FEATURE = "INSERT INTO feature (abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent) VALUES(?, ?, ?, ?)";
 export default async (req, res) => {
     const accessToken = req.cookies.jwt;
-    console.log("Wird öfters ausgeführt!");
     const token = await verifyUserJwt(accessToken);
     const data = req.body;
-    console.log(data.inserateSelect.brand + " " + data.inserateSelect.model);
     performQuery(data, token.id, res);
 };
 async function performQuery(data, userId, res) {
     const inserateSelect = data.inserateSelect;
     const inserateData = data.inserateData;
     const inserateCheckBox = data.inserateCheckbox;
-    console.log("********");
-    console.log(userId);
-    console.log("********");
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
@@ -34,7 +29,7 @@ async function performQuery(data, userId, res) {
         const [resultFeature] = await connection.execute(INSERT_FEATURE, [inserateCheckBox.abstandstempomat, inserateCheckBox.ambientbeleuchtung, inserateCheckBox.headupdisplay, inserateCheckBox.totwinkelassistent]);
         const featureId = resultFeature.insertId;
         const [resultTechDescription] = await connection.execute(INSERT_INTO_TECH_DESCRIPTION, [inserateData.ps, inserateData.km, inserateSelect.cartype, inserateData.year, inserateData.month, inserateSelect.transmission, inserateSelect.fuel,
-            inserateData.hubraum, inserateSelect.door, inserateData.previousOwner, tuevId, "white", data.klima, vehicleConditionId, inserateData.description, featureId]);
+            inserateData.hubraum, inserateSelect.door, inserateData.previousOwner, tuevId, inserateData.color, data.klima, vehicleConditionId, inserateData.description, featureId]);
         const techDescriptionId = resultTechDescription.insertId;
         const [resultInserate] = await connection.execute(INSERT_INSERATE, [inserateData.price, inserateSelect.model, techDescriptionId, inserateInfoId]);
         const inserateId = resultInserate.insertId;

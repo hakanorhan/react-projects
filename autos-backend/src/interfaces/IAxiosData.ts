@@ -60,7 +60,8 @@ export interface InserateData {
   year: number,
   month: number,
   price: number,
-  hubraum: number
+  hubraum: number,
+  color: string
 }
 
 export interface InserateCheckbox {
@@ -88,8 +89,8 @@ export interface AxiosSearch {
   cartype: string,
   yearFrom: number,
   yearTo: number,
-  bundesland: string,
-  prices: string
+  federal_state: string,
+  price: string
 }
 
 export interface AxiosImageData {
@@ -130,7 +131,9 @@ export interface AxiosDetailsearch {
   ambientbeleuchtung: boolean,
   headupdisplay: boolean,
   totwinkelassistent: boolean,
-  color: string
+  color: string,
+  city: string,
+  federalState: string
 }
 
 export interface AxiosDataImagesNames {

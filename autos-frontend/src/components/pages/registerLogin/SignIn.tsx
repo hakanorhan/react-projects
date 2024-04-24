@@ -5,8 +5,8 @@ import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
 
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
-import { Button, Typography } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, primaryColorMain, buttonHeight } from '../../../themes/ThemeColor.js';
+import { Box, Button, Typography } from '@mui/material';
+import { MainComponentWidth, HeaderIcon, primaryColorMain, buttonHeight, mainComponentHeight } from '../../../themes/ThemeColor.js';
 
 import { IResponseSignInData } from '..7../../../../autos-backend/src/interfaces/signin/IResponseSignInData.js';
 
@@ -100,9 +100,11 @@ const SignIn: React.FC = () => {
   return (
     <>
       <Toaster />
-      <MainComponentWidth>
-        <HeaderIcon><LockPersonIcon fontSize='large' /></HeaderIcon>
-        <Typography variant='h4' component="h1">Sign In</Typography>
+      <MainComponentWidth sx={{ height: mainComponentHeight }}>
+        <Box sx={{ display: 'flex', flexDirection:'column', margin:'auto' }}>
+          <HeaderIcon ><LockPersonIcon fontSize='large' /></HeaderIcon>
+          <Typography variant='h4' component="h1">Sign In</Typography>
+        </Box>
         <form onSubmit={handleSubmit} noValidate>
 
           <TextFieldCars id='email' label='Email' onChange={ value => handleOnChange('email', value)} regex={REGEX_EMAIL} /> 

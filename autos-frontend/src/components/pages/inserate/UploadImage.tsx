@@ -33,7 +33,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
       const selectedFiles = Array.from(e.target.files);
       setFiles([...files, ...selectedFiles]);
     } else {
-      notifyError(`Es dürfen maximal ${UploadInfo.Images.MAX_SIZE_IMAGE} vorhanden sein`);
+      notifyError("max size error",`Es dürfen maximal ${UploadInfo.Images.MAX_SIZE_IMAGE} vorhanden sein`);
     }
   };
 
@@ -48,7 +48,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
 
    const handleImageUpload = async () => {
     if (files.length === 0 && isUploading) {
-        notifyError('Keine Bilder ausgwählt.')
+        notifyError("no images error", 'Keine Bilder ausgwählt.')
       return;
     }
 
@@ -72,14 +72,13 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
       });
 
       if (response.status === 200) {
-        notifySuccess('Erfolgreich hochgeladen.');
+        notifySuccess("success upload", 'Erfolgreich hochgeladen.');
         // delete files after uploaded
         setFiles([]);
       } else {
         setUploadStatus('Fehler beim Hochladen aufgetreten.');
       }
     } catch (error) {
-      console.error('Error uploading files:', error);
       setUploadStatus('Fehler beim Hochladen aufgetreten.');
     } finally {
       setIsUploading(false);
@@ -108,7 +107,7 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
         <Grid item xs={12} sm={12} md={6} lg={6} key={index} sx={{ position:'relative', width:'50%' }}>
           <ImgImageUpload src={URL.createObjectURL(file)} alt={`Uploaded image ${index + 1}`}/>
           <Tooltip title="Löschen">
-          <Button onClick={() => { handleDeleteImage(index) }} sx={{ position:'absolute', top:'50%', left:'50%', height:'auto', opacity:'70%' }}><DeleteOutlineIcon sx={{ color:'white' }} /></Button>
+          <Button onClick={() => { handleDeleteImage(index) }} sx={{ left:'45%',borderRadius:'50%', width:'60px', position:'absolute', top:'42%', height:'60px', opacity:'90%' }}><DeleteOutlineIcon sx={{ color:'white' }} /></Button>
           </Tooltip>
         </Grid>
       ))}

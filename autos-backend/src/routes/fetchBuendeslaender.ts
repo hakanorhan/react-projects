@@ -3,7 +3,6 @@ import { pool } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 
 const selectQuery: string = 'SELECT * from federal_state';
-//const selectQuery: string = 'SELECT brands.brandid, brands.marke, models.modell, models.modelid FROM brands JOIN models ON brands.brandid = models.brandid';
 
 export default async (req: express.Request, res: express.Response) => {
     let connection = await pool.getConnection();

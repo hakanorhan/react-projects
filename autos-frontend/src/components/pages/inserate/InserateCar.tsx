@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { FormGroup, Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typography } from '@mui/material';
 import axios from 'axios';
 import { Button, FormControlLabel, Checkbox } from '@mui/material';
-import { REGEX_HUBRAUM, REGEX_PRICE } from '../../../../../autos-backend/src/regex/regex';
+import { REGEX_HUBRAUM, REGEX_NAMES, REGEX_PRICE } from '../../../../../autos-backend/src/regex/regex';
 import { DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderInserateH1, HeaderIcon } from '../../../themes/ThemeColor';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
@@ -42,7 +42,8 @@ export default function InserateCar() {
     year: -1,
     month: -1,
     price: 0,
-    hubraum: 0
+    hubraum: 0,
+    color: ""
   }
 
   const initialCheckbox: InserateCheckbox = {
@@ -224,7 +225,8 @@ export default function InserateCar() {
         <Box sx={{ display: requestSuccess ? 'none' : activeStep == 0 ? 'block' : 'none' }}>
           <Grid container columnSpacing={2} rowSpacing={1}>
             { /* Brand */}
-            <Grid item xs={6}> <SelectField values={listBrands} objectName='brand' idOfSelect='brand_id' selectedValue={formSelect.brand} handleChange={handleChangeSelect} label='Marke' /> </Grid>
+            <Grid item xs={12}> <SelectField values={listBrands} objectName='brand' idOfSelect='brand_id' selectedValue={formSelect.brand} handleChange={handleChangeSelect} label='Marke' /> </Grid>
+            
             <Grid item xs={6}> <SelectField values={listModels} objectName='model' idOfSelect='model_id' selectedValue={formSelect.model} handleChange={handleChangeSelect} label='Modell' /> </Grid>
 
             <Grid item xs={6}>  <SelectField values={listCarTypes} objectName='cartype' idOfSelect='cartype_id' selectedValue={formSelect.cartype} handleChange={handleChangeSelect} label='Typ' /> </Grid>
@@ -242,6 +244,7 @@ export default function InserateCar() {
 
             <Grid item xs={6}> <DateComponentMonthYear setYear={setYear} setMonth={setMonth} newInserate={refresh} /> </Grid>
             <Grid item xs={6}> <TextFieldCars id='price' onChange={value => handleOnChange('price', value)} label='Preis in €' regex={REGEX_PRICE} refresh={refresh} /></Grid>
+            <Grid item xs={6}> <TextFieldCars id='color' onChange={value => handleOnChange('color', value)} label='Farbe' regex={REGEX_NAMES} refresh={refresh} /> </Grid>
 
             <Grid item xs={12}> <hr style={{ color: 'black' }} /> </Grid>
 

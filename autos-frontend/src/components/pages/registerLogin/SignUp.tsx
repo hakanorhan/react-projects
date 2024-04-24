@@ -316,16 +316,16 @@ const SignUpUser: React.FC = () => {
                     <hr />
                   </Grid>
                   }
-                  <Grid item xs={8.5} >
+                  <Grid item xs={8} >
                     <TextFieldCars id={EnumTextField.TextFieldID.STREET} label='Straße' onChange={value => handleOnChange(EnumTextField.TextFieldID.STREET, value)} regex={REGEX_STREET} />
                   </Grid>
-                  <Grid item xs={3.5} >
+                  <Grid item xs={4} >
                     <TextFieldCars id={EnumTextField.TextFieldID.NR} label='Nr' onChange={value => handleOnChange(EnumTextField.TextFieldID.NR, value)} regex={REGEX_STREET_NR} maxLength={5}/>
                   </Grid>
-                  <Grid item xs={8} >
+                  <Grid item xs={7.5} >
                     <TextFieldCars id={EnumTextField.TextFieldID.CITY} label='Stadt' onChange={value => handleOnChange(EnumTextField.TextFieldID.CITY, value)} regex={REGEX_NAMES} />
                   </Grid>
-                  <Grid item xs={4} >
+                  <Grid item xs={4.5} >
                     <TextFieldCars id={EnumTextField.TextFieldID.ZIPCODE} label='PLZ' onChange={value => handleOnChange(EnumTextField.TextFieldID.ZIPCODE, value)} regex={REGEX_ZIPCODE} maxLength={5} />
                   </Grid>
                   <Grid item xs={12} >

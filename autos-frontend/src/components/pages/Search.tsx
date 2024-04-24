@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Box, Button, Grid } from '@mui/material';
 import axios from 'axios';
-import { SearchContainer, primaryColorMain } from '../../themes/ThemeColor';
+import { SearchContainer, buttonHeight, mainComponentHeight, primaryColorMain } from '../../themes/ThemeColor';
 
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -48,8 +48,8 @@ const Number = ({ n }) => {
     brand: SelectFieldEnums.ALL_VALUE,
     model: SelectFieldEnums.ALL_VALUE,
     cartype:SelectFieldEnums.ALL_VALUE,
-    bundesland: SelectFieldEnums.ALL_VALUE,
-    prices: SelectFieldEnums.ALL_VALUE
+    federal_state: SelectFieldEnums.ALL_VALUE,
+    price: SelectFieldEnums.ALL_VALUE
   }
 
   const [formSelect, setFormSelect] = React.useState<AxiosSearch>(initalValue);
@@ -70,7 +70,7 @@ const Number = ({ n }) => {
 
   // Fetch static data for select fields
   useEffectFetch(URLs.FETCH_BRAND, setListBrands);
-  useEffectModel(URLs.FETCH_BAUREIHE_MODEL, setListModel, formSelect.brand);
+  useEffectModel(URLs.FETCH_MODEL, setListModel, formSelect.brand);
   
   // Fetch static data
   React.useEffect(() => {
@@ -80,6 +80,7 @@ const Number = ({ n }) => {
 
         if(response.data) {
           const tableValues = response.data.tableValues;
+          
           setListFederalState(tableValues.resultBundesland);
           setListCarTypes(tableValues.resultCarTypes);
           setListPrices(tableValues.resultPrices);
@@ -100,13 +101,13 @@ const Number = ({ n }) => {
   // dynamic search
   const handleDynamicSearch =async () => {
 
-    const brandid = formSelect.brand;
-    const modelid = formSelect.model;
-    const price = formSelect.prices;
-    const cartypeid = formSelect.cartype;
-    const blandid = formSelect.bundesland;
-    const dateFrom = selectedDateFrom?.year();
-    const dateTo = selectedDateTo?.year();
+    const brandid = formSelect.brand === "" ? SelectFieldEnums.ALL_VALUE : formSelect.brand;
+    const modelid = formSelect.model === "" ? SelectFieldEnums.ALL_VALUE : formSelect.model;
+    const price = formSelect.price === "" ? SelectFieldEnums.ALL_VALUE : formSelect.price;
+    const cartypeid = formSelect.cartype === "" ? SelectFieldEnums.ALL_VALUE : formSelect.cartype;
+    const blandid = formSelect.federal_state === "" ? SelectFieldEnums.ALL_VALUE : formSelect.federal_state;
+    const dateFrom = selectedDateFrom?.year() === null ? SelectFieldEnums.ALL_VALUE : selectedDateFrom?.year();
+    const dateTo = selectedDateTo?.year() === null ? SelectFieldEnums.ALL_VALUE : selectedDateTo?.year();
     
 
     const searchParams = { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo };
@@ -128,7 +129,7 @@ const Number = ({ n }) => {
       ...prevState,
       [event.target.name]: event.target.value
     }));
-alert(event.target.name + " " + event.target.value)
+
      if(event.target.name === "brand") {
       setFormSelect(prevState => ({
         ...prevState,
@@ -164,27 +165,27 @@ alert(event.target.name + " " + event.target.value)
 
   return (
     <>
-      <Box >
+      <Box sx={{ height: mainComponentHeight }}>
         <h1 style={{ textAlign: 'center', color: primaryColorMain, paddingTop: '4rem' }}>Find your next car.</h1>
         <SearchContainer>
           <Grid container justifyContent="center" columnSpacing={1}>
             <Grid item xs= {6} md={4}>
             {/* Brand */}
-            <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brandid' handleChange={handleChangeSelect} label='Marke' allOption = { true }/>
+            <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brand_id' handleChange={handleChangeSelect} label='Marke' allOption = { true }/>
             </Grid>
             <Grid item xs={6} md={4}>
             {/* Model */}
-            <SelectField values={listModel} selectedValue={formSelect.model} objectName='model' idOfSelect='modelid' handleChange={handleChangeSelect} label='Modell' allOption = { true } />
+            <SelectField values={listModel} selectedValue={formSelect.model} objectName='model' idOfSelect='model_id' handleChange={handleChangeSelect} label='Modell' allOption = { true } />
             </Grid>
 
             <Grid item xs={6} md={4}>
             {/* Cartype */}
-            <SelectField idOfSelect='cartypeid' objectName='cartype' handleChange={handleChangeSelect} label='Fahrzeugtyp' values={listCarTypes} selectedValue={formSelect.cartype} allOption = { true } />
+            <SelectField idOfSelect='cartype_id' objectName='cartype' handleChange={handleChangeSelect} label='Fahrzeugtyp' values={listCarTypes} selectedValue={formSelect.cartype} allOption = { true } />
             </Grid>
 
             <Grid item xs={6} md={4}>
             {/* Preis */}
-            <SelectField idOfSelect='priceid' objectName='price' handleChange={handleChangeSelect} label='Preis' values={listPrices} selectedValue={formSelect.prices} allOption= { true }/>
+            <SelectField idOfSelect='price' objectName='price' handleChange={handleChangeSelect} label='Preis' values={listPrices} selectedValue={formSelect.price} allOption= { true }/>
             </Grid>
 
             <Grid item xs={6} md={4}>
@@ -198,11 +199,11 @@ alert(event.target.name + " " + event.target.value)
             </Grid>
 
             <Grid item xs={6} md={4}>
-              <SelectField idOfSelect='blandid' objectName='bundesland' handleChange={handleChangeSelect} label='Bundesland' values={listFederalState} selectedValue={formSelect.bundesland} allOption = { true } />
+              <SelectField idOfSelect='federal_state_id' objectName='federal_state' handleChange={handleChangeSelect} label='Bundesland' values={listFederalState} selectedValue={formSelect.federal_state} allOption = { true } />
             </Grid>
 
             <Grid item xs={6} md={8}>
-              <Button fullWidth type='submit' variant="contained"><SearchIcon />  <Number n={countCars} /> { ` ${searchButtonText}` }</Button>
+              <Button sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained"><SearchIcon />  <Number n={countCars} /> { ` ${searchButtonText}` }</Button>
             </Grid>
           </Grid>
         </SearchContainer>

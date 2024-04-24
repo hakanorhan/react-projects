@@ -15,12 +15,9 @@ const INSERT_FEATURE = "INSERT INTO feature (abstandstempomat, ambientbeleuchtun
 
 export default async (req: express.Request, res: express.Response) => {
     const accessToken = req.cookies.jwt;
-    // if jwt exists
-    console.log("Wird öfters ausgeführt!")
+
     const token: DecodedToken = await verifyUserJwt(accessToken);
     const data: AxiosDataInserateRequest = req.body;
-    // TODO: console.log
-    console.log(data.inserateSelect.brand + " " + data.inserateSelect.model)
     // TODO: message user not authenticated
     performQuery(data, token.id, res)
     
@@ -31,10 +28,6 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
     const inserateSelect = data.inserateSelect;
     const inserateData = data.inserateData;
     const inserateCheckBox = data.inserateCheckbox;
-
-    console.log("********")
-    console.log(userId);
-    console.log("********")
 
     const connection = await pool.getConnection();
     try {
@@ -59,7 +52,7 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
         // 
          const [resultTechDescription]: [ResultSetHeader, any] = await connection.execute( INSERT_INTO_TECH_DESCRIPTION,
             [inserateData.ps, inserateData.km, inserateSelect.cartype, inserateData.year, inserateData.month, inserateSelect.transmission, inserateSelect.fuel,
-                inserateData.hubraum, inserateSelect.door, inserateData.previousOwner, tuevId, "white", data.klima, vehicleConditionId, inserateData.description, featureId]);
+                inserateData.hubraum, inserateSelect.door, inserateData.previousOwner, tuevId, inserateData.color, data.klima, vehicleConditionId, inserateData.description, featureId]);
         const techDescriptionId = resultTechDescription.insertId;
 
         const [resultInserate]: [ResultSetHeader, any] = await connection.execute(INSERT_INSERATE,

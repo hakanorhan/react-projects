@@ -3,100 +3,87 @@ import { pool } from "../dbConnect.js";
 import { RowDataPacket } from "mysql2";
 import { ICarInformationRequest } from "../interfaces/search/IRequestSearch.js";
 import { SelectFieldEnums } from "../enums/SelectFieldEnums.js";
-
-enum E {
-    CARS_LONG = "cars", CARS_SHORT = "c", CAR_ID = "carid",
-    MODELS_LONG = "models", MODELS_SHORT = "m", MODEL_NAME = "model", MODEL_ID = "modelid",
-    BRANDS_LONG = "brands", BRANDS_SHORT = "b", BRAND_NAME = "brand", BRAND_ID = "brandid",
-    CARTYPES_LONG = "cartypes", CARTYPES_SHORT = "ct", CARTYPE_NAME = "cartype", CARTYPE_ID = "cartypeid",
-    BUNDESLAND_LONG = "bundesland", BUNDESLAND_SHORT = "bl", BUNDESLAND_NAME = "bundesland", BUNDESLAND_ID = "blandid",
-    ADVERTISEINFO_LONG = "advertiseinfo", ADVERTISEINFO_SHORT = 'ai', ADVERTISEINFO_NAME = "advertiseinfo", ADVERTISEINFO_ID = "advertiseinfoid"
-}
-
-interface Statements {
-    joinStatement: string,
-    whereStatement: string,
-    whereValue: string | any | null
-}
-
-
-const statementInitialCount = "SELECT COUNT(c.carid) as count FROM cars c, models m, brands b, cargrants cg, cartypes ct, advertiseinfo ai, user u, person p, address ad, bundesland bl";
+import { selectMysqlErrorMessages } from "../helper/messages.js";
 
 // disable autocommit and perform transaction
 async function performQueryGet(req: express.Request, res: express.Response) {
 
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;
 
+    const whereClause: string[] = [" i.inserate_id = ic.inserate_id AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id "];
+    const whereValue: any[] = [];
 
-    const modelStatement: Statements = { joinStatement: " c.modelid = m.modelid AND ", whereStatement: " m.modelid = ?", whereValue: modelid };
-    const brandStatement: Statements = { joinStatement: " b.brandid = m.brandid AND ", whereStatement: " b.brandid = ?", whereValue: brandid };
-    const carTypesStatement: Statements = { joinStatement: " ct.cartypeid = c.cartypeid AND ", whereStatement: " ct.cartypeid = ?", whereValue: cartypeid };
-    const advertiseInfoStatement: Statements = { joinStatement: " c.advertiseinfoid = ai.advertiseinfoid AND ", whereStatement: "", whereValue: null };
-    const userStatement: Statements = { joinStatement: " ai.userid = u.userid AND ", whereStatement: "", whereValue: null };
-    const personStatement: Statements = { joinStatement: " u.userid = p.personid AND ", whereStatement: "", whereValue: null };
-    const addressStatement: Statements = { joinStatement: " ad.addressid = p.addressid AND ", whereStatement: "", whereValue: null };
-    const bundeslandStatement: Statements = { joinStatement: " bl.blandid = ad.blandid AND ", whereStatement: " bl.blandid = ?", whereValue: blandid };
-    const cargrantStatement: Statements = { joinStatement: " cg.carid = c.carid AND cg.grantedpublic = 1", whereStatement: "", whereValue: null };
+    let query = "SELECT COUNT(i.inserate_id) AS count FROM inserate i, inserate_check ic, inserate_info ii, brand b, model m, cartype ct, technical_description td, user u, personal_data pd, address ad, federal_state fs ";
+    
+    query = query + " WHERE ";
 
-    const statements = { modelStatement, brandStatement, carTypesStatement, advertiseInfoStatement, userStatement, personStatement, addressStatement, bundeslandStatement, cargrantStatement }
+    // model
+    if (modelid === SelectFieldEnums.ALL_VALUE) {
+        whereClause.push(" AND m.model_id = i.model_id ");
+    } else {
 
-    let query = statementInitialCount + " WHERE" + modelStatement.joinStatement + brandStatement.joinStatement + carTypesStatement.joinStatement
-        + advertiseInfoStatement.joinStatement + userStatement.joinStatement + personStatement.joinStatement
-        + addressStatement.joinStatement + bundeslandStatement.joinStatement + cargrantStatement.joinStatement;
+        whereClause.push( " AND m.model_id = i.model_id AND m.model_id = ? " );
+        whereValue.push(modelid);
+    }
+
+    // model depends on brand
+    if (brandid === SelectFieldEnums.ALL_VALUE) { 
+        whereClause.push(" AND m.brand_id = b.brand_id "); 
+    }
+    else { 
+        whereClause.push( " AND m.brand_id = b.brand_id AND b.brand_id = ? ") 
+        whereValue.push( brandid );
+    }
+
+    // cartype
+    if (cartypeid === SelectFieldEnums.ALL_VALUE) {
+        whereClause.push(" AND ct.cartype_id = td.cartype_id ");
+    } else {
+        whereClause.push(" AND ct.cartype_id = td.cartype_id AND ct.cartype_id = ? ");
+        whereValue.push( cartypeid );
+    }
+
+    // price
+    if (price !== SelectFieldEnums.ALL_VALUE) {
+        whereClause.push(" AND i.price < ? ");
+        whereValue.push(price);
+    }
+
+    
+    if(dateFrom === undefined && dateTo) {
+        whereClause.push(" AND td.registration_year < ? ");
+        whereValue.push(dateTo)
+    } else if (dateFrom && dateTo) {
+        whereClause.push(" AND td.registration_year between ? AND ?  ");
+        whereValue.push(dateFrom);
+        whereValue.push(dateTo);
+    }
+
+    if(blandid === SelectFieldEnums.ALL_VALUE) {
+        whereClause.push(" AND i.inserate_info_id = ii.inserate_info_id AND ii.user_id = u.user_id AND u.personal_data_id = pd.personal_data_id AND pd.address_id = ad.address_id AND ad.federal_state_id = fs.federal_state_id ");
+    } else {
+        whereClause.push(" AND i.inserate_info_id = ii.inserate_info_id AND ii.user_id = u.user_id AND u.personal_data_id = pd.personal_data_id AND pd.address_id = ad.address_id AND ad.federal_state_id = fs.federal_state_id AND fs.federal_state_id = ? ");    
+        whereValue.push(blandid);
+    }
     
 
-    const whereValues = [];
+    whereClause.map((clause) => {
+        query = query + clause;
+    })
 
 
     let connection;
     try {
         connection = await pool.getConnection();
 
-
-        // no value or first value from select field 
-        if (SelectFieldEnums.ALL_VALUE && modelid === SelectFieldEnums.ALL_VALUE &&
-            price === SelectFieldEnums.ALL_VALUE && cartypeid === SelectFieldEnums.ALL_VALUE && dateFrom === undefined && dateTo === undefined) {
-            console.log(query)
-            console.log("###")
-            const queryResult = await connection.execute(query);
+        const queryResult = await connection.execute(query, whereValue);
             const result = queryResult as RowDataPacket[];
             const count = result[0][0].count;
             return res.status(200).json(count);
-        } else {
-            query = query;
 
-            let i = 0;
-
-            for (const [key1, value1] of Object.entries(statements)) {
-                if (value1.whereValue === SelectFieldEnums.ALL_VALUE || value1.whereValue === "" || value1.whereValue === null) {
-
-                } else {
-                    i = i + 1;
-                    query = query + value1.whereStatement + " AND";
-                    whereValues.push(value1.whereValue);
-                }
-            }
-            if (i < Object.entries(statements).length) {
-                console.log("Länge sollte 8 sein: " + Object.entries(statements).length);
-                query = query.substring(0, query.length - 4);
-                console.log(query)
-            } else {
-                query = query.substring(0, query.length - 8);
-                console.log(query)
-            }
-
-            const queryResult = await connection.execute(query, whereValues);
-            const result = queryResult as RowDataPacket[];
-            const count = result[0][0].count;
-            return res.status(200).json(count);
-        }
-
-
-
-    } catch (error) {
-        // Handle any errors
-        console.log(error)
-        return res.status(500).json({ message: 'Error occured.' })
+    } catch (error: any) {
+        console.log(error);
+        selectMysqlErrorMessages(error.code, res);
     } finally {
         connection?.release();
     }
@@ -116,16 +103,3 @@ export default async (req: express.Request, res: express.Response) => {
             res.status(500).json({ message: "Error occured" })
     }
 }
-
-/*
-
-    const modelStatement: Statements = { joinStatement: " JOIN models m ON c.modelid = m.modelid", whereStatement: " m.modelid = ?", whereValue: modelid };
-    const cargrantStatement: Statements = { joinStatement: " JOIN cargrant cg ON cg.carid = c.carid", whereStatement: " cg.grantedpublic = ?", whereValue: 1 };
-    const brandStatement: Statements = { joinStatement: " JOIN brands b ON b.brandid = m.brandid", whereStatement: " b.brandid = ?", whereValue: brandid };
-    const carTypesStatement: Statements = { joinStatement: " JOIN cartypes ct ON ct.cartypeid = c.cartypeid", whereStatement: " ct.cartypeid = ?", whereValue: cartypeid };
-    const advertiseInfoStatement: Statements = { joinStatement: " JOIN advertiseinfo ai ON c.advertiseinfoid = ai.advertiseinfoid", whereStatement: "", whereValue: null };
-    const userStatement: Statements = { joinStatement: " JOIN user u ON ai.userid = u.userid", whereStatement: "", whereValue: null };
-    const personStatement: Statements = { joinStatement: " JOIN person p ON u.userid = p.personid", whereStatement: "", whereValue: null };
-    const addressStatement: Statements = { joinStatement: " JOIN address ad ON ad.addressid = p.addressid", whereStatement: "", whereValue: null };
-    const bundeslandStatement: Statements = { joinStatement: " JOIN bundesland bl ON bl.blandid = ad.blandid", whereStatement: " bl.blandid = ?", whereValue: blandid };
-*/

@@ -163,7 +163,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                   <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={ URLs.POST_INSERATE_CAR }>Suchen</Link>} primaryTypographyProps={drawerSizes} />
+                   <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={ URLs.HOME_ALL_SEARCH_COUNT }>Suchen</Link>} primaryTypographyProps={drawerSizes} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>

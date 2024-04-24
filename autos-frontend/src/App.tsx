@@ -54,7 +54,7 @@ const App: React.FC = () => {
         { path: URLs.FETCH_INSERATE_PUBLISH, element: <ProtectedRoute role={ Roles.ADMIN }> <PublishInserate /> </ProtectedRoute> },
         { path: URLs.POST_WRITE_BRAND, element: <ProtectedRoute role={Roles.ADMIN}> <InsertBrand /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role={Roles.ADMIN}> <InsertModel /> </ProtectedRoute> },
-        { path: "/service", element: <Service /> }
+        { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> }
       ]
     }
   ])

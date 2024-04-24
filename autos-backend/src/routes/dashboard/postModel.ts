@@ -3,7 +3,7 @@ import { REGEX_NAMES } from "../../regex/regex.js";
 import { pool } from "../../dbConnect.js";
 import { AxiosDataModel } from "../../interfaces/IAxiosData.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { mysqlErrorMessages } from "../../helper/messages.js";
+import { insertMysqlErrorMessages } from "../../helper/messages.js";
 
 const insertIntoModels: string = "insert into model(model, brand_id)VALUES(?, ?)";
 const selectModel: string = "SELECT model_id as id, model FROM model WHERE brand_id = ?";
@@ -34,7 +34,7 @@ export default async (req: express.Request, res: express.Response) => {
             return res.status(200).json({ message: 'Erfolgreich hinzugefügt', tableValues: resultTableCell, brand: brandName})
         } catch (error: any){
             connection.rollback();
-            mysqlErrorMessages(error.errno, res);
+            insertMysqlErrorMessages(error.errno, res);
         } finally {
             connection.release();
         }

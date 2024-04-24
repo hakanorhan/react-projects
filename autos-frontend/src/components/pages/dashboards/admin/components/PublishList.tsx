@@ -1,6 +1,6 @@
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material"
 import ViewListIcon from '@mui/icons-material/ViewList';
-import { secondaryColorLight } from "../../../../../themes/ThemeColor";
+import { mainComponentHeight, secondaryColorLight } from "../../../../../themes/ThemeColor";
 import React, { useEffect, useState } from "react";
 import { seperateThousand } from "../../../../../helper/helper";
 import ViewDetailSearch from "../../../ViewDetailSearch";
@@ -15,15 +15,14 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
     const [viewCarComponent, setViewCarComponent] = useState(false)
     const [inserateId, setInserateId] = useState<number | null>(null);
     
-
-    
     useEffect(() => {
         if(inserateId !== null)
         setViewCarComponent(true);
     }, [inserateId])
 
     const ViewListComponent = () => {
-        return <List>
+        return <List sx={{ height: viewCarComponent ? '' : mainComponentHeight }}>
+            {/* Platzhalter */}
         { 
                 (listItems && listItems.length > 0) ?
                 listItems.map((item, index) => (

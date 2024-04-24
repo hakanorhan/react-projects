@@ -1,7 +1,7 @@
 import express from "express";
 import { pool } from "../../dbConnect.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { mysqlErrorMessages } from "../../helper/messages.js";
+import { insertMysqlErrorMessages } from "../../helper/messages.js";
 const insertIntoBrand: string = "INSERT INTO brand (brand) VALUES (?)";
 const selectBrandQuery: string = "SELECT * FROM brand";
 
@@ -26,7 +26,7 @@ export default async (req: express.Request, res: express.Response) => {
             return res.status(200).json({ message: 'Erfolgreich hinzugefügt', tableValues: resultTableCell, insertId: insertId })
         } catch (error: any){
             connection.rollback();
-            mysqlErrorMessages(error.errno, res);
+            insertMysqlErrorMessages(error.errno, res);
             
         } finally {
             connection.release();
