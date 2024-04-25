@@ -38,7 +38,7 @@ async function performQuery(requestData: string, res: express.Response){
 
       }catch (error) {
         // Handle any errors
-        return res.status(500).json({message:'Error occured. Please try again.'});
+        return res.status(500).json({message:'Interner Server Fehler. Bitte versuchen Sie es später erneut.'});
     } finally {
         connection?.release();
     }

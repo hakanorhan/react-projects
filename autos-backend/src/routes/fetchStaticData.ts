@@ -1,6 +1,7 @@
 import express from 'express';
 import { pool } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
+import { selectMysqlErrorMessages } from '../helper/messages.js';
 
 const selectQueryBrands: string = 'SELECT * from brand';
 const selectQueryCartypes: string = 'SELECT * FROM cartype';
@@ -46,10 +47,9 @@ export default async (req: express.Request, res: express.Response) => {
 
         return res.status(200).json({ message: 'Data send',
              tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices }});
-    } catch (error) {
+    } catch (error: any) {
         console.log("Error:", error);
-        // Verwende res.status() und res.json(), um den Fehler zurückzugeben
-        return res.status(500).json({ message: 'Fehler beim Abrufen der Daten' });
+        selectMysqlErrorMessages(error.code, res);
     } finally {
         // Stelle sicher, dass die Verbindung geschlossen wird
         connection.release();

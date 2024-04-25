@@ -1,4 +1,5 @@
 import { pool } from '../dbConnect.js';
+import { selectMysqlErrorMessages } from '../helper/messages.js';
 const selectQuery = 'SELECT * from federal_state';
 export default async (req, res) => {
     let connection = await pool.getConnection();
@@ -9,7 +10,7 @@ export default async (req, res) => {
     }
     catch (error) {
         console.log("Error:", error);
-        return res.status(500).json({ message: 'Fehler beim Abrufen der Daten' });
+        selectMysqlErrorMessages(error.code, res);
     }
     finally {
         connection.release();

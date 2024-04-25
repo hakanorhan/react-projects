@@ -4,6 +4,7 @@ import { ResultSetHeader } from "mysql2";
 import { pool } from "../dbConnect.js";
 import { AxiosDataInserate as AxiosDataInserateRequest, AxiosInserateResponse } from "../interfaces/IAxiosData.js";
 import { DecodedToken, verifyUserJwt } from "../jwt/checkAuth.js";
+import { insertMysqlErrorMessages } from "../helper/messages.js";
 
 const INSERT_INSERATE_INFO: string = "INSERT INTO inserate_info (user_id) VALUES(?)";
 const INSERT_INSERATE_CHECK: string = "INSERT INTO inserate_check (inserate_id) VALUES(?)";
@@ -67,10 +68,11 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
         await connection.commit();
         return res.status(200).json( axiosData )
         
-    } catch(err) {
+    } catch(error: any) {
         // rollback
         await connection.rollback();
-        console.log(err);
+        console.log(error);
+        insertMysqlErrorMessages(error.errno, res);
         
     } finally {
         // release connection

@@ -2,6 +2,7 @@ import express from 'express';
 import { pool } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 import { AxiosDataImagesNames, AxiosDetailsearch } from '../interfaces/IAxiosData.js';
+import { selectMysqlErrorMessages } from '../helper/messages.js';
 
 const selectQueryDetail: string = "SELECT * FROM imagename WHERE inserate_id = ?";
 
@@ -21,9 +22,9 @@ export default async (req: express.Request, res: express.Response) => {
         })
         
         return res.status(200).json( axiosData );
-    } catch (error) {
+    } catch (error: any) {
         console.log(error)
-        return res.status(500).json({ message: 'Fehler beim Abrufen der Daten' });
+        selectMysqlErrorMessages(error.code, res);
     } finally {
         connection.release();
     } 

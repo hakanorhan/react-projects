@@ -31,6 +31,11 @@ export const minHeightContent = '750px';
 
 export const mainComponentHeight = '84vh';
 
+export const paperElevationValue = 10;
+export const paperMarginTopValue = '0.9rem';
+export const paperPaddingValue = '0.7rem';
+
+
 const themeColor = createTheme({
     
     palette: {

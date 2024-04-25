@@ -1,4 +1,5 @@
 import { pool } from '../../dbConnect.js';
+import { selectMysqlErrorMessages } from '../../helper/messages.js';
 const selectQuery = "SELECT inserate.inserate_id, brand.brand, model.model, inserate.price, inserate_info.inserate_date"
     + " from inserate"
     + " JOIN model ON inserate.model_id = model.model_id"
@@ -15,7 +16,7 @@ export default async (req, res) => {
     }
     catch (error) {
         console.log("Error:", error);
-        return res.status(500).json({ message: 'Fehler beim Abrufen der Daten' });
+        selectMysqlErrorMessages(error.code, res);
     }
     finally {
         connection.release();

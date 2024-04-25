@@ -1,5 +1,5 @@
 import { pool } from "../../dbConnect.js";
-import { mysqlErrorMessages } from "../../helper/messages.js";
+import { insertMysqlErrorMessages } from "../../helper/messages.js";
 const insertIntoBrand = "INSERT INTO brand (brand) VALUES (?)";
 const selectBrandQuery = "SELECT * FROM brand";
 export default async (req, res) => {
@@ -18,7 +18,7 @@ export default async (req, res) => {
     }
     catch (error) {
         connection.rollback();
-        mysqlErrorMessages(error.errno, res);
+        insertMysqlErrorMessages(error.errno, res);
     }
     finally {
         connection.release();

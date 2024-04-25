@@ -2,6 +2,7 @@ import express from "express";
 import { pool } from "../../dbConnect.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { AxiosDataPublish } from "../../interfaces/IAxiosData.js";
+import { insertMysqlErrorMessages } from "../../helper/messages.js";
 const UPDATE: string = "update inserate_check set inserate_public = ? WHERE inserate_id = ?";
 const UPDATE_CANCELLED: string =" UPDATE inserate_check set inserate_public = 0, inserate_cancelled = 1 WHERE inserate_id = ?";
 
@@ -21,10 +22,10 @@ export default async (req: express.Request, res: express.Response) => {
             await connection.commit();
                 
             return res.status(200).json({ message: 'Erfolgreich hinzugefügt' })
-        } catch (error){
+        } catch (error: any){
             console.log(error)
             connection.rollback();
-            return res.status(500).json({ message: 'Fehler' });
+            insertMysqlErrorMessages(error.errno, res);
         } finally {
             connection.release();
         }

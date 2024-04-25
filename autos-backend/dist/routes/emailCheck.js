@@ -19,7 +19,7 @@ async function performQuery(requestData, res) {
         }
     }
     catch (error) {
-        return res.status(500).json({ message: 'Error occured. Please try again.' });
+        return res.status(500).json({ message: 'Interner Server Fehler. Bitte versuchen Sie es später erneut.' });
     }
     finally {
         connection?.release();

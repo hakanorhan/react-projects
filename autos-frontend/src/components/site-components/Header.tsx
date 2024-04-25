@@ -96,7 +96,7 @@ export default function Header() {
       </AccordionSummary>
       <AccordionDetails>
         <Box >
-          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); navigate(URLs.POST_WRITE_BRAND) 
+          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); navigate(URLs.POST_INSERT_BRAND) 
             }} > Marke </Button>
           <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); navigate(URLs.POST_INSERT_MODEL) 
             }}> Modell </Button>

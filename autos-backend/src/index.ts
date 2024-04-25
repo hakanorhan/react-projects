@@ -10,7 +10,6 @@ import writeModel from "./routes/dashboard/postModel.js";
 import fetchBrand from "./routes/dashboard/fetchBrand.js";
 import fetchModel from "./routes/dashboard/fetchModel.js";
 import { URLs } from './enums/URLs.js';
-import writeBaureihe from "./routes/dashboard/postBaureihe.js";
 import multer from "multer";
 import path from "path";
 import fetchStaticData from "./routes/fetchStaticData.js";
@@ -24,6 +23,7 @@ import fetchBuendeslaender from "./routes/fetchBuendeslaender.js";
 import postPublish from "./routes/dashboard/postPublish.js";
 import emailCheck from "./routes/emailCheck.js";
 import deleteToken from "./jwt/deleteToken.js";
+import { fetchListCars } from "./routes/fetchListCars.js";
 
 const app = express();
 
@@ -49,10 +49,9 @@ app.get(URLs.POST_INSERATE_CAR, authenticateNext, inserateCar);
 //app.get(URLs.GET_CHECK_AUTH, authenticateWithoutNext);
 app.get(URLs.FETCH_INSERATE_PUBLISH, authenticateNext, fetchInserateForPublish);
 
-app.post(URLs.POST_WRITE_BRAND, authenticateNext, writeBrand);
+app.post(URLs.POST_INSERT_BRAND, authenticateNext, writeBrand);
 app.get(URLs.FETCH_BRAND, fetchBrand); 
 app.post(URLs.FETCH_MODEL, fetchModel);
-app.post(URLs.POST_INSERT_BAUREIHE, authenticateNext, writeBaureihe );
 app.get(URLs.FETCH_DYNAMIC_SEARCH, dynamicSearch);
 app.post(URLs.POST_INSERT_MODEL, authenticateNext, writeModel);
 app.post(URLs.POST_PUBLISH, authenticateNext, postPublish);
@@ -60,6 +59,8 @@ app.get(URLs.FETCH_STATIC_DATA, fetchStaticData);
 app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
 app.get(URLs.FETCH_BUNDESLAENDER, fetchBuendeslaender);
 app.get(URLs.FETCH_IMAGENAMES + "/:id", fetchImageNames);
+
+app.get(URLs.FETCH_LIST_CARS, fetchListCars);
 
 app.delete(URLs.DELETE_TOKEN, authenticateNext, deleteToken);
 

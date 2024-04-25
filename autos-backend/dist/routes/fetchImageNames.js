@@ -1,4 +1,5 @@
 import { pool } from '../dbConnect.js';
+import { selectMysqlErrorMessages } from '../helper/messages.js';
 const selectQueryDetail = "SELECT * FROM imagename WHERE inserate_id = ?";
 export default async (req, res) => {
     const inseratId = req.params.id;
@@ -16,7 +17,7 @@ export default async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        return res.status(500).json({ message: 'Fehler beim Abrufen der Daten' });
+        selectMysqlErrorMessages(error.code, res);
     }
     finally {
         connection.release();

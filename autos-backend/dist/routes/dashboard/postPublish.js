@@ -1,4 +1,5 @@
 import { pool } from "../../dbConnect.js";
+import { insertMysqlErrorMessages } from "../../helper/messages.js";
 const UPDATE = "update inserate_check set inserate_public = ? WHERE inserate_id = ?";
 const UPDATE_CANCELLED = " UPDATE inserate_check set inserate_public = 0, inserate_cancelled = 1 WHERE inserate_id = ?";
 export default async (req, res) => {
@@ -18,7 +19,7 @@ export default async (req, res) => {
     catch (error) {
         console.log(error);
         connection.rollback();
-        return res.status(500).json({ message: 'Fehler' });
+        insertMysqlErrorMessages(error.errno, res);
     }
     finally {
         connection.release();

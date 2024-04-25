@@ -4,6 +4,7 @@ import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import { createToken } from "../jwt/jwtToken.js";
 import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
 import { Roles } from "../enums/Roles.js";
+import { selectMysqlErrorMessages } from "../helper/messages.js";
 const selectQuery = 'SELECT * FROM account_data WHERE email = ?';
 const selectUser = 'SELECT user_id from user WHERE account_data_id = ?';
 async function performQuery(requestData, res) {
@@ -47,7 +48,7 @@ async function performQuery(requestData, res) {
         });
     }
     catch (error) {
-        return res.status(500).json({ message: 'Error occured. Please try again.' });
+        selectMysqlErrorMessages(error.code, res);
     }
     finally {
         connection?.release();

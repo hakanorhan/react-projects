@@ -46,7 +46,7 @@ const InsertBrand = () => {
     event.preventDefault();
     setRefresh(false);
     // submit after click button
-    handleSubmitPostBrand(form.brand, URLs.POST_WRITE_BRAND, setListValues, setInsertId);
+    handleSubmitPostBrand(form.brand, URLs.POST_INSERT_BRAND, setListValues, setInsertId);
   }
 
   // if user insert new brand. Textfield changes to initialvalue

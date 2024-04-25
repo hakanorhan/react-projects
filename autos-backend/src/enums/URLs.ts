@@ -1,28 +1,32 @@
 export enum URLs {
+    // Client Server
     ORIGIN_SERVER = 'http://localhost:3001',
     ORIGIN_CLIENT = 'http://localhost:5173',
 
-    FETCH_BRAND = '/fetchbrand',
-    FETCH_MODEL = '/fetchmodel',
-    FETCH_BAUREIHE = '/fetchbaureihe',
-    FETCH_CARS = '/fetchcars',
-    FETCH_STATIC_DATA = '/staticdata',
-    FETCH_INSERATE_PUBLISH = '/fetch-inserate-publish',
-    FETCH_DETAIL_SEARCH = '/detailsuche',
+    // ----- POST -------
     POST_SIGINUP = '/signup',
     POST_SIGINUP_EMAILCHECK = '/signup-checkemail',
     POST_SIGNIN = '/signin',
-    POST_INSERT_BAUREIHE = '/admin/writebaueihe',
     POST_INSERATE_CAR = '/inseratecar',
+    POST_INSERT_BRAND = '/admin/insertbrand',
+    POST_INSERT_MODEL = '/admin/insertmodel',
+    POST_PUBLISH = '/admin/publish',
+
+    // ----- GET --------
+    FETCH_BRAND = '/fetch-brand',
+    FETCH_MODEL = '/fetch-model',
+    FETCH_BAUREIHE = '/fetchbaureihe',
+    FETCH_CARS = '/fetch-cars',
+    FETCH_STATIC_DATA = '/fetch-staticdata',
+    FETCH_INSERATE_PUBLISH = '/fetch-inserate-publish',
+    FETCH_DETAIL_SEARCH = '/detailsuche',
     HOME_ALL_SEARCH_COUNT = '/',
     GET_CHECK_AUTH = '/api/checkAuth',
-    POST_WRITE_BRAND = '/admin/writebrand',
-    POST_INSERT_MODEL = '/admin/writemodel',
     FETCH_DYNAMIC_SEARCH = '/dynamicsearch',
     UPLOAD = '/upload',
     IMAGE_PATH = '/uploads',
-    FETCH_IMAGENAMES = '/fetchimagenames',
-    FETCH_BUNDESLAENDER = "/fetchbundeslaender",
-    POST_PUBLISH = '/admin/publish',
-    DELETE_TOKEN = '/deletetoken'
+    FETCH_IMAGENAMES = '/fetch-imagenames',
+    FETCH_BUNDESLAENDER = "/fetch-bundeslaender",
+    FETCH_LIST_CARS = "/listcars",
+    DELETE_TOKEN = '/api/deletetoken'
 }

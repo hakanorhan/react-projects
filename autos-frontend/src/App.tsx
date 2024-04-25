@@ -31,6 +31,7 @@ import PublishInserate from './components/pages/dashboards/admin/components/Publ
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
 import Service from './components/pages/Service';
+import ListSearchedCars from './components/pages/ListSearchedCars';
 
 const App: React.FC = () => {
 
@@ -52,9 +53,10 @@ const App: React.FC = () => {
         { path: URLs.POST_SIGNIN, element: <SignIn />, errorElement: <Notfound /> },
         { path: URLs.POST_INSERATE_CAR, element: <ProtectedRoute role={Roles.USER}><InserateCar /></ProtectedRoute>, errorElement: <Notfound /> },
         { path: URLs.FETCH_INSERATE_PUBLISH, element: <ProtectedRoute role={ Roles.ADMIN }> <PublishInserate /> </ProtectedRoute> },
-        { path: URLs.POST_WRITE_BRAND, element: <ProtectedRoute role={Roles.ADMIN}> <InsertBrand /> </ProtectedRoute> },
+        { path: URLs.POST_INSERT_BRAND, element: <ProtectedRoute role={Roles.ADMIN}> <InsertBrand /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role={Roles.ADMIN}> <InsertModel /> </ProtectedRoute> },
-        { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> }
+        { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> },
+        { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> }
       ]
     }
   ])

@@ -1,6 +1,7 @@
 import express from 'express';
 import { pool } from '../../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
+import { selectMysqlErrorMessages } from '../../helper/messages.js';
 
 const selectQuery: string = "SELECT inserate.inserate_id, brand.brand, model.model, inserate.price, inserate_info.inserate_date" 
     + " from inserate"
@@ -17,9 +18,9 @@ export default async (req: express.Request, res: express.Response) => {
         const result = queryResult[0] as RowDataPacket[];
         
         return res.status(200).json( result );
-    } catch (error) {
+    } catch (error: any) {
         console.log("Error:", error);
-        return res.status(500).json({ message: 'Fehler beim Abrufen der Daten' });
+        selectMysqlErrorMessages(error.code, res);
     } finally {
         connection.release();
     } 

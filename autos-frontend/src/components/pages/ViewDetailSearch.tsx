@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ViewDetailIconStyle, primaryColorMain, secondaryColorLight } from '../../themes/ThemeColor'
+import { ViewDetailIconStyle, paperElevationValue, paperMarginTopValue, paperPaddingValue, primaryColorMain, secondaryColorLight } from '../../themes/ThemeColor'
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
 import { AxiosDataPublish, AxiosDetailsearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
@@ -21,11 +21,6 @@ import { Publish } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-const paperElevationValue = 10;
-const paperMarginTopValue = '0.9rem';
-const paperPaddingValue = '0.7rem';
-
 
 interface ViewDetailSearchComponentProps {
   id: number | null
@@ -117,7 +112,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
     <CarImages id={id} />
     {detailSearchValues ?
       <>
-        <Paper elevation={paperElevationValue} sx={{ padding: paperPaddingValue, marginTop: paperMarginTopValue, backgroundColor: 'white' }}>
+        <Paper elevation={ paperElevationValue } sx={{ padding: paperPaddingValue, marginTop: paperMarginTopValue, backgroundColor: 'white' }}>
           <Grid container>
             {/* Marke Modell */}
             <Grid item xs={6}>
