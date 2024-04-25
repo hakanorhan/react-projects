@@ -194,7 +194,7 @@ export default function Header() {
               <AccordionUpdate />
               <AccordionEntfernen />
 
-              <Button onClick={() => { setDrawerOpen(false); // TODO:  navigate(URLs.FETCH_INSERATE_PUBLISH) 
+              <Button onClick={() => { setDrawerOpen(false);  navigate(URLs.FETCH_INSERATE_PUBLISH) 
                 }} sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<PublishedWithChangesIcon />}> <p>Veröffentlichen </p></Button>
               <Button sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<UnpublishedIcon />}> <p>AUFHEBEN </p></Button>
             </Box>

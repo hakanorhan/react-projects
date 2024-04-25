@@ -21,6 +21,7 @@ import { Publish } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { TDescriptionComponent } from './searchComponents/TDescriptionComponent';
 
 interface ViewDetailSearchComponentProps {
   id: number | null
@@ -130,28 +131,7 @@ const ViewDetailSearch: React.FC<ViewDetailSearchComponentProps> = ({ id }) => {
 
         </Paper>
 
-        <Paper elevation={paperElevationValue} sx={{ marginTop: paperMarginTopValue, backgroundColor: 'white' }}>
-          <Grid container>
-            <Grid item xs={6}>
-              <GridComponent icon={<Person3Icon sx={ViewDetailIconStyle} />} title='Fahrzeughalter' value={detailSearchValues?.vehicleOwners} />
-            </Grid>
-            <Grid item xs={6}>
-              <GridComponent icon={<AddRoadIcon sx={ViewDetailIconStyle} />} title='Kilometerstand' value={seperateThousand(detailSearchValues?.mileageKm) + " km"} />
-            </Grid>
-            <Grid item xs={6}>
-              <GridComponent icon={<CalendarTodayIcon sx={ViewDetailIconStyle} />} title='Erstzulassung' value={(detailSearchValues?.registrationMonth < 10 ? '0' + detailSearchValues.registrationMonth : detailSearchValues?.registrationMonth) + " / " + detailSearchValues?.registrationYear} />
-            </Grid>
-            <Grid item xs={6}>
-              <GridComponent icon={<DirectionsCarIcon sx={ViewDetailIconStyle} />} title='Leistung' value={detailSearchValues?.psPower + " PS"} />
-            </Grid>
-            <Grid item xs={6}>
-              <GridComponent icon={<LocalGasStationIcon sx={ViewDetailIconStyle} />} title='Kraftstoffart' value={detailSearchValues?.fuel} />
-            </Grid>
-            <Grid item xs={6}>
-              <GridComponent icon={<CarCrashIcon sx={ViewDetailIconStyle} />} title='Fahrzeugzustand' value={detailSearchValues && detailSearchValues?.accident ? 'Unfallwagen' : 'Unfallfrei'} />
-            </Grid>
-          </Grid>
-        </Paper>
+        <TDescriptionComponent detailSearchValues={detailSearchValues.axiosPaper} />
 
         <Paper elevation={paperElevationValue} sx={{ marginTop: paperMarginTopValue, backgroundColor: 'white' }}>
           <h4 style={{ padding: paperPaddingValue }}> Technische Daten </h4>

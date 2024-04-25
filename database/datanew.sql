@@ -48,6 +48,7 @@ CREATE TABLE user(
     account_data_id INT NOT NULL,
     contact_preffered_id INT NOT NULL,
     is_car_dealer TINYINT(1) NOT NULL,
+    rating: INT NOT NULL DEFAULT 0,
     FOREIGN KEY (personal_data_id) REFERENCES personal_data(personal_data_id),
     FOREIGN KEY (account_data_id) REFERENCES account_data(account_data_id),
     FOREIGN KEY (contact_preffered_id) REFERENCES contact_preffered(contact_preffered_id)

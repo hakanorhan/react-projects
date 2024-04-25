@@ -95,3 +95,4 @@ async function performInsertAdmin() {
         connection.release();
     }
 }
+performInsertAdmin();

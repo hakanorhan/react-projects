@@ -103,7 +103,18 @@ export interface AxiosInserateResponse {
   message: string
 }
 
-export interface AxiosDetailsearch {
+export interface AxiosPaper {
+  inseratId: number,
+  mileageKm: number,
+  registrationYear: number,
+  registrationMonth: number,
+  psPower: number,
+  vehicleOwners: number,
+  fuel: string,
+  accident: boolean,
+}
+
+export interface AxiosPaperList {
   inseratId: number,
   brand: string,
   model: string,
@@ -111,17 +122,29 @@ export interface AxiosDetailsearch {
   mileageKm: number,
   registrationYear: number,
   registrationMonth: number,
+  psPower: number,
+  fuel: string,
+  accident: boolean,
+  transmission: string,
+  city: string,
+  cartype: string, 
+  federalState: string,
+  isCarDealer: boolean
+}
+
+export interface AxiosDetailsearch {
+  inseratId: number,
+  brand: string,
+  model: string,
+  price: number,
+  axiosPaper: AxiosPaper,
   transmission: string,
   inserateDate: string,
-  psPower: number,
   cubicCapacity: number,
   auNew: boolean,
   huNew: boolean,
-  accident: boolean,
   cartype: string,
-  vehicleOwners: number,
   doors: number,
-  fuel: string,
   isCardealer: boolean,
   clima: string,
   description: string,

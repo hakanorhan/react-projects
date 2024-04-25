@@ -4,7 +4,7 @@ import { SelectChangeEvent, Button, Typography } from '@mui/material';
 import { notifySuccess, notifyError } from "../../../../../helper/toastHelper";
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
-import { MainComponentWidth } from "../../../../../themes/ThemeColor";
+import { MainComponentWidth, mainComponentHeight } from "../../../../../themes/ThemeColor";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import SelectField from "../../../../formularFields/SelectField";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
@@ -87,7 +87,7 @@ const InsertModel = () => {
   }
 
   return <><Toaster />
-    <MainComponentWidth>
+    <MainComponentWidth sx={{ height: modelValues.length > 0 ? 'auto' : mainComponentHeight }}>
       <form onSubmit={handleSubmit} noValidate>
         <SelectField values={listValues} objectName="brand" idOfSelect="brand_id" selectedValue={selectedBrand} handleChange={handleChangeBrand} label="Marke" />
         <TextFieldCars id="model" label="Modell" onChange={value => handleChange('model', value)} regex={REGEX_MODEL} refresh={refresh} />

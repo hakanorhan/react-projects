@@ -8,6 +8,7 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import CarCrashIcon from '@mui/icons-material/CarCrash';
 import { seperateThousand } from '../../../helper/helper';
+import { AxiosPaper } from '../../../../../autos-backend/src/interfaces/IAxiosData';
 
 interface GridComponentProps {
     icon: JSX.Element,
@@ -15,7 +16,7 @@ interface GridComponentProps {
     value: any
   }
 
-export const TDescriptionComponent = ({ detailSearchValues }) => {
+export const TDescriptionComponent: React.FC<{ detailSearchValues : AxiosPaper }> = ({ detailSearchValues }) => {
 
     const GridComponent: React.FC<GridComponentProps> = ({ icon, title, value }) => {
         return <Grid item xs={6}><div style={{ display: 'flex', margin: '0.5rem' }}> {icon} <div><Typography sx={{ fontSize: '0.9rem', color: 'gray', fontWeight: '300' }} display='inline-block' variant='h6' component='h2'>{title}</Typography> <Typography variant='subtitle2' component='p'>{value}</Typography></div></div></Grid>

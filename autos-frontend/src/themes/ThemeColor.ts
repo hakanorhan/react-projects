@@ -188,11 +188,11 @@ export const HeaderInserateH1 = styled('h1')(({ theme }) => ({
     textAlign: 'center',
     color: primaryColorMain,
     [theme.breakpoints.up("xs")]: {
-        fontSize: '1rem'
+        fontSize: '1.2rem'
         
     },
-    [theme.breakpoints.up("md")]: {
-        fontSize: '1.5rem'
+    [theme.breakpoints.up("lg")]: {
+        fontSize: '1.9rem'
 
     },
 

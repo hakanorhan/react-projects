@@ -3,7 +3,7 @@ import { FormGroup, Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typograph
 import axios from 'axios';
 import { Button, FormControlLabel, Checkbox } from '@mui/material';
 import { REGEX_HUBRAUM, REGEX_NAMES, REGEX_PRICE } from '../../../../../autos-backend/src/regex/regex';
-import { DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderInserateH1, HeaderIcon } from '../../../themes/ThemeColor';
+import { DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderInserateH1, HeaderIcon, mainComponentHeight } from '../../../themes/ThemeColor';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 import { notifySuccess, notifyError } from '../../../helper/toastHelper';
@@ -210,7 +210,7 @@ export default function InserateCar() {
   }
 
   return (<>
-    <DivSearchInserate>
+    <DivSearchInserate sx={{ height: activeStep === 2 ? mainComponentHeight : 'auto' }}>
       <Typography variant='h4' component='h1'>Fahrzeug inserieren</Typography>
       <Stepper activeStep={activeStep} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
         {
@@ -285,22 +285,27 @@ export default function InserateCar() {
 
         <Box sx={{ display: requestSuccess ? 'block' : 'none' }}>
           <HeaderIcon>
-            <Zoom in={requestSuccess} style={{ transform: 'scale(4)' }}>
-              <CheckCircleOutlineIcon fontSize='large' sx={{ marginTop: '4.5rem', color: '#56ae57', transform: 'scale(4)' }} />
+            <Zoom in={requestSuccess} style={{ transform: 'scale(1.5)' }}>
+              <CheckCircleOutlineIcon fontSize='large' sx={{ marginTop: '3rem', color: '#56ae57', transform: 'scale(1.5)' }} />
             </Zoom>
-            <HeaderInserateH1 sx={{ marginTop: '6rem' }} color='#56ae57'>Das Inserat wird nach der Prüfung veröffentlicht.</HeaderInserateH1>
           </HeaderIcon>
+          <HeaderInserateH1 sx={{ marginTop: '7rem', marginBottom:'3rem' }} color='#56ae57'>Das Inserat wird nach der Prüfung veröffentlicht.</HeaderInserateH1>
         </Box>
 
         <Box sx={{ display: 'flex' }}>
           <Button disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: requestSuccess ? 'none' : 'display', marginRight: '1rem' }}>Zurück</Button>
           <Button sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'none' : 'block' }} disabled={disabledNextStep} onClick={handleNextStep}>Weiter</Button>
           <Button sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'block' : 'none' }} type='submit' variant='contained'>Inserieren</Button>
-          <HeaderIcon>
-            <Button onClick={() => { setAllFormsToInitial(); setRefresh(true); }} sx={{ marginRight: '1rem', marginTop: '3rem', width: '150px', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
-            <Button sx={{ marginTop: '3rem', width: '150px', display: requestSuccess ? 'display' : 'none' }}>Suchen</Button>
-
-          </HeaderIcon>
+          
+          <Grid container spacing={4}>
+            <Grid item xs= {6}>
+              <Button fullWidth onClick={() => { setAllFormsToInitial(); setRefresh(true); }} sx={{ marginRight: '1rem', marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
+            </Grid>
+            <Grid item xs= {6}>
+              <Button fullWidth sx={{ marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Suchen</Button>
+            </Grid>
+          </Grid>
+          
         </Box>
       </form>
     </DivSearchInserate>
