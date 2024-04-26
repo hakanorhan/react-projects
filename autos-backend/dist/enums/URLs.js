@@ -18,7 +18,7 @@ export var URLs;
     URLs["FETCH_DETAIL_SEARCH"] = "/detailsuche";
     URLs["HOME_ALL_SEARCH_COUNT"] = "/";
     URLs["GET_CHECK_AUTH"] = "/api/checkAuth";
-    URLs["FETCH_DYNAMIC_SEARCH"] = "/dynamicsearch";
+    URLs["FETCH_COUNT"] = "/search/count";
     URLs["UPLOAD"] = "/upload";
     URLs["IMAGE_PATH"] = "/uploads";
     URLs["FETCH_IMAGENAMES"] = "/fetch-imagenames";

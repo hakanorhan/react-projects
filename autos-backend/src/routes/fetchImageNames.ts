@@ -7,8 +7,8 @@ import { selectMysqlErrorMessages } from '../helper/messages.js';
 const selectQueryDetail: string = "SELECT * FROM imagename WHERE inserate_id = ?";
 
 export default async (req: express.Request, res: express.Response) => {
-    const inseratId = req.params.id
-    console.log(inseratId);
+    const inseratId = req.params.id;
+    
     let connection = await pool.getConnection();
     try {
         const queryResult = await connection.execute(selectQueryDetail, [inseratId]);

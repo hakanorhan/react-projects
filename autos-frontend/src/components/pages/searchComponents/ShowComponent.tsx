@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Rating, Typography } from '@mui/material'
+import { Box, Grid, Rating, Typography } from '@mui/material'
 import React from 'react'
 import { seperateThousand } from '../../../helper/helper';
 import { AxiosPaperList } from '../../../../../autos-backend/src/interfaces/IAxiosData';

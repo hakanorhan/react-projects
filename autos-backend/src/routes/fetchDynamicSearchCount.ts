@@ -10,6 +10,8 @@ export async function performQueryGet(req: express.Request, res: express.Respons
 
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;
 
+    console.log(" " + brandid + " " + modelid + " " + price + " " + cartypeid + " " + blandid + " dateFrom: " + dateFrom + " dateTo: " + dateTo)
+
     const whereClause: string[] = [" i.inserate_id = ic.inserate_id AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id "];
     const whereValue: any[] = [];
 
@@ -50,10 +52,10 @@ export async function performQueryGet(req: express.Request, res: express.Respons
     }
 
     
-    if(dateFrom === undefined && dateTo) {
+    if((dateFrom === undefined && dateTo) || (dateFrom === SelectFieldEnums.ALL_VALUE && dateTo !== SelectFieldEnums.ALL_VALUE)) {
         whereClause.push(" AND td.registration_year < ? ");
         whereValue.push(dateTo)
-    } else if (dateFrom && dateTo) {
+    } else if ((dateFrom && dateTo) && (dateFrom !== SelectFieldEnums.ALL_VALUE && dateTo !== SelectFieldEnums.ALL_VALUE)) {
         whereClause.push(" AND td.registration_year between ? AND ?  ");
         whereValue.push(dateFrom);
         whereValue.push(dateTo);
@@ -92,14 +94,6 @@ export async function performQueryGet(req: express.Request, res: express.Respons
 
 export default async (req: express.Request, res: express.Response) => {
 
-    switch (req.method) {
-        case 'GET':
             performQueryGet(req, res);
-            break;
-        case 'POST':
-            const requestData: ICarInformationRequest = req.body;
-            break;
-        default:
-            res.status(500).json({ message: "Error occured" })
-    }
+        
 }

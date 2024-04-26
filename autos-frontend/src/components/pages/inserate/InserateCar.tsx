@@ -20,10 +20,13 @@ import dayjs from 'dayjs';
 import { DateComponentMonthYear } from '../../formularFields/DateComponentMonthYear';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { useNavigate } from 'react-router-dom';
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 
 export default function InserateCar() {
+
+  const navigate = useNavigate();
 
   const initialSelect: InserateSelect = {
     brand: "",
@@ -299,7 +302,7 @@ export default function InserateCar() {
           
           <Grid container spacing={4}>
             <Grid item xs= {6}>
-              <Button fullWidth onClick={() => { setAllFormsToInitial(); setRefresh(true); }} sx={{ marginRight: '1rem', marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
+              <Button fullWidth onClick={() => { navigate(0); }} sx={{ marginRight: '1rem', marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
             </Grid>
             <Grid item xs= {6}>
               <Button fullWidth sx={{ marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Suchen</Button>

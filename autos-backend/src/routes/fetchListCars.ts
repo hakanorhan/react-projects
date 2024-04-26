@@ -7,9 +7,10 @@ import { AxiosPaper, AxiosPaperList } from '../interfaces/IAxiosData.js';
 
 export async function fetchListCars(req: express.Request, res: express.Response) {
 
-    const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;
+    const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, offset, LIMIT } = req.query;
 
-    console.log("date: " + dateFrom);
+    // check offset and limit
+
 
     const whereClause: string[] = [" i.inserate_id = ic.inserate_id AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id AND td.fuel_id = f.fuel_id AND td.vehicle_condition_id = vc.vehicle_condition_id AND td.transmission_id = t.transmission_id AND td.cartype_id = ct.cartype_id "];
     const whereValue: any[] = [];
@@ -73,6 +74,9 @@ export async function fetchListCars(req: express.Request, res: express.Response)
         query = query + clause;
     })
 
+    query = query + " ORDER BY td.mileage_km LIMIT ? OFFSET ?  ";
+    whereValue.push(LIMIT);
+    whereValue.push(offset);
 
     let connection;
     try {
@@ -92,10 +96,10 @@ export async function fetchListCars(req: express.Request, res: express.Response)
                 axiosPapers.push(axiosPaperList);
 
             })
-
+            /*
             axiosPapers.map((axiosPaper) => {
                 console.log(axiosPaper.inseratId);
-            })
+            }) */
 
             
             return res.status(200).json(axiosPapers);

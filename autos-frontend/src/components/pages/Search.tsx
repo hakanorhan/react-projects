@@ -116,7 +116,7 @@ const Search: React.FC = () => {
     const searchParams = { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo };
 
     try {
-      const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_DYNAMIC_SEARCH, {
+      const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_COUNT, {
         withCredentials: true,
         params: searchParams
       })

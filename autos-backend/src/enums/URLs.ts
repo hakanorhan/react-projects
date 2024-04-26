@@ -22,7 +22,7 @@ export enum URLs {
     FETCH_DETAIL_SEARCH = '/detailsuche',
     HOME_ALL_SEARCH_COUNT = '/',
     GET_CHECK_AUTH = '/api/checkAuth',
-    FETCH_DYNAMIC_SEARCH = '/dynamicsearch',
+    FETCH_COUNT = '/search/count',
     UPLOAD = '/upload',
     IMAGE_PATH = '/uploads',
     FETCH_IMAGENAMES = '/fetch-imagenames',

@@ -2,8 +2,7 @@ import { pool } from '../dbConnect.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { SelectFieldEnums } from '../enums/SelectFieldEnums.js';
 export async function fetchListCars(req, res) {
-    const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;
-    console.log("date: " + dateFrom);
+    const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, offset, LIMIT } = req.query;
     const whereClause = [" i.inserate_id = ic.inserate_id AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id AND td.fuel_id = f.fuel_id AND td.vehicle_condition_id = vc.vehicle_condition_id AND td.transmission_id = t.transmission_id AND td.cartype_id = ct.cartype_id "];
     const whereValue = [];
     const attributes = " i.inserate_id, b.brand, m.model, i.price, ad.city, fs.federal_state, td.vehicle_owners, td.mileage_km, td.registration_year, td.registration_month, td.power_ps, f.fuel, vc.fit_to_drive, t.transmission, ct.cartype, u.is_car_dealer ";
@@ -53,6 +52,9 @@ export async function fetchListCars(req, res) {
     whereClause.map((clause) => {
         query = query + clause;
     });
+    query = query + " ORDER BY td.mileage_km LIMIT ? OFFSET ?  ";
+    whereValue.push(LIMIT);
+    whereValue.push(offset);
     let connection;
     try {
         connection = await pool.getConnection();
@@ -61,12 +63,9 @@ export async function fetchListCars(req, res) {
         const cars = result[0];
         const axiosPapers = [];
         cars.map((axiosData) => {
-            const { price, city, federal_state, brand, model, inserate_id, cartype, transmission, mileage_km, registration_year, registration_month, power_ps, fuel, accident } = axiosData;
-            const axiosPaperList = { price, city, federalState: federal_state, brand, model, transmission, cartype, fuel, accident, inseratId: inserate_id, mileageKm: mileage_km, registrationMonth: registration_month, registrationYear: registration_year, psPower: power_ps, };
+            const { is_car_dealer, price, city, federal_state, brand, model, inserate_id, cartype, transmission, mileage_km, registration_year, registration_month, power_ps, fuel, accident } = axiosData;
+            const axiosPaperList = { isCarDealer: is_car_dealer, price, city, federalState: federal_state, brand, model, transmission, cartype, fuel, accident, inseratId: inserate_id, mileageKm: mileage_km, registrationMonth: registration_month, registrationYear: registration_year, psPower: power_ps, };
             axiosPapers.push(axiosPaperList);
-        });
-        axiosPapers.map((axiosPaper) => {
-            console.log(axiosPaper.inseratId);
         });
         return res.status(200).json(axiosPapers);
     }
