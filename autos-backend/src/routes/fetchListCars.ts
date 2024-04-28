@@ -4,11 +4,12 @@ import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { SelectFieldEnums } from '../enums/SelectFieldEnums.js';
 import { AxiosPaper, AxiosPaperList } from '../interfaces/IAxiosData.js';
+import { SortEnums } from '../enums/SortEnums.js';
 
 export async function fetchListCars(req: express.Request, res: express.Response) {
 
-    const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, offset, LIMIT } = req.query;
-
+    const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, offset, LIMIT, sorttype } = req.query;
+    console.log("Sort type: " + sorttype );
     // check offset and limit
 
 
@@ -74,7 +75,42 @@ export async function fetchListCars(req: express.Request, res: express.Response)
         query = query + clause;
     })
 
-    query = query + " ORDER BY td.mileage_km LIMIT ? OFFSET ?  ";
+    let orderBy = "";
+    switch( sorttype ) {
+        // DESC
+        case SortEnums.EZ_DOWN:
+            orderBy = " td.registration_year DESC, td.registration_month DESC";
+            break;
+        case SortEnums.EZ_UP:
+            orderBy = " td.registration_year ASC, td.registration_month ASC";
+            break;
+        case SortEnums.KM_DOWN:
+            orderBy = " td.mileage_km DESC";
+            break;
+        case SortEnums.KM_UP:
+            orderBy = " td.mileage_km ASC";
+            break;
+        case SortEnums.INSREATE_DOWN:
+            orderBy = " ii.inserate_date DESC";
+            break;
+        case SortEnums.INSREATE_UP:
+            orderBy = " ii.inserate_date ASC";
+            break;
+        case SortEnums.POWER_DOWN:
+            orderBy = " td.power_ps DESC";
+            break;
+        case SortEnums.POWER_UP:
+            orderBy = " td.power_ps ASC";
+            break;
+        case SortEnums.PRICE_UP:
+            orderBy = " i.price ASC";
+            break;    
+        default: 
+            orderBy = " i.price DESC"
+    }
+    orderBy = " ORDER BY" + orderBy;
+
+    query = query + orderBy + " LIMIT ? OFFSET ?  ";
     whereValue.push(LIMIT);
     whereValue.push(offset);
 
@@ -96,6 +132,7 @@ export async function fetchListCars(req: express.Request, res: express.Response)
                 axiosPapers.push(axiosPaperList);
 
             })
+
             /*
             axiosPapers.map((axiosPaper) => {
                 console.log(axiosPaper.inseratId);

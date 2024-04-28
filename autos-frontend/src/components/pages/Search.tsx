@@ -136,7 +136,7 @@ const Search: React.FC = () => {
     if (event.target.name === "brand") {
       setFormSelect(prevState => ({
         ...prevState,
-        ["model"]: ""
+        ["model"]: SelectFieldEnums.ALL_VALUE
       }));
     }
 

@@ -3,9 +3,9 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import { mainComponentHeight, secondaryColorLight } from "../../../../../themes/ThemeColor";
 import React, { useEffect, useState } from "react";
 import { seperateThousand } from "../../../../../helper/helper";
-import ViewDetailSearch from "../../../ViewDetailSearch";
+import ViewDetailSearch from "../../../ViewDetailSearchAdmin";
 import dayjs from "dayjs";
-import DetailSearchComponent from "../../../searchComponents/DetailSearchComponent";
+import DetailSearchComponent from "../../../ViewDetailSearch";
 
 interface PublishListProps {
     listItems: any[] | null
@@ -44,7 +44,7 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
     <Box sx={{ width: '100%' }}>
         <ViewListComponent />
         {
-            viewCarComponent ? <DetailSearchComponent id={inserateId} /> : <></>
+            viewCarComponent ? <ViewDetailSearch id={inserateId} /> : <></>
         }
     </Box>
   )

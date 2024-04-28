@@ -32,7 +32,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
 import Service from './components/pages/Service';
 import ListSearchedCars from './components/pages/ListSearchedCars';
-import DetailSearchComponent from './components/pages/searchComponents/DetailSearchComponent';
+import DetailSearchComponent from './components/pages/ViewDetailSearch';
 
 const App: React.FC = () => {
 

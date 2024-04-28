@@ -1,8 +1,10 @@
 import { pool } from '../dbConnect.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { SelectFieldEnums } from '../enums/SelectFieldEnums.js';
+import { SortEnums } from '../enums/SortEnums.js';
 export async function fetchListCars(req, res) {
-    const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, offset, LIMIT } = req.query;
+    const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, offset, LIMIT, sorttype } = req.query;
+    console.log("Sort type: " + sorttype);
     const whereClause = [" i.inserate_id = ic.inserate_id AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id AND td.fuel_id = f.fuel_id AND td.vehicle_condition_id = vc.vehicle_condition_id AND td.transmission_id = t.transmission_id AND td.cartype_id = ct.cartype_id "];
     const whereValue = [];
     const attributes = " i.inserate_id, b.brand, m.model, i.price, ad.city, fs.federal_state, td.vehicle_owners, td.mileage_km, td.registration_year, td.registration_month, td.power_ps, f.fuel, vc.fit_to_drive, t.transmission, ct.cartype, u.is_car_dealer ";
@@ -52,7 +54,40 @@ export async function fetchListCars(req, res) {
     whereClause.map((clause) => {
         query = query + clause;
     });
-    query = query + " ORDER BY td.mileage_km LIMIT ? OFFSET ?  ";
+    let orderBy = "";
+    switch (sorttype) {
+        case SortEnums.EZ_DOWN:
+            orderBy = " td.registration_year DESC, td.registration_month DESC";
+            break;
+        case SortEnums.EZ_UP:
+            orderBy = " td.registration_year ASC, td.registration_month ASC";
+            break;
+        case SortEnums.KM_DOWN:
+            orderBy = " td.mileage_km DESC";
+            break;
+        case SortEnums.KM_UP:
+            orderBy = " td.mileage_km ASC";
+            break;
+        case SortEnums.INSREATE_DOWN:
+            orderBy = " ii.inserate_date DESC";
+            break;
+        case SortEnums.INSREATE_UP:
+            orderBy = " ii.inserate_date ASC";
+            break;
+        case SortEnums.POWER_DOWN:
+            orderBy = " td.power_ps DESC";
+            break;
+        case SortEnums.POWER_UP:
+            orderBy = " td.power_ps ASC";
+            break;
+        case SortEnums.PRICE_UP:
+            orderBy = " i.price ASC";
+            break;
+        default:
+            orderBy = " i.price DESC";
+    }
+    orderBy = " ORDER BY" + orderBy;
+    query = query + orderBy + " LIMIT ? OFFSET ?  ";
     whereValue.push(LIMIT);
     whereValue.push(offset);
     let connection;

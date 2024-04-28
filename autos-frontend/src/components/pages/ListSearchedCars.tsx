@@ -12,8 +12,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import SelectField from '../formularFields/SelectField';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { SortEnums } from '../../../../autos-backend/src/enums/SortEnums';
 
-const LIMIT = 2;
+const LIMIT = 5;
 
 export default function ListSearchedCars() {
 
@@ -29,7 +30,7 @@ export default function ListSearchedCars() {
   const [offset, setOffset] = useState<number>(0);
 
   // sort
-  const [selectedSort, setSelectedSort] = useState<string>("kmup");
+  const [selectedSort, setSelectedSort] = useState<string>(SortEnums.PRICE_DOWN);
 
   // ----- Pagination ------
   const [page, setPage] = useState<number>(1);
@@ -88,10 +89,11 @@ useEffect(() => {
         const dateFrom = searchParams.get('dateFrom');
         const dateTo = searchParams.get('dateTo');
         const price = searchParams.get('price');
+        const sorttype = selectedSort;
 
         const response = await axios.get<AxiosPaperList[]>(URLs.ORIGIN_SERVER + URLs.FETCH_LIST_CARS, {
           withCredentials: true,
-          params: { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, LIMIT, offset  }
+          params: { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, LIMIT, offset, sorttype  }
         })
         const data = response.data;
         setCars(data);
@@ -103,7 +105,7 @@ useEffect(() => {
     }
     
     fetchFromServer();
-  }, [ page ])
+  }, [ page, selectedSort ])
 
    const handleChangeSort = (event: SelectChangeEvent) => {
     const sortId = event.target.value as string;
@@ -152,20 +154,20 @@ useEffect(() => {
           label={"Sortieren"}
           onChange={ handleChangeSort }
           >
-            <MenuItem value={"ezup"}>Erstzulassung <ArrowUpwardIcon fontSize='small'/></MenuItem>
-            <MenuItem value={"ezdown"}>Erstzulassung <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={ SortEnums.EZ_UP }>Erstzulassung <ArrowUpwardIcon fontSize='small'/></MenuItem>
+            <MenuItem value={ SortEnums.EZ_DOWN }>Erstzulassung <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr />
-            <MenuItem value={"kmup"}>Kilometerstand <ArrowUpwardIcon fontSize='small' /></MenuItem>
-            <MenuItem value={"kmdown"}>Kilometerstand <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={ SortEnums.KM_UP }>Kilometerstand <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={ SortEnums.KM_DOWN }>Kilometerstand <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr />
-            <MenuItem value={"inserateup"}>Inserate <ArrowUpwardIcon fontSize='small' /></MenuItem>
-            <MenuItem value={"inseratedown"}>Inserate <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={ SortEnums.INSREATE_UP }>Inserate <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={ SortEnums.INSREATE_DOWN }>Inserate <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr/>
-            <MenuItem value={"powerup"}>Leistung <ArrowUpwardIcon fontSize='small' /></MenuItem>
-            <MenuItem value={"powerdown"}>Leistung <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={ SortEnums.POWER_UP }>Leistung <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={ SortEnums.POWER_DOWN }>Leistung <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr />
-            <MenuItem value={"preisup"}>Preis <ArrowUpwardIcon fontSize='small' /></MenuItem>
-            <MenuItem value={"preisdown"}>Preis <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={ SortEnums.PRICE_UP }>Preis <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={ SortEnums.PRICE_DOWN }>Preis <ArrowDownwardIcon fontSize='small' /></MenuItem>
 
           </Select>
           
