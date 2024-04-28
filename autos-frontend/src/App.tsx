@@ -32,6 +32,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
 import Service from './components/pages/Service';
 import ListSearchedCars from './components/pages/ListSearchedCars';
+import DetailSearchComponent from './components/pages/searchComponents/DetailSearchComponent';
 
 const App: React.FC = () => {
 
@@ -55,6 +56,7 @@ const App: React.FC = () => {
         { path: URLs.FETCH_INSERATE_PUBLISH, element: <ProtectedRoute role={ Roles.ADMIN }> <PublishInserate /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_BRAND, element: <ProtectedRoute role={Roles.ADMIN}> <InsertBrand /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role={Roles.ADMIN}> <InsertModel /> </ProtectedRoute> },
+        { path: URLs.FETCH_DETAIL_SEARCH + "/:id", element: <DetailSearchComponent />, errorElement: <Notfound /> },
         { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> },
         { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> }
       ]

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { seperateThousand } from "../../../../../helper/helper";
 import ViewDetailSearch from "../../../ViewDetailSearch";
 import dayjs from "dayjs";
+import DetailSearchComponent from "../../../searchComponents/DetailSearchComponent";
 
 interface PublishListProps {
     listItems: any[] | null
@@ -43,7 +44,7 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
     <Box sx={{ width: '100%' }}>
         <ViewListComponent />
         {
-            viewCarComponent ? <ViewDetailSearch id={inserateId} /> : <></>
+            viewCarComponent ? <DetailSearchComponent id={inserateId} /> : <></>
         }
     </Box>
   )
