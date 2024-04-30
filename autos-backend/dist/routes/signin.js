@@ -5,6 +5,8 @@ import { createToken } from "../jwt/jwtToken.js";
 import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
 import { Roles } from "../enums/Roles.js";
 import { selectMysqlErrorMessages } from "../helper/messages.js";
+import passport from "./middleware/passport.middleware.js";
+;
 const selectQuery = 'SELECT * FROM account_data WHERE email = ?';
 const selectUser = 'SELECT user_id from user WHERE account_data_id = ?';
 async function performQuery(requestData, res) {
@@ -54,7 +56,34 @@ async function performQuery(requestData, res) {
         connection?.release();
     }
 }
-export default async (req, res) => {
+async (req, res, next) => {
     const requestData = req.body;
-    performQuery(requestData, res);
+    passport.authenticate("local", (err, user, info) => {
+        if (!user) {
+            return res.status(401).json({ message: "Email or password not matched" });
+        }
+        req.login(user, error => {
+            if (error)
+                throw error;
+            res.status(201).json({
+                user,
+            });
+        });
+    });
+};
+export default (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.status(401).json({ message: "Email or password not matched" });
+        }
+        req.login(user, (error) => {
+            if (error) {
+                return next(error);
+            }
+            return res.status(201).json({ user });
+        });
+    })(req, res, next);
 };

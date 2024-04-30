@@ -9,7 +9,6 @@ import CarImages from './dashboards/admin/components/CarImages';
 import { ShowComponent } from './searchComponents/ShowComponent';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
-import SelectField from '../formularFields/SelectField';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { SortEnums } from '../../../../autos-backend/src/enums/SortEnums';

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction } from "express";
 import { pool } from "../dbConnect.js";
 import LoginUser from "../interfaces/LoginUser.js";
 import { RowDataPacket } from "mysql2";
@@ -11,6 +11,7 @@ import { AuthResponse } from "../interfaces/auth/AuthResponse.js";
 import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
 import { Roles } from "../enums/Roles.js";
 import { selectMysqlErrorMessages } from "../helper/messages.js";
+import passport from "./middleware/passport.middleware.js";;
 
 const selectQuery: string = 'SELECT * FROM account_data WHERE email = ?';
 const selectUser: string = 'SELECT user_id from user WHERE account_data_id = ?';
@@ -77,8 +78,40 @@ async function performQuery(requestData: SignInForm, res: express.Response){
     
 }
 
-export default async (req: express.Request, res: express.Response) => {
+ async (req: express.Request, res: express.Response, next: NextFunction) => {
     const requestData: SignInForm = req.body;
-    performQuery(requestData, res);
 
+    passport.authenticate("local", (err: any, user: any, info: any) => {
+        if(!user) {
+            return res.status(401).json({ message: "Email or password not matched" })
+        }
+
+        req.login(user, error => {
+            if(error) throw error;
+            res.status(201).json({
+                user,
+
+            })
+        })
+    })
+
+    //performQuery(requestData, res);
 }
+
+
+export default (req: express.Request, res: express.Response, next: NextFunction) => {
+    passport.authenticate("local", (err: any, user: any, info: any) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.status(401).json({ message: "Email or password not matched" });
+        }
+        req.login(user, (error) => {
+            if (error) {
+                return next(error);
+            }
+            return res.status(201).json({ user });
+        });
+    })(req, res, next);
+};

@@ -1,4 +1,5 @@
 import express from "express";
+import { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import signin from "./routes/signin.js";
 import signupUser from "./routes/signupUser.js";
@@ -24,6 +25,9 @@ import postPublish from "./routes/dashboard/postPublish.js";
 import emailCheck from "./routes/emailCheck.js";
 import deleteToken from "./jwt/deleteToken.js";
 import { fetchListCars } from "./routes/fetchListCars.js";
+// passport.js
+import sessionMiddleware from "./routes/middleware/session.middleware.js";
+import passport from "./routes/middleware/passport.middleware.js";
 
 const app = express();
 
@@ -34,14 +38,23 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.get(URLs.GET_CHECK_AUTH, authenticate);
+app.use(sessionMiddleware);
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get("/api/demo", (req, res) => {
+  console.log("Is authenticated: " + req.isAuthenticated());
+  res.json({sessionId: req.sessionID})
+});
 
 app.post(URLs.POST_SIGINUP, signupUser);
 app.post(URLs.POST_SIGINUP_EMAILCHECK, emailCheck);
-
 app.post(URLs.POST_SIGNIN, signin);
+
+//app.get(URLs.GET_CHECK_AUTH, authenticate);
 
 app.post(URLs.POST_INSERATE_CAR, authenticateNext, inserateCar);
 app.get(URLs.POST_INSERATE_CAR, authenticateNext, inserateCar);
