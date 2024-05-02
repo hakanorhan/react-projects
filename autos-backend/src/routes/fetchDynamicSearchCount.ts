@@ -6,11 +6,12 @@ import { selectMysqlErrorMessages } from "../helper/messages.js";
 
 // disable autocommit and perform transaction
 export async function performQueryGet(req: express.Request, res: express.Response) {
-
+    console.log("session: " + JSON.stringify(req.session.id));
+    
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;
 
     //console.log(" " + brandid + " " + modelid + " " + price + " " + cartypeid + " " + blandid + " dateFrom: " + dateFrom + " dateTo: " + dateTo)
-    console.log("model id: " + modelid);
+    console.log("fetchDynamicSearch - model id: " + modelid);
 
     const whereClause: string[] = [" i.inserate_id = ic.inserate_id AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id "];
     const whereValue: any[] = [];

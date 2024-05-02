@@ -1,5 +1,4 @@
 import { pool } from "../dbConnect.js";
-import { verifyUserJwt } from "../jwt/checkAuth.js";
 import { insertMysqlErrorMessages } from "../helper/messages.js";
 const INSERT_INSERATE_INFO = "INSERT INTO inserate_info (user_id) VALUES(?)";
 const INSERT_INSERATE_CHECK = "INSERT INTO inserate_check (inserate_id) VALUES(?)";
@@ -9,10 +8,8 @@ const INSERT_INTO_TECH_DESCRIPTION = "INSERT INTO technical_description (power_p
 const INSERT_INSERATE = "INSERT INTO inserate (price, model_id, technical_description_id, inserate_info_id) VALUES(?, ?, ?, ?)";
 const INSERT_FEATURE = "INSERT INTO feature (abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent) VALUES(?, ?, ?, ?)";
 export default async (req, res) => {
-    const accessToken = req.cookies.jwt;
-    const token = await verifyUserJwt(accessToken);
     const data = req.body;
-    performQuery(data, token.id, res);
+    performQuery(data, "2", res);
 };
 async function performQuery(data, userId, res) {
     const inserateSelect = data.inserateSelect;

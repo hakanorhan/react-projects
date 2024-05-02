@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
 import { notifyError } from '../../helper/toastHelper';
 import { RootState } from '../../redux/store';
+import { UserInformation } from '../../../../autos-backend/src/interfaces/auth/UserInformation';
 
 interface ProtectedRoteProps {
     children: ReactNode,
@@ -20,35 +21,34 @@ const ProtectedRoute = ({ children, role } : ProtectedRoteProps) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const checkToken = async() => {
+        setLoading(true);
+        const checkAuth = async() => {
             try {
-                const response = await axios.get<AuthResponse>(URLs.ORIGIN_SERVER + URLs.GET_CHECK_AUTH, { withCredentials: true });
-                const authed = response.data.authenticated;
-                dispatch(setUserLoggedIn(authed));
-                const authRole = response.data.role;
+                const response = await axios.get<UserInformation>(URLs.ORIGIN_SERVER + URLs.AUTHENTICATION_USER, { withCredentials: true });
+                const authResponse: AuthResponse = response.data;
+                const logged = authResponse.authenticated;
+                dispatch(setUserLoggedIn(logged));
+                const authRole = authResponse.role;
                 dispatch(setRole(authRole));
+                setLoading(false);
 
-        } catch(error) {
+        } catch(error: any) {
             console.log(error);
-        } finally{
-            setLoading(false)
-        }
-        }
-        checkToken();
-        
-    }, [])
+            const authResponse: AuthResponse = error.response.data;
+            const logged = authResponse.authenticated;
+                dispatch(setUserLoggedIn(logged));
+                const authRole = authResponse.role;
+                dispatch(setRole(authRole));
+                setLoading(false);
 
-    if(loading) {
-        return <p>Loading...</p>
-    }
-    if(userLoggedStatus.userLoggedIn && role === userLoggedStatus.role) {
+        } 
+        }
+        checkAuth();
         
-        return children
-    } else {
-        dispatch(setRole(Roles.NULL));
-        dispatch(setUserLoggedIn(false));
-        return <Navigate to= { URLs.POST_SIGNIN } />
-    }
+    }, [dispatch])
+    // TODO: loading
+    return loading ? <div style={{ width:'500px', height:'600px', backgroundColor:'yellow' }}>Hallo</div> : userLoggedStatus.userLoggedIn && role === userLoggedStatus.role
+        ? children : <Navigate to= { URLs.POST_SIGNIN } />
 };
 
 export default ProtectedRoute;

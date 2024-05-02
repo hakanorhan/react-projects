@@ -27,16 +27,16 @@ const findOne = async (email: string): Promise<User | null> => {
 
         return user;
     } catch (error) {
-        console.log(error)
+        console.log(error);
         return null;
     }
 }
 
-const findById = async (id:string): Promise<User | null> => {
+const findById = async (id:number): Promise<User | null> => {
     let connection;
     try {
         connection = await pool.getConnection();
-        const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE u.id = ? AND ad.account_data_id = u.account_data_id", [id]);
+        const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE u.user_id = ? AND ad.account_data_id = u.account_data_id", [id]);
         const result = queryResult as RowDataPacket[];
         const resultUserId = result[0][0].user_id;
         const resultPassword = result[0][0].password_secret;
@@ -58,26 +58,37 @@ passport.use(new LocalStrategy({
 },
     async (email, password, done) => {
         const user = await findOne(email);
-
         // if user with email exist
         if (user) {
             bcrypt.compare(password, user.password).then(result => {
                 if (result) done(null, user);
                 else done(null, false);
             })
+        } else {
+            done(null, false, { message: "Falsche email!" });
         }
     }
 ));
 
 passport.serializeUser((user: any, done) => {
     console.log("serialize User");
-    done(null, user.id);
+    const serializedUser = {
+        id: user.id,
+        role: user.role
+    }
+    done(null, serializedUser);
 });
 
-passport.deserializeUser(async (id: string, done: any) => {
+passport.deserializeUser(async (user: any, done: any) => {
+    
+    const serializedUserObject = {
+        id: user.id,
+        role: user.role
+    }
+    
     try {
-    const user: User | null = await findById(id);
-    done(null, user);
+    const serializedUser: User | null = await findById( serializedUserObject.id );
+    done(null, serializedUser);
     } catch(error) {
         done(error, null);
     }

@@ -1,15 +1,13 @@
-import { pool } from "../dbConnect.js";
-import bcrypt from 'bcrypt';
-import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-import { createToken } from "../jwt/jwtToken.js";
-import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
 import { Roles } from "../enums/Roles.js";
+import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
+import { pool } from "../dbConnect.js";
+import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
+import bcrypt from 'bcrypt';
 import { selectMysqlErrorMessages } from "../helper/messages.js";
-import passport from "./middleware/passport.middleware.js";
-;
 const selectQuery = 'SELECT * FROM account_data WHERE email = ?';
 const selectUser = 'SELECT user_id from user WHERE account_data_id = ?';
-async function performQuery(requestData, res) {
+export default async (req, res) => {
+    const requestData = req.body;
     const { email, password } = requestData;
     let connection;
     if (!REGEX_EMAIL.test(email) && !REGEX_PASSWORD.test(password)) {
@@ -37,8 +35,7 @@ async function performQuery(requestData, res) {
                     role: accountRole
                 };
                 if (resultId) {
-                    const accessToken = createToken(resultId, resultEmail, accountRole);
-                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 });
+                    req.session.isAuth = true;
                     res.status(200).json(authResponse);
                 }
                 else
@@ -55,35 +52,4 @@ async function performQuery(requestData, res) {
     finally {
         connection?.release();
     }
-}
-async (req, res, next) => {
-    const requestData = req.body;
-    passport.authenticate("local", (err, user, info) => {
-        if (!user) {
-            return res.status(401).json({ message: "Email or password not matched" });
-        }
-        req.login(user, error => {
-            if (error)
-                throw error;
-            res.status(201).json({
-                user,
-            });
-        });
-    });
-};
-export default (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
-        if (err) {
-            return next(err);
-        }
-        if (!user) {
-            return res.status(401).json({ message: "Email or password not matched" });
-        }
-        req.login(user, (error) => {
-            if (error) {
-                return next(error);
-            }
-            return res.status(201).json({ user });
-        });
-    })(req, res, next);
 };

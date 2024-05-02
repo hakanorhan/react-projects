@@ -1,9 +1,7 @@
 import express from "express";
-import jwt, { VerifyErrors } from 'jsonwebtoken';
 import { ResultSetHeader } from "mysql2";
 import { pool } from "../dbConnect.js";
 import { AxiosDataInserate as AxiosDataInserateRequest, AxiosInserateResponse } from "../interfaces/IAxiosData.js";
-import { DecodedToken, verifyUserJwt } from "../jwt/checkAuth.js";
 import { insertMysqlErrorMessages } from "../helper/messages.js";
 
 const INSERT_INSERATE_INFO: string = "INSERT INTO inserate_info (user_id) VALUES(?)";
@@ -15,12 +13,12 @@ const INSERT_INSERATE = "INSERT INTO inserate (price, model_id, technical_descri
 const INSERT_FEATURE = "INSERT INTO feature (abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent) VALUES(?, ?, ?, ?)";
 
 export default async (req: express.Request, res: express.Response) => {
-    const accessToken = req.cookies.jwt;
+    
 
-    const token: DecodedToken = await verifyUserJwt(accessToken);
     const data: AxiosDataInserateRequest = req.body;
     // TODO: message user not authenticated
-    performQuery(data, token.id, res)
+    // TODO: userId
+    performQuery(data, "2",res)
     
 }
 

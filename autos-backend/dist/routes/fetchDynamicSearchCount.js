@@ -2,8 +2,9 @@ import { pool } from "../dbConnect.js";
 import { SelectFieldEnums } from "../enums/SelectFieldEnums.js";
 import { selectMysqlErrorMessages } from "../helper/messages.js";
 export async function performQueryGet(req, res) {
+    console.log("session: " + JSON.stringify(req.session.id));
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;
-    console.log("model id: " + modelid);
+    console.log("fetchDynamicSearch - model id: " + modelid);
     const whereClause = [" i.inserate_id = ic.inserate_id AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id "];
     const whereValue = [];
     let query = "SELECT COUNT(i.inserate_id) AS count FROM inserate i, inserate_check ic, inserate_info ii, brand b, model m, cartype ct, technical_description td, user u, personal_data pd, address ad, federal_state fs ";

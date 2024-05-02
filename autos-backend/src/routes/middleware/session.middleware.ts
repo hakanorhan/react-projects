@@ -8,18 +8,40 @@ import { pool } from '../../dbConnect.js';
 
 const sessionStore: any = new MySQLStore({
     clearExpired: true,
-    checkExpirationInterval: 5_000, // 5 sekunden
-    expiration: 15_000,
+    checkExpirationInterval: 447_000_000, 
+    expiration: 150_000_000,
+    
     createDatabaseTable: true // create table if not exists
 }, pool);
 
+sessionStore.setMaxListeners(5);
+
+/*
 const sessionMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    return session({
+     session({
         secret: "secret", // TODO: .env
         resave: false,
         saveUninitialized: false,
         store: sessionStore
-    })(req, res, next);
+    })(req, res, next);;
+
 };
+*/
+const sessionMiddleware = session({
+    secret: "secret", // TODO: .env
+        resave: false,
+        saveUninitialized: false,
+        store: sessionStore
+});
+
+export const sessionAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.session.isAuth)
+    if(req.session.isAuth) {
+        
+        next();
+    } else {
+        res.status(401).json({ message: "Not austhenticated!" });
+    }
+}
 
 export default sessionMiddleware;

@@ -25,7 +25,7 @@ const findById = async (id) => {
     let connection;
     try {
         connection = await pool.getConnection();
-        const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE u.id = ? AND ad.account_data_id = u.account_data_id", [id]);
+        const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE u.user_id = ? AND ad.account_data_id = u.account_data_id", [id]);
         const result = queryResult;
         const resultUserId = result[0][0].user_id;
         const resultPassword = result[0][0].password_secret;
@@ -52,15 +52,26 @@ passport.use(new LocalStrategy({
                 done(null, false);
         });
     }
+    else {
+        done(null, false, { message: "Falsche email!" });
+    }
 }));
 passport.serializeUser((user, done) => {
     console.log("serialize User");
-    done(null, user.id);
+    const serializedUser = {
+        id: user.id,
+        role: user.role
+    };
+    done(null, serializedUser);
 });
-passport.deserializeUser(async (id, done) => {
+passport.deserializeUser(async (user, done) => {
+    const serializedUserObject = {
+        id: user.id,
+        role: user.role
+    };
     try {
-        const user = await findById(id);
-        done(null, user);
+        const serializedUser = await findById(serializedUserObject.id);
+        done(null, serializedUser);
     }
     catch (error) {
         done(error, null);

@@ -24,5 +24,6 @@ export var URLs;
     URLs["FETCH_IMAGENAMES"] = "/fetch-imagenames";
     URLs["FETCH_BUNDESLAENDER"] = "/fetch-bundeslaender";
     URLs["FETCH_LIST_CARS"] = "/listcars";
-    URLs["DELETE_TOKEN"] = "/api/deletetoken";
+    URLs["LOGOUT"] = "/logout";
+    URLs["AUTHENTICATION_USER"] = "/authenticate-user";
 })(URLs || (URLs = {}));

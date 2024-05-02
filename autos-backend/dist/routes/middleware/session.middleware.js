@@ -7,16 +7,24 @@ const MySQLStore = require('express-mysql-session')(session);
 import { pool } from '../../dbConnect.js';
 const sessionStore = new MySQLStore({
     clearExpired: true,
-    checkExpirationInterval: 900000,
-    expiration: 86400000,
+    checkExpirationInterval: 447000000,
+    expiration: 150000000,
     createDatabaseTable: true
 }, pool);
-const sessionMiddleware = (req, res, next) => {
-    return session({
-        secret: "secret",
-        resave: false,
-        saveUninitialized: false,
-        store: sessionStore
-    })(req, res, next);
+sessionStore.setMaxListeners(5);
+const sessionMiddleware = session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore
+});
+export const sessionAuthMiddleware = (req, res, next) => {
+    console.log(req.session.isAuth);
+    if (req.session.isAuth) {
+        next();
+    }
+    else {
+        res.status(401).json({ message: "Not austhenticated!" });
+    }
 };
 export default sessionMiddleware;

@@ -3,20 +3,13 @@ import { Box, Button, Grid } from '@mui/material';
 import axios from 'axios';
 import { SearchContainer, buttonHeight, mainComponentHeight, primaryColorMain } from '../../themes/ThemeColor';
 
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import ListItemText from '@mui/material/ListItemText';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
-
+import { SelectChangeEvent } from '@mui/material/Select';
 import { useSpring, animated } from 'react-spring';
 import SelectField from '../formularFields/SelectField';
 import { useEffectFetch, useEffectModel } from '../../helper/DataLoading';
@@ -26,7 +19,6 @@ import { SelectFieldEnums } from '../../../../autos-backend/src/enums/SelectFiel
 import { createSearchParams, useNavigate } from 'react-router-dom';
 
 const searchButtonText = " Treffer";
-const allComponents = " - Beliebig -";
 
 const Search: React.FC = () => {
 
@@ -80,8 +72,8 @@ const Search: React.FC = () => {
     async function fetchData() {
       try {
         const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_STATIC_DATA, { withCredentials: true })
-
         if (response.data) {
+
           const tableValues = response.data.tableValues;
 
           setListFederalState(tableValues.resultBundesland);
@@ -89,14 +81,15 @@ const Search: React.FC = () => {
           setListPrices(tableValues.resultPrices);
         }
       } catch (error) {
-
+        console.log(error)
       }
     }
 
     fetchData();
+    return () => {}
   }, [])
 
-  // fetch data on every select field changes
+  // fetch data on every select field changes, count cars
   React.useEffect(() => {
     handleDynamicSearch();
   }, [formSelect, selectedDateFrom, selectedDateTo])

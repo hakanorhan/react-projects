@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 /* Interfaces */
 import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
 
@@ -7,8 +7,7 @@ import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Box, Button, Typography } from '@mui/material';
 import { MainComponentWidth, HeaderIcon, primaryColorMain, buttonHeight, mainComponentHeight } from '../../../themes/ThemeColor.js';
-
-import { IResponseSignInData } from '..7../../../../autos-backend/src/interfaces/signin/IResponseSignInData.js';
+import { UserInformation } from "../../../../../autos-backend/src/interfaces/auth/UserInformation.js";
 
 import * as validHelper from '../../../helper/validHelper.js';
 
@@ -64,28 +63,21 @@ const SignIn: React.FC = () => {
     } else {
       
       await axios.post<AuthResponse>(URLs.ORIGIN_SERVER + URLs.POST_SIGNIN,
-        form, { withCredentials: true })
+        { email, password }, { withCredentials: true })
         .then(function (response) {
           const authResponse: AuthResponse = response.data;
+
           if (authResponse && authResponse.authenticated) {
             
-            switch (authResponse.role) {
-              case Roles.ADMIN: {
-                dispatch(setRole(authResponse.role));
-                dispatch(setUserLoggedIn(true));
-                // TODO: navigate signin
+            switch(authResponse.role) {
+              case Roles.ADMIN:
                 navigate(URLs.FETCH_INSERATE_PUBLISH);
-              } break;
-              case Roles.USER: {
-                dispatch(setUserLoggedIn(true));
-                dispatch(setRole(authResponse.role));
+                break;
+              case Roles.USER:
                 navigate(URLs.POST_INSERATE_CAR);
-              } break;
-              default : { 
-                notifyError("errorUE", "Unerwarteter Fehler aufgetreten. Bitte versuchen Sies es erneut.")
-                dispatch(setRole(Roles.NULL));
-                dispatch(setUserLoggedIn(false));
-              }
+                break;
+              default:
+                notifyError("error401", "Sie haben keine Berechtigung");
             }
           }
         })

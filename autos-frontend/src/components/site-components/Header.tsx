@@ -76,7 +76,7 @@ export default function Header() {
     if(logout) {
       alert("logour")
 
-      axios.delete(URLs.ORIGIN_SERVER + URLs.DELETE_TOKEN, { withCredentials: true })
+      axios.delete(URLs.ORIGIN_SERVER + URLs.LOGOUT, { withCredentials: true })
         .then(response => {
           navigate(URLs.POST_SIGNIN);
         })

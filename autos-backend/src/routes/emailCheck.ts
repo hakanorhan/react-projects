@@ -1,13 +1,7 @@
 import express from "express";
 import { pool } from "../dbConnect.js";
-import LoginUser from "../interfaces/LoginUser.js";
 import { RowDataPacket } from "mysql2";
-import bcrypt from 'bcrypt';
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-import { IResponseSignInData } from "../interfaces/signin/IResponseSignInData.js";
-import { createToken } from "../jwt/jwtToken.js";
-import { SignInForm } from "../interfaces/IAxiosData.js";
-import { CONSOLE_DEV } from "../globalConfig.js";
 
 const selectQuery: string = 'SELECT email FROM account_data WHERE email = ?';
 

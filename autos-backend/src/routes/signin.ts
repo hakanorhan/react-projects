@@ -1,23 +1,44 @@
 import express, { NextFunction } from "express";
-import { pool } from "../dbConnect.js";
-import LoginUser from "../interfaces/LoginUser.js";
-import { RowDataPacket } from "mysql2";
-import bcrypt from 'bcrypt';
-import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-import { IResponseSignInData } from "../interfaces/signin/IResponseSignInData.js";
-import { createToken } from "../jwt/jwtToken.js";
-import { SignInForm } from "../interfaces/IAxiosData.js";
-import { AuthResponse } from "../interfaces/auth/AuthResponse.js";
-import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
 import { Roles } from "../enums/Roles.js";
+import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
+import { SignInForm } from "../interfaces/IAxiosData.js";
+import { pool } from "../dbConnect.js";
+import { RowDataPacket } from "mysql2";
+import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
+import { AuthResponse } from "../interfaces/auth/AuthResponse.js";
+import bcrypt from 'bcrypt';
 import { selectMysqlErrorMessages } from "../helper/messages.js";
-import passport from "./middleware/passport.middleware.js";;
 
 const selectQuery: string = 'SELECT * FROM account_data WHERE email = ?';
 const selectUser: string = 'SELECT user_id from user WHERE account_data_id = ?';
 
-// disable autocommit and perform transaction
-async function performQuery(requestData: SignInForm, res: express.Response){
+/*
+export default (req: express.Request, res: express.Response, next: NextFunction) => {
+    passport.authenticate("local", (err: any, user: any, info: any) => {
+        // Fehler beim Authentifizieren
+        if (err) {
+            return res.status(500).json({ message: "Internal server error" });
+        }
+        // Benutzer nicht gefunden oder falsches Passwort
+        if (!user) {
+            return res.status(401).json({ message: "Email or password not matched" });
+        }
+        // Erfolgreiche Authentifizierung
+        req.login(user, (error) => {
+            if (error) {
+                return res.status(500).json({ message: "Internal server error" });
+            }
+            // Rollenprüfung und Antwort senden
+            const role = user.role === 'admin' ? 'admin' : 'user';
+            const userInformation = { id: user.id, authenticated: true, role };
+            return res.status(201).json(userInformation);
+        });
+    })(req, res, next);
+};
+*/
+
+export default async (req: express.Request, res: express.Response) => {
+    const requestData: SignInForm = req.body;
 
     const { email, password } = requestData;
     let connection;
@@ -59,10 +80,9 @@ async function performQuery(requestData: SignInForm, res: express.Response){
                         role: accountRole
                     }
                     if(resultId) {
-                    // jwt
-                    const accessToken = createToken(resultId, resultEmail, accountRole);
-                    // milliseconds
-                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000 })
+                    
+                        req.session.isAuth = true;
+
                     res.status(200).json(authResponse);
                     } else return res.status(401).json({message: 'Bitte überprüfen Sie die Eingaben.'}); 
                 } else {
@@ -75,43 +95,5 @@ async function performQuery(requestData: SignInForm, res: express.Response){
     } finally {
         connection?.release();
     }
-    
+
 }
-
- async (req: express.Request, res: express.Response, next: NextFunction) => {
-    const requestData: SignInForm = req.body;
-
-    passport.authenticate("local", (err: any, user: any, info: any) => {
-        if(!user) {
-            return res.status(401).json({ message: "Email or password not matched" })
-        }
-
-        req.login(user, error => {
-            if(error) throw error;
-            res.status(201).json({
-                user,
-
-            })
-        })
-    })
-
-    //performQuery(requestData, res);
-}
-
-
-export default (req: express.Request, res: express.Response, next: NextFunction) => {
-    passport.authenticate("local", (err: any, user: any, info: any) => {
-        if (err) {
-            return next(err);
-        }
-        if (!user) {
-            return res.status(401).json({ message: "Email or password not matched" });
-        }
-        req.login(user, (error) => {
-            if (error) {
-                return next(error);
-            }
-            return res.status(201).json({ user });
-        });
-    })(req, res, next);
-};
