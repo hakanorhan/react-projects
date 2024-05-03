@@ -81,10 +81,9 @@ const SignIn: React.FC = () => {
             }
           }
         })
-        .catch((err) => {
-          const authResponse: AuthResponse = err.response.data;
-          if(authResponse.errorMessage)
-          notifyError("error401", authResponse.errorMessage);
+        .catch((error) => {
+          
+          notifyError("error401", error.response.data);
         });
     }
   }

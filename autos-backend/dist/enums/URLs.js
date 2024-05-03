@@ -13,7 +13,7 @@ export var URLs;
     URLs["FETCH_MODEL"] = "/fetch-model";
     URLs["FETCH_BAUREIHE"] = "/fetchbaureihe";
     URLs["FETCH_CARS"] = "/fetch-cars";
-    URLs["FETCH_STATIC_DATA"] = "/fetch-staticdata";
+    URLs["FETCH_STATIC_CAR_DATA"] = "/fetch-staticdata";
     URLs["FETCH_INSERATE_PUBLISH"] = "/fetch-inserate-publish";
     URLs["FETCH_DETAIL_SEARCH"] = "/detailsuche";
     URLs["HOME_ALL_SEARCH_COUNT"] = "/";

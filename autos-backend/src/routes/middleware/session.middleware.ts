@@ -14,7 +14,6 @@ const sessionStore: any = new MySQLStore({
     createDatabaseTable: true // create table if not exists
 }, pool);
 
-sessionStore.setMaxListeners(5);
 
 /*
 const sessionMiddleware = (req: Request, res: Response, next: NextFunction) => {
@@ -40,7 +39,21 @@ export const sessionAuthMiddleware = (req: Request, res: Response, next: NextFun
         
         next();
     } else {
-        res.status(401).json({ message: "Not austhenticated!" });
+        res.status(401).json({ message: "Nicht authentifiziert!" });
+    }
+}
+
+export function addConnectListener() {
+    if (!sessionStore.listenerCount('connect')) {
+        sessionStore.on('connect', () => {
+        });
+    }
+}
+
+export function addDisconnectListener() {
+    if (!sessionStore.listenerCount('disconnect')) {
+        sessionStore.on('disconnect', () => {
+        });
     }
 }
 

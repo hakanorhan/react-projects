@@ -71,7 +71,7 @@ const Search: React.FC = () => {
   React.useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_STATIC_DATA, { withCredentials: true })
+        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_STATIC_CAR_DATA, { withCredentials: true })
         if (response.data) {
 
           const tableValues = response.data.tableValues;

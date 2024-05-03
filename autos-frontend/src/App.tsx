@@ -61,7 +61,7 @@ const App: React.FC = () => {
         { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> }
       ]
     }
-  ])
+  ]);
 
 
 

@@ -20,7 +20,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ParagraphSideMenu } from '../../themes/ThemeColor';
 
 import type { RootState } from '../../redux/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -32,6 +32,8 @@ import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
 import { notifyError, notifySuccess } from '../../helper/toastHelper';
 import { Link, useNavigate } from 'react-router-dom';
+import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
+import { AuthResponse } from '../../../../autos-backend/src/interfaces/auth/AuthResponse';
 
 const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem' }, color: primaryColorMain, backgroundColor: 'transparent', ':hover': { color: 'orange' }, justifyContent: 'flex-start' };
 
@@ -53,8 +55,32 @@ export default function Header() {
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
+  const dispatch = useDispatch();
   const loggedIn = useSelector((state: RootState) => state.userLoggedIn.userLoggedIn);
   const role = useSelector((state: RootState) => state.userLoggedIn.role)
+
+  React.useEffect(() => {
+    const checkAuth = async() => {
+      try {
+          const response = await axios.get<AuthResponse>(URLs.ORIGIN_SERVER + URLs.AUTHENTICATION_USER, { withCredentials: true });
+          const authResponse: AuthResponse = response.data;
+          const logged = authResponse.authenticated;
+          dispatch(setUserLoggedIn(logged));
+          const authRole = authResponse.role;
+          dispatch(setRole(authRole));
+          alert("Login status: " + logged + " Rolle: " + authRole);
+
+  } catch(error: any) {
+      const authResponse: AuthResponse = error.response.data;
+      const logged = authResponse.authenticated;
+          dispatch(setUserLoggedIn(logged));
+          const authRole = authResponse.role;
+          dispatch(setRole(authRole));
+
+  } 
+  }
+  checkAuth();
+  }, [])
 
   const handleHamburgerMenu = () => {
     setDrawerOpen(true);
@@ -72,17 +98,24 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  React.useEffect(() => {
-    if(logout) {
-      alert("logour")
+  async function logoutLogin() {
+
+    if(loggedIn) {
 
       axios.delete(URLs.ORIGIN_SERVER + URLs.LOGOUT, { withCredentials: true })
         .then(response => {
-          navigate(URLs.POST_SIGNIN);
+            dispatch(setUserLoggedIn(false));
+            navigate(URLs.HOME_ALL_SEARCH_COUNT);
         })
-        .catch(error => console.log(error)) 
+        .catch(error => {
+          alert("Error")
+          
+        }) 
+    } else {
+      navigate(URLs.POST_SIGNIN);
     }
-  }, [logout])
+  }
+    
 
   // -------------------------------------- ADMIN ----------------------------------------------------------
   const AccordionHinzufuegen = () => {
@@ -249,7 +282,7 @@ export default function Header() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={() => { setLogout(true); handleClose()}}>{(loggedIn) ? "Abmelden" : "Anmelden"}</MenuItem>
+              <MenuItem onClick={() => { logoutLogin(); handleClose()}}>{(loggedIn) ? "Abmelden" : "Anmelden"}</MenuItem>
               
               {/* <MenuItem onClick={(() => { handleClose(); (loggedIn) ? navigate('/signin') : navigate('/signin'); })}> {loggedIn ? "Abmelden" : "Anmelden" } </MenuItem> */}
             </Menu>

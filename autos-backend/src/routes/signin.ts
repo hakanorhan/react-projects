@@ -8,35 +8,22 @@ import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
 import { AuthResponse } from "../interfaces/auth/AuthResponse.js";
 import bcrypt from 'bcrypt';
 import { selectMysqlErrorMessages } from "../helper/messages.js";
+import passport from "./middleware/passport.middleware.js";
 
 const selectQuery: string = 'SELECT * FROM account_data WHERE email = ?';
 const selectUser: string = 'SELECT user_id from user WHERE account_data_id = ?';
 
-/*
-export default (req: express.Request, res: express.Response, next: NextFunction) => {
-    passport.authenticate("local", (err: any, user: any, info: any) => {
-        // Fehler beim Authentifizieren
-        if (err) {
-            return res.status(500).json({ message: "Internal server error" });
-        }
-        // Benutzer nicht gefunden oder falsches Passwort
-        if (!user) {
-            return res.status(401).json({ message: "Email or password not matched" });
-        }
-        // Erfolgreiche Authentifizierung
-        req.login(user, (error) => {
-            if (error) {
-                return res.status(500).json({ message: "Internal server error" });
-            }
-            // Rollenprüfung und Antwort senden
-            const role = user.role === 'admin' ? 'admin' : 'user';
-            const userInformation = { id: user.id, authenticated: true, role };
-            return res.status(201).json(userInformation);
-        });
-    })(req, res, next);
-};
-*/
 
+export default async (req: express.Request, res: express.Response) => {
+    const id = (req.user as any).id;
+    const role = (req.user as any).role;
+    console.log("id: " + id + "rolle: " + role);
+    const authResponse: AuthResponse = { authenticated: true,  role };
+    res.status(201).json( authResponse );
+};
+
+
+/*
 export default async (req: express.Request, res: express.Response) => {
     const requestData: SignInForm = req.body;
 
@@ -71,21 +58,30 @@ export default async (req: express.Request, res: express.Response) => {
             const resultUser = queryUserId as RowDataPacket[];
             const resultId = resultUser[0][0].user_id;
 
+            const authResponse: AuthResponse = {
+                authenticated: true,
+                role: accountRole
+            }
 
             bcrypt.compare(password, resultPassword).then(result => {
                 if(result) {
-
-                    const authResponse: AuthResponse = {
-                        authenticated: true,
-                        role: accountRole
-                    }
+       
                     if(resultId) {
-                    
+                        console.log("signin: " + "Signin success");
+                        console.log("Rolle: " + authResponse.role + " Logged status: " + authResponse.authenticated);
                         req.session.isAuth = true;
 
-                    res.status(200).json(authResponse);
-                    } else return res.status(401).json({message: 'Bitte überprüfen Sie die Eingaben.'}); 
+                    res.status(201).json(authResponse);
+                    } else {
+                        authResponse.authenticated = false;
+                        authResponse.role = Roles.NULL; 
+                        console.log("signin: " + "Signin error");
+                        return res.status(401).json({message: 'Bitte überprüfen Sie die Eingaben.'})
+                    }; 
                 } else {
+                    authResponse.authenticated = false;
+                    authResponse.role = Roles.NULL;
+                    console.log("signin: " + "Signin error");
                     return res.status(401).json({message: 'Bitte überprüfen Sie die Eingaben.'});
                 }
             })
@@ -96,4 +92,4 @@ export default async (req: express.Request, res: express.Response) => {
         connection?.release();
     }
 
-}
+} */

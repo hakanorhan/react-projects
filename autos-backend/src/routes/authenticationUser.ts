@@ -4,12 +4,17 @@ import { Roles } from "../enums/Roles.js";
 import { AuthResponse } from "../interfaces/auth/AuthResponse.js";
 
 export default function (req: Request, res: Response) {
-    if (req.session.isAuth) {
-        const authResponse: AuthResponse = { role: Roles.USER, authenticated: true };
+    console.log("###############")
+    
+        if(req.isAuthenticated()) {
+            const id = (req.user as any).id;
+            const role = (req.user as any).role;
+            console.log("id: " + id + "rolle: " + role + " is authenticated: " + req.isAuthenticated());
+            
+        const authResponse: AuthResponse = { role, authenticated: true };
         res.status(201).json(authResponse)
-    }
-    else {
+        } else {
         const authResponse: AuthResponse = { role: Roles.NULL, authenticated: false };
         res.status(401).json(authResponse)
-    }
+        }
 }

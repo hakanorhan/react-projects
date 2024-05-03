@@ -23,12 +23,19 @@ import postPublish from "./routes/dashboard/postPublish.js";
 import emailCheck from "./routes/emailCheck.js";
 import logout from "./routes/logout.js";
 import { fetchListCars } from "./routes/fetchListCars.js";
-import { createRequire } from 'module';
-import sessionMiddleware, { sessionAuthMiddleware } from "./routes/middleware/session.middleware.js";
+import passport from "./routes/middleware/passport.middleware.js";
 import authenticationUser from "./routes/authenticationUser.js";
-const require = createRequire(import.meta.url);
+import { addConnectListener, addDisconnectListener } from "./routes/middleware/session.middleware.js";
+import sessionMiddleware from "./routes/middleware/session.middleware.js";
 const app = express();
+app.use((req, res, next) => {
+    addConnectListener();
+    addDisconnectListener();
+    next();
+});
 app.use(sessionMiddleware);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cors({
     credentials: true,
     origin: URLs.ORIGIN_CLIENT,
@@ -37,16 +44,18 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 app.get("/demo", (req, res) => {
-    console.log("session: " + JSON.stringify(req.session.id));
-    req.session.isAuth = true;
+    console.log("/demo session: " + JSON.stringify(req.session.id));
+    console.log("/demo passport.js " + req.isAuthenticated());
     res.json({ message: "Hello session" });
 });
 app.post(URLs.POST_SIGINUP, signupUser);
 app.post(URLs.POST_SIGINUP_EMAILCHECK, emailCheck);
-app.post(URLs.POST_SIGNIN, signin);
-app.post(URLs.POST_INSERATE_CAR, sessionAuthMiddleware, inserateCar);
-app.get(URLs.POST_INSERATE_CAR, sessionAuthMiddleware, inserateCar);
+app.post(URLs.POST_SIGNIN, passport.authenticate('local'), signin);
+app.post(URLs.POST_INSERATE_CAR, passport.authenticate('local'), inserateCar);
+app.get(URLs.POST_INSERATE_CAR, passport.authenticate('local'), inserateCar);
 app.get(URLs.FETCH_INSERATE_PUBLISH, fetchInserateForPublish);
 app.post(URLs.POST_INSERT_BRAND, writeBrand);
 app.get(URLs.FETCH_BRAND, fetchBrand);
@@ -54,7 +63,7 @@ app.post(URLs.FETCH_MODEL, fetchModel);
 app.get(URLs.FETCH_COUNT, dynamicSearchCount);
 app.post(URLs.POST_INSERT_MODEL, writeModel);
 app.post(URLs.POST_PUBLISH, postPublish);
-app.get(URLs.FETCH_STATIC_DATA, fetchStaticData);
+app.get(URLs.FETCH_STATIC_CAR_DATA, fetchStaticData);
 app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
 app.get(URLs.FETCH_BUNDESLAENDER, fetchBuendeslaender);
 app.get(URLs.FETCH_IMAGENAMES + "/:id", fetchImageNames);

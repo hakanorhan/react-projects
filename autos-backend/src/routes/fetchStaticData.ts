@@ -14,6 +14,8 @@ const selectQueryPrices: string = 'SELECT * FROM price';
 //const selectQuery: string = 'SELECT brands.brandid, brands.marke, models.modell, models.modelid FROM brands JOIN models ON brands.brandid = models.brandid';
 
 export default async (req: express.Request, res: express.Response) => {
+    const isAuthenticated = req.isAuthenticated();
+
     let connection = await pool.getConnection();
     try {
         // brands
@@ -46,7 +48,7 @@ export default async (req: express.Request, res: express.Response) => {
         const resultPrices = queryResultPrices[0] as RowDataPacket[];
 
         return res.status(200).json({ message: 'Data send',
-             tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices }});
+             tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices, isAuthenticated }});
     } catch (error: any) {
         console.log("Error:", error);
         selectMysqlErrorMessages(error.code, res);

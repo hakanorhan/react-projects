@@ -13,26 +13,31 @@ export interface User {
 }
 
 const findOne = async (email: string): Promise<User | null> => {
+    console.log("findOne: " + email)
     let connection;
     try {
         connection = await pool.getConnection();
         const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE ad.email = ? AND ad.account_data_id = u.account_data_id", [email]);
         const result = queryResult as RowDataPacket[];
         const resultUserId = result[0][0].user_id;
+        console.log("findOne: " + resultUserId)
         const resultPassword = result[0][0].password_secret;
         const resultEmail = result[0][0].email;
         const accountRole = result[0][0].account_role;
 
         const user: User = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER }
-
+        connection.release();
         return user;
     } catch (error) {
-        console.log(error);
+        // TODO: handle user not found
+        console.log("findOne: " + "user nicht gefunden!")
+        //console.log(error);
         return null;
     }
 }
 
 const findById = async (id:number): Promise<User | null> => {
+    console.log("findbyid: " + id);
     let connection;
     try {
         connection = await pool.getConnection();
@@ -44,7 +49,7 @@ const findById = async (id:number): Promise<User | null> => {
         const accountRole = result[0][0].account_role;
 
         const user: User = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER }
-
+        connection.release();
         return user;
     } catch (error) {
         console.log(error)
@@ -60,11 +65,14 @@ passport.use(new LocalStrategy({
         const user = await findOne(email);
         // if user with email exist
         if (user) {
+            console.log("User ist registriert")
             bcrypt.compare(password, user.password).then(result => {
-                if (result) done(null, user);
+                if (result) {
+                    done(null, user)}
                 else done(null, false);
             })
         } else {
+            console.log("findOne ->Local-Strategy: user nicht gefunden!")
             done(null, false, { message: "Falsche email!" });
         }
     }
@@ -72,22 +80,13 @@ passport.use(new LocalStrategy({
 
 passport.serializeUser((user: any, done) => {
     console.log("serialize User");
-    const serializedUser = {
-        id: user.id,
-        role: user.role
-    }
-    done(null, serializedUser);
+    
+    done(null, user.id);
 });
 
-passport.deserializeUser(async (user: any, done: any) => {
-    
-    const serializedUserObject = {
-        id: user.id,
-        role: user.role
-    }
-    
+passport.deserializeUser(async (id: number, done: any) => {
     try {
-    const serializedUser: User | null = await findById( serializedUserObject.id );
+    const serializedUser: User | null = await findById( id );
     done(null, serializedUser);
     } catch(error) {
         done(error, null);

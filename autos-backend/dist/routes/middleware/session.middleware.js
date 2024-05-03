@@ -11,7 +11,6 @@ const sessionStore = new MySQLStore({
     expiration: 150000000,
     createDatabaseTable: true
 }, pool);
-sessionStore.setMaxListeners(5);
 const sessionMiddleware = session({
     secret: "secret",
     resave: false,
@@ -27,4 +26,16 @@ export const sessionAuthMiddleware = (req, res, next) => {
         res.status(401).json({ message: "Not austhenticated!" });
     }
 };
+export function addConnectListener() {
+    if (!sessionStore.listenerCount('connect')) {
+        sessionStore.on('connect', () => {
+        });
+    }
+}
+export function addDisconnectListener() {
+    if (!sessionStore.listenerCount('disconnect')) {
+        sessionStore.on('disconnect', () => {
+        });
+    }
+}
 export default sessionMiddleware;
