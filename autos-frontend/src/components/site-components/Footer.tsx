@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Switch, FormControlLabel, Typography } from "@mui/material";
 
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from '@mui/icons-material/X';
@@ -7,13 +7,15 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import PinterestIcon from "@mui/icons-material/Pinterest";
-import * as ThemeColor from '../../themes/ThemeColor';
 
 const socialAccountIcon: string = 'white';
 
+
 export default function Footer() {
+
+
   return (
-    <Box sx={{ height:'300px', backgroundColor: ThemeColor.primaryColorMain}}>
+    <Box sx={{ backgroundColor:'primary.main', height:'300px' }}>
       <Box display={"flex"} paddingTop={"1rem"} paddingBottom={"3rem"} paddingLeft={"1rem"}>
         <FacebookIcon style={{ fill: socialAccountIcon, marginRight: "0.5rem" }} />
         <XIcon style={{ fill: socialAccountIcon, marginRight: "0.5rem" }} />
@@ -22,10 +24,11 @@ export default function Footer() {
         <YouTubeIcon style={{ fill: socialAccountIcon, marginRight: "0.5rem" }} />
         <PinterestIcon style={{ fill: socialAccountIcon }} />
       </Box>
-      <p style={{ color: "whitesmoke", paddingBottom: "1rem", paddingLeft:'1rem' }}>
+      <Typography variant='body1' component='details' sx={{ color:'background.paper', paddingBottom: "1rem", paddingLeft:'1rem' }}>
         <CopyrightIcon style={{ fill: "white" }} />{" "}
         Copyright 2024 Hakan Orhan. Alle Rechte vorbehalten
-      </p>
+      </Typography>
+      
     </Box>
   )
 }

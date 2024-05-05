@@ -6,8 +6,7 @@ import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Box, Button, Typography } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, primaryColorMain, buttonHeight, mainComponentHeight } from '../../../themes/ThemeColor.js';
-import { UserInformation } from "../../../../../autos-backend/src/interfaces/auth/UserInformation.js";
+import { MainComponentWidth, HeaderIcon, buttonHeight, mainComponentHeight } from '../../../themes/ThemeColor.js';
 
 import * as validHelper from '../../../helper/validHelper.js';
 
@@ -18,7 +17,6 @@ import { useDispatch } from "react-redux";
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs.js';
-import { setRole, setUserLoggedIn } from '../../../redux/features/userlogged.js';
 import TextFieldCars from '../../formularFields/TextFieldCars.js';
 import { REGEX_EMAIL, REGEX_PASSWORD } from '../../../../../autos-backend/src/regex/regex.js';
 import TextFieldCarsPassword1 from '../../formularFields/TextFieldCarsPassword.js';
@@ -93,7 +91,7 @@ const SignIn: React.FC = () => {
       <Toaster />
       <MainComponentWidth sx={{ height: mainComponentHeight }}>
         <Box sx={{ display: 'flex', flexDirection:'column', margin:'auto' }}>
-          <HeaderIcon ><LockPersonIcon fontSize='large' /></HeaderIcon>
+          <HeaderIcon sx={{ color: 'primary.main' }}><LockPersonIcon fontSize='large' /></HeaderIcon>
           <Typography variant='h4' component="h1">Sign In</Typography>
         </Box>
         <form onSubmit={handleSubmit} noValidate>
@@ -103,11 +101,11 @@ const SignIn: React.FC = () => {
 
           <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Sign in</Button>
           <div style={{ display: 'flex', marginBottom: '4rem' }}>
-            <div style={{ width: '40%', color: primaryColorMain }}>
+            <Box style={{ width: '40%', color: 'primary.main' }}>
               <p>Forgot Password</p>
-            </div>
+            </Box>
             <div style={{ width: '60%', display: 'flex', justifyContent: 'flex-end' }}>
-              <Link to={ URLs.POST_SIGINUP } style={{ textDecoration: 'none', color: primaryColorMain }}>Don't have an account? Sign Up </Link>
+              <Link to={ URLs.POST_SIGINUP } style={{ textDecoration: 'none' }}><Typography variant='body1' component='p' sx={{ color:'primary.main' }}>Don't have an account? Sign Up</Typography> </Link>
             </div>
           </div>
         </form>

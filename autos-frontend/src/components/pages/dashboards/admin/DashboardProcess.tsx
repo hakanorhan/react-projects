@@ -12,7 +12,7 @@ const enum ButtonNames {
   PUBLISH = 'publish'
 }
 
-export default function DashboardProcess() {
+function DashboardProcess() {
 
   // Redux
   const whichButtonClicked = useSelector((state: RootState) => state.userLoggedIn.whichButtonClicked)

@@ -23,7 +23,7 @@ import postPublish from "./routes/dashboard/postPublish.js";
 import emailCheck from "./routes/emailCheck.js";
 import logout from "./routes/logout.js";
 import { fetchListCars } from "./routes/fetchListCars.js";
-import passport from "./routes/middleware/passport.middleware.js";
+import passport, { authMiddelware } from "./routes/middleware/passport.middleware.js";
 import authenticationUser from "./routes/authenticationUser.js";
 import { addConnectListener, addDisconnectListener } from "./routes/middleware/session.middleware.js";
 import sessionMiddleware from "./routes/middleware/session.middleware.js";
@@ -46,23 +46,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-app.get("/demo", (req, res) => {
-    console.log("/demo session: " + JSON.stringify(req.session.id));
-    console.log("/demo passport.js " + req.isAuthenticated());
-    res.json({ message: "Hello session" });
-});
 app.post(URLs.POST_SIGINUP, signupUser);
 app.post(URLs.POST_SIGINUP_EMAILCHECK, emailCheck);
 app.post(URLs.POST_SIGNIN, passport.authenticate('local'), signin);
-app.post(URLs.POST_INSERATE_CAR, passport.authenticate('local'), inserateCar);
-app.get(URLs.POST_INSERATE_CAR, passport.authenticate('local'), inserateCar);
-app.get(URLs.FETCH_INSERATE_PUBLISH, fetchInserateForPublish);
-app.post(URLs.POST_INSERT_BRAND, writeBrand);
+app.post(URLs.POST_INSERATE_CAR, authMiddelware, inserateCar);
+app.get(URLs.POST_INSERATE_CAR, authMiddelware, inserateCar);
+app.get(URLs.FETCH_INSERATE_PUBLISH, authMiddelware, fetchInserateForPublish);
+app.post(URLs.POST_INSERT_BRAND, authMiddelware, writeBrand);
 app.get(URLs.FETCH_BRAND, fetchBrand);
 app.post(URLs.FETCH_MODEL, fetchModel);
 app.get(URLs.FETCH_COUNT, dynamicSearchCount);
-app.post(URLs.POST_INSERT_MODEL, writeModel);
-app.post(URLs.POST_PUBLISH, postPublish);
+app.post(URLs.POST_INSERT_MODEL, authMiddelware, writeModel);
+app.post(URLs.POST_PUBLISH, authMiddelware, postPublish);
 app.get(URLs.FETCH_STATIC_CAR_DATA, fetchStaticData);
 app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
 app.get(URLs.FETCH_BUNDESLAENDER, fetchBuendeslaender);
@@ -85,9 +80,8 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const insertId = req.body.carId;
-        const firstPlace = req.body.isFirstPlace === 'true';
         const imageName = file.fieldname + '' + Date.now() + path.extname(file.originalname);
-        const imageNameInDatabase = insertImageName(imageName, insertId, firstPlace);
+        const imageNameInDatabase = insertImageName(imageName, insertId);
         cb(null, imageName);
     }
 });

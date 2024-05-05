@@ -37,11 +37,11 @@ export async function insertTransaction(insertQuery, values, res) {
         connection.release();
     }
 }
-export const insertImageName = async (imageName, carId, firstplace) => {
-    const insertInto = "INSERT INTO imagename(imagename, firstplace, inserate_id) VALUES(?, ?, ?)";
+export const insertImageName = async (imageName, carId) => {
+    const insertInto = "INSERT INTO imagename(imagename, inserate_id) VALUES(?, ?)";
     let connection = await pool.getConnection();
     try {
-        await connection.execute(insertInto, [imageName, firstplace, carId]);
+        await connection.execute(insertInto, [imageName, carId]);
         connection.release();
         return true;
     }
@@ -49,5 +49,18 @@ export const insertImageName = async (imageName, carId, firstplace) => {
         connection.release();
         console.log(err);
         return false;
+    }
+};
+export const deleteImages = async (inserateId) => {
+    const deleteQuery = "DELETE FROM imagename WHERE inserate_id = ?";
+    let connection = await pool.getConnection();
+    try {
+        await connection.execute(deleteQuery, [inserateId]);
+    }
+    catch (error) {
+        console.log(error);
+    }
+    finally {
+        connection.release();
     }
 };

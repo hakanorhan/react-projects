@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import axios from 'axios';
-import { SearchContainer, buttonHeight, mainComponentHeight, primaryColorMain } from '../../themes/ThemeColor';
+import { SearchContainer, buttonHeight, mainComponentHeight } from '../../themes/ThemeColor';
 
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -161,10 +161,9 @@ const Search: React.FC = () => {
 
   return (
     <>
-      <Box sx={{ height: mainComponentHeight }}>
-        <h1 style={{ textAlign: 'center', color: primaryColorMain, paddingTop: '4rem' }}>Find your next car.</h1>
         <SearchContainer>
-          <Grid container justifyContent="center" columnSpacing={1}>
+        <Typography variant='h1' component='h1' sx={{ textAlign: 'center', paddingTop: '4rem', color: 'secondary.contrastText' }}>Find your next car.</Typography>
+          <Grid container sx={{ marginTop:'4rem', marginBottom:'4rem' }} justifyContent="center" columnSpacing={1}>
             <Grid item xs={6} md={4}>
               {/* Brand */}
               <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brand_id' handleChange={handleChangeSelect} label='Marke' allOption={true} />
@@ -220,7 +219,6 @@ const Search: React.FC = () => {
             </Grid>
           </Grid>
         </SearchContainer>
-      </Box>
 
     </>
   )

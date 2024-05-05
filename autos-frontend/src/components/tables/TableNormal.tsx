@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { TableContainer, Table, Paper, TableHead, TableCell, TableRow, Tooltip } from '@mui/material'
-import { primaryColorLight, primaryColorMain } from '../../themes/ThemeColor'
 
 
   interface TableNormalValues {
@@ -12,13 +11,13 @@ import { primaryColorLight, primaryColorMain } from '../../themes/ThemeColor'
 const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
 
   const [indexState, setIndexState] = useState(0);
-    const markLastInsert = (value, index1) => {
+    const markLastInsert = (value: any, index1: any) => {
 
       if( value == insertId) {
         setIndexState(index1);
-        return primaryColorLight
+        return 'primary.dark'
       } else {
-        return 'white';
+        return 'primary.contrastText';
       }
     }
 
@@ -62,7 +61,7 @@ const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
   const TableComponent = () => {
 
     return (
-      <Paper elevation={3} sx={{ margin: 'auto', width: '100%', height:'420px', overflow: 'scroll', backgroundColor: 'white' }}>
+      <Paper elevation={3} sx={{ margin: 'auto', width: '100%', height:'420px', overflow: 'scroll', backgroundColor: themeColor.palette.primary.contrastText }}>
         <TableContainer sx={{width:'100%'}} component={Paper}>
           <Table aria-label='simple table'>
             

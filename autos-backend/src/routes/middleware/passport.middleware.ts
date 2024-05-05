@@ -4,6 +4,7 @@ import { pool } from "../../dbConnect.js";
 import { RowDataPacket } from "mysql2";
 import { Roles } from "../../enums/Roles.js";
 import bcrypt from 'bcrypt';
+import { Request, Response, NextFunction } from "express";
 
 export interface User {
     id: number,
@@ -92,5 +93,13 @@ passport.deserializeUser(async (id: number, done: any) => {
         done(error, null);
     }
 });
+
+export const authMiddelware = (req: Request, res: Response, next: NextFunction) => {
+    if(req.isAuthenticated()) {
+        next();
+    } else {
+        res.status(401).json({ message: "Nicht authentifiziert." })
+    }
+}
 
 export default passport;

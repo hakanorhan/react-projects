@@ -7,7 +7,7 @@ export default (req, res) => {
             }
             req.session.destroy((error) => {
                 if (error) {
-                    console.log("Fehler beim Zerstören der Sitzung: " + error);
+                    console.log("Fehler beim Zerstören der Session" + error);
                     return res.status(500).json({ message: "Logout fehlgeschlagen" });
                 }
                 console.log("Cookie zerstört");

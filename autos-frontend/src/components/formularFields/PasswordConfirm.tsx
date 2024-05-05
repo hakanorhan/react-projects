@@ -6,7 +6,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-import { colorDanger, secondaryColorLight } from '../../themes/ThemeColor';
+import { colorDanger } from '../../themes/ThemeColor';
 
 const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChange, password1, regex }) => {
     
@@ -48,7 +48,7 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChang
           <IconButton disabled
             aria-label="check visibility"
           >
-            {valueMatch ? <CheckIcon sx={{ color: secondaryColorLight }} /> :
+            {valueMatch ? <CheckIcon /> :
                isEmpty ? "" : <ErrorOutlineIcon sx={{ color: colorDanger }} /> }
           </IconButton>
           <IconButton

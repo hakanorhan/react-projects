@@ -1,11 +1,10 @@
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material"
 import ViewListIcon from '@mui/icons-material/ViewList';
-import { mainComponentHeight, secondaryColorLight } from "../../../../../themes/ThemeColor";
+import { mainComponentHeight } from "../../../../../themes/ThemeColor";
 import React, { useEffect, useState } from "react";
 import { seperateThousand } from "../../../../../helper/helper";
 import ViewDetailSearch from "../../../ViewDetailSearchAdmin";
 import dayjs from "dayjs";
-import DetailSearchComponent from "../../../ViewDetailSearch";
 
 interface PublishListProps {
     listItems: any[] | null
@@ -27,7 +26,7 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
         { 
                 (listItems && listItems.length > 0) ?
                 listItems.map((item, index) => (
-                    <ListItem onClick={() => { setInserateId(item.inserate_id) }} divider key={index} sx={{ '&:hover': {backgroundColor: secondaryColorLight, cursor: 'pointer'}  }}>
+                    <ListItem onClick={() => { setInserateId(item.inserate_id) }} divider key={index} sx={{ '&:hover': { cursor: 'pointer'}  }}>
                         <ListItemIcon> <ViewListIcon /> </ListItemIcon>
                         <ListItemText  key={index} 
                             primary={"Inserat ID: " + item.inserate_id + "  " + item.brand  + " " + item.model + " Preis: " + seperateThousand(item.price) + "€"} 

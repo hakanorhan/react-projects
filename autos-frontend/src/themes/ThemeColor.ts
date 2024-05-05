@@ -1,4 +1,4 @@
-import { colors, createTheme } from "@mui/material";
+import { Theme, colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
 
 /*
@@ -19,13 +19,29 @@ const searchContainerLGWidth = '1075px';
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
 
-export const primaryColorMain: string = colors.grey[900];
-export const primaryColorLight: string = colors.grey[300];
+const LIGHT_PRIMARY_COLOR_MAIN: string = "#1976d2";
+const LIGHT_PRIMARY_COLOR_LIGHT: string = "#4791db";
+const LIGHT_PRIMARY_CONTRAST_TEXT = "#ffffff";
+const LIGHT_PRIMARY_DARK = "#115293";
 
-const secondaryColorMain: string = colors.orange[700];
-export const secondaryColorLight: string = colors.green[300];
-export const colorDanger: string = colors.red[700]; 
-export const buttonHeight ='55px';
+const LIGHT_SECONDARY_COLOR_MAIN: string = "#ff9100";
+const LIGHT_SECONDARY_COLOR_LIGHT: string = "#ffa733";
+const LIGHT_SECONDARY_CONTRAST_TEXT = "#000000";
+const LIGHT_SECONDARY_DARK = "#b26500";
+
+const DARK_PRIMARY_COLOR_MAIN = '#90caf9';
+const DARK_PRIMARY_COLOR_LIGHT = '#a6d4fa';
+const DARK_PRIMARY_COLOR_DARK = '#648dae';
+const DARK_PRIMARY_CONTRAST_TEXT = '#ffffff';
+
+const DARK_SECONDARY_COLOR_MAIN = '#ff9100';
+const DARK_SECONDARY_COLOR_LIGHT = '#ffa733';
+const DARK_SECONDARY_COLOR_DARK = '#b26500';
+const DARK_SECONDARY_CONTRAST_TEXT = '#ffffff';
+
+
+export const colorDanger: string = colors.red[700];
+export const buttonHeight = '55px';
 
 export const minHeightContent = '750px';
 
@@ -36,22 +52,32 @@ export const paperMarginTopValue = '0.9rem';
 export const paperPaddingValue = '0.7rem';
 
 
-const themeColor = createTheme({
-    
+let ebruHAKAN = LIGHT_PRIMARY_COLOR_LIGHT;
+
+export const setDarkPalette = (mode: boolean) => {
+    ebruHAKAN = mode ? LIGHT_PRIMARY_COLOR_LIGHT : DARK_PRIMARY_COLOR_DARK;
+}
+
+export const themeLight = createTheme({
     palette: {
+        mode: 'light',
         primary: {
-            main: primaryColorMain,
-            light: primaryColorLight,
-            dark: colors.grey[900],
-            contrastText: 'white'
+            main: LIGHT_PRIMARY_COLOR_MAIN,
+            light: LIGHT_PRIMARY_COLOR_LIGHT,
+            dark: LIGHT_PRIMARY_DARK,
+            contrastText: LIGHT_PRIMARY_CONTRAST_TEXT,
         },
         secondary: {
-            main: secondaryColorMain,
-            light: secondaryColorLight,
-            dark: colors.grey[900],
-            contrastText: 'white'
-        }
-    },
+            main: LIGHT_SECONDARY_COLOR_MAIN,
+            light: LIGHT_SECONDARY_COLOR_LIGHT,
+            dark: LIGHT_SECONDARY_DARK,
+            contrastText: LIGHT_SECONDARY_CONTRAST_TEXT
+        }, background: {
+            default: 'white',
+            paper: LIGHT_PRIMARY_CONTRAST_TEXT
+        },
+    }
+    ,
     components: {
         MuiFormControl: {
             styleOverrides: {
@@ -64,27 +90,96 @@ const themeColor = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    borderRadius:'0px',
+                    borderRadius: '0px',
                     border: 'none',
-                    width:'100%',
-                    backgroundColor: secondaryColorLight,
+                    width: '100%'
+                }
+            },
+
+        },
+        MuiFab: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: LIGHT_PRIMARY_COLOR_MAIN,
+                    color: LIGHT_PRIMARY_CONTRAST_TEXT,
                     '&:hover': {
-                        backgroundColor: primaryColorMain,
-                        color: 'white'
+                        backgroundColor: LIGHT_PRIMARY_DARK
                     }
                 }
             }
-        }
+        },
+
     },
     typography: {
         h4: {
-            marginTop:'2rem',
-            margin:'auto',
-            fontWeight:'lighter',
-            paddingBottom:'0.5rem',
-            color: primaryColorMain
+            marginTop: '2rem',
+            margin: 'auto',
+            fontWeight: 'lighter',
+            paddingBottom: '0.5rem',
         }
-    }   
+    }
+});
+
+export const themeDark = createTheme({
+    palette: {
+        mode: 'dark',
+        primary: {
+            main: DARK_PRIMARY_COLOR_MAIN,
+            light: DARK_PRIMARY_COLOR_LIGHT,
+            dark: DARK_PRIMARY_COLOR_DARK,
+            contrastText: DARK_PRIMARY_CONTRAST_TEXT
+        },
+        secondary: {
+            main: DARK_SECONDARY_COLOR_MAIN,
+            light: DARK_SECONDARY_COLOR_LIGHT,
+            dark: DARK_SECONDARY_COLOR_DARK,
+            contrastText: DARK_SECONDARY_CONTRAST_TEXT
+        }, background: {
+            default: colors.grey[900], 
+            paper: DARK_PRIMARY_CONTRAST_TEXT
+        },
+    }
+    ,
+    components: {
+        MuiFormControl: {
+            styleOverrides: {
+                root: {
+                    paddingBottom: '1rem',
+                    width: '100%'
+                }
+            }
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '0px',
+                    border: 'none',
+                    width: '100%'
+                }
+            },
+
+        },
+        MuiFab: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: LIGHT_PRIMARY_COLOR_MAIN,
+                    color: LIGHT_PRIMARY_CONTRAST_TEXT,
+                    '&:hover': {
+                        backgroundColor: LIGHT_PRIMARY_DARK
+                    }
+                }
+            }
+        },
+
+    },
+    typography: {
+        h4: {
+            marginTop: '2rem',
+            margin: 'auto',
+            fontWeight: 'lighter',
+            paddingBottom: '0.5rem',
+        }
+    }
 });
 
 /**
@@ -92,14 +187,14 @@ const themeColor = createTheme({
  * Width for Formular.
  */
 export const MainComponentWidth = styled('div')(({ theme }) => ({
-    display:'flex',
+    display: 'flex',
     paddingTop: '3rem',
     paddingBottom: '3rem',
     margin: 'auto',
     flexDirection: 'column',
     [theme.breakpoints.up("xs")]: {
         width: '90%',
-        
+
     },
     [theme.breakpoints.up("sm")]: {
         width: '560px',
@@ -113,14 +208,14 @@ export const MainComponentWidth = styled('div')(({ theme }) => ({
  * Width for Formular.
  */
 export const DivSearchInserate = styled('div')(({ theme }) => ({
-    display:'flex',
+    display: 'flex',
     paddingTop: '3rem',
     paddingBottom: '3rem',
     margin: 'auto',
     flexDirection: 'column',
     [theme.breakpoints.up("xs")]: {
         width: '90%',
-        
+
     },
     [theme.breakpoints.up("sm")]: {
         width: '560px',
@@ -138,13 +233,14 @@ export const DivSearchInserate = styled('div')(({ theme }) => ({
  * two fields in tablet and desktop in a same row
  */
 export const DivTwoFieldsWithSpaceBetween = styled('div')(({ theme }) => ({
-        display: 'flex',
-        [theme.breakpoints.up("xs")]: {
-            flexDirection: 'column'},
-        [theme.breakpoints.up("md")]: {
-            flexDirection: 'row',
-            justifyContent: 'space-between'
-        }
+    display: 'flex',
+    [theme.breakpoints.up("xs")]: {
+        flexDirection: 'column'
+    },
+    [theme.breakpoints.up("md")]: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    }
 
 }));
 
@@ -156,10 +252,10 @@ export const DivTwoFieldsWithSpaceBetween = styled('div')(({ theme }) => ({
  */
 export const DivWidthTwoFieldsRow = styled('div')(({ theme }) => ({
     [theme.breakpoints.up("xs")]: {
-        width: '100%' 
+        width: '100%'
     },
     [theme.breakpoints.up("md")]: {
-        width:'49%'
+        width: '49%'
     },
 
 
@@ -169,12 +265,11 @@ export const DivWidthTwoFieldsRow = styled('div')(({ theme }) => ({
  * Signin and Signout icons.
  */
 export const HeaderIcon = styled('div')(({ theme }) => ({
-    margin:'auto',
+    margin: 'auto',
     textAlign: 'center',
-    color: primaryColorMain,
     [theme.breakpoints.up("xs")]: {
         width: textFieldXSWitdh,
-        transform: 'scale(1.7)'    
+        transform: 'scale(1.7)'
     },
     [theme.breakpoints.up("sm")]: {
         width: textFieldSMWitdh,
@@ -184,12 +279,12 @@ export const HeaderIcon = styled('div')(({ theme }) => ({
 }));
 
 export const HeaderInserateH1 = styled('h1')(({ theme }) => ({
-    margin:'auto',
+    margin: 'auto',
     textAlign: 'center',
-    color: primaryColorMain,
+    color: LIGHT_PRIMARY_COLOR_MAIN,
     [theme.breakpoints.up("xs")]: {
         fontSize: '1.2rem'
-        
+
     },
     [theme.breakpoints.up("lg")]: {
         fontSize: '1.9rem'
@@ -198,7 +293,7 @@ export const HeaderInserateH1 = styled('h1')(({ theme }) => ({
 
 }));
 
-export const ValidParagraph = styled('p')(({}) => ({
+export const ValidParagraph = styled('p')(({ }) => ({
     lineHeight: '1.4rem',
     paddingLeft: '.2rem',
 }));
@@ -207,15 +302,14 @@ export const ValidParagraph = styled('p')(({}) => ({
  * All Search Container have the same width.
  */
 export const SearchContainer = styled('div')(({ theme }) => ({
-    margin:'auto',
+    margin: 'auto',
     borderRadius: '.3rem',
     marginTop: '4rem',
-    paddingTop:'1rem',
+    paddingTop: '1rem',
     paddingBottom: '2rem',
-    backgroundColor: 'whitesmoke',
     [theme.breakpoints.up("xs")]: {
         width: searchContainerXSWidth,
-           
+
     },
     [theme.breakpoints.up("sm")]: {
         width: searchContainerXSWidth
@@ -230,12 +324,12 @@ export const SearchContainer = styled('div')(({ theme }) => ({
 
 export const ImgImageUpload = styled('img')(({ theme }) => ({
     width: '100%',
-    objectFit:'contain',
+    objectFit: 'contain',
     height: '100%'
 }))
 
 export const ParagraphSideMenu = styled('p')(({ theme }) => ({
-    marginLeft:'0.5rem',
+    marginLeft: '0.5rem',
     [theme.breakpoints.up("xs")]: {
     },
     [theme.breakpoints.up("sm")]: {
@@ -247,9 +341,9 @@ export const ParagraphSideMenu = styled('p')(({ theme }) => ({
 }))
 
 export const SpanSideMenu = styled('span')(({ theme }) => ({
-    
+
     [theme.breakpoints.up("xs")]: {
-           display:'none'
+        display: 'none'
     },
     [theme.breakpoints.up("sm")]: {
     },
@@ -262,16 +356,16 @@ export const SpanSideMenu = styled('span')(({ theme }) => ({
 
 export const ImageCar = styled('img')(({ theme }) => ({
     width: '100%',
-    objectFit:'contain', 
+    objectFit: 'contain',
     padding: '0',
     margin: '0'
 }))
 
 export const DivViewDetail = styled('div')(({ theme }) => ({
-    margin:'auto',
+    margin: 'auto',
     [theme.breakpoints.up("xs")]: {
         width: '95%',
-           
+
     },
     [theme.breakpoints.up("sm")]: {
         width: searchContainerXSWidth
@@ -281,6 +375,5 @@ export const DivViewDetail = styled('div')(({ theme }) => ({
     }
 }))
 
-export const ViewDetailIconStyle = {color: secondaryColorLight, fontSize:'3rem'};
 
-export default themeColor;
+export const ViewDetailIconStyle = { color: 'primary.main', fontSize: '3rem' };

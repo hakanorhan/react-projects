@@ -19,12 +19,12 @@ interface GridComponentProps {
 export const TDescriptionComponent: React.FC<{ detailSearchValues : AxiosPaper }> = ({ detailSearchValues }) => {
 
     const GridComponent: React.FC<GridComponentProps> = ({ icon, title, value }) => {
-        return <Grid item xs={6}><div style={{ display: 'flex', margin: '0.5rem' }}> {icon} <div><Typography sx={{ fontSize: '0.9rem', color: 'gray', fontWeight: '300' }} display='inline-block' variant='h6' component='h2'>{title}</Typography> <Typography variant='subtitle2' component='p'>{value}</Typography></div></div></Grid>
+        return <Grid item xs={6}><div style={{ display: 'flex', margin: '0.5rem' }}> {icon} <div><Typography sx={{ fontSize: '0.9rem', color: 'secondary.contrastText', fontWeight: '300' }} display='inline-block' variant='h6' component='h2'>{title}</Typography> <Typography variant='subtitle2' component='p'>{value}</Typography></div></div></Grid>
     
       }
 
   return (
-    <Paper elevation={ paperElevationValue } sx={{ marginTop: paperMarginTopValue, backgroundColor: 'white' }}>
+    <Paper elevation={ paperElevationValue } sx={{ marginTop: paperMarginTopValue }}>
     <Grid container>
       <Grid item xs={6}>
         <GridComponent icon={<Person3Icon sx={ViewDetailIconStyle} />} title='Fahrzeughalter' value={detailSearchValues?.vehicleOwners} />

@@ -24,7 +24,7 @@ export const ShowComponent: React.FC<{ detailSearchValues: AxiosPaperList }> = (
                 <Grid item xs={6}>
                     <div style={{ display: 'flex', margin: '0.5rem' }}>
                         <div>
-                            <Typography sx={{ whiteSpace: 'nowrap', fontSize: '0.9rem', color: 'gray', fontWeight: '300' }} display='inline-block' variant='h6' component='h2'> Technische Details </Typography>
+                            <Typography sx={{ whiteSpace: 'nowrap', fontSize: '0.9rem', color: 'primary.main', fontWeight: '300' }} display='inline-block' variant='h6' component='h2'> Technische Details </Typography>
                             <Typography sx={{ whiteSpace: 'nowrap' }} variant='subtitle2' component='p'>
                                 <p> EZ {detailSearchValues.registrationMonth}/{detailSearchValues.registrationYear} <Cirlce /> {detailSearchValues.cartype} <Cirlce /> {seperateThousand(detailSearchValues.mileageKm)} KM <Cirlce /> {detailSearchValues.fuel}</p>
                                 <p> {detailSearchValues.transmission} <Cirlce /> {seperateThousand(detailSearchValues.psPower)} PS </p>

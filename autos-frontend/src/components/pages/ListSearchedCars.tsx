@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
-import { notifyError } from '../../helper/toastHelper';
 import CarImages from './dashboards/admin/components/CarImages';
 import { ShowComponent } from './searchComponents/ShowComponent';
 import Pagination from '@mui/material/Pagination';
@@ -116,7 +115,7 @@ useEffect(() => {
   }
 
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
-    return <Box sx={{ backgroundColor: 'white', marginBottom: '1rem', padding: '1.5rem' }}>
+    return <Box sx={{ marginBottom: '1rem', padding: '1.5rem' }}>
       {
         cars ? <Box sx={{ '&:hover': { cursor: 'pointer' } }} onClick={ () => { handleShowDetail( {id:  axiosPaper.inseratId} ) } } >
           {/* car container */}

@@ -10,8 +10,6 @@ import { Drawer, Button, List, ListItem, ListItemButton, ListItemIcon, ListItemT
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { primaryColorMain } from '../../themes/ThemeColor';
-import { Company } from '../../constants/Company';
 import { Roles } from '../../../../autos-backend/src/enums/Roles';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -25,31 +23,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import UpdateIcon from '@mui/icons-material/Update';
-import { secondaryColorLight } from '../../themes/ThemeColor';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
-import { notifyError, notifySuccess } from '../../helper/toastHelper';
 import { Link, useNavigate } from 'react-router-dom';
 import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
 import { AuthResponse } from '../../../../autos-backend/src/interfaces/auth/AuthResponse';
 
-const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem' }, color: primaryColorMain, backgroundColor: 'transparent', ':hover': { color: 'orange' }, justifyContent: 'flex-start' };
+const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem' }, justifyContent: 'flex-start' };
 
 const drawerFontSize = '28px';
 
-const drawerSizes = { color: primaryColorMain, fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px' };
-const LinkDrawer = { color: primaryColorMain, textDecoration: 'none' };
-const expandIconStyle = { color: primaryColorMain };
+const drawerSizes = { fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px' };
+const LinkDrawer = {  textDecoration: 'none' };
 const accordionIconStyle = { fontSize: drawerFontSize };
-const accordionStyle = { color: primaryColorMain, fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px', marginBottom: '0.8rem' };
+const accordionStyle = { fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px', marginBottom: '0.8rem' };
 
 export default function Header() {
   // TODO: navigate Header.tsx
   const navigate = useNavigate();
-
-  const [logout, setLogout] = React.useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -68,7 +61,7 @@ export default function Header() {
           dispatch(setUserLoggedIn(logged));
           const authRole = authResponse.role;
           dispatch(setRole(authRole));
-          alert("Login status: " + logged + " Rolle: " + authRole);
+          //alert("Login status: " + logged + " Rolle: " + authRole);
 
   } catch(error: any) {
       const authResponse: AuthResponse = error.response.data;
@@ -121,7 +114,7 @@ export default function Header() {
   const AccordionHinzufuegen = () => {
     return <Accordion elevation={0} sx={accordionStyle}>
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon sx={expandIconStyle} />}
+        expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1-content"
         id="panel1-header"
       >
@@ -141,7 +134,7 @@ export default function Header() {
   const AccordionUpdate = () => {
     return <Accordion elevation={0} sx={accordionStyle}>
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon sx={expandIconStyle} />}
+        expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1-content"
         id="panel1-header"
       >
@@ -160,7 +153,7 @@ export default function Header() {
   const AccordionEntfernen = () => {
     return <Accordion elevation={0} sx={accordionStyle}>
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon sx={{ color: primaryColorMain }} />}
+        expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1-content"
         id="panel1-header"
       >
@@ -187,7 +180,7 @@ export default function Header() {
               backgroundColor: "transparent"
             }
           }}>
-            <CloseOutlinedIcon sx={{ "&:hover": { backgroundColor: secondaryColorLight, border: '0px' }, color: primaryColorMain, fontSize: '70px', fontWeight: 'bold', marginRight: '40px', borderStyle: 'solid', borderRadius: '5px', padding: '10px' }} />
+            <CloseOutlinedIcon sx={{ "&:hover": { border: '0px' }, fontSize: '70px', fontWeight: 'bold', marginRight: '40px', borderStyle: 'solid', borderRadius: '5px', padding: '10px' }} />
           </IconButton>
         </Box>
         {
@@ -239,7 +232,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar elevation={1} position="static" sx={{ backgroundColor: 'transparent', color: primaryColorMain }}>
+      <AppBar sx={{ backgroundColor: 'primary.main' }} elevation={1} position="static" >
         <DrawerMenuComponent />
         <Toolbar>
           <IconButton
@@ -252,8 +245,8 @@ export default function Header() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {/* TODO: <Link style={{ textDecoration: 'none', color: primaryColorMain, letterSpacing: '0.1rem' }} to='/'>{Company.COMPANYNAME}</Link> */}
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'primary.main' }}>
+            <Link style={{ textDecoration: 'none', letterSpacing: '0.1rem' }} to={ URLs.HOME_ALL_SEARCH_COUNT }> {"cars"} </Link>
           </Typography>
 
           <div>

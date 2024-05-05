@@ -56,14 +56,14 @@ export async function insertTransaction(insertQuery: string, values: any[], res:
         }
 }
 
-export const insertImageName = async (imageName: string, carId: number, firstplace: boolean) => {
+export const insertImageName = async (imageName: string, carId: number) => {
 
-    const insertInto: string = "INSERT INTO imagename(imagename, firstplace, inserate_id) VALUES(?, ?, ?)"
+    const insertInto: string = "INSERT INTO imagename(imagename, inserate_id) VALUES(?, ?)"
 
     let connection = await pool.getConnection();
     try {
             // query Baureihe
-            await connection.execute(insertInto, [imageName, firstplace, carId]);
+            await connection.execute(insertInto, [imageName, carId]);
             connection.release();
             return true;
         } catch (err){
@@ -71,4 +71,16 @@ export const insertImageName = async (imageName: string, carId: number, firstpla
             console.log(err);
             return false;
         }
+}
+
+export const deleteImages = async (inserateId: number) => {
+    const deleteQuery: string = "DELETE FROM imagename WHERE inserate_id = ?";
+    let connection = await pool.getConnection();
+    try {
+        await connection.execute(deleteQuery, [ inserateId ]);
+    } catch(error) {
+        console.log(error);
+    } finally {
+        connection.release();
+    }
 }

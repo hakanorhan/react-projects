@@ -28,6 +28,8 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
     const inserateData = data.inserateData;
     const inserateCheckBox = data.inserateCheckbox;
 
+    console.log(JSON.stringify(inserateSelect) + " " + JSON.stringify(inserateData) + " " + JSON.stringify(inserateCheckBox));
+
     const connection = await pool.getConnection();
     try {
         // start transaction

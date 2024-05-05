@@ -26,7 +26,7 @@ import { fetchListCars } from "./routes/fetchListCars.js";
 import mysql from 'mysql2/promise';
 // passport.js
 //import sessionMiddleware from "./routes/middleware/session.middleware.js";
-import passport from "./routes/middleware/passport.middleware.js";
+import passport, { authMiddelware } from "./routes/middleware/passport.middleware.js";
 import authenticationUser from "./routes/authenticationUser.js";
 import { addConnectListener, addDisconnectListener } from "./routes/middleware/session.middleware.js";
 
@@ -68,32 +68,22 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/demo", (req, res) => {
-  console.log("/demo session: " + JSON.stringify(req.session.id));
-  console.log("/demo passport.js " + req.isAuthenticated())
-  //req.session.isAuth = true;
-
-  res.json({ message: "Hello session" })
-});
-
 app.post(URLs.POST_SIGINUP, signupUser);
 app.post(URLs.POST_SIGINUP_EMAILCHECK, emailCheck);
 app.post(URLs.POST_SIGNIN, passport.authenticate('local'), signin);
 
-//app.get(URLs.GET_CHECK_AUTH, authenticate);
-
-app.post(URLs.POST_INSERATE_CAR, passport.authenticate('local'), inserateCar);
-app.get(URLs.POST_INSERATE_CAR, passport.authenticate('local'), inserateCar);
+app.post(URLs.POST_INSERATE_CAR, authMiddelware, inserateCar);
+app.get(URLs.POST_INSERATE_CAR, authMiddelware, inserateCar);
 
 //app.get(URLs.GET_CHECK_AUTH, authenticateWithoutNext);
-app.get(URLs.FETCH_INSERATE_PUBLISH, fetchInserateForPublish);
+app.get(URLs.FETCH_INSERATE_PUBLISH, authMiddelware, fetchInserateForPublish);
 
-app.post(URLs.POST_INSERT_BRAND, writeBrand);
+app.post(URLs.POST_INSERT_BRAND, authMiddelware, writeBrand);
 app.get(URLs.FETCH_BRAND, fetchBrand); 
 app.post(URLs.FETCH_MODEL, fetchModel);
 app.get(URLs.FETCH_COUNT, dynamicSearchCount);
-app.post(URLs.POST_INSERT_MODEL, writeModel);
-app.post(URLs.POST_PUBLISH, postPublish);
+app.post(URLs.POST_INSERT_MODEL, authMiddelware, writeModel);
+app.post(URLs.POST_PUBLISH, authMiddelware, postPublish);
 app.get(URLs.FETCH_STATIC_CAR_DATA, fetchStaticData);
 app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
 app.get(URLs.FETCH_BUNDESLAENDER, fetchBuendeslaender);
@@ -106,7 +96,6 @@ app.get(URLs.AUTHENTICATION_USER, authenticationUser);
 
 const storage = multer.diskStorage({
   destination: function (req: express.Request, file, cb) {
-    
     const carId = req.body.carId;
 
     const newUploadPath = `./uploads/${carId}`;
@@ -119,11 +108,9 @@ const storage = multer.diskStorage({
         })
   },
   filename: function (req: express.Request, file, cb) {
-    
     const insertId = req.body.carId;
-    const firstPlace = req.body.isFirstPlace === 'true'
     const imageName = file.fieldname + '' + Date.now() + path.extname(file.originalname);
-    const imageNameInDatabase = insertImageName(imageName, insertId, firstPlace)
+    const imageNameInDatabase = insertImageName(imageName, insertId)
     
     cb(null, imageName);
   }
@@ -131,7 +118,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post('/upload', upload.array('images', 5), (req, res) => {
-
   if (!req.files || req.files.length === 0) {
     return res.status(400).send('No files uploaded.');
   }

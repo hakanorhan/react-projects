@@ -13,7 +13,6 @@ import { Box } from '@mui/material';
 import SelectField from '../../formularFields/SelectField';
 import UploadImage from './UploadImage';
 import { useEffectModel } from '../../../helper/DataLoading';
-import { primaryColorMain } from '../../../themes/ThemeColor';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Zoom from '@mui/material/Zoom';
 import dayjs from 'dayjs';
@@ -160,7 +159,7 @@ export default function InserateCar() {
       }
       // valid brand
       try {
-        const response = await axios.post<AxiosInserateResponse>(`${URLs.ORIGIN_SERVER}${URLs.POST_INSERATE_CAR}`, axiosData, { withCredentials: true });
+        const response = await axios.post<AxiosInserateResponse>(URLs.ORIGIN_SERVER + URLs.POST_INSERATE_CAR, axiosData, { withCredentials: true });
 
         console.log("Status: " + response.status)
         if (response.status === 200) {
@@ -172,6 +171,7 @@ export default function InserateCar() {
           setLoading(false);
         }
       } catch (error) {
+        console.log(error);
         notifyError("1", "Fehler");
       } finally {
         setLoading(false);
@@ -249,12 +249,12 @@ export default function InserateCar() {
             <Grid item xs={6}> <TextFieldCars id='price' onChange={value => handleOnChange('price', value)} label='Preis in €' regex={REGEX_PRICE} refresh={refresh} /></Grid>
             <Grid item xs={6}> <TextFieldCars id='color' onChange={value => handleOnChange('color', value)} label='Farbe' regex={REGEX_NAMES} refresh={refresh} /> </Grid>
 
-            <Grid item xs={12}> <hr style={{ color: 'black' }} /> </Grid>
+            <Grid item xs={12}> <hr /> </Grid>
 
-            <Grid item xs={6}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.abstandstempomat} id='abstandstempomat' onChange={handleOnChangeCheckbox} />} label="Abstandstempomat" /></Grid>
-            <Grid item xs={6}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.ambientbeleuchtung} id='ambientbeleuchtung' onChange={handleOnChangeCheckbox} />} label="Ambientbeleuchtung" /></Grid>
-            <Grid item xs={6}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.headupdisplay} id='headupdisplay' onChange={handleOnChangeCheckbox} />} label="Head-up Display" /></Grid>
-            <Grid item xs={6}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.totwinkelassistent} id='totwinkelassistent' onChange={handleOnChangeCheckbox} />} label="Totwinkelassistent" /></Grid>
+            <Grid item xs={6}><FormControlLabel  control={<Checkbox checked={refresh ? false : formCheckbox.abstandstempomat} id='abstandstempomat' onChange={handleOnChangeCheckbox} />} label="Abstandstempomat" /></Grid>
+            <Grid item xs={6}><FormControlLabel  control={<Checkbox checked={refresh ? false : formCheckbox.ambientbeleuchtung} id='ambientbeleuchtung' onChange={handleOnChangeCheckbox} />} label="Ambientbeleuchtung" /></Grid>
+            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.headupdisplay} id='headupdisplay' onChange={handleOnChangeCheckbox} />} label="Head-up Display" /></Grid>
+            <Grid item xs={6}><FormControlLabel  control={<Checkbox checked={refresh ? false : formCheckbox.totwinkelassistent} id='totwinkelassistent' onChange={handleOnChangeCheckbox} />} label="Totwinkelassistent" /></Grid>
 
             <Grid item xs={12}>      <ToggleButtonGroup
               color="primary"
@@ -270,11 +270,11 @@ export default function InserateCar() {
 
             <Grid item xs={12}><hr /></Grid>
 
-            <Grid item xs={4}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.auNew} id='auNew' onChange={handleOnChangeCheckbox} />} label="AU neu" /></Grid>
-            <Grid item xs={4}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.huNew} id='huNew' onChange={handleOnChangeCheckbox} />} label="HU neu" /> </Grid>
-            <Grid item xs={4}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.unfallFahrzeug} id='unfallFahrzeug' onChange={handleOnChangeCheckbox} />} label="Unfallfahrzeug" /></Grid>
-            <Grid item xs={4}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.fittodrive} id='fittodrive' onChange={handleOnChangeCheckbox} />} label="Fahrtuechtig" /></Grid>
-            <Grid item xs={4}><FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox checked={refresh ? false : formCheckbox.scheckheft} id='scheckheft' onChange={handleOnChangeCheckbox} />} label="Scheckheftgepflegt" /></Grid>
+            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.auNew} id='auNew' onChange={handleOnChangeCheckbox} />} label="AU neu" /></Grid>
+            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.huNew} id='huNew' onChange={handleOnChangeCheckbox} />} label="HU neu" /> </Grid>
+            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.unfallFahrzeug} id='unfallFahrzeug' onChange={handleOnChangeCheckbox} />} label="Unfallfahrzeug" /></Grid>
+            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.fittodrive} id='fittodrive' onChange={handleOnChangeCheckbox} />} label="Fahrtuechtig" /></Grid>
+            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.scheckheft} id='scheckheft' onChange={handleOnChangeCheckbox} />} label="Scheckheftgepflegt" /></Grid>
 
 
           </Grid>
@@ -283,29 +283,29 @@ export default function InserateCar() {
         </Box>
 
         <Box sx={{ display: requestSuccess ? 'none' : activeStep == 0 ? 'none' : 'block' }}>
-          <UploadImage submitClicked={submitClicked} carId={carId} />
+          <UploadImage submitClicked={submitClicked} carId={ carId } />
         </Box>
 
         <Box sx={{ display: requestSuccess ? 'block' : 'none' }}>
           <HeaderIcon>
             <Zoom in={requestSuccess} style={{ transform: 'scale(1.5)' }}>
-              <CheckCircleOutlineIcon fontSize='large' sx={{ marginTop: '3rem', color: '#56ae57', transform: 'scale(1.5)' }} />
+              <CheckCircleOutlineIcon fontSize='large' sx={{ color: 'primary.main', marginTop: '3rem', transform: 'scale(1.5)' }} />
             </Zoom>
           </HeaderIcon>
-          <HeaderInserateH1 sx={{ marginTop: '7rem', marginBottom:'3rem' }} color='#56ae57'>Das Inserat wird nach der Prüfung veröffentlicht.</HeaderInserateH1>
+          <HeaderInserateH1 sx={{ marginTop: '7rem', marginBottom:'3rem' }} >Das Inserat wird nach der Prüfung veröffentlicht.</HeaderInserateH1>
         </Box>
 
         <Box sx={{ display: 'flex' }}>
-          <Button disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: requestSuccess ? 'none' : 'display', marginRight: '1rem' }}>Zurück</Button>
-          <Button sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'none' : 'block' }} disabled={disabledNextStep} onClick={handleNextStep}>Weiter</Button>
-          <Button sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'block' : 'none' }} type='submit' variant='contained'>Inserieren</Button>
+          <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: requestSuccess ? 'none' : 'display', marginRight: '1rem' }}>Zurück</Button>
+          <Button variant='contained' sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'none' : 'block' }} disabled={disabledNextStep} onClick={handleNextStep}>Weiter</Button>
+          <Button  sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'block' : 'none' }} type='submit' variant='contained'>Inserieren</Button>
           
           <Grid container spacing={4}>
             <Grid item xs= {6}>
-              <Button fullWidth onClick={() => { navigate(0); }} sx={{ marginRight: '1rem', marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
+              <Button variant='contained' fullWidth onClick={() => { navigate(0); }} sx={{ marginRight: '1rem', marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
             </Grid>
             <Grid item xs= {6}>
-              <Button fullWidth sx={{ marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Suchen</Button>
+              <Button variant='contained' fullWidth onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Suchen</Button>
             </Grid>
           </Grid>
           

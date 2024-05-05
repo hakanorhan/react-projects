@@ -77,4 +77,12 @@ passport.deserializeUser(async (id, done) => {
         done(error, null);
     }
 });
+export const authMiddelware = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        next();
+    }
+    else {
+        res.status(401).json({ message: "Nicht authentifiziert." });
+    }
+};
 export default passport;

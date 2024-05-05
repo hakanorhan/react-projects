@@ -15,6 +15,7 @@ async function performQuery(data, userId, res) {
     const inserateSelect = data.inserateSelect;
     const inserateData = data.inserateData;
     const inserateCheckBox = data.inserateCheckbox;
+    console.log(JSON.stringify(inserateSelect) + " " + JSON.stringify(inserateData) + " " + JSON.stringify(inserateCheckBox));
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();

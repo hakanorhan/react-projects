@@ -2,7 +2,6 @@ import { FormControl, InputLabel, Select, MenuItem, Tooltip } from "@mui/materia
 import { SelectChangeEvent } from "@mui/material";
 import React from "react";
 import { SelectFieldEnums } from "../../../../autos-backend/src/enums/SelectFieldEnums";
-import { secondaryColorLight } from "../../themes/ThemeColor";
 
 // Components
 const SelectField: React.FC<{
@@ -50,7 +49,7 @@ const SelectField: React.FC<{
             onChange={handleChange}
           >
             {
-              (allOption) ? <MenuItem sx={{ backgroundColor: secondaryColorLight }} key={ SelectFieldEnums.ITEM_KEY } value={ SelectFieldEnums.ALL_VALUE }> { SelectFieldEnums.DE_ALL_LABEL } </MenuItem> : []
+              (allOption) ? <MenuItem key={ SelectFieldEnums.ITEM_KEY } value={ SelectFieldEnums.ALL_VALUE }> { SelectFieldEnums.DE_ALL_LABEL } </MenuItem> : []
             }
             {
               (values) ? (

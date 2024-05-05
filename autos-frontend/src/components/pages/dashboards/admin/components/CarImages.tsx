@@ -7,8 +7,8 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { ImageCar, primaryColorMain, secondaryColorLight } from '../../../../../themes/ThemeColor';
 import { AxiosDataImagesNames } from '../../../../../../../autos-backend/src/interfaces/IAxiosData';
 
-interface CarImagesProps {
-  id: number | null
+ export interface CarImagesProps {
+  id: number | null | string | undefined
 }
 const CarImages: React.FC<CarImagesProps> = ({ id }) => {
 
@@ -74,8 +74,8 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
       marginLeft: '0.4rem',
       marginRight: '0.4rem',
       opacity: '75%',
-      backgroundColor: secondaryColorLight,
-      '&:hover': { backgroundColor: primaryColorMain, color:'white' }
+      backgroundColor: 'primary.main', color: 'primary.contrastText',
+      '&:hover': { backgroundColor: 'primary.dark', color:'white' }
     });
     const [sliderIndex, setSliderIndex] = useState(0);
 

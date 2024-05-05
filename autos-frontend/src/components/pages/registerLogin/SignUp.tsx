@@ -4,9 +4,9 @@ import 'dayjs/locale/de';
 import { Link } from 'react-router-dom';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Button, Checkbox, FormControlLabel, Box, Typography, Stepper, StepLabel, Step, Grid, Paper, SelectChangeEvent } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, primaryColorMain, textFieldSMWitdh, buttonHeight } from '../../../themes/ThemeColor.js';
+import { MainComponentWidth, HeaderIcon, textFieldSMWitdh, buttonHeight } from '../../../themes/ThemeColor.js';
 
-import { DatePicker, DesktopDatePicker, LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers'
+import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs from 'dayjs';
@@ -219,8 +219,8 @@ const SignUpUser: React.FC = () => {
     return <>
       <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Registrieren</Button>
       <div style={{ display: 'flex', paddingBottom: '4rem' }}>
-        <div style={{ width: '40%', color: primaryColorMain }}><p>Passwort vergessen</p></div>
-        <div style={{ display: 'flex', width: '60%', justifyContent: 'end' }}><Link to="/signin" style={{ textDecoration: 'none', color: primaryColorMain }}>Bereits registriert? Login</Link></div>
+        <div style={{ width: '40%' }}><Typography variant='body1' component='p' sx={{ color:'primary.main' }}>Passwort vergessen</Typography></div>
+        <div style={{ display: 'flex', width: '60%', justifyContent: 'end' }}><Link to="/signin" style={{ textDecoration: 'none'}}>Bereits registriert? Login</Link></div>
       </div>
     </>
   }
@@ -232,7 +232,7 @@ const SignUpUser: React.FC = () => {
   return (<>
     < Toaster />
     <MainComponentWidth>
-      <HeaderIcon><LockPersonIcon fontSize='large' /></HeaderIcon>
+      <HeaderIcon><LockPersonIcon fontSize='large' sx={{ color: 'primary.main' }}/></HeaderIcon>
       <Typography variant='h4' component='h1'>Registrieren</Typography>
 
       <Stepper activeStep={activeStep} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
@@ -262,7 +262,7 @@ const SignUpUser: React.FC = () => {
 
 
               {/* Cardealer */}
-              <FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_DEALER} checked={isCheckedDealer} onChange={handleOnChangeCheckbox} />} label="Sind Sie ein:e Händler:in ?" />
+              <FormControlLabel control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_DEALER} checked={isCheckedDealer} onChange={handleOnChangeCheckbox} />} label="Sind Sie ein:e Händler:in ?" />
 
             </> : (activeStep === 1)
               ? <> {/* -------------------- Details -------------------- */}
@@ -335,7 +335,7 @@ const SignUpUser: React.FC = () => {
               </> : <Grid sx={{ marginTop:'2rem', marginBottom:'2rem' }} container columnSpacing={2}>
                 {/* Telefonischer Kontakt */}
                 <Grid item xs={12}>
-              <FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_TELEFON}  checked={isCheckedTelefon} onChange={handleOnChangeCheckbox} />} 
+              <FormControlLabel control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_TELEFON}  checked={isCheckedTelefon} onChange={handleOnChangeCheckbox} />} 
                   label={ 
                     <> 
                     <Typography variant='subtitle1'>Telefonkontakt</Typography> 
@@ -347,7 +347,7 @@ const SignUpUser: React.FC = () => {
                   <hr />
                 </Grid>
                 <Grid item xs={12}>
-              <FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_EMAIL} checked={isCheckedEmail} onChange={handleOnChangeCheckbox} />} 
+              <FormControlLabel control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_EMAIL} checked={isCheckedEmail} onChange={handleOnChangeCheckbox} />} 
                   label={ 
                     <> 
                     <Typography variant='subtitle1'>E-Mail-Kontakt</Typography> 
@@ -359,7 +359,7 @@ const SignUpUser: React.FC = () => {
                   <hr />
                 </Grid>
                 <Grid item xs={12}>
-              <FormControlLabel sx={{ color: primaryColorMain }} control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_CHAT} checked={isCheckedchat} onChange={handleOnChangeCheckbox} />} 
+              <FormControlLabel control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_CHAT} checked={isCheckedchat} onChange={handleOnChangeCheckbox} />} 
                   label={ 
                     <> 
                     <Typography variant='subtitle1'>Chatkontakt</Typography> 

@@ -8,7 +8,7 @@ import { MainComponentWidth, mainComponentHeight } from "../../../../../themes/T
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import SelectField from "../../../../formularFields/SelectField";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
-import { REGEX_BAUREIHE, REGEX_MODEL } from "../../../../../../../autos-backend/src/regex/regex";
+import { REGEX_MODEL } from "../../../../../../../autos-backend/src/regex/regex";
 import { AxiosDataModel } from "../../../../../../../autos-backend/src/interfaces/IAxiosData";
 import TableNormal from "../../../../tables/TableNormal";
 import { formularModelIsValid } from "../../../../../helper/validHelper";

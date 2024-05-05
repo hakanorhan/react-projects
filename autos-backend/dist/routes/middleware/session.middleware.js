@@ -23,7 +23,7 @@ export const sessionAuthMiddleware = (req, res, next) => {
         next();
     }
     else {
-        res.status(401).json({ message: "Not austhenticated!" });
+        res.status(401).json({ message: "Nicht authentifiziert!" });
     }
 };
 export function addConnectListener() {

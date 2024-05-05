@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import * as UploadInfo from '../../../constants/Images';
-import { ImgImageUpload, primaryColorMain } from '../../../themes/ThemeColor';
+import { ImgImageUpload } from '../../../themes/ThemeColor';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 
 interface UploadImagesProp {
@@ -58,10 +58,6 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
       formData.append('carId', carId.toString());
       files.forEach(file => { 
         formData.append('images', file)
-        if(indexFirstPlace === 0) {formData.append('isFirstPlace', 'true')}
-        else formData.append('isFirstPlace', 'false')
-      
-        setIndexFirstPlace(indexFirstPlace + 1);
       });
 
       const response = await axios.post(`${URLs.ORIGIN_SERVER}${URLs.UPLOAD}`, formData, {
@@ -107,14 +103,14 @@ const UploadImage: React.FC<UploadImagesProp> = ({ submitClicked, carId }) => {
         <Grid item xs={12} sm={12} md={6} lg={6} key={index} sx={{ position:'relative', width:'50%' }}>
           <ImgImageUpload src={URL.createObjectURL(file)} alt={`Uploaded image ${index + 1}`}/>
           <Tooltip title="Löschen">
-          <Button onClick={() => { handleDeleteImage(index) }} sx={{ left:'45%',borderRadius:'50%', width:'60px', position:'absolute', top:'42%', height:'60px', opacity:'90%' }}><DeleteOutlineIcon sx={{ color:'white' }} /></Button>
+          <Button onClick={() => { handleDeleteImage(index) }} sx={{ left:'45%',borderRadius:'50%', width:'60px', position:'absolute', top:'42%', height:'60px', backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'primary.dark' } }}><DeleteOutlineIcon  /></Button>
           </Tooltip>
         </Grid>
       ))}
     </Grid>
     <Box sx={{ marginTop:'5rem', marginBottom:'5rem', textAlign:'center' }}>
     <label htmlFor="contained-button-file">
-    <Fab sx={{ backgroundColor: primaryColorMain, color: 'white' }} component="span" aria-label="add">
+    <Fab component="span" aria-label="add">
       <AddIcon />
     </Fab>
     </label>

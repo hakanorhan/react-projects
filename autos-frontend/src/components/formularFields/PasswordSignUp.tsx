@@ -1,11 +1,9 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Box } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Box, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check'
 import { ValidParagraph, colorDanger } from '../../themes/ThemeColor';
-import { primaryColorMain } from '../../themes/ThemeColor';
 import * as ValidHelper from '../../helper/validHelper';
-import { secondaryColorLight } from '../../themes/ThemeColor';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
@@ -37,10 +35,10 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
   const ValidationMessages = () => {
      
     if (passwordValue) {
-        return ValidHelper.passwordSpecificValid(passwordValue).map(item => <ValidParagraph key={item.message} style={{ color: item.isValid ? 'orange' : primaryColorMain }}> {item.message} </ValidParagraph>)
+        return ValidHelper.passwordSpecificValid(passwordValue).map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'black' : 'primary.light' }}> {item.message} </Typography></ValidParagraph>)
 
     } else {
-        return ValidHelper.passwordSpecificValid("").map(item => <ValidParagraph key={item.message} style={{ color: item.isValid ? 'orange' : primaryColorMain }}> {item.message} </ValidParagraph>)
+        return ValidHelper.passwordSpecificValid("").map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'black' : 'primary.light' }}> {item.message} </Typography> </ValidParagraph>)
     }
 }
 
@@ -57,7 +55,7 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
           <IconButton disabled
             aria-label="check visibility"
           >
-            {passwordMatch ? <CheckIcon sx={{ color: secondaryColorLight }}/> : 
+            {passwordMatch ? <CheckIcon /> : 
               isEmpty ? "" : <ErrorOutlineIcon sx={{ color: colorDanger }} />}
           </IconButton>
           <IconButton

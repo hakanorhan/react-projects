@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/site-components/Header';
 import { ThemeProvider } from '@emotion/react';
-import themeColor, { minHeightContent } from './themes/ThemeColor';
+import { themeColor, DARK_BACKGROUND_COLOR, LIGHT_BACKGROUND_COLOR, minHeightContent, setDarkPalette, themeDark, themeLight } from './themes/ThemeColor';
 import Footer from './components/site-components/Footer';
 import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
@@ -15,13 +15,11 @@ import InserateCar from './components/pages/inserate/InserateCar';
 //import CssBaseline from '@mui/material/CssBaseline';
 //import darkTheme from './themes/ThemeDark';
 import Search from './components/pages/Search';
-import { Box } from '@mui/material';
+import { Box, Switch, FormControlLabel, CssBaseline } from '@mui/material';
 
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
-import DashboardProcess from './components/pages/dashboards/admin/DashboardProcess';
 import ProtectedRoute from './components/protectedRoutes/ProtectedRoute';
-import UploadImage from './components/pages/inserate/UploadImage';
 import { Roles } from '../../autos-backend/src/enums/Roles';
 import InsertBrand from './components/pages/dashboards/admin/components/InsertBrand';
 import { URLs } from '../../autos-backend/src/enums/URLs';
@@ -30,19 +28,44 @@ import PublishInserate from './components/pages/dashboards/admin/components/Publ
 
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
-import Service from './components/pages/Service';
 import ListSearchedCars from './components/pages/ListSearchedCars';
 import DetailSearchComponent from './components/pages/ViewDetailSearch';
 
 const App: React.FC = () => {
 
+  const [mode, setMode] = useState<boolean | undefined>();
+
+  
+  useEffect(() => {
+    if(localStorage.getItem('cars.de.mode')) {
+      const localStorageMode = localStorage.getItem('cars.de.mode');
+      const valueLocalStorage = localStorageMode === 'dark';
+      setMode( valueLocalStorage );
+    }  else {
+      localStorage.setItem('cars.de.mode', "light");
+    }
+  },[ ])
+
+  const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const localStorageMode = event.target.checked ? "dark" : "light";
+    localStorage.setItem('cars.de.mode', localStorageMode);
+    setMode(event.target.checked)
+    setDarkPalette(event.target.checked);
+  }
 
   const AppLayout = () => (
-    <>
+    <div style={{ width: '100%'}}>
       <Header />
       <Outlet />
       <Footer />
-    </>
+      
+      <div style={{ color: 'white' }}>
+        <FormControlLabel
+          control={<Switch checked={ mode } onChange={handleChangeSwitch} />}
+          label="Dark Mode"
+        />
+  </div> 
+    </div>
   )
 
   // router
@@ -53,7 +76,7 @@ const App: React.FC = () => {
         { path: URLs.POST_SIGINUP, element: <SignUpUser />, errorElement: <Notfound /> },
         { path: URLs.POST_SIGNIN, element: <SignIn />, errorElement: <Notfound /> },
         { path: URLs.POST_INSERATE_CAR, element: <ProtectedRoute role={Roles.USER}><InserateCar /></ProtectedRoute>, errorElement: <Notfound /> },
-        { path: URLs.FETCH_INSERATE_PUBLISH, element: <ProtectedRoute role={ Roles.ADMIN }> <PublishInserate /> </ProtectedRoute> },
+        { path: URLs.FETCH_INSERATE_PUBLISH, element: <ProtectedRoute role={Roles.ADMIN}> <PublishInserate /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_BRAND, element: <ProtectedRoute role={Roles.ADMIN}> <InsertBrand /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role={Roles.ADMIN}> <InsertModel /> </ProtectedRoute> },
         { path: URLs.FETCH_DETAIL_SEARCH + "/:id", element: <DetailSearchComponent />, errorElement: <Notfound /> },
@@ -67,14 +90,13 @@ const App: React.FC = () => {
 
   // Background image changes on different components 
   const imageName = useSelector((state: RootState) => state.background.imageName);
-
   return (
     <>
       {/* Theme */}
-      <ThemeProvider theme={themeColor}>
+      <ThemeProvider theme={ mode ? themeDark : themeLight }>
         {/* dark theme */}
-        {/* <CssBaseline /> */}
-        <Box sx={{ backgroundImage: `url(${imageName}.jpg)`, width: '100%', minHeight: minHeightContent, backgroundColor: 'whitesmoke' }}>
+         <CssBaseline /> 
+        <Box sx={{ backgroundImage: `url(${imageName}.jpg)`, width: '100%', minHeight: minHeightContent }}>
           {/* Routes */}
           <RouterProvider router={router} fallbackElement={<Notfound />} />
         </Box>
