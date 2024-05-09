@@ -35,10 +35,10 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
   const ValidationMessages = () => {
      
     if (passwordValue) {
-        return ValidHelper.passwordSpecificValid(passwordValue).map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'black' : 'primary.light' }}> {item.message} </Typography></ValidParagraph>)
+        return ValidHelper.passwordSpecificValid(passwordValue).map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'secondary.main' : 'primary.main' }}> {item.message} </Typography></ValidParagraph>)
 
     } else {
-        return ValidHelper.passwordSpecificValid("").map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'black' : 'primary.light' }}> {item.message} </Typography> </ValidParagraph>)
+        return ValidHelper.passwordSpecificValid("").map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'secondary.main' : 'primary.main' }}> {item.message} </Typography> </ValidParagraph>)
     }
 }
 

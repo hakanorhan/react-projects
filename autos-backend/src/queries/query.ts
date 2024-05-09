@@ -1,5 +1,5 @@
 import express from "express";
-import { pool } from "../dbConnect.js";
+import { connectToDatabase } from "../dbConnect1.js";
 import { ResultSetHeader } from "mysql2";
 
 interface InsertTransactionResult {
@@ -12,8 +12,9 @@ export async function insertTransaction(insertQuery: string, values: any[], res:
 
     const resultFromTransaction: InsertTransactionResult = { insertId: null, success: false, message: '' };
 
-    let connection = await pool.getConnection();
+    let connection;
     try {
+        connection = await connectToDatabase()
         await connection.beginTransaction();
             // query Brand
             const [resultBrand]: [ResultSetHeader, any] = await connection.execute(insertQuery, values);
@@ -31,6 +32,7 @@ export async function insertTransaction(insertQuery: string, values: any[], res:
             resultFromTransaction.success = true;
             resultFromTransaction.insertId = insertId;
             resultFromTransaction.message = "Erfolgreich hinzugefügt.";
+            connection.end();
             return res.status(200).json(resultFromTransaction);
         } catch(error: any) {
             let status = 0;
@@ -49,25 +51,25 @@ export async function insertTransaction(insertQuery: string, values: any[], res:
                         status = 500;
                 }
             }
-            connection.rollback();
+            connection?.rollback();
+            connection?.end();
             return res.status(status).json(resultFromTransaction);
-        } finally {
-            connection.release();
-        }
+        } 
 }
 
 export const insertImageName = async (imageName: string, carId: number) => {
 
     const insertInto: string = "INSERT INTO imagename(imagename, inserate_id) VALUES(?, ?)"
 
-    let connection = await pool.getConnection();
+    let connection;
     try {
+            connection = await connectToDatabase();
             // query Baureihe
             await connection.execute(insertInto, [imageName, carId]);
-            connection.release();
+            connection.end();
             return true;
         } catch (err){
-            connection.release();
+            connection?.end();
             console.log(err);
             return false;
         }
@@ -75,12 +77,13 @@ export const insertImageName = async (imageName: string, carId: number) => {
 
 export const deleteImages = async (inserateId: number) => {
     const deleteQuery: string = "DELETE FROM imagename WHERE inserate_id = ?";
-    let connection = await pool.getConnection();
+    let connection;
     try {
+        connection = await connectToDatabase();
         await connection.execute(deleteQuery, [ inserateId ]);
+        connection.end();
     } catch(error) {
         console.log(error);
-    } finally {
-        connection.release();
-    }
+        connection?.end();
+    } 
 }

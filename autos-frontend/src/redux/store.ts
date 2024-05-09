@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import imageSlice from "./features/imageSlice";
 import userlogged from "./features/userlogged";
+import userDarkLightMode from "./features/darkLightMode";
 
 export const store = configureStore({
     reducer: {
-       background: imageSlice,
-       userLoggedIn: userlogged
+       userLoggedIn: userlogged,
+       mode: userDarkLightMode
     }
 })
 

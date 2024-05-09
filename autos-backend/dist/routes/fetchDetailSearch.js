@@ -1,4 +1,4 @@
-import { pool } from '../dbConnect.js';
+import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 const selectQueryDetail = "SELECT *"
     + " FROM inserate i "
@@ -25,8 +25,10 @@ const selectQueryDetail = "SELECT *"
     + " WHERE i.inserate_id = ?";
 export default async (req, res) => {
     const inserateId = req.params.id;
-    let connection = await pool.getConnection();
+    console.log("detail search!");
+    let connection;
     try {
+        connection = await connectToDatabase();
         const queryResult = await connection.execute(selectQueryDetail, [inserateId]);
         const result = queryResult[0];
         const { inserate_id, brand, model, price, cartype, mileage_km, registration_year, registration_month, transmission, inserate_date, power_ps, vehicle_owners, cubic_capacity, au_new, hu_new, door, accident, fuel, is_car_dealer, clima, description_car, scheckheft, fit_to_drive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent, color, city, federal_state } = result[0];
@@ -36,13 +38,12 @@ export default async (req, res) => {
             huNew: hu_new, doors: door, isCardealer: is_car_dealer, clima, description: description_car, scheckheft, fittodrive: fit_to_drive, abstandstempomat, ambientbeleuchtung,
             headupdisplay, totwinkelassistent, color, city, federalState: federal_state
         };
+        connection.end();
         return res.status(200).json(axiosData);
     }
     catch (error) {
         console.log("Error:", error);
         selectMysqlErrorMessages(error.code, res);
-    }
-    finally {
-        connection.release();
+        connection?.end();
     }
 };

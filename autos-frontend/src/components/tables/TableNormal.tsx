@@ -61,7 +61,7 @@ const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
   const TableComponent = () => {
 
     return (
-      <Paper elevation={3} sx={{ margin: 'auto', width: '100%', height:'420px', overflow: 'scroll', backgroundColor: themeColor.palette.primary.contrastText }}>
+      <Paper elevation={3} sx={{ margin: 'auto', width: '100%', height:'420px', overflow: 'scroll', backgroundColor: 'primary.contrastText' }}>
         <TableContainer sx={{width:'100%'}} component={Paper}>
           <Table aria-label='simple table'>
             

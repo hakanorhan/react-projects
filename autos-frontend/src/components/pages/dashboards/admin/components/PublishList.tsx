@@ -11,13 +11,13 @@ interface PublishListProps {
 }
 
 export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
-
     const [viewCarComponent, setViewCarComponent] = useState(false)
     const [inserateId, setInserateId] = useState<number | null>(null);
     
     useEffect(() => {
-        if(inserateId !== null)
-        setViewCarComponent(true);
+        if(inserateId !== null){
+            alert("setVire Car Component");
+        setViewCarComponent(true);}
     }, [inserateId])
 
     const ViewListComponent = () => {

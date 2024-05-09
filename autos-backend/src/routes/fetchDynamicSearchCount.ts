@@ -1,18 +1,14 @@
 import express from "express";
-import { pool } from "../dbConnect.js";
+import { connectToDatabase } from "../dbConnect1.js";
 import { RowDataPacket } from "mysql2";
 import { SelectFieldEnums } from "../enums/SelectFieldEnums.js";
 import { selectMysqlErrorMessages } from "../helper/messages.js";
 
 // disable autocommit and perform transaction
 export async function performQueryGet(req: express.Request, res: express.Response) {
-    console.log("session: " + JSON.stringify(req.session.id));
     
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;
-
-    //console.log(" " + brandid + " " + modelid + " " + price + " " + cartypeid + " " + blandid + " dateFrom: " + dateFrom + " dateTo: " + dateTo)
-    console.log("fetchDynamicSearch - model id: " + modelid);
-
+    console.log("dynamicSearchCount");
     const whereClause: string[] = [" i.inserate_id = ic.inserate_id AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id "];
     const whereValue: any[] = [];
 
@@ -77,18 +73,18 @@ export async function performQueryGet(req: express.Request, res: express.Respons
 
     let connection;
     try {
-        connection = await pool.getConnection();
+        connection = await connectToDatabase();
 
         const queryResult = await connection.execute(query, whereValue);
             const result = queryResult as RowDataPacket[];
             const count = result[0][0].count;
+            connection.end();
             return res.status(200).json(count);
 
     } catch (error: any) {
         console.log(error);
+        connection?.end();
         selectMysqlErrorMessages(error.code, res);
-    } finally {
-        connection?.release();
     }
 
 }

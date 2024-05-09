@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/site-components/Header';
 import { ThemeProvider } from '@emotion/react';
-import { themeColor, DARK_BACKGROUND_COLOR, LIGHT_BACKGROUND_COLOR, minHeightContent, setDarkPalette, themeDark, themeLight } from './themes/ThemeColor';
+import { minHeightContent, themeDark, themeLight } from './themes/ThemeColor';
 import Footer from './components/site-components/Footer';
 import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
@@ -15,7 +15,7 @@ import InserateCar from './components/pages/inserate/InserateCar';
 //import CssBaseline from '@mui/material/CssBaseline';
 //import darkTheme from './themes/ThemeDark';
 import Search from './components/pages/Search';
-import { Box, Switch, FormControlLabel, CssBaseline } from '@mui/material';
+import { Box } from '@mui/material';
 
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
@@ -29,43 +29,17 @@ import PublishInserate from './components/pages/dashboards/admin/components/Publ
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
 import ListSearchedCars from './components/pages/ListSearchedCars';
-import DetailSearchComponent from './components/pages/ViewDetailSearch';
+import ViewDetailSearch from './components/pages/ViewDetailSearch';
 
 const App: React.FC = () => {
 
-  const [mode, setMode] = useState<boolean | undefined>();
-
-  
-  useEffect(() => {
-    if(localStorage.getItem('cars.de.mode')) {
-      const localStorageMode = localStorage.getItem('cars.de.mode');
-      const valueLocalStorage = localStorageMode === 'dark';
-      setMode( valueLocalStorage );
-    }  else {
-      localStorage.setItem('cars.de.mode', "light");
-    }
-  },[ ])
-
-  const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const localStorageMode = event.target.checked ? "dark" : "light";
-    localStorage.setItem('cars.de.mode', localStorageMode);
-    setMode(event.target.checked)
-    setDarkPalette(event.target.checked);
-  }
 
   const AppLayout = () => (
-    <div style={{ width: '100%'}}>
+    <Box sx={{ width: '100%'}}>
       <Header />
       <Outlet />
       <Footer />
-      
-      <div style={{ color: 'white' }}>
-        <FormControlLabel
-          control={<Switch checked={ mode } onChange={handleChangeSwitch} />}
-          label="Dark Mode"
-        />
-  </div> 
-    </div>
+    </Box>
   )
 
   // router
@@ -79,24 +53,20 @@ const App: React.FC = () => {
         { path: URLs.FETCH_INSERATE_PUBLISH, element: <ProtectedRoute role={Roles.ADMIN}> <PublishInserate /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_BRAND, element: <ProtectedRoute role={Roles.ADMIN}> <InsertBrand /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role={Roles.ADMIN}> <InsertModel /> </ProtectedRoute> },
-        { path: URLs.FETCH_DETAIL_SEARCH + "/:id", element: <DetailSearchComponent />, errorElement: <Notfound /> },
+        { path: URLs.FETCH_DETAIL_SEARCH + "/:id", element: <ViewDetailSearch />, errorElement: <Notfound /> },
         { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> },
         { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> }
       ]
     }
   ]);
 
-
-
   // Background image changes on different components 
-  const imageName = useSelector((state: RootState) => state.background.imageName);
+  const mode = useSelector((state: RootState) => state.mode.mode);
   return (
     <>
       {/* Theme */}
       <ThemeProvider theme={ mode ? themeDark : themeLight }>
-        {/* dark theme */}
-         <CssBaseline /> 
-        <Box sx={{ backgroundImage: `url(${imageName}.jpg)`, width: '100%', minHeight: minHeightContent }}>
+        <Box>
           {/* Routes */}
           <RouterProvider router={router} fallbackElement={<Notfound />} />
         </Box>

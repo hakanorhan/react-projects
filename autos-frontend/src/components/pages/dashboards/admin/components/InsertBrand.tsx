@@ -10,6 +10,7 @@ import { handleSubmitPostBrand } from "../../../../../helper/submits";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
 import { REGEX_NAMES } from "../../../../../../../autos-backend/src/regex/regex";
+import { notifyError, notifySuccess } from "../../../../../helper/toastHelper";
 
 interface IFormBrand {
   brand: string
@@ -28,34 +29,51 @@ const InsertBrand = () => {
 
   useEffect(() => {
     // valid brand
+    if(listValues.length > 0) {
+      alert("ListValues > 0");
+      setForm( formBrand );
+      setRefresh(true);
+    } else {
     const fetchData = async () => {
+      alert("FETCH BRAND");
       await axios.get(`${URLs.ORIGIN_SERVER}` + URLs.FETCH_BRAND, { withCredentials: true })
-
+        
         .then(response => {
           setListValues(response.data.tableValues);
         })
         .catch(error => {
           console.log(error);
         })
-
     }
     fetchData();
-  }, [])
+  }
+  }, [listValues])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setRefresh(false);
     // submit after click button
     handleSubmitPostBrand(form.brand, URLs.POST_INSERT_BRAND, setListValues, setInsertId);
+    try {
+      const value = form.brand;
+      const response = await axios.post(URLs.ORIGIN_SERVER + URLs.POST_INSERT_BRAND, { value }, { withCredentials: true })
+       notifySuccess("success", response.data.success);
+       setListValues(response.data.tableValues);
+       //setInsertId(response.data.insertId);
+ 
+     } catch (error: any) {
+       notifyError(error.response.data.errno, error.response.data.message);
+     }
   }
 
   // if user insert new brand. Textfield changes to initialvalue
-  useEffect(() => {
+  /*useEffect(() => {
     if(listValues.length > 0) {
+      alert("If InsertBrand");
       setForm( formBrand );
       setRefresh(true);
     }
-  }, [listValues])
+  }, [listValues]) */
 
   const handleOnChange = (fieldName: string, fieldValue: string) => {
     setForm({ ...form, [fieldName]: fieldValue })

@@ -5,7 +5,7 @@ import { AxiosPaperList } from '../../../../../autos-backend/src/interfaces/IAxi
 import CircleIcon from '@mui/icons-material/Circle';
 
 export const ShowComponent: React.FC<{ detailSearchValues: AxiosPaperList }> = ({ detailSearchValues }) => {
-
+    
     const Cirlce = () => {
         return <CircleIcon sx={{ fontSize: 'inherit', transform: 'scale(0.4)', textAlign: 'center' }} />;
     }

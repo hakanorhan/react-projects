@@ -15,7 +15,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ParagraphSideMenu } from '../../themes/ThemeColor';
+import { LinkDrawer, ParagraphSideMenu, getColorMode } from '../../themes/ThemeColor';
 
 import type { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,8 +35,7 @@ const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem
 
 const drawerFontSize = '28px';
 
-const drawerSizes = { fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px' };
-const LinkDrawer = {  textDecoration: 'none' };
+const drawerSizes = { color:'secondary.contrastText', fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px' };
 const accordionIconStyle = { fontSize: drawerFontSize };
 const accordionStyle = { fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px', marginBottom: '0.8rem' };
 
@@ -53,26 +52,26 @@ export default function Header() {
   const role = useSelector((state: RootState) => state.userLoggedIn.role)
 
   React.useEffect(() => {
-    const checkAuth = async() => {
+    const checkAuth = async () => {
       try {
-          const response = await axios.get<AuthResponse>(URLs.ORIGIN_SERVER + URLs.AUTHENTICATION_USER, { withCredentials: true });
-          const authResponse: AuthResponse = response.data;
-          const logged = authResponse.authenticated;
-          dispatch(setUserLoggedIn(logged));
-          const authRole = authResponse.role;
-          dispatch(setRole(authRole));
-          //alert("Login status: " + logged + " Rolle: " + authRole);
+        const response = await axios.get<AuthResponse>(URLs.ORIGIN_SERVER + URLs.AUTHENTICATION_USER, { withCredentials: true });
+        const authResponse: AuthResponse = response.data;
+        const logged = authResponse.authenticated;
+        dispatch(setUserLoggedIn(logged));
+        const authRole = authResponse.role;
+        dispatch(setRole(authRole));
+        //alert("Login status: " + logged + " Rolle: " + authRole);
 
-  } catch(error: any) {
-      const authResponse: AuthResponse = error.response.data;
-      const logged = authResponse.authenticated;
-          dispatch(setUserLoggedIn(logged));
-          const authRole = authResponse.role;
-          dispatch(setRole(authRole));
+      } catch (error: any) {
+        const authResponse: AuthResponse = error.response.data;
+        const logged = authResponse.authenticated;
+        dispatch(setUserLoggedIn(logged));
+        const authRole = authResponse.role;
+        dispatch(setRole(authRole));
 
-  } 
-  }
-  checkAuth();
+      }
+    }
+    checkAuth();
   }, [])
 
   const handleHamburgerMenu = () => {
@@ -93,22 +92,22 @@ export default function Header() {
 
   async function logoutLogin() {
 
-    if(loggedIn) {
+    if (loggedIn) {
 
       axios.delete(URLs.ORIGIN_SERVER + URLs.LOGOUT, { withCredentials: true })
         .then(response => {
-            dispatch(setUserLoggedIn(false));
-            navigate(URLs.HOME_ALL_SEARCH_COUNT);
+          dispatch(setUserLoggedIn(false));
+          navigate(URLs.HOME_ALL_SEARCH_COUNT);
         })
         .catch(error => {
           alert("Error")
-          
-        }) 
+
+        })
     } else {
       navigate(URLs.POST_SIGNIN);
     }
   }
-    
+
 
   // -------------------------------------- ADMIN ----------------------------------------------------------
   const AccordionHinzufuegen = () => {
@@ -122,10 +121,12 @@ export default function Header() {
       </AccordionSummary>
       <AccordionDetails>
         <Box >
-          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); navigate(URLs.POST_INSERT_BRAND) 
-            }} > Marke </Button>
-          <Button sx={headlineStyle} onClick={() => { setDrawerOpen(false); navigate(URLs.POST_INSERT_MODEL) 
-            }}> Modell </Button>
+          <Button sx={headlineStyle} onClick={() => {
+            setDrawerOpen(false); navigate(URLs.POST_INSERT_BRAND)
+          }} > Marke </Button>
+          <Button sx={headlineStyle} onClick={() => {
+            setDrawerOpen(false); navigate(URLs.POST_INSERT_MODEL)
+          }}> Modell </Button>
         </Box>
       </AccordionDetails>
     </Accordion>
@@ -189,7 +190,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                   <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={ URLs.HOME_ALL_SEARCH_COUNT }>Suchen</Link>} primaryTypographyProps={drawerSizes} />
+                  <ListItemText primary={<Link style={ LinkDrawer } onClick={handleOnCloseDrawer} to={URLs.HOME_ALL_SEARCH_COUNT}><Typography sx={ drawerSizes }> Suchen </Typography></Link>} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -197,7 +198,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={URLs.POST_INSERATE_CAR}> Inserieren</Link>} primaryTypographyProps={drawerSizes} />
+                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={URLs.POST_INSERATE_CAR}> <Typography sx={ drawerSizes }>Inserieren</Typography></Link>} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -205,14 +206,14 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/service'>Unser Service</Link>} primaryTypographyProps={drawerSizes} />
+                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/service'> <Typography sx={ drawerSizes }>Unser Service</Typography></Link>} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
           </List>
         }
 
-        
+
         {role === Roles.ADMIN &&
           <> <hr />
             <Box sx={{ marginTop: '1rem' }}>
@@ -220,8 +221,9 @@ export default function Header() {
               <AccordionUpdate />
               <AccordionEntfernen />
 
-              <Button onClick={() => { setDrawerOpen(false);  navigate(URLs.FETCH_INSERATE_PUBLISH) 
-                }} sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<PublishedWithChangesIcon />}> <p>Veröffentlichen </p></Button>
+              <Button onClick={() => {
+                setDrawerOpen(false); navigate(URLs.FETCH_INSERATE_PUBLISH)
+              }} sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<PublishedWithChangesIcon />}> <p>Veröffentlichen </p></Button>
               <Button sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<UnpublishedIcon />}> <p>AUFHEBEN </p></Button>
             </Box>
           </>
@@ -246,7 +248,7 @@ export default function Header() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'primary.main' }}>
-            <Link style={{ textDecoration: 'none', letterSpacing: '0.1rem' }} to={ URLs.HOME_ALL_SEARCH_COUNT }> {"cars"} </Link>
+            <Link style={{ textDecoration: 'none', letterSpacing: '0.1rem' }} to={URLs.HOME_ALL_SEARCH_COUNT}> {"cars"} </Link>
           </Typography>
 
           <div>
@@ -275,8 +277,8 @@ export default function Header() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={() => { logoutLogin(); handleClose()}}>{(loggedIn) ? "Abmelden" : "Anmelden"}</MenuItem>
-              
+              <MenuItem onClick={() => { logoutLogin(); handleClose() }}>{(loggedIn) ? "Abmelden" : "Anmelden"}</MenuItem>
+
               {/* <MenuItem onClick={(() => { handleClose(); (loggedIn) ? navigate('/signin') : navigate('/signin'); })}> {loggedIn ? "Abmelden" : "Anmelden" } </MenuItem> */}
             </Menu>
           </div>

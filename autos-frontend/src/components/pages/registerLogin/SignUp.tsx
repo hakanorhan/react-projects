@@ -11,7 +11,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs from 'dayjs';
 
-import { setNewImage } from "../../../redux/features/imageSlice.js";
 import { useDispatch } from "react-redux";
 
 import * as EnumCheck from '../../../../../autos-backend/src/enums/CheckBoxID.js';
@@ -81,11 +80,6 @@ const SignUpUser: React.FC = () => {
     }
   }
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setNewImage('signin'));
-  }, [dispatch])
-
   // Checkbox
   const [isCheckedDealer, setIsCheckedDealer] = useState(false);
   const [isCheckedTelefon, setIsCheckedTelefon] = useState(false);
@@ -151,7 +145,7 @@ const SignUpUser: React.FC = () => {
       const zipcode = form.zipcode;
 
       if(!ValidHelper.formularStreetIsValid(street)) {
-        notifyError("street-field", "Bitte Straßenname prüfen")
+        notifyError("street-field", "Bitte Straße-Feld prüfen")
       } else if(!ValidHelper.formularStreetNrIsValid(houseNumber)) {
         notifyError("housenumber-field", "Bitte Hausnummer prüfen")
       } else if(!ValidHelper.formularNameValid(city)) {
@@ -220,7 +214,7 @@ const SignUpUser: React.FC = () => {
       <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Registrieren</Button>
       <div style={{ display: 'flex', paddingBottom: '4rem' }}>
         <div style={{ width: '40%' }}><Typography variant='body1' component='p' sx={{ color:'primary.main' }}>Passwort vergessen</Typography></div>
-        <div style={{ display: 'flex', width: '60%', justifyContent: 'end' }}><Link to="/signin" style={{ textDecoration: 'none'}}>Bereits registriert? Login</Link></div>
+        <Box sx={{ display: 'flex', width: '60%', justifyContent: 'end' }}><Link to="/signin" style={{ textDecoration: 'none'}}><Typography sx={{ color: 'primary.main' }}>Bereits registriert? Login</Typography></Link></Box>
       </div>
     </>
   }

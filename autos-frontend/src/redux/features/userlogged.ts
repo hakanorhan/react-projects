@@ -8,13 +8,14 @@ import { Roles } from "../../../../autos-backend/src/enums/Roles";
 export interface IUserState {
     userLoggedIn: boolean,
     role: Roles,
-    whichButtonClicked: string
+    mode: boolean | undefined
 }
 
 const initialState: IUserState = {
     userLoggedIn : false,
     role: Roles.NULL,
-    whichButtonClicked: "addBrand"
+    whichButtonClicked: "addBrand",
+    mode: undefined
 }
 
 export const userLoggedSlice = createSlice({
@@ -27,11 +28,11 @@ export const userLoggedSlice = createSlice({
         setRole: (state, action: PayloadAction<Roles>) => {
             state.role = action.payload;
         },
-        setWhichButtonClicked: (state, action: PayloadAction<string>) => {
-            state.whichButtonClicked = action.payload
+        setMode: (state, action: PayloadAction<boolean>) => {
+            state.mode = action.payload
         }
     }
 })
 
-export const { setUserLoggedIn, setRole, setWhichButtonClicked } = userLoggedSlice.actions;
+export const { setUserLoggedIn, setRole, setMode } = userLoggedSlice.actions;
 export default userLoggedSlice.reducer;

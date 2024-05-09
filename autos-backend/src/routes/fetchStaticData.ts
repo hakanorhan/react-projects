@@ -1,5 +1,5 @@
 import express from 'express';
-import { pool } from '../dbConnect.js';
+import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 
@@ -8,16 +8,16 @@ const selectQueryCartypes: string = 'SELECT * FROM cartype';
 const selectQueryTransmissions: string = 'SELECT * FROM transmission';
 const selectQueryFuels: string = 'SELECT * FROM fuel';
 const selectQueryDoors: string = 'SELECT * FROM door';
-const selectQuerySeats: string = 'SELECT * FROM seat';
 const selectQueryBundesland: string = 'SELECT * FROM federal_state';
 const selectQueryPrices: string = 'SELECT * FROM price';
 //const selectQuery: string = 'SELECT brands.brandid, brands.marke, models.modell, models.modelid FROM brands JOIN models ON brands.brandid = models.brandid';
 
 export default async (req: express.Request, res: express.Response) => {
     const isAuthenticated = req.isAuthenticated();
-
-    let connection = await pool.getConnection();
+    console.log("fetchStaticData");
+    let connection;
     try {
+        connection = await connectToDatabase();
         // brands
         const queryResultBrands = await connection.execute(selectQueryBrands);
         const resultBrands = queryResultBrands[0] as RowDataPacket[];
@@ -47,13 +47,13 @@ export default async (req: express.Request, res: express.Response) => {
         const queryResultPrices = await connection.execute(selectQueryPrices);
         const resultPrices = queryResultPrices[0] as RowDataPacket[];
 
+        connection.end();
+
         return res.status(200).json({ message: 'Data send',
              tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices, isAuthenticated }});
     } catch (error: any) {
         console.log("Error:", error);
+        connection?.end();
         selectMysqlErrorMessages(error.code, res);
-    } finally {
-        // Stelle sicher, dass die Verbindung geschlossen wird
-        connection.release();
     } 
 }

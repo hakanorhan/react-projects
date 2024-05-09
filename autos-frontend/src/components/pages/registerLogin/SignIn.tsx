@@ -6,13 +6,13 @@ import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Box, Button, Typography } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, buttonHeight, mainComponentHeight } from '../../../themes/ThemeColor.js';
+import { MainComponentWidth, HeaderIcon, buttonHeight, mainComponentHeight, headerSize } from '../../../themes/ThemeColor.js';
 
 import * as validHelper from '../../../helper/validHelper.js';
 
 // TODO: set newimage
 //import { setNewImage } from "../../../redux/features/imageSlice.js";
-import { useDispatch } from "react-redux";
+
 
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
@@ -42,7 +42,6 @@ const SignIn: React.FC = () => {
       setForm({...form, [fieldName] : fieldValue})
     }
 
-  const dispatch = useDispatch();
 
   // TODO: delete
   //const navigate = useNavigate();

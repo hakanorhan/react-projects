@@ -177,6 +177,6 @@ export interface AxiosDataSignup {
 }
 
 export interface AxiosDataPublish {
-  inserateId: number | undefined,
+  inserateId: null | number | undefined | string,
   canPublish: boolean
 }

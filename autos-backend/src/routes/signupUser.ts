@@ -1,5 +1,4 @@
 import express, { response } from "express";
-import { pool } from "../dbConnect.js";
 import ISignUpUser from "../interfaces/ISignUp.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import IRequestSignUp from "../interfaces/ISignUp.js";
@@ -9,6 +8,7 @@ import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../enums/Roles.js";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import { AxiosDataSignup } from "../interfaces/IAxiosData.js";
+import { connectToDatabase } from "../dbConnect1.js";
 
 export const insertAdress: string =
     `INSERT INTO address (street_nr, zipcode, city, federal_state_id) VALUES (?, ?, ?, ?)`;
@@ -50,7 +50,7 @@ async function performQuery(requestData: any, res: express.Response){
         return res.status(401).json(iResponseSignUp);
             }
 
-    const connection = await pool.getConnection();
+    const connection = await connectToDatabase();
     try {
         // start transaction
         await connection.beginTransaction();
@@ -111,18 +111,17 @@ async function performQuery(requestData: any, res: express.Response){
         
         await connection.commit();
         const iResponseSignUp: IResponseSignup = { message: "Sie haben erfolgreich eingeloggt"} 
+        connection.end();
         return res.status(200).json(iResponseSignUp)
 
     } catch(err) {
         // rollback
         console.error(err);
         await connection.rollback();
+        connection.end();
         const iResponseSignUp: IResponseSignup = { message: "Bitte versuchen Sie es erneut."} 
         return res.status(401).json(iResponseSignUp);
         
-    } finally {
-        // release connection
-        connection.release();
     } 
 }
 
@@ -137,7 +136,7 @@ export default async (req: express.Request, res: express.Response) => {
 
 async function performInsertAdmin() {
     
-    const connection = await pool.getConnection();
+    const connection = await connectToDatabase();
     try {
         // start transaction
         await connection.beginTransaction();
@@ -174,6 +173,7 @@ async function performInsertAdmin() {
             [personalDataId, accountDataId, contactPrefferedId, false]);
         
         await connection.commit();
+        connection.end();
         console.log("committed!")
     } catch(err) {
         // rollback
@@ -182,7 +182,7 @@ async function performInsertAdmin() {
         
     } finally {
         // release connection
-        connection.release();
+        connection.end();
     }
 } 
 performInsertAdmin();

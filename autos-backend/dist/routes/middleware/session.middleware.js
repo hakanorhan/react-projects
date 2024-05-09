@@ -4,13 +4,13 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const session = __require("express-session");
 const MySQLStore = require('express-mysql-session')(session);
-import { pool } from '../../dbConnect.js';
+import { connectToDatabase } from '../../dbConnect1.js';
 const sessionStore = new MySQLStore({
     clearExpired: true,
     checkExpirationInterval: 447000000,
     expiration: 150000000,
     createDatabaseTable: true
-}, pool);
+}, connectToDatabase);
 const sessionMiddleware = session({
     secret: "secret",
     resave: false,
@@ -18,8 +18,9 @@ const sessionMiddleware = session({
     store: sessionStore
 });
 export const sessionAuthMiddleware = (req, res, next) => {
-    console.log(req.session.isAuth);
+    console.log("Karin: " + req.session.isAuth);
     if (req.session.isAuth) {
+        console.log("sessionauth middleware!");
         next();
     }
     else {
@@ -28,6 +29,7 @@ export const sessionAuthMiddleware = (req, res, next) => {
 };
 export function addConnectListener() {
     if (!sessionStore.listenerCount('connect')) {
+        console.log("Add connection listener!");
         sessionStore.on('connect', () => {
         });
     }

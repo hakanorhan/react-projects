@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Box, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../../autos-backend/src/interfaces/IAxiosData';
@@ -76,7 +76,6 @@ useEffect(() => {
 }, [])
 
   useEffect(() => {
-    
     async function fetchFromServer () {
       try {
         const searchParams = new URLSearchParams(location.search);

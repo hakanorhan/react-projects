@@ -1,7 +1,7 @@
-import { pool } from "../dbConnect.js";
 import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../enums/Roles.js";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
+import { connectToDatabase } from "../dbConnect1.js";
 export const insertAdress = `INSERT INTO address (street_nr, zipcode, city, federal_state_id) VALUES (?, ?, ?, ?)`;
 export const insertPersonalData = "INSERT INTO personal_data (forename, surename, tel_nr, birthdate, address_id) VALUES (?, ?, ?, ?, ?)";
 export const insertAccountData = "INSERT INTO account_data (email, password_secret, account_role) VALUES (?, ?, ?)";
@@ -24,7 +24,7 @@ async function performQuery(requestData, res) {
         const iResponseSignUp = { message: "Passwörter stimmen nicht überein" };
         return res.status(401).json(iResponseSignUp);
     }
-    const connection = await pool.getConnection();
+    const connection = await connectToDatabase();
     try {
         await connection.beginTransaction();
         const selectQuery = 'SELECT email FROM account_data WHERE email = ?';
@@ -53,16 +53,15 @@ async function performQuery(requestData, res) {
         }
         await connection.commit();
         const iResponseSignUp = { message: "Sie haben erfolgreich eingeloggt" };
+        connection.end();
         return res.status(200).json(iResponseSignUp);
     }
     catch (err) {
         console.error(err);
         await connection.rollback();
+        connection.end();
         const iResponseSignUp = { message: "Bitte versuchen Sie es erneut." };
         return res.status(401).json(iResponseSignUp);
-    }
-    finally {
-        connection.release();
     }
 }
 export default async (req, res) => {
@@ -70,7 +69,7 @@ export default async (req, res) => {
     performQuery(requestData, res);
 };
 async function performInsertAdmin() {
-    const connection = await pool.getConnection();
+    const connection = await connectToDatabase();
     try {
         await connection.beginTransaction();
         const [resultAddress] = await connection.execute(insertAdress, ["Musterstraße 1", "40213", "Düsseldorf", 10]);
@@ -85,6 +84,7 @@ async function performInsertAdmin() {
         const contactPrefferedId = resultContactPreffered.insertId;
         const [resultUser] = await connection.execute(insertUser, [personalDataId, accountDataId, contactPrefferedId, false]);
         await connection.commit();
+        connection.end();
         console.log("committed!");
     }
     catch (err) {
@@ -92,7 +92,7 @@ async function performInsertAdmin() {
         console.log("Rollback!");
     }
     finally {
-        connection.release();
+        connection.end();
     }
 }
 performInsertAdmin();

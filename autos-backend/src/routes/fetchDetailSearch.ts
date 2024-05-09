@@ -1,5 +1,5 @@
 import express from 'express';
-import { pool } from '../dbConnect.js';
+import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
 import { AxiosDetailsearch, AxiosPaper } from '../interfaces/IAxiosData.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
@@ -28,15 +28,17 @@ const selectQueryDetail: string = "SELECT *"
     + " LEFT JOIN tuev t ON t.tuev_id = td.tuev_id"
     + " WHERE i.inserate_id = ?";
 
+
 export default async (req: express.Request, res: express.Response) => {
     const inserateId = req.params.id
+    console.log("detail search!");
     
-    let connection = await pool.getConnection();
+    let connection;
     try {
+        connection = await connectToDatabase();
         const queryResult = await connection.execute(selectQueryDetail, [inserateId]);
         const result = queryResult[0] as RowDataPacket[];
-
-        
+       
         const { inserate_id, brand, model, price, cartype, mileage_km, registration_year, registration_month, transmission, inserate_date, power_ps, vehicle_owners, cubic_capacity,
              au_new, hu_new, door, accident, fuel,
              is_car_dealer, clima, description_car, scheckheft, fit_to_drive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent, color, city, federal_state } = result[0];
@@ -49,11 +51,12 @@ export default async (req: express.Request, res: express.Response) => {
             headupdisplay, totwinkelassistent, color, city, federalState: federal_state
         }
 
+        connection.end();
+
         return res.status(200).json( axiosData );
     } catch (error: any) {
         console.log("Error:", error);
         selectMysqlErrorMessages(error.code, res);
-    } finally {
-        connection.release();
+        connection?.end();
     } 
 }

@@ -1,6 +1,6 @@
 import express from "express";
 import { ResultSetHeader } from "mysql2";
-import { pool } from "../dbConnect.js";
+import { connectToDatabase } from "../dbConnect1.js";
 import { AxiosDataInserate as AxiosDataInserateRequest, AxiosInserateResponse } from "../interfaces/IAxiosData.js";
 import { insertMysqlErrorMessages } from "../helper/messages.js";
 
@@ -30,8 +30,9 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
 
     console.log(JSON.stringify(inserateSelect) + " " + JSON.stringify(inserateData) + " " + JSON.stringify(inserateCheckBox));
 
-    const connection = await pool.getConnection();
+    let connection;
     try {
+        connection = await connectToDatabase();
         // start transaction
         await connection.beginTransaction();
 
@@ -66,16 +67,15 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
         const axiosData: AxiosInserateResponse = { carId: inserateId, message:'succes' };
 
         await connection.commit();
+        connection.end();
         return res.status(200).json( axiosData )
         
     } catch(error: any) {
         // rollback
-        await connection.rollback();
+        await connection?.rollback();
         console.log(error);
+        connection?.end();
         insertMysqlErrorMessages(error.errno, res);
         
-    } finally {
-        // release connection
-        connection.release();
-    }
+    } 
 }

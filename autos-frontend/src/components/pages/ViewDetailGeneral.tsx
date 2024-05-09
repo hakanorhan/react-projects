@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { AxiosDetailsearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
-import { Button, Grid, Paper, Rating, Typography } from '@mui/material';
-import { paperElevationValue, paperMarginTopValue, paperPaddingValue } from '../../themes/ThemeColor';
+import { Box, Button, Grid, Paper, Rating, Typography } from '@mui/material';
+import { paddingPaperDetailSearch, paperElevationValue, paperMarginTopValue, paperViewDetailSearch } from '../../themes/ThemeColor';
 import Check from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import CarImages, { CarImagesProps } from './dashboards/admin/components/CarImages';
@@ -18,13 +18,11 @@ interface GridTechnicalDetails {
     indexColor?: number
   }
 
-
 const ViewDetailGeneral: React.FC<CarImagesProps> = ( { id } ) =>  {
-
+  
   const [detailSearchValues, setDetailSearchValues] = useState<AxiosDetailsearch | null>(null);
 
   useEffect(() => {
-    // valid brand
     const fetchData = async () => {
       // Detail search
       await axios.get<AxiosDetailsearch>(`${URLs.ORIGIN_SERVER}` + URLs.FETCH_DETAIL_SEARCH + `/${id}`, { withCredentials: true })
@@ -40,45 +38,50 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ( { id } ) =>  {
 
   const GridTechnicalComponent: React.FC<GridTechnicalDetails> = ({ title, value, icon, indexColor }) => {
     return <Grid sx={{
-      backgroundColor: { xs: indexColor && indexColor % 2 === 1 ? 'whitesmoke' : 'white' },
+      backgroundColor: { xs: indexColor && indexColor % 2 === 1 ? 'primary.main' : 'secondary.main' },
       display: 'flex', padding: '0.7rem'
     }} item xs={12}> <Grid sx={{ fontWeight: '700' }} item xs={6}>{`${title}:`}</Grid> <Grid sx={{ fontWeight: '300' }} item xs={6}>{value}{icon}</Grid>
     </Grid>
   }
 
   const CheckOrFalseIcon: React.FC<{ checked: boolean }> = ({ checked }) => {
-    return checked ? <Check sx={{ color: 'primary.main'}} /> : <CloseIcon sx={{ color: 'secondary.dark' }} />
+    return checked ? <Check sx={{ color: 'secondary.contrastText'}} /> : <CloseIcon sx={{ color: 'sexondary.contrastText' }} />
   };
 
   return (<>
-
+  <Box sx={{ display:'flex', justifyContent:'center' }}>
+    <Grid container xs={12} columnSpacing={{ xs:0 }}>
+      <Grid item xs= {12} md = {6}>
     <CarImages id={id} />
+    </Grid>
     {detailSearchValues ?
       <>
-        <Paper elevation={paperElevationValue} sx={{ padding: paperPaddingValue, marginTop: paperMarginTopValue }}>
+        <Grid item xs={12} md = {6}>
+        <Paper elevation={ 0 } sx={ paperViewDetailSearch }>
           <Grid container>
             {/* Marke Modell */}
             <Grid item xs={6}>
-              <Grid item xs={12}> <Typography variant='h6' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
-              <hr />
+              <Grid item xs={12}> <Typography sx={{ marginBottom:'0.5rem', color:'secondary.contrastText' }} variant='h6' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
+              <hr style={{ marginBottom:'0.5rem' }}/>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant='h5' component='h2' sx={{ marginRight: '1rem', float: 'right', color: 'secondary.contrastText' }}> {seperateThousand(detailSearchValues?.price)} €</Typography>
+              <Typography variant='h5' component='h2' sx={{ marginBottom:'0.5rem', marginRight: '1rem', float: 'right', color: 'secondary.contrastText' }}> {seperateThousand(detailSearchValues?.price)} €</Typography>
             </Grid>
-            <Grid item xs={12}> <Typography variant='subtitle1' component='h1'>{detailSearchValues.isCardealer ? 'Händler' : 'Privatanbieter'}  <Rating sx={{ verticalAlign: 'middle' }} name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly /></Typography></Grid>
-            <Grid item xs={12}> <Typography variant='subtitle1' component='h1'>{detailSearchValues.city} <b>{detailSearchValues.federalState}</b></Typography></Grid>
+            <Grid item xs={12}> <Typography sx={{ marginBottom:'0.5rem', color:'secondary.contrastText' }} variant='subtitle1' component='h1'>{detailSearchValues.isCardealer ? 'Händler' : 'Privatanbieter'}  <Rating sx={{ verticalAlign: 'middle' }} name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly /></Typography></Grid>
+            <Grid item xs={12}> <Typography sx={{ marginBottom:'0.5rem', color:'secondary.contrastText' }} variant='subtitle1' component='h1'>{detailSearchValues.city} <b>{detailSearchValues.federalState}</b></Typography></Grid>
             <Grid item xs={12}> <Button sx={{ height: '45px' }}>Kontaktieren</Button></Grid>
 
           </Grid>
 
         </Paper>
+        </Grid>
 
         <TDescriptionComponent detailSearchValues={detailSearchValues.axiosPaper} />
 
-        <Paper elevation={paperElevationValue} sx={{ marginTop: paperMarginTopValue }}>
-          <h4 style={{ padding: paperPaddingValue }}> Technische Daten </h4>
-          <hr style={{ margin: paperPaddingValue }} />
-          <Grid container>
+        <Paper elevation={ 0 } sx={ paperViewDetailSearch }>
+        <hr />
+          <h4 style={{ paddingTop: paperMarginTopValue }}> Technische Daten </h4>
+          <Grid container sx={{ paddingTop: paperMarginTopValue }}>
             <GridTechnicalComponent indexColor={1} title='Marke' value={detailSearchValues?.brand} />
             <GridTechnicalComponent indexColor={2} title='Modell' value={detailSearchValues?.model} />
             <GridTechnicalComponent indexColor={1} title='Fahrzeugtyp' value={detailSearchValues.cartype} />
@@ -91,10 +94,11 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ( { id } ) =>  {
           </Grid>
         </Paper>
 
-        <Paper elevation={paperElevationValue} sx={{ marginTop: paperMarginTopValue }}>
-          <h4 style={{ padding: paperPaddingValue }}> Ausstattung </h4>
-          <hr style={{ margin: paperPaddingValue }} />
-          <Grid container>
+        <Paper elevation={ 0 } sx={ paperViewDetailSearch }>
+        <hr  />
+          <h4  style={{ paddingTop: paperMarginTopValue }}> Ausstattung </h4>
+          
+          <Grid container sx={{ paddingTop: paperMarginTopValue }}>
             <GridTechnicalComponent indexColor={1} title='Scheckheftgepflegt' icon={<CheckOrFalseIcon checked={detailSearchValues.scheckheft} />} />
             <GridTechnicalComponent indexColor={2} title='Fahrtüchtig' icon={<CheckOrFalseIcon checked={detailSearchValues.fittodrive} />} />
             <GridTechnicalComponent indexColor={1} title='Abstandstempomat' icon={<CheckOrFalseIcon checked={detailSearchValues.abstandstempomat} />} />
@@ -105,15 +109,21 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ( { id } ) =>  {
           </Grid>
         </Paper>
 
-        <Paper elevation={paperElevationValue} sx={{ marginTop: paperMarginTopValue }}>
-          <Grid sx={{ padding: paperPaddingValue }} item> <h4>Fahrzeugbeschreibung</h4> </Grid>
-          <Grid item xs={12}> <hr style={{ margin: paperElevationValue }} /> </Grid>
-          <Grid item xs={12}> <TextFieldArea padding={paperPaddingValue} minRows={8} maxRows={10} disbled={true} areaText={detailSearchValues.description} /> </Grid>
+        
+        <Grid xs={12} container>
+        
+        <Paper elevation={ 0 } sx={ paperViewDetailSearch }>
+          <hr />
+           <h4 style={{ paddingTop: paperMarginTopValue }}>Fahrzeugbeschreibung</h4>
+          <Grid item xs={12}> <TextFieldArea minRows={8} maxRows={10} disbled={true} areaText={detailSearchValues.description} /> </Grid>
         </Paper>
+        </Grid>
         
       </>
       : <p> Fehler </p>
     }
+    </Grid>
+    </Box>
   </>
   )
 

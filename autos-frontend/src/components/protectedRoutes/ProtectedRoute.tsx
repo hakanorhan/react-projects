@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
 import { notifyError } from '../../helper/toastHelper';
 import { RootState } from '../../redux/store';
-import { UserInformation } from '../../../../autos-backend/src/interfaces/auth/UserInformation';
 
 interface ProtectedRoteProps {
     children: ReactNode,

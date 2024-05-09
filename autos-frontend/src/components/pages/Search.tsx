@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, Tooltip, Typography } from '@mui/material';
 import axios from 'axios';
-import { SearchContainer, buttonHeight, mainComponentHeight } from '../../themes/ThemeColor';
+import { SearchContainer, buttonHeight, headerSize, mainComponentHeight } from '../../themes/ThemeColor';
 
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -64,18 +64,18 @@ const Search: React.FC = () => {
   const [maxDate, setMaxDate] = React.useState(dayjs());
 
   // Fetch static data for select fields
-  useEffectFetch(URLs.FETCH_BRAND, setListBrands);
-  useEffectModel(URLs.FETCH_MODEL, setListModel, formSelect.brand);
+  //useEffectFetch(URLs.FETCH_BRAND, setListBrands);
 
   // Fetch static data
   React.useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_STATIC_CAR_DATA, { withCredentials: true })
+        alert("73")
+        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.SEARCH_DATAS, { withCredentials: true })
         if (response.data) {
 
           const tableValues = response.data.tableValues;
-
+          setListBrands(tableValues.resultBrands);
           setListFederalState(tableValues.resultBundesland);
           setListCarTypes(tableValues.resultCarTypes);
           setListPrices(tableValues.resultPrices);
@@ -89,9 +89,29 @@ const Search: React.FC = () => {
     return () => {}
   }, [])
 
+  React.useEffect(() => {
+    const selectedBrand = formSelect.brand;
+    const fetchData = async() => {
+      alert("95");
+      await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand } , { withCredentials: true })
+            
+      .then(response => { 
+        console.log(response.data.tableValues);
+  
+              //toast.success(response.data.message);
+            setListModel(response.data.tableValues);
+             })
+             .catch(error => console.log(error))
+    }
+    if(selectedBrand) fetchData();
+    return () => {}
+    }, [formSelect.brand])
+
   // fetch data on every select field changes, count cars
   React.useEffect(() => {
+    alert("111");
     handleDynamicSearch();
+    return () => {}
   }, [formSelect, selectedDateFrom, selectedDateTo])
 
   // dynamic search
@@ -135,20 +155,9 @@ const Search: React.FC = () => {
 
   }
 
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 150,
-      },
-    },
-  };
-
   const YearFromComponent: React.FC = () => {
     return <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker label={'Baujahr von'} value={selectedDateFrom} views={['year']} minDate={minDateConst} maxDate={maxDateConst} onChange={(newDate) => { setSelectedDateFrom(newDate), setSelectedDateTo(newDate) }} />
+      <DatePicker sx={{ borderRadius: 0 }} label={'Baujahr von'} value={selectedDateFrom} views={['year']} minDate={minDateConst} maxDate={maxDateConst} onChange={(newDate) => { setSelectedDateFrom(newDate), setSelectedDateTo(newDate) }} />
 
     </LocalizationProvider>
   }
@@ -158,12 +167,20 @@ const Search: React.FC = () => {
       <DatePicker label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={selectedDateFrom} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
     </LocalizationProvider>
   }
+  const imageUrl = "https://kaboompics.com/photo/35127/interior-design-material-board-home-styling-a-neutral-color-scheme-fabric-samples";
+  
+  const handleShowSource = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation(); 
+    window.open(imageUrl, "_blank");
+  }
 
   return (
     <>
-        <SearchContainer>
-        <Typography variant='h1' component='h1' sx={{ textAlign: 'center', paddingTop: '4rem', color: 'secondary.contrastText' }}>Find your next car.</Typography>
-          <Grid container sx={{ marginTop:'4rem', marginBottom:'4rem' }} justifyContent="center" columnSpacing={1}>
+    <Tooltip title={"Laptop, phone mi photo lenses on desk, for source click on image"} >
+    <Box onClick={ handleShowSource } sx={{ cursor:'pointer', backgroundImage: 'url("kaboompics_interior-design-material-board-home-styling-a-neutral-color-scheme-fabric-samples-35127.jpg")', backgroundSize:'cover', backgroundRepeat:'no-repeat', width:'100%', height:'570px' }}>
+        <Typography component='h1' sx={ headerSize}>Neues Auto.</Typography>
+        <SearchContainer onClick={(e) => e.stopPropagation()} sx={{cursor:'default', backgroundColor:'background.default' }}>
+          <Grid container sx={{  }} justifyContent="center" columnSpacing={1}>
             <Grid item xs={6} md={4}>
               {/* Brand */}
               <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brand_id' handleChange={handleChangeSelect} label='Marke' allOption={true} />
@@ -220,6 +237,8 @@ const Search: React.FC = () => {
           </Grid>
         </SearchContainer>
 
+    </Box>
+    </Tooltip>
     </>
   )
 }

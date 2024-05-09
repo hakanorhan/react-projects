@@ -4,7 +4,7 @@ const require = createRequire(import.meta.url);
 import { NextFunction, Request, Response } from 'express';
 import session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
-import { pool } from '../../dbConnect.js';
+import { connectToDatabase } from '../../dbConnect1.js';
 
 const sessionStore: any = new MySQLStore({
     clearExpired: true,
@@ -12,20 +12,8 @@ const sessionStore: any = new MySQLStore({
     expiration: 150_000_000,
     
     createDatabaseTable: true // create table if not exists
-}, pool);
+}, connectToDatabase);
 
-
-/*
-const sessionMiddleware = (req: Request, res: Response, next: NextFunction) => {
-     session({
-        secret: "secret", // TODO: .env
-        resave: false,
-        saveUninitialized: false,
-        store: sessionStore
-    })(req, res, next);;
-
-};
-*/
 const sessionMiddleware = session({
     secret: "secret", // TODO: .env
         resave: false,
@@ -34,9 +22,9 @@ const sessionMiddleware = session({
 });
 
 export const sessionAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.session.isAuth)
+    console.log("Karin: " + req.session.isAuth)
     if(req.session.isAuth) {
-        
+        console.log("sessionauth middleware!");
         next();
     } else {
         res.status(401).json({ message: "Nicht authentifiziert!" });
@@ -45,6 +33,7 @@ export const sessionAuthMiddleware = (req: Request, res: Response, next: NextFun
 
 export function addConnectListener() {
     if (!sessionStore.listenerCount('connect')) {
+        console.log("Add connection listener!")
         sessionStore.on('connect', () => {
         });
     }

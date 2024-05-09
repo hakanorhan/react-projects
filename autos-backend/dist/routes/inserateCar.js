@@ -1,4 +1,4 @@
-import { pool } from "../dbConnect.js";
+import { connectToDatabase } from "../dbConnect1.js";
 import { insertMysqlErrorMessages } from "../helper/messages.js";
 const INSERT_INSERATE_INFO = "INSERT INTO inserate_info (user_id) VALUES(?)";
 const INSERT_INSERATE_CHECK = "INSERT INTO inserate_check (inserate_id) VALUES(?)";
@@ -16,8 +16,9 @@ async function performQuery(data, userId, res) {
     const inserateData = data.inserateData;
     const inserateCheckBox = data.inserateCheckbox;
     console.log(JSON.stringify(inserateSelect) + " " + JSON.stringify(inserateData) + " " + JSON.stringify(inserateCheckBox));
-    const connection = await pool.getConnection();
+    let connection;
     try {
+        connection = await connectToDatabase();
         await connection.beginTransaction();
         const [resultInserateInfo] = await connection.execute(INSERT_INSERATE_INFO, [userId]);
         const inserateInfoId = resultInserateInfo.insertId;
@@ -35,14 +36,13 @@ async function performQuery(data, userId, res) {
         await connection.execute(INSERT_INSERATE_CHECK, [inserateId]);
         const axiosData = { carId: inserateId, message: 'succes' };
         await connection.commit();
+        connection.end();
         return res.status(200).json(axiosData);
     }
     catch (error) {
-        await connection.rollback();
+        await connection?.rollback();
         console.log(error);
+        connection?.end();
         insertMysqlErrorMessages(error.errno, res);
-    }
-    finally {
-        connection.release();
     }
 }

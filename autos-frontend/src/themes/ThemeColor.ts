@@ -19,22 +19,22 @@ const searchContainerLGWidth = '1075px';
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
 
-const LIGHT_PRIMARY_COLOR_MAIN: string = "#1976d2";
-const LIGHT_PRIMARY_COLOR_LIGHT: string = "#4791db";
+const LIGHT_PRIMARY_COLOR_MAIN: string = "#C4C5BA";
+const LIGHT_PRIMARY_COLOR_LIGHT: string = "#E4E4DE";
 const LIGHT_PRIMARY_CONTRAST_TEXT = "#ffffff";
-const LIGHT_PRIMARY_DARK = "#115293";
+const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
-const LIGHT_SECONDARY_COLOR_MAIN: string = "#ff9100";
-const LIGHT_SECONDARY_COLOR_LIGHT: string = "#ffa733";
+const LIGHT_SECONDARY_COLOR_MAIN: string = "#E4E4DE";
+const LIGHT_SECONDARY_COLOR_LIGHT: string = "#E4E4DE";
 const LIGHT_SECONDARY_CONTRAST_TEXT = "#000000";
 const LIGHT_SECONDARY_DARK = "#b26500";
 
-const DARK_PRIMARY_COLOR_MAIN = '#90caf9';
-const DARK_PRIMARY_COLOR_LIGHT = '#a6d4fa';
+const DARK_PRIMARY_COLOR_MAIN = '#1B1B1B';
+const DARK_PRIMARY_COLOR_LIGHT = '#595f39';
 const DARK_PRIMARY_COLOR_DARK = '#648dae';
 const DARK_PRIMARY_CONTRAST_TEXT = '#ffffff';
 
-const DARK_SECONDARY_COLOR_MAIN = '#ff9100';
+const DARK_SECONDARY_COLOR_MAIN = '#595f39';
 const DARK_SECONDARY_COLOR_LIGHT = '#ffa733';
 const DARK_SECONDARY_COLOR_DARK = '#b26500';
 const DARK_SECONDARY_CONTRAST_TEXT = '#ffffff';
@@ -50,13 +50,13 @@ export const mainComponentHeight = '84vh';
 export const paperElevationValue = 10;
 export const paperMarginTopValue = '0.9rem';
 export const paperPaddingValue = '0.7rem';
+export const paddingPaperDetailSearch = '1rem';
 
+export const paperViewDetailSearch = { paddingLeft:paddingPaperDetailSearch, paddingRight:paddingPaperDetailSearch, marginTop: paperMarginTopValue };
 
-let ebruHAKAN = LIGHT_PRIMARY_COLOR_LIGHT;
+export const LinkDrawer = { textDecoration: 'none' };
 
-export const setDarkPalette = (mode: boolean) => {
-    ebruHAKAN = mode ? LIGHT_PRIMARY_COLOR_LIGHT : DARK_PRIMARY_COLOR_DARK;
-}
+export const headerSize = { color: 'white',padding:'4.2rem', textAlign: 'center', fontWeight:'bold', fontSize: {xs: '2rem', sm:'2.5rem', md:'3rem', lg:'3.3rem'}};
 
 export const themeLight = createTheme({
     palette: {
@@ -74,7 +74,7 @@ export const themeLight = createTheme({
             contrastText: LIGHT_SECONDARY_CONTRAST_TEXT
         }, background: {
             default: 'white',
-            paper: LIGHT_PRIMARY_CONTRAST_TEXT
+            paper: 'white'
         },
     }
     ,
@@ -136,7 +136,7 @@ export const themeDark = createTheme({
             contrastText: DARK_SECONDARY_CONTRAST_TEXT
         }, background: {
             default: colors.grey[900], 
-            paper: DARK_PRIMARY_CONTRAST_TEXT
+            paper: colors.grey[900]
         },
     }
     ,
@@ -269,7 +269,9 @@ export const HeaderIcon = styled('div')(({ theme }) => ({
     textAlign: 'center',
     [theme.breakpoints.up("xs")]: {
         width: textFieldXSWitdh,
-        transform: 'scale(1.7)'
+        transform: 'scale(1.7)',
+        marginTop: '1rem',
+        marginBottom: '1rem'
     },
     [theme.breakpoints.up("sm")]: {
         width: textFieldSMWitdh,
@@ -281,7 +283,7 @@ export const HeaderIcon = styled('div')(({ theme }) => ({
 export const HeaderInserateH1 = styled('h1')(({ theme }) => ({
     margin: 'auto',
     textAlign: 'center',
-    color: LIGHT_PRIMARY_COLOR_MAIN,
+    color: 'secondary.contrastText',
     [theme.breakpoints.up("xs")]: {
         fontSize: '1.2rem'
 
@@ -303,10 +305,7 @@ export const ValidParagraph = styled('p')(({ }) => ({
  */
 export const SearchContainer = styled('div')(({ theme }) => ({
     margin: 'auto',
-    borderRadius: '.3rem',
-    marginTop: '4rem',
-    paddingTop: '1rem',
-    paddingBottom: '2rem',
+    padding:'2rem',
     [theme.breakpoints.up("xs")]: {
         width: searchContainerXSWidth,
 

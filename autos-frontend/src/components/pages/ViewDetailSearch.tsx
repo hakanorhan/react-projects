@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom';
 
 import ViewDetailGeneral from './ViewDetailGeneral';
 
-const DetailSearchComponent = () =>  {
+const ViewDetailSearch = () =>  {
   const { id } = useParams();
    return <ViewDetailGeneral id={ id } /> 
 }
 
-export default DetailSearchComponent;
+export default ViewDetailSearch;

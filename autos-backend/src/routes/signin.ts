@@ -1,18 +1,5 @@
 import express, { NextFunction } from "express";
-import { Roles } from "../enums/Roles.js";
-import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-import { SignInForm } from "../interfaces/IAxiosData.js";
-import { pool } from "../dbConnect.js";
-import { RowDataPacket } from "mysql2";
-import { ERROR_MESSAGE_401 } from "../enums/Messages.js";
 import { AuthResponse } from "../interfaces/auth/AuthResponse.js";
-import bcrypt from 'bcrypt';
-import { selectMysqlErrorMessages } from "../helper/messages.js";
-import passport from "./middleware/passport.middleware.js";
-
-const selectQuery: string = 'SELECT * FROM account_data WHERE email = ?';
-const selectUser: string = 'SELECT user_id from user WHERE account_data_id = ?';
-
 
 export default async (req: express.Request, res: express.Response) => {
     const id = (req.user as any).id;

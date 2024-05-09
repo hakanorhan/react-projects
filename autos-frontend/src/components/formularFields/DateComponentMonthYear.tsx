@@ -31,7 +31,7 @@ export const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, 
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='de'>
-      <DemoContainer sx={{ padding: 0 }}
+      <DemoContainer sx={{ padding: 0, borderRadius: 0 }}
         components={[
           'DesktopDatePicker',
         ]}

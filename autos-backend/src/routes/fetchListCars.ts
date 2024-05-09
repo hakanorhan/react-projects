@@ -1,10 +1,11 @@
 import express from 'express';
-import { pool } from '../dbConnect.js';
+import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { SelectFieldEnums } from '../enums/SelectFieldEnums.js';
 import { AxiosPaper, AxiosPaperList } from '../interfaces/IAxiosData.js';
 import { SortEnums } from '../enums/SortEnums.js';
+import { release } from 'os';
 
 export async function fetchListCars(req: express.Request, res: express.Response) {
 
@@ -116,7 +117,7 @@ export async function fetchListCars(req: express.Request, res: express.Response)
 
     let connection;
     try {
-        connection = await pool.getConnection();
+        connection = await connectToDatabase();
 
         const queryResult = await connection.execute(query, whereValue);
             const result = queryResult as RowDataPacket[];
@@ -138,14 +139,13 @@ export async function fetchListCars(req: express.Request, res: express.Response)
                 console.log(axiosPaper.inseratId);
             }) */
 
-            
+            connection.end();
             return res.status(200).json(axiosPapers);
 
     } catch (error: any) {
         console.log(error);
+        connection?.end();
         selectMysqlErrorMessages(error.code, res);
-    } finally {
-        connection?.release();
-    }
+    } 
 
 }

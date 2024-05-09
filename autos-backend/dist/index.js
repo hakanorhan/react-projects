@@ -1,3 +1,5 @@
+import { createRequire as _createRequire } from "module";
+const __require = _createRequire(import.meta.url);
 import express from "express";
 import cors from "cors";
 import signin from "./routes/signin.js";
@@ -25,15 +27,30 @@ import logout from "./routes/logout.js";
 import { fetchListCars } from "./routes/fetchListCars.js";
 import passport, { authMiddelware } from "./routes/middleware/passport.middleware.js";
 import authenticationUser from "./routes/authenticationUser.js";
-import { addConnectListener, addDisconnectListener } from "./routes/middleware/session.middleware.js";
-import sessionMiddleware from "./routes/middleware/session.middleware.js";
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const session = __require("express-session");
+const MySQLStore = require('express-mysql-session')(session);
 const app = express();
-app.use((req, res, next) => {
-    addConnectListener();
-    addDisconnectListener();
-    next();
+const options = {
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'cars'
+};
+const sessionStore = new MySQLStore(options);
+app.use(session({
+    secret: 'Session_secret',
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false
+}));
+sessionStore.onReady().then(() => {
+    console.log('MySQLStore ready');
+}).catch((error) => {
+    console.error(error);
 });
-app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors({
@@ -44,8 +61,6 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(passport.initialize());
-app.use(passport.session());
 app.post(URLs.POST_SIGINUP, signupUser);
 app.post(URLs.POST_SIGINUP_EMAILCHECK, emailCheck);
 app.post(URLs.POST_SIGNIN, passport.authenticate('local'), signin);
@@ -58,7 +73,7 @@ app.post(URLs.FETCH_MODEL, fetchModel);
 app.get(URLs.FETCH_COUNT, dynamicSearchCount);
 app.post(URLs.POST_INSERT_MODEL, authMiddelware, writeModel);
 app.post(URLs.POST_PUBLISH, authMiddelware, postPublish);
-app.get(URLs.FETCH_STATIC_CAR_DATA, fetchStaticData);
+app.get(URLs.SEARCH_DATAS, fetchStaticData);
 app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
 app.get(URLs.FETCH_BUNDESLAENDER, fetchBuendeslaender);
 app.get(URLs.FETCH_IMAGENAMES + "/:id", fetchImageNames);

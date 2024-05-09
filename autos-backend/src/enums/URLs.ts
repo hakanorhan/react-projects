@@ -17,7 +17,7 @@ export enum URLs {
     FETCH_MODEL = '/fetch-model',
     FETCH_BAUREIHE = '/fetchbaureihe',
     FETCH_CARS = '/fetch-cars',
-    FETCH_STATIC_CAR_DATA = '/fetch-staticdata',
+    SEARCH_DATAS = '/fetch-staticdata',
     FETCH_INSERATE_PUBLISH = '/fetch-inserate-publish',
     FETCH_DETAIL_SEARCH = '/detailsuche',
     HOME_ALL_SEARCH_COUNT = '/',

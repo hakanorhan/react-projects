@@ -1,17 +1,18 @@
-import { pool } from '../dbConnect.js';
+import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 const selectQueryBrands = 'SELECT * from brand';
 const selectQueryCartypes = 'SELECT * FROM cartype';
 const selectQueryTransmissions = 'SELECT * FROM transmission';
 const selectQueryFuels = 'SELECT * FROM fuel';
 const selectQueryDoors = 'SELECT * FROM door';
-const selectQuerySeats = 'SELECT * FROM seat';
 const selectQueryBundesland = 'SELECT * FROM federal_state';
 const selectQueryPrices = 'SELECT * FROM price';
 export default async (req, res) => {
     const isAuthenticated = req.isAuthenticated();
-    let connection = await pool.getConnection();
+    console.log("fetchStaticData");
+    let connection;
     try {
+        connection = await connectToDatabase();
         const queryResultBrands = await connection.execute(selectQueryBrands);
         const resultBrands = queryResultBrands[0];
         const queryResultCarTypes = await connection.execute(selectQueryCartypes);
@@ -26,14 +27,13 @@ export default async (req, res) => {
         const resultBundesland = queryResultBundesland[0];
         const queryResultPrices = await connection.execute(selectQueryPrices);
         const resultPrices = queryResultPrices[0];
+        connection.end();
         return res.status(200).json({ message: 'Data send',
             tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices, isAuthenticated } });
     }
     catch (error) {
         console.log("Error:", error);
+        connection?.end();
         selectMysqlErrorMessages(error.code, res);
-    }
-    finally {
-        connection.release();
     }
 };

@@ -1,8 +1,9 @@
-import { pool } from "../dbConnect.js";
+import { connectToDatabase } from "../dbConnect1.js";
 export async function insertTransaction(insertQuery, values, res) {
     const resultFromTransaction = { insertId: null, success: false, message: '' };
-    let connection = await pool.getConnection();
+    let connection;
     try {
+        connection = await connectToDatabase();
         await connection.beginTransaction();
         const [resultBrand] = await connection.execute(insertQuery, values);
         const insertId = resultBrand.insertId;
@@ -11,6 +12,7 @@ export async function insertTransaction(insertQuery, values, res) {
         resultFromTransaction.success = true;
         resultFromTransaction.insertId = insertId;
         resultFromTransaction.message = "Erfolgreich hinzugefügt.";
+        connection.end();
         return res.status(200).json(resultFromTransaction);
     }
     catch (error) {
@@ -30,37 +32,36 @@ export async function insertTransaction(insertQuery, values, res) {
                     status = 500;
             }
         }
-        connection.rollback();
+        connection?.rollback();
+        connection?.end();
         return res.status(status).json(resultFromTransaction);
-    }
-    finally {
-        connection.release();
     }
 }
 export const insertImageName = async (imageName, carId) => {
     const insertInto = "INSERT INTO imagename(imagename, inserate_id) VALUES(?, ?)";
-    let connection = await pool.getConnection();
+    let connection;
     try {
+        connection = await connectToDatabase();
         await connection.execute(insertInto, [imageName, carId]);
-        connection.release();
+        connection.end();
         return true;
     }
     catch (err) {
-        connection.release();
+        connection?.end();
         console.log(err);
         return false;
     }
 };
 export const deleteImages = async (inserateId) => {
     const deleteQuery = "DELETE FROM imagename WHERE inserate_id = ?";
-    let connection = await pool.getConnection();
+    let connection;
     try {
+        connection = await connectToDatabase();
         await connection.execute(deleteQuery, [inserateId]);
+        connection.end();
     }
     catch (error) {
         console.log(error);
-    }
-    finally {
-        connection.release();
+        connection?.end();
     }
 };

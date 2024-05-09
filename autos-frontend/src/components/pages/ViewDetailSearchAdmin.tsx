@@ -9,9 +9,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Publish } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import ViewDetailGeneral from './ViewDetailGeneral';
+import { useNavigate } from 'react-router-dom';
 
 const ViewDetailSearch: React.FC<CarImagesProps> = ({ id }) => {
-
+  const navigate = useNavigate();
+  
   const handlePublish = (canPublish: boolean) => {
 
     const timeStamp = dayjs();
@@ -19,9 +21,9 @@ const ViewDetailSearch: React.FC<CarImagesProps> = ({ id }) => {
 
     async function sendData() {
       try {
-        const inserateId = detailSearchValues?.inseratId
+        //const inserateId = detailSearchValues?.inseratId
         const publishValue: boolean = canPublish;
-        const axiosData: AxiosDataPublish = { inserateId, canPublish: publishValue };
+        const axiosData: AxiosDataPublish = { inserateId: id, canPublish: publishValue };
 
         try {
           const response = await axios.post<AxiosDataPublish>(URLs.ORIGIN_SERVER + URLs.POST_PUBLISH, axiosData, { withCredentials: true });
@@ -29,7 +31,7 @@ const ViewDetailSearch: React.FC<CarImagesProps> = ({ id }) => {
           navigate(0);
 
         } catch (error) {
-          console.log(error)
+          console.log("Hier ein error!" + error)
         }
 
       } catch (error) {

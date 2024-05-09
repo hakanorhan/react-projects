@@ -8,13 +8,16 @@ const SelectField: React.FC<{
   values: any[], objectName: string, idOfSelect: string, selectedValue: string,
   handleChange: (event: SelectChangeEvent<string>) => void, label: string, allOption?: boolean
 }> = ({ values, objectName, idOfSelect, selectedValue, handleChange, label, allOption }) => {
+  
+  const FIELD_STYLE = { color: 'sexondary.contrastText' };
+  
   return <>
     {
       values.length === 0 ? (
         <Tooltip title={`Kein ${label} vorhanden`}>
           <FormControl>
             <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-            <Select
+            <Select sx={{ borderRadius: 0 }}
               disabled={values.length === 0}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -24,12 +27,12 @@ const SelectField: React.FC<{
               onChange={handleChange}
             >
               {
-                (allOption) ? <MenuItem key={ SelectFieldEnums.ITEM_KEY } value={ SelectFieldEnums.ALL_VALUE }> { SelectFieldEnums.DE_ALL_LABEL } </MenuItem> : []
+                (allOption) ? <MenuItem sx={ FIELD_STYLE } key={ SelectFieldEnums.ITEM_KEY } value={ SelectFieldEnums.ALL_VALUE }> { SelectFieldEnums.DE_ALL_LABEL } </MenuItem> : []
               }
               {
                 (values) ?
                   values.map((item, index) => (
-                    <MenuItem key={index} value={item[idOfSelect]}> {item[objectName]} </MenuItem>
+                    <MenuItem sx={ FIELD_STYLE } key={index} value={item[idOfSelect]}> {item[objectName]} </MenuItem>
                   )) : null
               }
 
@@ -39,7 +42,7 @@ const SelectField: React.FC<{
       ) : (
         <FormControl>
           <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-          <Select
+          <Select sx={{ borderRadius: 0 }}
             disabled={values.length === 0}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -49,12 +52,12 @@ const SelectField: React.FC<{
             onChange={handleChange}
           >
             {
-              (allOption) ? <MenuItem key={ SelectFieldEnums.ITEM_KEY } value={ SelectFieldEnums.ALL_VALUE }> { SelectFieldEnums.DE_ALL_LABEL } </MenuItem> : []
+              (allOption) ? <MenuItem sx={ FIELD_STYLE } key={ SelectFieldEnums.ITEM_KEY } value={ SelectFieldEnums.ALL_VALUE }> { SelectFieldEnums.DE_ALL_LABEL } </MenuItem> : []
             }
             {
               (values) ? (
                 values.map((item, index) => (
-                  <MenuItem key={index} value={item[idOfSelect]}> {item[objectName]} </MenuItem>
+                  <MenuItem sx={ FIELD_STYLE } key={index} value={item[idOfSelect]}> {item[objectName]} </MenuItem>
                 ))) : null
             }
 

@@ -18,10 +18,9 @@ interface IFormModel {
 }
 
 const initialModel: IFormModel = { model: "" };
-
 // Components
 const InsertModel = () => {
-
+  
   const [form, setForm] = useState(initialModel);
   const [refresh, setRefresh] = useState(false);
 
@@ -37,6 +36,7 @@ const InsertModel = () => {
   const [modelValues, setModelValues] = useState<any[]>([]);
 
   useEffect(() => {
+    alert("Insert Model: ");
     // valid brand
     const fetchData = async () => {
       await axios.get(`${URLs.ORIGIN_SERVER}` + URLs.FETCH_BRAND, { withCredentials: true })
@@ -52,6 +52,7 @@ const InsertModel = () => {
 
   useEffect(() => {
     if(modelValues.length > 0) {
+      alert("Useeffect Insert 55");
       setForm(initialModel);
     }
   }, [modelValues])

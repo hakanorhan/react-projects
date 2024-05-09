@@ -1,4 +1,4 @@
-import { pool } from '../dbConnect.js';
+import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { SelectFieldEnums } from '../enums/SelectFieldEnums.js';
 import { SortEnums } from '../enums/SortEnums.js';
@@ -92,7 +92,7 @@ export async function fetchListCars(req, res) {
     whereValue.push(offset);
     let connection;
     try {
-        connection = await pool.getConnection();
+        connection = await connectToDatabase();
         const queryResult = await connection.execute(query, whereValue);
         const result = queryResult;
         const cars = result[0];
@@ -102,13 +102,12 @@ export async function fetchListCars(req, res) {
             const axiosPaperList = { isCarDealer: is_car_dealer, price, city, federalState: federal_state, brand, model, transmission, cartype, fuel, accident, inseratId: inserate_id, mileageKm: mileage_km, registrationMonth: registration_month, registrationYear: registration_year, psPower: power_ps, };
             axiosPapers.push(axiosPaperList);
         });
+        connection.end();
         return res.status(200).json(axiosPapers);
     }
     catch (error) {
         console.log(error);
+        connection?.end();
         selectMysqlErrorMessages(error.code, res);
-    }
-    finally {
-        connection?.release();
     }
 }
