@@ -70,7 +70,6 @@ const Search: React.FC = () => {
   React.useEffect(() => {
     async function fetchData() {
       try {
-        alert("73")
         const response = await axios.get(URLs.ORIGIN_SERVER + URLs.SEARCH_DATAS, { withCredentials: true })
         if (response.data) {
 
@@ -92,7 +91,6 @@ const Search: React.FC = () => {
   React.useEffect(() => {
     const selectedBrand = formSelect.brand;
     const fetchData = async() => {
-      alert("95");
       await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand } , { withCredentials: true })
             
       .then(response => { 
@@ -109,7 +107,6 @@ const Search: React.FC = () => {
 
   // fetch data on every select field changes, count cars
   React.useEffect(() => {
-    alert("111");
     handleDynamicSearch();
     return () => {}
   }, [formSelect, selectedDateFrom, selectedDateTo])

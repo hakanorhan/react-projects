@@ -18,7 +18,6 @@ const sessionMiddleware = session({
     store: sessionStore
 });
 export const sessionAuthMiddleware = (req, res, next) => {
-    console.log("Karin: " + req.session.isAuth);
     if (req.session.isAuth) {
         console.log("sessionauth middleware!");
         next();

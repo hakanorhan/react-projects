@@ -3,6 +3,7 @@ import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
 import { AxiosDetailsearch, AxiosPaper } from '../interfaces/IAxiosData.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
+import { Roles } from '../enums/Roles.js';
 
 const selectQueryDetail: string = "SELECT *" 
     + " FROM inserate i "
@@ -28,14 +29,20 @@ const selectQueryDetail: string = "SELECT *"
     + " LEFT JOIN tuev t ON t.tuev_id = td.tuev_id"
     + " WHERE i.inserate_id = ?";
 
+    const updateClick: string = "UPDATE inserate SET clicks = clicks+ 1  WHERE inserate_id = ?";
 
 export default async (req: express.Request, res: express.Response) => {
     const inserateId = req.params.id
-    console.log("detail search!");
-    
+    const user: any = req.user;
+    const role = user.role;
+
     let connection;
     try {
         connection = await connectToDatabase();
+        
+        if(role === Roles.USER)
+            await connection.execute(updateClick, [inserateId]);
+        
         const queryResult = await connection.execute(selectQueryDetail, [inserateId]);
         const result = queryResult[0] as RowDataPacket[];
        

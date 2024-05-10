@@ -40,7 +40,6 @@ export default function ListSearchedCars() {
 
   // count
 useEffect(() => {
-
   const urlSearchParams = new URLSearchParams(location.search);
   const brandid = urlSearchParams.get('brandid');
   const modelid = urlSearchParams.get('modelid');
