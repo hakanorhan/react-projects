@@ -11,33 +11,33 @@ export const ShowComponent: React.FC<{ detailSearchValues: AxiosPaperList }> = (
     }
 
     return (
-        <Box>
-            <Grid xs={12} sx={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid xs={9} item>
-                    <h3 style={{ margin: '0px', padding: '0px', marginLeft: '0.5rem' }}>{detailSearchValues.brand} {detailSearchValues.model}</h3>
-                </Grid>
-                <Grid xs={3} item>
-                    <h3 style={{ margin: '0px', padding: '0px', marginLeft: '0.5rem' }} > {seperateThousand(detailSearchValues.price)} € </h3>
-                </Grid>
-            </Grid>
+        <>
             <Grid container>
-                <Grid item xs={6}>
-                    <div style={{ display: 'flex', margin: '0.5rem' }}>
+                <Grid xs={12} item>
+                    <h2 style={{ fontWeight:'lighter', marginBottom:'0.5rem' }}>{detailSearchValues.brand} {detailSearchValues.model}</h2>
+                </Grid>
+                <Grid xs={12} item>
+                    <h1 style={{marginBottom:'0.5rem' }} > {seperateThousand(detailSearchValues.price)} € </h1>
+                </Grid>
+            
+            
+                <Grid item xs={12}>
+                    <div style={{ display: 'flex' }}>
                         <div>
-                            <Typography sx={{ whiteSpace: 'nowrap', fontSize: '0.9rem', color: 'primary.main', fontWeight: '300' }} display='inline-block' variant='h6' component='h2'> Technische Details </Typography>
-                            <Typography sx={{ whiteSpace: 'nowrap' }} variant='subtitle2' component='p'>
-                                <p> EZ {detailSearchValues.registrationMonth}/{detailSearchValues.registrationYear} <Cirlce /> {detailSearchValues.cartype} <Cirlce /> {seperateThousand(detailSearchValues.mileageKm)} KM <Cirlce /> {detailSearchValues.fuel}</p>
-                                <p> {detailSearchValues.transmission} <Cirlce /> {seperateThousand(detailSearchValues.psPower)} PS </p>
+                            <Typography sx={{ marginBottom:'0.3rem', whiteSpace: 'nowrap', fontSize: '0.9rem', color: 'primary.main', fontWeight: '300' }} display='inline-block' variant='h6' component='h2'> Technische Details </Typography>
+                            <Typography sx={{ wordWrap:'normal' }} variant='body1' component='p'>
+                                <Typography variant='body1' component='p'> EZ {detailSearchValues.registrationMonth}/{detailSearchValues.registrationYear} <Cirlce /> {detailSearchValues.cartype} <Cirlce /> {seperateThousand(detailSearchValues.mileageKm)} KM <Cirlce /> {detailSearchValues.fuel}
+                                <Cirlce /> {detailSearchValues.transmission} <Cirlce /> {seperateThousand(detailSearchValues.psPower)} PS </Typography>
                             </Typography>
                             
-                            <Typography sx={{ whiteSpace: 'nowrap' }} variant='subtitle2' component='p'>
-                                <p> {detailSearchValues.isCarDealer ? "Händler" : "Privatanbieter"}  <Rating sx={{ transform: 'scale(0.8)' }} name="read-only" value={3} readOnly /> </p>
-                                <p> {detailSearchValues.city} {detailSearchValues.federalState} </p>
-                            </Typography>
+                            <Typography sx={{ whiteSpace: 'nowrap' }} variant='subtitle1' component='p'>
+                            <Typography sx={{ marginTop: '0.5rem' }}> {detailSearchValues.city} {detailSearchValues.federalState} </Typography>
+                                <Typography sx={{ marginBottom:'0.7rem', marginTop:'0.5rem' }}> {detailSearchValues.isCarDealer ? "Händler" : "Privatanbieter"}  <Rating sx={{ transform: 'scale(0.8)' }} name="read-only" value={3} readOnly /> </Typography>
+                                </Typography>
                         </div>
                     </div>
                 </Grid>
             </Grid>
-        </Box>
+        </>
     )
 }

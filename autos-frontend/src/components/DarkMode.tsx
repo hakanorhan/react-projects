@@ -1,4 +1,4 @@
-import { FormControlLabel, Switch } from "@mui/material";
+import { Box, Switch, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -28,28 +28,17 @@ export default function DarkMode() {
     dispatch(setMode(checked));
   }
 
-  return (
-    <FormControlLabel
-      control={<Switch sx={{
-      '& .MuiSwitch-thumb': {
-        width: '20px',
-        height: '20px',
-        color: 'primary.contrastText',
-        backgroundColor: 'primary.contrastText'
-      },
-      '& .MuiSwitch-track': {
-        backgroundColor: 'white !important',
-      },
-      '& .Mui-checked .MuiSwitch-track': {
-        backgroundColor: 'white !important',
-      },
-      '& .Mui-checked .MuiSwitch-thumb': {
-        backgroundColor: 'primary.contrastText',
-      } }} 
+  return (<Box sx={{ display:'flex', color:'whitesmoke' }}>
+   
+      {<Switch sx={{ color:'yellow', fill:'yellow',
+        '& .MuiSwitch-thumb': {
+          color: 'whitesmoke'
+        }
+       }}
+      
       checked={ mode } 
       onChange={handleChangeSwitch} 
       />}
-      label= { mode ? "Dunkler Modus" : "Heller Modus" }
-    />
-  )
+    <Typography sx={{ alignContent:'center', color: 'primary.contrastText' }} variant="body1" component='p'> { mode ? "Dunkler Modus" : "Heller Modus" } </Typography>
+  </Box>)
 }

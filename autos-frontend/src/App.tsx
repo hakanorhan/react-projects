@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
 import Header from './components/site-components/Header';
 import { ThemeProvider } from '@emotion/react';
-import { minHeightContent, themeDark, themeLight } from './themes/ThemeColor';
+import {mainComponentHeight, themeDark, themeLight } from './themes/ThemeColor';
 import Footer from './components/site-components/Footer';
 import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
@@ -15,7 +15,7 @@ import InserateCar from './components/pages/inserate/InserateCar';
 //import CssBaseline from '@mui/material/CssBaseline';
 //import darkTheme from './themes/ThemeDark';
 import Search from './components/pages/Search';
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
@@ -33,11 +33,21 @@ import ViewDetailSearch from './components/pages/ViewDetailSearch';
 
 const App: React.FC = () => {
 
-
+  const backgroundImage = useSelector((state: RootState) => state.backgroundImageRedux);
+  /*
+  const handleShowSource = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation(); 
+    window.open(imageUrl, "_blank");
+  } */
+  // backgroundImage: mode ? 'url("pexels-albinberlin-919073.jpg")' :`url("user-2160923_1920.png")`, backgroundRepeat:'no-repeat' 
+// cursor:'pointer',  backgroundImage: 'url("pexels-albinberlin-919073.jpg")', backgroundSize:'cover', backgroundRepeat:'no-repeat',
   const AppLayout = () => (
     <Box sx={{ width: '100%'}}>
+      <Box 
+        sx={{ backgroundImage:  mode ? `linear-gradient(65deg, grey, black, #00a8ff)` : backgroundImage.imageName, }}>
       <Header />
       <Outlet />
+      </Box>
       <Footer />
     </Box>
   )

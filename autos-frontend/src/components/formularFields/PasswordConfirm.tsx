@@ -36,7 +36,7 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChang
     }, [password1, passwordConfirm]);
 
   return (
-    <FormControl required fullWidth variant="outlined" >
+    <FormControl onClick={(e) => e.stopPropagation()} required fullWidth variant="outlined" >
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <OutlinedInput
       id= {id}

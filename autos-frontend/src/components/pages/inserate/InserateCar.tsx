@@ -106,7 +106,7 @@ export default function InserateCar() {
 
   useEffect(() => {
     setRefresh(false)
-    axios.get(`${URLs.ORIGIN_SERVER}${URLs.FETCH_STATIC_CAR_DATA}`, { withCredentials: true })
+    axios.get(`${URLs.ORIGIN_SERVER}${URLs.SEARCH_DATAS}`, { withCredentials: true })
       .then(response => {
         const tableValues = response.data.tableValues;
         setListBrands(tableValues.resultBrands);

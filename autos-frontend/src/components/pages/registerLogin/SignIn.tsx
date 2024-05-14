@@ -6,7 +6,7 @@ import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Box, Button, Typography } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, buttonHeight, mainComponentHeight, headerSize } from '../../../themes/ThemeColor.js';
+import { MainComponentWidth, HeaderIcon, buttonHeight, mainComponentHeight, LIGHT_PRIMARY_CONTRAST_TEXT } from '../../../themes/ThemeColor.js';
 
 import * as validHelper from '../../../helper/validHelper.js';
 
@@ -24,10 +24,17 @@ import { SignInForm } from '../../../../../autos-backend/src/interfaces/IAxiosDa
 import { notifyError, notifySuccess } from '../../../helper/toastHelper.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthResponse } from '../../../../../autos-backend/src/interfaces/auth/AuthResponse.js';
+import { useDispatch } from 'react-redux';
+import { setBackgroundImageName } from '../../../redux/features/backgroundImages.js';
 
 const SignIn: React.FC = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setBackgroundImageName('linear-gradient(45deg, #FFC312, #EE5A24, #00a8ff)'));
+  }, [])
 
   const signInForm: SignInForm = {
     email: "",
@@ -86,13 +93,14 @@ const SignIn: React.FC = () => {
   }
 
   return (
-    <>
+    <Box onClick={(e) => e.stopPropagation()}>
       <Toaster />
       <MainComponentWidth sx={{ height: mainComponentHeight }}>
-        <Box sx={{ display: 'flex', flexDirection:'column', margin:'auto' }}>
-          <HeaderIcon sx={{ color: 'primary.main' }}><LockPersonIcon fontSize='large' /></HeaderIcon>
-          <Typography variant='h4' component="h1">Sign In</Typography>
+        <Box sx={{ display: 'flex', flexDirection:'column', margin:'auto', marginTop:'7rem', marginBottom:'7rem' }}>
+          <HeaderIcon><LockPersonIcon fontSize='large' /></HeaderIcon>
+          <Typography variant='h4' component="h1" sx={{ margin:'auto', color:'primary.contrastText' }}>Anmelden</Typography>
         </Box>
+        
         <form onSubmit={handleSubmit} noValidate>
 
           <TextFieldCars id='email' label='Email' onChange={ value => handleOnChange('email', value)} regex={REGEX_EMAIL} /> 
@@ -101,15 +109,18 @@ const SignIn: React.FC = () => {
           <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Sign in</Button>
           <div style={{ display: 'flex', marginBottom: '4rem' }}>
             <Box style={{ width: '40%', color: 'primary.main' }}>
-              <p>Forgot Password</p>
+              <Typography sx={{ color: 'primary.contrastText' }} variant='body1' component='p'>Forgot Password</Typography>
             </Box>
             <div style={{ width: '60%', display: 'flex', justifyContent: 'flex-end' }}>
-              <Link to={ URLs.POST_SIGINUP } style={{ textDecoration: 'none' }}><Typography variant='body1' component='p' sx={{ color:'primary.main' }}>Don't have an account? Sign Up</Typography> </Link>
+              <Link to={ URLs.POST_SIGINUP } style={{ textDecoration: 'none' }}><Typography variant='body1' component='p' sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }}>Don't have an account? Sign Up</Typography> </Link>
             </div>
           </div>
         </form>
+        <Box>
+          
+        </Box>
       </MainComponentWidth>
-    </>
+    </Box>
   )
 }
 

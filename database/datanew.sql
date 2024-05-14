@@ -168,6 +168,7 @@ CREATE TABLE inserate(
     model_id INT NOT NULL,
     technical_description_id INT NOT NULL,
     inserate_info_id INT NOT NULL,
+    clicks INT NOT NULL DEFAULT 0,
     FOREIGN KEY(model_id) REFERENCES model(model_id),
     FOREIGN KEY(technical_description_id) REFERENCES technical_description(technical_description_id),
     FOREIGN KEY(inserate_info_id) REFERENCES inserate_info(inserate_info_id)

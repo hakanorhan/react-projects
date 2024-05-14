@@ -11,6 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { SortEnums } from '../../../../autos-backend/src/enums/SortEnums';
+import { DivSearchInserate, MainBox, SearchContainer } from '../../themes/ThemeColor';
 
 const LIMIT = 5;
 
@@ -113,18 +114,19 @@ useEffect(() => {
   }
 
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
-    return <Box sx={{ marginBottom: '1rem', padding: '1.5rem' }}>
+    return <Box sx={{ marginBottom: '1rem' }}>
+      < hr style={{ marginBottom:'1.5rem' }}/>
       {
         cars ? <Box sx={{ '&:hover': { cursor: 'pointer' } }} onClick={ () => { handleShowDetail( {id:  axiosPaper.inseratId} ) } } >
           {/* car container */}
           <Grid container columnGap={2}>
             {/* image */}
-            <Grid item lg={3}>
+            <Grid sx={{ minHeight:'250px' }} item xs={12} sm={ 4 } lg={4}>
               {cars ? <CarImages id={axiosPaper.inseratId} /> : <></>}
             </Grid>
 
             {/* technical description */}
-            <Grid item lg={8}>
+            <Grid item sm={7} >
               {
                 cars ? <ShowComponent detailSearchValues={axiosPaper} /> : <>...loading</>
               }
@@ -132,7 +134,7 @@ useEffect(() => {
             </Grid>
 
           </Grid>
-          < hr />
+          
         </Box>
           : <></>
       }
@@ -140,9 +142,10 @@ useEffect(() => {
   }
 
   return (
-    <Box sx={{ width: '750px', margin: 'auto', marginTop: '40px' }}>
+    <MainBox>
+    <SearchContainer>
       
-      <FormControl sx={{ width:'200px',  }}>
+      <FormControl sx={{ marginTop:'2rem', marginBottom:'1rem' }}>
         <InputLabel id="sort">Sortieren</InputLabel>
         <Select
           labelId='sort'
@@ -175,8 +178,9 @@ useEffect(() => {
         )) : <CircularProgress />
       }
 
-      <Pagination count={ count } page={ page } onChange={ handlePagiation } />
+      <Pagination sx={{ paddingBottom:'2rem' }} count={ count } page={ page } onChange={ handlePagiation } />
 
-    </Box>
+    </SearchContainer>
+    </MainBox>
   )
 }

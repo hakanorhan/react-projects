@@ -15,7 +15,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { LinkDrawer, ParagraphSideMenu, getColorMode } from '../../themes/ThemeColor';
+import { LinkDrawer, ParagraphSideMenu } from '../../themes/ThemeColor';
 
 import type { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,7 +35,7 @@ const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem
 
 const drawerFontSize = '28px';
 
-const drawerSizes = { color:'secondary.contrastText', fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px' };
+const drawerSizes = { color: 'secondary.contrastText', fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px' };
 const accordionIconStyle = { fontSize: drawerFontSize };
 const accordionStyle = { fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px', marginBottom: '0.8rem' };
 
@@ -190,7 +190,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  <ListItemText primary={<Link style={ LinkDrawer } onClick={handleOnCloseDrawer} to={URLs.HOME_ALL_SEARCH_COUNT}><Typography sx={ drawerSizes }> Suchen </Typography></Link>} />
+                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={URLs.HOME_ALL_SEARCH_COUNT}><Typography sx={drawerSizes}> Suchen </Typography></Link>} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -198,7 +198,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={URLs.POST_INSERATE_CAR}> <Typography sx={ drawerSizes }>Inserieren</Typography></Link>} />
+                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={URLs.POST_INSERATE_CAR}> <Typography sx={drawerSizes}>Inserieren</Typography></Link>} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -206,7 +206,7 @@ export default function Header() {
             <ListItem>
               <ListItemButton>
                 <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/service'> <Typography sx={ drawerSizes }>Unser Service</Typography></Link>} />
+                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/service'> <Typography sx={drawerSizes}>Unser Service</Typography></Link>} />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>
@@ -234,33 +234,32 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar sx={{ backgroundColor: 'primary.main' }} elevation={1} position="static" >
+      <AppBar onClick={(e) => e.stopPropagation()} elevation={1} position="static" >
         <DrawerMenuComponent />
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
-            color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, color:'primary.contrastText' }}
             onClick={handleHamburgerMenu}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'primary.main' }}>
-            <Link style={{ textDecoration: 'none', letterSpacing: '0.1rem' }} to={URLs.HOME_ALL_SEARCH_COUNT}> {"cars"} </Link>
-          </Typography>
+          <Box sx={{ width: '100%' }}>
+            <Link style={{ textDecoration: 'none' }} to={URLs.HOME_ALL_SEARCH_COUNT}>  <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'whitesmoke' }}> {"cars"} </Typography> </Link>
+          </Box>
 
           <div>
             <IconButton
+              sx={{ color: 'primary.contrastText' }}
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleMenu}
-              color="inherit"
             >
-              <AccountCircle />
+              <AccountCircle sx={{ color: 'primary.contrastText' }}/>
             </IconButton>
             <Menu sx={{ mt: '55px' }}
               id="menu-appbar"

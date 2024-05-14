@@ -12,17 +12,19 @@ import dayjs, { Dayjs } from 'dayjs';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useSpring, animated } from 'react-spring';
 import SelectField from '../formularFields/SelectField';
-import { useEffectFetch, useEffectModel } from '../../helper/DataLoading';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import { AxiosSearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import { SelectFieldEnums } from '../../../../autos-backend/src/enums/SelectFieldEnums';
 import { createSearchParams, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setBackgroundImageName } from '../../redux/features/backgroundImages';
 
 const searchButtonText = " Treffer";
 
 const Search: React.FC = () => {
 
   const navigate = useNavigate();
+
 
   const Number = ({ n }) => {
     const { number } = useSpring({
@@ -33,7 +35,7 @@ const Search: React.FC = () => {
     });
     return <animated.div>{number.to(n => n.toFixed(0))}</animated.div>
   }
-
+  
   // available cars 
   const [countCars, setCountCars] = React.useState<number>();
 
@@ -68,7 +70,9 @@ const Search: React.FC = () => {
 
   // Fetch static data
   React.useEffect(() => {
+
     async function fetchData() {
+      
       try {
         const response = await axios.get(URLs.ORIGIN_SERVER + URLs.SEARCH_DATAS, { withCredentials: true })
         if (response.data) {
@@ -164,19 +168,13 @@ const Search: React.FC = () => {
       <DatePicker label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={selectedDateFrom} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
     </LocalizationProvider>
   }
-  const imageUrl = "https://kaboompics.com/photo/35127/interior-design-material-board-home-styling-a-neutral-color-scheme-fabric-samples";
-  
-  const handleShowSource = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation(); 
-    window.open(imageUrl, "_blank");
-  }
+
 
   return (
     <>
-    <Tooltip title={"Laptop, phone mi photo lenses on desk, for source click on image"} >
-    <Box onClick={ handleShowSource } sx={{ cursor:'pointer', backgroundImage: 'url("kaboompics_interior-design-material-board-home-styling-a-neutral-color-scheme-fabric-samples-35127.jpg")', backgroundSize:'cover', backgroundRepeat:'no-repeat', width:'100%', height:'570px' }}>
+    <Box sx={{ paddingTop:'4rem', paddingBottom: '5rem' }}>
         <Typography component='h1' sx={ headerSize}>Neues Auto.</Typography>
-        <SearchContainer onClick={(e) => e.stopPropagation()} sx={{cursor:'default', backgroundColor:'background.default' }}>
+        <SearchContainer onClick={(e) => e.stopPropagation()} sx={{ padding:'1.5rem', cursor:'default', backgroundColor:'background.default' }}>
           <Grid container sx={{  }} justifyContent="center" columnSpacing={1}>
             <Grid item xs={6} md={4}>
               {/* Brand */}
@@ -235,7 +233,6 @@ const Search: React.FC = () => {
         </SearchContainer>
 
     </Box>
-    </Tooltip>
     </>
   )
 }

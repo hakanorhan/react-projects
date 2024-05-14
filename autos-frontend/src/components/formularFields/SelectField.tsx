@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Select, MenuItem, Tooltip } from "@mui/material"
+import { FormControl, InputLabel, Select, MenuItem, Tooltip, Box } from "@mui/material"
 import { SelectChangeEvent } from "@mui/material";
 import React from "react";
 import { SelectFieldEnums } from "../../../../autos-backend/src/enums/SelectFieldEnums";
@@ -11,7 +11,7 @@ const SelectField: React.FC<{
   
   const FIELD_STYLE = { color: 'sexondary.contrastText' };
   
-  return <>
+  return <Box onClick={(e) => e.stopPropagation()}>
     {
       values.length === 0 ? (
         <Tooltip title={`Kein ${label} vorhanden`}>
@@ -65,7 +65,7 @@ const SelectField: React.FC<{
         </FormControl>
       )
     }
-  </>
+  </Box>
 };
 
 export default SelectField;

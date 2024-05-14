@@ -156,6 +156,7 @@ export interface AxiosDetailsearch {
   totwinkelassistent: boolean,
   color: string,
   city: string,
+  zipcode: string,
   federalState: string
 }
 

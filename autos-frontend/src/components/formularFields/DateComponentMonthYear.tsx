@@ -6,6 +6,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import 'dayjs/locale/de';
 import React, { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 
 interface DateMonthYearProps {
   setYear: (date: number) => void;
@@ -30,6 +31,7 @@ export const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, 
     }
 
   return (
+    <Box onClick={(e) => e.stopPropagation()}>
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='de'>
       <DemoContainer sx={{ padding: 0, borderRadius: 0 }}
         components={[
@@ -51,5 +53,6 @@ export const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, 
         </DemoItem>
        </DemoContainer>
     </LocalizationProvider>
+    </Box>
   );
 }

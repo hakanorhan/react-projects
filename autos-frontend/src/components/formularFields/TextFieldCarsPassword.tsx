@@ -25,7 +25,7 @@ const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ id, label, onChange, rege
   };
 
   return (
-    <FormControl  variant="outlined">
+    <FormControl onClick={(e) => e.stopPropagation()} variant="outlined">
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <OutlinedInput
       id= {id}

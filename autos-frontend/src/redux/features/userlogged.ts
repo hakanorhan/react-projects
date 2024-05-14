@@ -14,7 +14,6 @@ export interface IUserState {
 const initialState: IUserState = {
     userLoggedIn : false,
     role: Roles.NULL,
-    whichButtonClicked: "addBrand",
     mode: undefined
 }
 

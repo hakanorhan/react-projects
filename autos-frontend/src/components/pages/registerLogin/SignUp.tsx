@@ -226,9 +226,11 @@ const SignUpUser: React.FC = () => {
   return (<>
     < Toaster />
     <MainComponentWidth>
-      <HeaderIcon><LockPersonIcon fontSize='large' sx={{ color: 'primary.main' }}/></HeaderIcon>
-      <Typography variant='h4' component='h1'>Registrieren</Typography>
+    <Box sx={{ display: 'flex', flexDirection:'column', margin:'auto', marginTop:'7rem', marginBottom:'7rem' }}>
+      <HeaderIcon><LockPersonIcon fontSize='large'/></HeaderIcon>
 
+      <Typography variant='h4' component="h1" sx={{ margin:'auto', color:'primary.contrastText' }}>Registrieren</Typography>
+    </Box>
       <Stepper activeStep={activeStep} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
         {
           steps.map((step, index) => (
@@ -247,7 +249,7 @@ const SignUpUser: React.FC = () => {
               {/* Email */}
               <Box>
                 <TextFieldCars id={EnumTextField.TextFieldID.EMAIL} label='Email' onChange={value => handleOnChange(EnumTextField.TextFieldID.EMAIL, value,)} regex={REGEX_EMAIL} checkEmail={emailNotUsed} />
-                <Typography sx={{ marginBottom: '1rem' }}>{ ValidHelper.formularEmailValid(form.email) ? emailNotUsed ? <b>Email nicht vorhanden</b> : <b>Email bereits vorhanden</b> : '\u00A0'}</Typography>
+                <Typography sx={{ marginBottom: '1rem', color:'text.primary' }}>{ ValidHelper.formularEmailValid(form.email) ? emailNotUsed ? "Email nicht vorhanden" : "Email bereits vorhanden": '\u00A0'}</Typography>
               </Box>
               <Box sx={{ marginBottom: '1rem' }}>
                 <PasswordSignUp id={EnumTextField.TextFieldID.PASSWORD1} label='Password' onChange={value => handleOnChange(EnumTextField.TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />
@@ -256,7 +258,7 @@ const SignUpUser: React.FC = () => {
 
 
               {/* Cardealer */}
-              <FormControlLabel control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_DEALER} checked={isCheckedDealer} onChange={handleOnChangeCheckbox} />} label="Sind Sie ein:e Händler:in ?" />
+              <FormControlLabel sx={{ color: 'text.primary' }} control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_DEALER} checked={isCheckedDealer} onChange={handleOnChangeCheckbox} />} label="Sind Sie ein:e Händler:in ?" />
 
             </> : (activeStep === 1)
               ? <> {/* -------------------- Details -------------------- */}
@@ -332,7 +334,7 @@ const SignUpUser: React.FC = () => {
               <FormControlLabel control={<Checkbox id={EnumCheck.CheckBoxID.IS_CHECKED_TELEFON}  checked={isCheckedTelefon} onChange={handleOnChangeCheckbox} />} 
                   label={ 
                     <> 
-                    <Typography variant='subtitle1'>Telefonkontakt</Typography> 
+                    <Typography color='yellow' variant='subtitle1'>Telefonkontakt</Typography> 
                     <Typography variant='body2'>Erlauben Sie der Nutzerin und dem Nutzer, telefonisch zu kontaktieren</Typography>
                     </> 
                   } />

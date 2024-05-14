@@ -1,4 +1,4 @@
-import { Box, Switch, FormControlLabel, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from '@mui/icons-material/X';
@@ -8,45 +8,85 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import { Link } from "react-router-dom";
-import { LinkDrawer } from "../../themes/ThemeColor";
+import { LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/ThemeColor";
 import DarkMode from "../DarkMode";
 
 const gridItemStyle = { marginBottom: { xs: '3rem' } };
-const iconStyle = { fill: 'secondary.contrastText', marginRight:'0.5rem' };
+const iconStyle = { marginRight:'0.5rem', fill: LIGHT_PRIMARY_CONTRAST_TEXT };
 
 const gridXS = 12;
 const gridSM = 6;
 const gridMD = 4;
 const gridLG = 3;
 
+const COMPANY = [
+  "Über cars.de",
+  "Karriere",
+  "Presse",
+  "AGB",
+  "Datenschutz",
+  "Impressum"
+];
+
+const SERVICE = [
+  "Kontakt",
+  "Hilfe"
+];
+
+const PRIVATE_DEALER = [
+  "Anmelden",
+  "Registrieren"
+]
+
 export default function Footer() {
 
+  const CreateLink = (linkname: string, index: number) => {
+    return <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > { linkname } </Typography> </Link>
+  }
+
+  const createHeaderForLinks = (header: string) => {
+    return <Typography variant="h5" component='h1' sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
+  }
 
   return (
     <Box sx={{ backgroundColor:'primary.main' }}>
       <Grid sx={{ margin:'auto', padding:'2rem', paddingTop:'3rem'  }} container item xs={ 12 } md={ 11 }>
         <Grid item xs={ gridXS } sm={ gridSM } md={ gridMD } lg= { gridLG } sx={ gridItemStyle }>
-          <Typography variant='h6' component='h1'>{'Unternehmen'}</Typography>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >Über cars.de</Typography> </Link>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >Karriere</Typography> </Link>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >Presse</Typography> </Link>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >AGB</Typography> </Link>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >Datenschutz</Typography> </Link>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >Impressum</Typography> </Link>
+          {
+            createHeaderForLinks("Unternehmen") 
+          }
+
+          {
+            COMPANY.map((links, index) => (
+              CreateLink(links, index)
+            ))
+          }
         </Grid>
         <Grid item xs={ gridXS } sm={ gridSM } md={ gridMD } lg={ gridLG } sx={ gridItemStyle }>
-          <Typography variant='h6' component='h1'>{'Service'}</Typography>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >Kontakt</Typography> </Link>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >Hilfe</Typography> </Link>
+        {
+            createHeaderForLinks("Service") 
+          }
+          {
+            SERVICE.map((links, index) => (
+              CreateLink(links, index)
+            ))
+          }
         </Grid>
         <Grid item xs={ gridXS } sm={ gridSM } md={ gridMD } lg={ gridLG } sx={ gridItemStyle }>
-          <Typography variant='h6' component='h1'>{'Händler / Privat'}</Typography>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >Anmelden</Typography> </Link>
-          <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: 'secondary.contrastText' }} >Registrieren</Typography> </Link>
+        {
+            createHeaderForLinks("Händler / Privat") 
+          }
+          {
+            PRIVATE_DEALER.map((links, index) => (
+              CreateLink(links, index)
+            ))
+          }
         </Grid>
 
         <Grid item xs = { gridXS } sm={ gridSM } md={ 12 } lg={ gridLG } sx={ gridItemStyle }>
-          <Typography variant='h6' component='h1'>{"Soziale Medien"}</Typography>
+        {
+            createHeaderForLinks("Soziale Medien") 
+          }
           <FacebookIcon sx={ iconStyle } />
         <XIcon sx={ iconStyle } />
         <InstagramIcon sx={ iconStyle } />

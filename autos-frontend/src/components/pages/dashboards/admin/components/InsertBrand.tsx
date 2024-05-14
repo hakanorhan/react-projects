@@ -30,12 +30,10 @@ const InsertBrand = () => {
   useEffect(() => {
     // valid brand
     if(listValues.length > 0) {
-      alert("ListValues > 0");
       setForm( formBrand );
       setRefresh(true);
     } else {
     const fetchData = async () => {
-      alert("FETCH BRAND");
       await axios.get(`${URLs.ORIGIN_SERVER}` + URLs.FETCH_BRAND, { withCredentials: true })
         
         .then(response => {

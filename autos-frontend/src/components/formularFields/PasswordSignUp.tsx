@@ -35,16 +35,16 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
   const ValidationMessages = () => {
      
     if (passwordValue) {
-        return ValidHelper.passwordSpecificValid(passwordValue).map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'secondary.main' : 'primary.main' }}> {item.message} </Typography></ValidParagraph>)
+        return ValidHelper.passwordSpecificValid(passwordValue).map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'primary.contrastText' : 'secondary.contrastText' }}> {item.message} </Typography></ValidParagraph>)
 
     } else {
-        return ValidHelper.passwordSpecificValid("").map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'secondary.main' : 'primary.main' }}> {item.message} </Typography> </ValidParagraph>)
+        return ValidHelper.passwordSpecificValid("").map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'primary.contrastText' : 'secondary.contrastText' }}> {item.message} </Typography> </ValidParagraph>)
     }
 }
 
   return (
     <Box>
-    <FormControl  variant="outlined">
+    <FormControl onClick={(e) => e.stopPropagation()} variant="outlined">
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <OutlinedInput
       id= {id}

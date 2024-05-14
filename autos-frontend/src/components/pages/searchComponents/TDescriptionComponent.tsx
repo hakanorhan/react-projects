@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography } from '@mui/material'
+import { Box, Grid, Paper, Typography } from '@mui/material'
 import React from 'react'
 import { ViewDetailIconStyle, paperElevationValue, paperMarginTopValue, paddingPaperDetailSearch } from '../../../themes/ThemeColor'
 import Person3Icon from '@mui/icons-material/Person3';
@@ -27,7 +27,7 @@ export const TDescriptionComponent: React.FC<{ detailSearchValues : AxiosPaper }
       }
 
   return (
-    <Paper elevation={ 0 } sx={{ marginTop: paperMarginTopValue }}>
+    <Box sx={{ marginTop: paperMarginTopValue }}>
     <Grid container>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
         <GridComponent icon={<Person3Icon sx={ViewDetailIconStyle} />} title='Fahrzeughalter' value={detailSearchValues?.vehicleOwners} />
@@ -48,6 +48,6 @@ export const TDescriptionComponent: React.FC<{ detailSearchValues : AxiosPaper }
         <GridComponent icon={<CarCrashIcon sx={ViewDetailIconStyle} />} title='Fahrzeugzustand' value={detailSearchValues && detailSearchValues?.accident ? 'Unfallwagen' : 'Unfallfrei'} />
       </Grid>
     </Grid>
-  </Paper>    
+  </Box>    
 )
 }

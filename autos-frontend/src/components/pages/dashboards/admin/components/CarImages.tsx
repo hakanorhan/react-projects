@@ -6,6 +6,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { ImageCar, primaryColorMain, secondaryColorLight } from '../../../../../themes/ThemeColor';
 import { AxiosDataImagesNames } from '../../../../../../../autos-backend/src/interfaces/IAxiosData';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
  export interface CarImagesProps {
   id: number | null | string | undefined
@@ -81,8 +82,11 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
 
     return (<>
       <Box sx={{ position: 'relative'}}>
+        { imageSrc.length > 1 ?<>
       <IconButton sx={ iconButtonSX(0) } onClick={() => { sliderIndex === imageSrc.length - 1 ? setSliderIndex(0) : setSliderIndex(sliderIndex + 1) }}><ArrowBackIosIcon /></IconButton>
       <IconButton sx={ iconButtonSX(1) } onClick={() => { sliderIndex === 0 ? setSliderIndex(imageSrc.length - 1) : setSliderIndex(sliderIndex - 1) }}><ArrowForwardIosIcon /></IconButton>
+        </>   :<></>
+      }
       <ImageCar src={imageSrc[sliderIndex]} alt="Bild" />
     </Box>
     </>
@@ -95,11 +99,11 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
   }
 
   return (
-    <>
+    <Box onClick={(e) => e.stopPropagation()}>
       {succesFullDownloaded && imageSrc.length > 0 ? <SliderComponent /> : (
-        <p>Lade Bild...</p>
+        <Box sx={{ display:'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center' }}><CameraAltIcon  sx={{ transform:'scale(1.5)' }}/> </Box>
       )}
-    </>
+    </Box>
   );
 };
 
