@@ -112,6 +112,7 @@ export interface AxiosPaper {
   vehicleOwners: number,
   fuel: string,
   accident: boolean,
+  city: string
 }
 
 export interface AxiosPaperList {
@@ -129,7 +130,8 @@ export interface AxiosPaperList {
   city: string,
   cartype: string, 
   federalState: string,
-  isCarDealer: boolean
+  isCarDealer: boolean,
+  vehicleOwners: number
 }
 
 export interface AxiosDetailsearch {

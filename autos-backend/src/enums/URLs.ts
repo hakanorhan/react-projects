@@ -26,6 +26,7 @@ export enum URLs {
     UPLOAD = '/upload',
     IMAGE_PATH = '/uploads',
     FETCH_IMAGENAMES = '/fetch-imagenames',
+    FETCH_IMAGENAME = '/fetch-imagename',
     FETCH_BUNDESLAENDER = "/fetch-bundeslaender",
     FETCH_LIST_CARS = "/listcars",
     LOGOUT = '/logout',

@@ -15,11 +15,9 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { LinkDrawer, ParagraphSideMenu } from '../../themes/ThemeColor';
-
+import { LinkDrawer, LinkHome, ParagraphSideMenu } from '../../themes/ThemeColor';
 import type { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import UpdateIcon from '@mui/icons-material/Update';
@@ -234,7 +232,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar onClick={(e) => e.stopPropagation()} elevation={1} position="static" >
+      <AppBar sx={{ backgroundColor:'primary.main' }} elevation={2} position="static" >
         <DrawerMenuComponent />
         <Toolbar>
           <IconButton
@@ -247,7 +245,7 @@ export default function Header() {
             <MenuIcon />
           </IconButton>
           <Box sx={{ width: '100%' }}>
-            <Link style={{ textDecoration: 'none' }} to={URLs.HOME_ALL_SEARCH_COUNT}>  <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'whitesmoke' }}> {"cars"} </Typography> </Link>
+            <LinkHome  to={URLs.HOME_ALL_SEARCH_COUNT}>  <Typography variant="h6" component="div" sx={{ flexGrow: 1, }}> {"cars"} </Typography> </LinkHome>
           </Box>
 
           <div>

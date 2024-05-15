@@ -71,7 +71,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
         {/*  Container */}
         <Grid sx={{ marginTop: '1rem' }} container xs={12} columnSpacing={{ xs: 0 }}>
           <Grid sx={{ minHeight: '250px' }} item xs={12} md={6}>
-            <CarImages id={id} />
+            <CarImages id={id} multiple={true} />
           </Grid>
           {detailSearchValues ?
             <>

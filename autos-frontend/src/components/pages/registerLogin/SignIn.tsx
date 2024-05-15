@@ -24,17 +24,10 @@ import { SignInForm } from '../../../../../autos-backend/src/interfaces/IAxiosDa
 import { notifyError, notifySuccess } from '../../../helper/toastHelper.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthResponse } from '../../../../../autos-backend/src/interfaces/auth/AuthResponse.js';
-import { useDispatch } from 'react-redux';
-import { setBackgroundImageName } from '../../../redux/features/backgroundImages.js';
 
 const SignIn: React.FC = () => {
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setBackgroundImageName('linear-gradient(45deg, #FFC312, #EE5A24, #00a8ff)'));
-  }, [])
 
   const signInForm: SignInForm = {
     email: "",

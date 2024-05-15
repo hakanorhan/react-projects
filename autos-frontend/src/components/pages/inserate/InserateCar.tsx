@@ -295,17 +295,17 @@ export default function InserateCar() {
           <HeaderInserateH1 sx={{ marginTop: '7rem', marginBottom:'3rem' }} >Das Inserat wird nach der Prüfung veröffentlicht.</HeaderInserateH1>
         </Box>
 
-        <Box sx={{ display: 'flex' }}>
-          <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: requestSuccess ? 'none' : 'display', marginRight: '1rem' }}>Zurück</Button>
+        <Box sx={{ display: 'flex', flexDirection:'column', width:'200px', margin:'auto' }}>
+          <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: requestSuccess ? 'none' : 'display', marginBottom:'2rem' }}>Zurück</Button>
           <Button variant='contained' sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'none' : 'block' }} disabled={disabledNextStep} onClick={handleNextStep}>Weiter</Button>
           <Button  sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'block' : 'none' }} type='submit' variant='contained'>Inserieren</Button>
           
           <Grid container spacing={4}>
-            <Grid item xs= {6}>
-              <Button variant='contained' fullWidth onClick={() => { navigate(0); }} sx={{ marginRight: '1rem', marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
+            <Grid item xs= {12}>
+              <Button variant='contained' fullWidth onClick={() => { navigate(0); }} sx={{ width:'200px', marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
             </Grid>
-            <Grid item xs= {6}>
-              <Button variant='contained' fullWidth onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Suchen</Button>
+            <Grid item xs= {12}>
+              <Button variant='contained' fullWidth onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width:'200px', marginTop: '2rem', display: requestSuccess ? 'display' : 'none' }}>Suchen</Button>
             </Grid>
           </Grid>
           

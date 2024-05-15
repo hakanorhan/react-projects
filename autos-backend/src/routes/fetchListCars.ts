@@ -126,9 +126,10 @@ export async function fetchListCars(req: express.Request, res: express.Response)
             const axiosPapers : AxiosPaperList[] = [];
 
             cars.map((axiosData: any) => {
-                const {is_car_dealer, price, city, federal_state, brand, model, inserate_id, cartype, transmission, mileage_km, registration_year, registration_month, power_ps, fuel, accident } = axiosData;
-
-            const axiosPaperList: AxiosPaperList = { isCarDealer: is_car_dealer, price, city, federalState: federal_state, brand, model, transmission, cartype, fuel, accident, inseratId: inserate_id, mileageKm: mileage_km, registrationMonth: registration_month, registrationYear: registration_year, psPower: power_ps, }
+                const {is_car_dealer, price, city, federal_state, brand, model, inserate_id, cartype, transmission, mileage_km, registration_year, registration_month, power_ps, fuel, accident, vehicle_owners } = axiosData;
+            console.log(vehicle_owners)
+            const axiosPaperList: AxiosPaperList = { isCarDealer: is_car_dealer, price, city, federalState: federal_state, brand, model, transmission, cartype, fuel, accident, 
+                inseratId: inserate_id, mileageKm: mileage_km, registrationMonth: registration_month, registrationYear: registration_year, psPower: power_ps, vehicleOwners: vehicle_owners }
                 
                 axiosPapers.push(axiosPaperList);
 

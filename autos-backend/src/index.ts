@@ -33,6 +33,7 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import session = require('express-session');
 import { SessionOptions } from "express-session";
+import fetchImageName from "./routes/fetchImageName.js";
 const MySQLStore = require('express-mysql-session')(session);
 
 declare module 'express-session' {
@@ -101,6 +102,7 @@ app.get(URLs.SEARCH_DATAS, fetchStaticData);
 app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
 app.get(URLs.FETCH_BUNDESLAENDER, fetchBuendeslaender);
 app.get(URLs.FETCH_IMAGENAMES + "/:id", fetchImageNames);
+app.get(URLs.FETCH_IMAGENAME + "/:id", fetchImageName);
 
 app.get(URLs.FETCH_LIST_CARS, fetchListCars);
 

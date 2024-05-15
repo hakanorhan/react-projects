@@ -13,7 +13,7 @@ export interface IBackgroudImage {
 }
 
 const initialState: IBackgroudImage = {
-    imageName: `linear-gradient(45deg, #FFC312, #EE5A24, #00a8ff)`,
+    imageName: `linear-gradient(0deg, whitesmoke, whitesmoke, whitesmoke)`,
     width:'100%',
     height: mainComponentHeight,
     backgroundSize: '100%'

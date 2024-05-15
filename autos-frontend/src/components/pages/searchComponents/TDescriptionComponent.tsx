@@ -1,6 +1,6 @@
 import { Box, Grid, Paper, Typography } from '@mui/material'
 import React from 'react'
-import { ViewDetailIconStyle, paperElevationValue, paperMarginTopValue, paddingPaperDetailSearch } from '../../../themes/ThemeColor'
+import { ViewDetailIconStyle, paperElevationValue, paperMarginTopValue, paddingPaperDetailSearch, COMPONENT_DISTANCE, paperFontSize } from '../../../themes/ThemeColor'
 import Person3Icon from '@mui/icons-material/Person3';
 import AddRoadIcon from '@mui/icons-material/AddRoad';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -10,19 +10,19 @@ import CarCrashIcon from '@mui/icons-material/CarCrash';
 import { seperateThousand } from '../../../helper/helper';
 import { AxiosPaper } from '../../../../../autos-backend/src/interfaces/IAxiosData';
 
+
 interface GridComponentProps {
     icon: JSX.Element,
-    title: string,
     value: any
   }
 
-const gridItemXS = 6;
+const gridItemXS = 4;
 const gridItemMD = 4;
 
 export const TDescriptionComponent: React.FC<{ detailSearchValues : AxiosPaper }> = ({ detailSearchValues }) => {
 
-    const GridComponent: React.FC<GridComponentProps> = ({ icon, title, value }) => {
-        return <Grid item xs={6}><div style={{ display: 'flex', margin: '0.5rem' }}> {icon} <div><Typography sx={{ fontSize: '0.9rem', color: 'secondary.contrastText', fontWeight: '300' }} display='inline-block' variant='h6' component='h2'>{title}</Typography> <Typography variant='subtitle2' component='p'>{value}</Typography></div></div></Grid>
+    const GridComponent: React.FC<GridComponentProps> = ({ icon, value }) => {
+        return <Grid item sx={{ marginBottom: "1rem" }}><Box sx={{ display: 'flex' }}> {icon}  <Typography sx={{ marginLeft:'.5rem', whiteSpace: 'nowrap', fontSize: paperFontSize }}  component='p'>{value}</Typography></Box></Grid>
     
       }
 
@@ -30,22 +30,26 @@ export const TDescriptionComponent: React.FC<{ detailSearchValues : AxiosPaper }
     <Box sx={{ marginTop: paperMarginTopValue }}>
     <Grid container>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<Person3Icon sx={ViewDetailIconStyle} />} title='Fahrzeughalter' value={detailSearchValues?.vehicleOwners} />
+        <GridComponent icon={<Person3Icon />} value={detailSearchValues.vehicleOwners} />
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<AddRoadIcon sx={ViewDetailIconStyle} />} title='Kilometerstand' value={seperateThousand(detailSearchValues?.mileageKm) + " km"} />
+        <GridComponent icon={<AddRoadIcon />} value={seperateThousand(detailSearchValues.mileageKm) + " KM"} />
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<CalendarTodayIcon sx={ViewDetailIconStyle} />} title='Erstzulassung' value={(detailSearchValues?.registrationMonth < 10 ? '0' + detailSearchValues.registrationMonth : detailSearchValues?.registrationMonth) + " / " + detailSearchValues?.registrationYear} />
+        <Box sx={{ display:'flex', justifyContent: 'end' }}>
+        <GridComponent icon={<CalendarTodayIcon />} value={(detailSearchValues?.registrationMonth < 10 ? '0' + detailSearchValues.registrationMonth : detailSearchValues?.registrationMonth) + " / " + detailSearchValues?.registrationYear} />
+        </Box>
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<DirectionsCarIcon sx={ViewDetailIconStyle} />} title='Leistung' value={detailSearchValues?.psPower + " PS"} />
+        <GridComponent icon={<DirectionsCarIcon  />}  value={seperateThousand(detailSearchValues?.psPower) + " PS"} />
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<LocalGasStationIcon sx={ViewDetailIconStyle} />} title='Kraftstoffart' value={detailSearchValues?.fuel} />
+        <GridComponent icon={<LocalGasStationIcon />} value={detailSearchValues?.fuel} />
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<CarCrashIcon sx={ViewDetailIconStyle} />} title='Fahrzeugzustand' value={detailSearchValues && detailSearchValues?.accident ? 'Unfallwagen' : 'Unfallfrei'} />
+      <Box sx={{ display:'flex', justifyContent: 'end' }}>
+        <GridComponent icon={<CarCrashIcon />}  value={detailSearchValues && detailSearchValues?.accident ? 'Unfallwagen' : 'Unfallfrei'} />
+        </Box>
       </Grid>
     </Grid>
   </Box>    

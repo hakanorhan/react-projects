@@ -1,17 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Box, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent } from '@mui/material'
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
 import CarImages from './dashboards/admin/components/CarImages';
-import { ShowComponent } from './searchComponents/ShowComponent';
+import { ShowFastPaper } from './searchComponents/ShowFastPaper';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { SortEnums } from '../../../../autos-backend/src/enums/SortEnums';
-import { DivSearchInserate, MainBox, SearchContainer } from '../../themes/ThemeColor';
+import { COMPONENT_DISTANCE, LinkHome, LinkNewSearch, MainBox, SearchContainer } from '../../themes/ThemeColor';
+import { useDispatch } from 'react-redux';
+import SearchIcon from '@mui/icons-material/Search';
+import ShareIcon from '@mui/icons-material/Share';
 
 const LIMIT = 5;
 
@@ -21,7 +24,6 @@ export default function ListSearchedCars() {
 
   const navigate = useNavigate();
 
-  // 
   const [cars, setCars] = useState<AxiosPaperList[]>();
 
   const [count, setCount] = useState<number>(0);
@@ -31,52 +33,53 @@ export default function ListSearchedCars() {
   // sort
   const [selectedSort, setSelectedSort] = useState<string>(SortEnums.PRICE_DOWN);
 
+  const dispatch = useDispatch();
+
   // ----- Pagination ------
   const [page, setPage] = useState<number>(1);
   const handlePagiation = (event: any, value: number) => {
     const offsetTemp: number = LIMIT * (value - 1);
     setOffset(offsetTemp);
     setPage(value);
-  } ;
+  };
 
   // count
-useEffect(() => {
-  const urlSearchParams = new URLSearchParams(location.search);
-  const brandid = urlSearchParams.get('brandid');
-  const modelid = urlSearchParams.get('modelid');
-  const cartypeid = urlSearchParams.get('cartypeid');
-  const blandid = urlSearchParams.get('blandid');
-  const dateFrom = urlSearchParams.get('dateFrom');
-  const dateTo = urlSearchParams.get('dateTo');
-  const price = urlSearchParams.get('price');
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(location.search);
+    const brandid = urlSearchParams.get('brandid');
+    const modelid = urlSearchParams.get('modelid');
+    const cartypeid = urlSearchParams.get('cartypeid');
+    const blandid = urlSearchParams.get('blandid');
+    const dateFrom = urlSearchParams.get('dateFrom');
+    const dateTo = urlSearchParams.get('dateTo');
+    const price = urlSearchParams.get('price');
 
-  const searchParams = { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo };
+    const searchParams = { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo };
+    // 
+    async function fetch() {
 
-  // 
-  async function fetch() {
+      try {
 
-    try {
+        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_COUNT, {
+          withCredentials: true,
+          params: searchParams
+        })
+        const anzahl = response.data;
 
-      const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_COUNT, {
-        withCredentials: true,
-        params: searchParams
-      })
-      const anzahl = response.data;
-      
-      let countCalculate: number = Math.floor(anzahl / LIMIT);
-      countCalculate = (anzahl % LIMIT) > 0 ? countCalculate + 1 : countCalculate;
+        let countCalculate: number = Math.floor(anzahl / LIMIT);
+        countCalculate = (anzahl % LIMIT) > 0 ? countCalculate + 1 : countCalculate;
 
-      setCount(countCalculate);
+        setCount(countCalculate);
 
-    } catch (error) {
-      console.log(error)
+      } catch (error) {
+        console.log(error)
+      }
     }
-  }
-  fetch();
-}, [])
+    fetch();
+  }, [])
 
   useEffect(() => {
-    async function fetchFromServer () {
+    async function fetchFromServer() {
       try {
         const searchParams = new URLSearchParams(location.search);
         const brandid = searchParams.get('brandid');
@@ -90,7 +93,7 @@ useEffect(() => {
 
         const response = await axios.get<AxiosPaperList[]>(URLs.ORIGIN_SERVER + URLs.FETCH_LIST_CARS, {
           withCredentials: true,
-          params: { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, LIMIT, offset, sorttype  }
+          params: { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, LIMIT, offset, sorttype }
         })
         const data = response.data;
         setCars(data);
@@ -100,87 +103,90 @@ useEffect(() => {
       }
 
     }
-    
-    fetchFromServer();
-  }, [ page, selectedSort ])
 
-   const handleChangeSort = (event: SelectChangeEvent) => {
+    fetchFromServer();
+  }, [page, selectedSort])
+
+  const handleChangeSort = (event: SelectChangeEvent) => {
     const sortId = event.target.value as string;
     setSelectedSort(sortId);
   };
 
-  const handleShowDetail = ({ id }: ({id: number})) => {
-    navigate(URLs.FETCH_DETAIL_SEARCH + `/${ id }`);
+  const handleShowDetail = ({ id }: ({ id: number })) => {
+    navigate(URLs.FETCH_DETAIL_SEARCH + `/${id}`);
   }
 
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
-    return <Box sx={{ marginBottom: '1rem' }}>
-      < hr style={{ marginBottom:'1.5rem' }}/>
-      {
-        cars ? <Box sx={{ '&:hover': { cursor: 'pointer' } }} onClick={ () => { handleShowDetail( {id:  axiosPaper.inseratId} ) } } >
-          {/* car container */}
-          <Grid container columnGap={2}>
-            {/* image */}
-            <Grid sx={{ minHeight:'250px' }} item xs={12} sm={ 4 } lg={4}>
-              {cars ? <CarImages id={axiosPaper.inseratId} /> : <></>}
-            </Grid>
+    return cars ? <Paper sx={{ '&:hover': { cursor: 'pointer' } }} onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }} >
+      {/* car container */}
+      <Box>
 
-            {/* technical description */}
-            <Grid item sm={7} >
-              {
-                cars ? <ShowComponent detailSearchValues={axiosPaper} /> : <>...loading</>
-              }
+        {cars ? <CarImages id={axiosPaper.inseratId} multiple={false} /> : <></>}
 
-            </Grid>
+        {/* technical description */}
+        {
+          cars ? <ShowFastPaper detailSearchValues={axiosPaper} /> : <>...loading</>
+        }
 
-          </Grid>
-          
-        </Box>
-          : <></>
-      }
-    </Box>
+      </Box>
+
+
+    </Paper>
+      : <></>
+
+
   }
 
   return (
     <MainBox>
-    <SearchContainer>
-      
-      <FormControl sx={{ marginTop:'2rem', marginBottom:'1rem' }}>
-        <InputLabel id="sort">Sortieren</InputLabel>
-        <Select
-          labelId='sort'
-          value={ selectedSort }
-          label={"Sortieren"}
-          onChange={ handleChangeSort }
+      <SearchContainer>
+    <Grid container>
+      <Grid item xs={2}>
+        <FormControl sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
+          <InputLabel id="sort">Sortieren</InputLabel>
+          <Select
+            labelId='sort'
+            value={selectedSort}
+            label={"Sortieren"}
+            onChange={handleChangeSort}
           >
-            <MenuItem value={ SortEnums.EZ_UP }>Erstzulassung <ArrowUpwardIcon fontSize='small'/></MenuItem>
-            <MenuItem value={ SortEnums.EZ_DOWN }>Erstzulassung <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.EZ_UP}>Erstzulassung <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.EZ_DOWN}>Erstzulassung <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr />
-            <MenuItem value={ SortEnums.KM_UP }>Kilometerstand <ArrowUpwardIcon fontSize='small' /></MenuItem>
-            <MenuItem value={ SortEnums.KM_DOWN }>Kilometerstand <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.KM_UP}>Kilometerstand <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.KM_DOWN}>Kilometerstand <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr />
-            <MenuItem value={ SortEnums.INSREATE_UP }>Inserate <ArrowUpwardIcon fontSize='small' /></MenuItem>
-            <MenuItem value={ SortEnums.INSREATE_DOWN }>Inserate <ArrowDownwardIcon fontSize='small' /></MenuItem>
-            <hr/>
-            <MenuItem value={ SortEnums.POWER_UP }>Leistung <ArrowUpwardIcon fontSize='small' /></MenuItem>
-            <MenuItem value={ SortEnums.POWER_DOWN }>Leistung <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.INSREATE_UP}>Inserate <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.INSREATE_DOWN}>Inserate <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr />
-            <MenuItem value={ SortEnums.PRICE_UP }>Preis <ArrowUpwardIcon fontSize='small' /></MenuItem>
-            <MenuItem value={ SortEnums.PRICE_DOWN }>Preis <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.POWER_UP}>Leistung <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.POWER_DOWN}>Leistung <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <hr />
+            <MenuItem value={SortEnums.PRICE_UP}>Preis <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.PRICE_DOWN}>Preis <ArrowDownwardIcon fontSize='small' /></MenuItem>
 
           </Select>
-          
-      </FormControl>
 
-      {
-        cars ? cars.map((axiosPaper, index) => (
-          <ListContainer key={index} axiosPaper={axiosPaper} />
-        )) : <CircularProgress />
-      }
+        </FormControl>
+      </Grid>
 
-      <Pagination sx={{ paddingBottom:'2rem' }} count={ count } page={ page } onChange={ handlePagiation } />
+      <Grid item xs={5}> <Box sx={{ display: 'flex', justifyContent: 'end', alignItems:'center', height:'100%' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{display:'flex'}}><SearchIcon /><Typography sx={{ marginLeft:'0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box> </Grid>
 
-    </SearchContainer>
+      <Grid item xs={5}> <Box sx={{ display: 'flex', justifyContent: 'end', alignItems:'center', height:'100%' }}> <ShareIcon /> <Typography sx={{ marginLeft:'0.3rem' }}>Suche teilen</Typography></Box> </Grid>
+    </Grid>
+        <Grid container spacing={2}>
+          {
+            cars ? cars.map((axiosPaper, index) => (
+              <Grid item xs={12} md={6} key={index}>
+                <ListContainer key={index} axiosPaper={axiosPaper} />
+              </Grid>
+            )) : <CircularProgress />
+          }
+        </Grid>
+
+        <Pagination sx={{ marginTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }} count={count} page={page} onChange={handlePagiation} />
+
+      </SearchContainer>
     </MainBox>
   )
 }

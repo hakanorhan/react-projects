@@ -50,8 +50,8 @@ export default async (req: express.Request, res: express.Response) => {
              au_new, hu_new, door, accident, fuel,
              is_car_dealer, clima, description_car, scheckheft, fit_to_drive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent, color, city, federal_state, zipcode } = result[0];
         
-        const axiosPaper: AxiosPaper = { inseratId: inserate_id, mileageKm: mileage_km, registrationYear: registration_year, registrationMonth: registration_month, psPower: power_ps, vehicleOwners: vehicle_owners, fuel, accident, }
-
+        const axiosPaper: AxiosPaper = { inseratId: inserate_id, mileageKm: mileage_km, registrationYear: registration_year, registrationMonth: registration_month, psPower: power_ps, vehicleOwners: vehicle_owners, fuel, accident, city }
+        
         const axiosData: AxiosDetailsearch = {
             inseratId: inserate_id, model, brand, price, cartype, transmission, axiosPaper, inserateDate: inserate_date , cubicCapacity: cubic_capacity, auNew: au_new,
             huNew: hu_new, doors: door, isCardealer: is_car_dealer, clima, description: description_car, scheckheft, fittodrive: fit_to_drive, abstandstempomat, ambientbeleuchtung,

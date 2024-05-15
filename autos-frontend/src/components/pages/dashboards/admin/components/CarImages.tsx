@@ -4,14 +4,15 @@ import { URLs } from '../../../../../../../autos-backend/src/enums/URLs';
 import { Box, IconButton, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { ImageCar, primaryColorMain, secondaryColorLight } from '../../../../../themes/ThemeColor';
+import { ImageCar } from '../../../../../themes/ThemeColor';
 import { AxiosDataImagesNames } from '../../../../../../../autos-backend/src/interfaces/IAxiosData';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
  export interface CarImagesProps {
-  id: number | null | string | undefined
+  id: number | null | string | undefined,
+  multiple: boolean
 }
-const CarImages: React.FC<CarImagesProps> = ({ id }) => {
+const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
 
   const [fetchImageNamesDone, setFetchImageNamesDone] = useState(false);
   const [fetchedImageInformations, setFetchedImageInformations] = useState<AxiosDataImagesNames[]>([]);
@@ -34,7 +35,21 @@ const CarImages: React.FC<CarImagesProps> = ({ id }) => {
       }
     }
 
+    const fetchImageName = async() => {
+      try {
+      const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAME +'/' + id, { withCredentials: true })
+      setFetchedImageInformations(response.data);
+        setFetchImageNamesDone(true);
+        
+    } catch(error) {
+        console.log(error)
+      }
+    }
+
+    if(multiple)
     fetchImageNames();
+    else
+    fetchImageName();
   }, [id])
 
   useEffect(() => {

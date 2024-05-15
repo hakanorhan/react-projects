@@ -1,5 +1,6 @@
-import { colors, createTheme } from "@mui/material";
+import { Typography, colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
+import { Link } from "react-router-dom";
 
 /*
     xs, extra-small: 0px
@@ -14,7 +15,7 @@ export const textFieldSMWitdh = '560px';
 
 const searchContainerXSWidth = '95%';
 const searchContainerMDWidth = '95%';
-const searchContainerLGWidth = '1075px';
+const searchContainerLGWidth = '1150px';
 
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
@@ -24,7 +25,8 @@ const LIGHT_PRIMARY_COLOR_LIGHT: string = "#97BC62";
 export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
-const LIGHT_BACKGROUND_DEFAULT = '#FFFFFF';
+const LIGHT_BACKGROUND_DEFAULT = '#F5F5F5';
+const LIGHT_BACKGROUND_PAPER_DEFAULT = '#FFFFFF';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.blueGrey[800];
 const DARK_PRIMARY_COLOR_LIGHT = colors.grey[700];
@@ -51,8 +53,10 @@ export const paperPaddingValue = '0.7rem';
 export const paddingPaperDetailSearch = '1rem';
 
 export const paperViewDetailSearch = { marginTop: paperMarginTopValue };
-export const paperViewDetailSearchTextArea = { width:'100%', marginTop: paperMarginTopValue };
+export const paperViewDetailSearchTextArea = { width: '100%', marginTop: paperMarginTopValue };
 export const LinkDrawer = { textDecoration: 'none' };
+
+export const paperFontSize = {xs:'1.1rem', sm: '1.3rem', md:'1rem', lg:'1.2rem'};
 
 const components = {
     MuiFormControl: {
@@ -70,7 +74,7 @@ const components = {
                 border: 'none',
                 width: '100%',
                 color: LIGHT_PRIMARY_CONTRAST_TEXT
-                
+
             }
         },
 
@@ -93,32 +97,23 @@ const components = {
                 letterSpacing: 0.12
             }
         }
-    }, MuiAppBar: {
-        styleOverrides: {
-            root: {
-                backgroundColor:'transparent',
-                color: LIGHT_PRIMARY_COLOR_MAIN,
-                boxShadow: `0px 1px 0px 0px ${LIGHT_PRIMARY_COLOR_MAIN}`,
-                
-            }
+    
         }
-    }
-
 };
 
 const fontFamilies = {
-    fontFamily:[
-'Poppins',
-  '-apple-system',
-  'BlinkMacSystemFont',
-  '"Segoe UI"',
-  'Roboto',
-  'Oxygen-Sans',
-  'Ubuntu',
-  'Cantarell',
-  '"Helvetica Neue"',
-  'sans-serif',
-].join(',')
+    fontFamily: [
+        'Poppins',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        'Oxygen-Sans',
+        'Ubuntu',
+        'Cantarell',
+        '"Helvetica Neue"',
+        'sans-serif',
+    ].join(',')
 };
 
 export const themeLight = createTheme({
@@ -135,7 +130,7 @@ export const themeLight = createTheme({
             contrastText: COLOR_ON_WHITE_BACKGROUND,
         }, background: {
             default: LIGHT_BACKGROUND_DEFAULT,
-            paper: LIGHT_BACKGROUND_DEFAULT
+            paper: LIGHT_BACKGROUND_PAPER_DEFAULT
         },
     }
     ,
@@ -157,7 +152,7 @@ export const themeDark = createTheme({
             main: DARK_SECONDARY_COLOR_MAIN,
             contrastText: DARK_SECONDARY_CONTRAST_TEXT
         }, background: {
-            default: colors.grey[900], 
+            default: colors.grey[900],
             paper: colors.grey[900]
         },
     }
@@ -166,10 +161,11 @@ export const themeDark = createTheme({
     typography: fontFamilies
 });
 
-export const headerSize = { color: LIGHT_PRIMARY_CONTRAST_TEXT, padding:'4.2rem', textAlign: 'center', fontWeight:'bold', fontSize: {xs: '2rem', sm:'2.5rem', md:'3rem', lg:'3.3rem'}};
+export const headerSize = { color: LIGHT_PRIMARY_CONTRAST_TEXT, padding: '4.2rem', textAlign: 'center', fontWeight: 'bold', fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem', lg: '3.3rem' } };
 
 export const MainBox = styled('div')(({ theme }) => ({
-    width:'100%',
+    paddingTop: COMPONENT_DISTANCE,
+    width: '100%',
     backgroundColor: theme.palette.background.default
 
 }));
@@ -210,10 +206,10 @@ export const RegisterLoginWidth = styled('div')(({ theme }) => ({
 
     },
     [theme.breakpoints.up("md")]: {
-        width:'90%'
+        width: '90%'
     },
     [theme.breakpoints.up("xl")]: {
-        width:'610px'
+        width: '610px'
     }
 
 }));
@@ -283,9 +279,9 @@ export const HeaderIcon = styled('div')(({ theme }) => ({
     margin: 'auto',
     textAlign: 'center',
     color: theme.palette.primary.contrastText,
-    paddingBottom:'1rem',
+    paddingBottom: '1rem',
     [theme.breakpoints.up("xs")]: {
-        
+
         transform: 'scale(1.7)',
         marginBottom: '1rem'
     },
@@ -369,9 +365,11 @@ export const SpanSideMenu = styled('span')(({ theme }) => ({
 
 export const ImageCar = styled('img')(({ theme }) => ({
     width: '100%',
-    objectFit: 'contain',
     padding: '0',
-    margin: '0'
+    margin: '0',
+    objectPosition: 'center',
+    aspectRatio: 16 / 9,
+    objectFit: 'cover'
 }))
 
 export const DivViewDetail = styled('div')(({ theme }) => ({
@@ -391,12 +389,12 @@ export const DivViewDetail = styled('div')(({ theme }) => ({
 export const DivContactBottom = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.default,
     position: 'fixed',
-    bottom: 0, 
+    bottom: 0,
     display: 'flex',
     justifyContent: 'center',
 
     [theme.breakpoints.up("xs")]: {
-        width:'100%'
+        width: '100%'
     },
     [theme.breakpoints.up("sm")]: {
     },
@@ -404,5 +402,33 @@ export const DivContactBottom = styled('div')(({ theme }) => ({
     }
 }))
 
+export const COMPONENT_DISTANCE = "1rem";
+export const GreyHorizontalHR = styled('hr')(({ theme }) => ({
+    border: 'none',
+    borderTop: `1px solid ${colors.grey[300]}`,
+
+}));
+
+export const GreyVerticalalHR = styled('hr')(({ theme }) => ({
+    border: 'none',
+    borderLeft: `1px solid ${colors.grey[200]}`,
+    height: '100%',  // Set this to your desired height
+    width: '1px',
+    margin: 0,
+    padding: 0,
+    display: 'inline-block',
+}));
+
+export const LinkHome = styled(Link)(({ theme }) => ({
+    color: theme.palette.primary.contrastText,
+    textDecoration:'none'
+
+}));
+
+export const LinkNewSearch = styled(Link)(({ theme }) => ({
+    color: theme.palette.text.primary,
+    textDecoration:'none'
+
+}));
 
 export const ViewDetailIconStyle = { color: 'primary.main', fontSize: '3rem' };

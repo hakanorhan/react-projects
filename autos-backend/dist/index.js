@@ -30,6 +30,7 @@ import authenticationUser from "./routes/authenticationUser.js";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const session = __require("express-session");
+import fetchImageName from "./routes/fetchImageName.js";
 const MySQLStore = require('express-mysql-session')(session);
 const app = express();
 const options = {
@@ -77,6 +78,7 @@ app.get(URLs.SEARCH_DATAS, fetchStaticData);
 app.get(URLs.FETCH_DETAIL_SEARCH + "/:id", fetchDetailSearch);
 app.get(URLs.FETCH_BUNDESLAENDER, fetchBuendeslaender);
 app.get(URLs.FETCH_IMAGENAMES + "/:id", fetchImageNames);
+app.get(URLs.FETCH_IMAGENAME + "/:id", fetchImageName);
 app.get(URLs.FETCH_LIST_CARS, fetchListCars);
 app.delete(URLs.LOGOUT, logout);
 app.get(URLs.AUTHENTICATION_USER, authenticationUser);

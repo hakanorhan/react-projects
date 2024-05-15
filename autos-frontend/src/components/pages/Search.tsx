@@ -169,10 +169,12 @@ const Search: React.FC = () => {
     </LocalizationProvider>
   }
 
-
   return (
     <>
-    <Box sx={{ paddingTop:'4rem', paddingBottom: '5rem' }}>
+    <Box sx={{ backgroundImage:'url("pexels-shkrabaanthony-7144243.jpg")', backgroundSize:'cover', backgroundPosition:'center', paddingTop:'4rem', paddingBottom:'4rem'}}>
+    <Box sx={{ display:'flex', justifyContent:'end'}}>
+      <a style={{ fontSize:'1.5rem', paddingRight:'1rem' }} href='https://www.pexels.com/de-de/foto/mann-frau-auto-fahrzeug-7144243/' target='_blank'>pexels - Foto von Antoni Shkraba: </a></Box>
+    
         <Typography component='h1' sx={ headerSize}>Neues Auto.</Typography>
         <SearchContainer onClick={(e) => e.stopPropagation()} sx={{ padding:'1.5rem', cursor:'default', backgroundColor:'background.default' }}>
           <Grid container sx={{  }} justifyContent="center" columnSpacing={1}>
@@ -231,8 +233,7 @@ const Search: React.FC = () => {
             </Grid>
           </Grid>
         </SearchContainer>
-
-    </Box>
+       </Box>
     </>
   )
 }

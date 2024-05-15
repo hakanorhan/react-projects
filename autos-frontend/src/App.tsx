@@ -32,8 +32,6 @@ import ListSearchedCars from './components/pages/ListSearchedCars';
 import ViewDetailSearch from './components/pages/ViewDetailSearch';
 
 const App: React.FC = () => {
-
-  const backgroundImage = useSelector((state: RootState) => state.backgroundImageRedux);
   /*
   const handleShowSource = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation(); 
@@ -43,11 +41,8 @@ const App: React.FC = () => {
 // cursor:'pointer',  backgroundImage: 'url("pexels-albinberlin-919073.jpg")', backgroundSize:'cover', backgroundRepeat:'no-repeat',
   const AppLayout = () => (
     <Box sx={{ width: '100%'}}>
-      <Box 
-        sx={{ backgroundImage:  mode ? `linear-gradient(65deg, grey, black, #00a8ff)` : backgroundImage.imageName, }}>
       <Header />
       <Outlet />
-      </Box>
       <Footer />
     </Box>
   )

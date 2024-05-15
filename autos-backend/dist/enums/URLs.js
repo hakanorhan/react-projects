@@ -22,6 +22,7 @@ export var URLs;
     URLs["UPLOAD"] = "/upload";
     URLs["IMAGE_PATH"] = "/uploads";
     URLs["FETCH_IMAGENAMES"] = "/fetch-imagenames";
+    URLs["FETCH_IMAGENAME"] = "/fetch-imagename";
     URLs["FETCH_BUNDESLAENDER"] = "/fetch-bundeslaender";
     URLs["FETCH_LIST_CARS"] = "/listcars";
     URLs["LOGOUT"] = "/logout";
