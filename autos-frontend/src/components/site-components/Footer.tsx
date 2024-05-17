@@ -41,11 +41,11 @@ const PRIVATE_DEALER = [
 export default function Footer() {
 
   const CreateLink = (linkname: string, index: number) => {
-    return <Link style={ LinkDrawer } to={""}> <Typography sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > { linkname } </Typography> </Link>
+    return <Link key={index}  style={ LinkDrawer } to={""}> <Typography sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > { linkname } </Typography> </Link>
   }
 
   const createHeaderForLinks = (header: string) => {
-    return <Typography variant="h5" component='h1' sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
+    return <Typography key={header} variant="h5" component='h1' sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
   }
 
   return (

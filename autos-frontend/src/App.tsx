@@ -30,7 +30,6 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
 import ListSearchedCars from './components/pages/ListSearchedCars';
 import ViewDetailSearch from './components/pages/ViewDetailSearch';
-import DropZone from './components/pages/inserate/DropZone';
 
 const App: React.FC = () => {
   /*

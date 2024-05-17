@@ -290,7 +290,7 @@ export default function InserateCar() {
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection:'column', width:'200px', margin:'auto' }}>
-          <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: activeStep === 0 ? 'none' : 'display', marginBottom:'2rem' }}>Zurück</Button>
+         {/* <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: activeStep === 0 ? 'none' : 'display', marginBottom:'2rem' }}>Zurück</Button> */}
 
           {/* save form */}
           <Button variant='contained' sx={{ display: activeStep === 0 ? 'block' : 'none' }} disabled={disabledNextStep} type='submit' onClick={handleNextStep}>Weiter</Button>

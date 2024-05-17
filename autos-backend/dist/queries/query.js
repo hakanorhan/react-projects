@@ -48,7 +48,6 @@ export const insertImageName = async (imageName, carId) => {
     }
     catch (err) {
         connection?.end();
-        console.log(err);
         return false;
     }
 };

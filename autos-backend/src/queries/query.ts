@@ -70,7 +70,7 @@ export const insertImageName = async (imageName: string, carId: number) => {
             return true;
         } catch (err){
             connection?.end();
-            console.log(err);
+            //console.log(err);
             return false;
         }
 }

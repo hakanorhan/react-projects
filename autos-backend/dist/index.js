@@ -106,7 +106,11 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
-app.post('/upload', upload.array('images', 5), (req, res) => {
+app.post('/upload', upload.array('images', 20), (req, res) => {
+    const files = req.files;
+    files.map((file) => {
+        console.log("ImageName: " + file.filename);
+    });
     if (!req.files || req.files.length === 0) {
         return res.status(400).send('No files uploaded.');
     }
