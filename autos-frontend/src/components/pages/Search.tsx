@@ -18,6 +18,7 @@ import { SelectFieldEnums } from '../../../../autos-backend/src/enums/SelectFiel
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setBackgroundImageName } from '../../redux/features/backgroundImages';
+import DropZone from './inserate/DropZone';
 
 const searchButtonText = " Treffer";
 

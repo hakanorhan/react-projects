@@ -169,6 +169,7 @@ CREATE TABLE inserate(
     technical_description_id INT NOT NULL,
     inserate_info_id INT NOT NULL,
     clicks INT NOT NULL DEFAULT 0,
+    entwurf INT NOT NULL DEFAULT 1,
     FOREIGN KEY(model_id) REFERENCES model(model_id),
     FOREIGN KEY(technical_description_id) REFERENCES technical_description(technical_description_id),
     FOREIGN KEY(inserate_info_id) REFERENCES inserate_info(inserate_info_id)
@@ -337,3 +338,5 @@ INSERT INTO price(price) VALUES(100000);
 INSERT INTO price(price) VALUES(150000);
 INSERT INTO price(price) VALUES(200000);
 INSERT INTO price(price) VALUES(300000);
+
+INSERT INTO model (model, brand_id) VALUES ("A4", 4);

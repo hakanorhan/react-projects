@@ -12,7 +12,7 @@ import fetchBrand from "./routes/dashboard/fetchBrand.js";
 import fetchModel from "./routes/dashboard/fetchModel.js";
 import { URLs } from './enums/URLs.js';
 import multer from "multer";
-import path from "path";
+import path, { dirname } from "path";
 import fetchStaticData from "./routes/fetchStaticData.js";
 import dynamicSearchCount from "./routes/fetchDynamicSearchCount.js";
 import fs from 'fs';
@@ -25,6 +25,7 @@ import postPublish from "./routes/dashboard/postPublish.js";
 import emailCheck from "./routes/emailCheck.js";
 import logout from "./routes/logout.js";
 import { fetchListCars } from "./routes/fetchListCars.js";
+import { fileURLToPath } from 'url';
 import passport, { authMiddelware } from "./routes/middleware/passport.middleware.js";
 import authenticationUser from "./routes/authenticationUser.js";
 import { createRequire } from 'module';
@@ -32,6 +33,8 @@ const require = createRequire(import.meta.url);
 const session = __require("express-session");
 import fetchImageName from "./routes/fetchImageName.js";
 const MySQLStore = require('express-mysql-session')(session);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express();
 const options = {
     host: 'localhost',
@@ -97,7 +100,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const insertId = req.body.carId;
-        const imageName = file.fieldname + '' + Date.now() + path.extname(file.originalname);
+        const imageName = file.originalname;
         const imageNameInDatabase = insertImageName(imageName, insertId);
         cb(null, imageName);
     }
@@ -113,6 +116,19 @@ app.get('/uploads/:id/:imageName', (req, res) => {
     const imageName = req.params.imageName;
     const id = req.params.id;
     res.sendFile(imageName, { root: `./uploads/${id}` });
+});
+app.delete(URLs.DELETE_IMAGE + "/:inserateid/:imagename", authMiddelware, (req, res) => {
+    const inserateId = req.params.inserateid;
+    const imageName = req.params.imagename;
+    console.log(inserateId + " " + imageName);
+    const filePath = path.join(__dirname, `../uploads/${inserateId}`, imageName);
+    fs.unlink(filePath, (error) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).json({ message: 'Fehler beim Löschen.' });
+        }
+        res.status(200).json({ message: 'Bild erfolgreich gelöscht' });
+    });
 });
 app.listen(3001, () => {
     console.log("Server started!");

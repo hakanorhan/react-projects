@@ -10,7 +10,7 @@ import fetchBrand from "./routes/dashboard/fetchBrand.js";
 import fetchModel from "./routes/dashboard/fetchModel.js";
 import { URLs } from './enums/URLs.js';
 import multer from "multer";
-import path from "path";
+import path, { dirname } from "path";
 import fetchStaticData from "./routes/fetchStaticData.js";
 import dynamicSearchCount from "./routes/fetchDynamicSearchCount.js";
 import fs from 'fs'
@@ -24,6 +24,7 @@ import emailCheck from "./routes/emailCheck.js";
 import logout from "./routes/logout.js";
 import { fetchListCars } from "./routes/fetchListCars.js";
 import mysql from 'mysql2/promise';
+import { fileURLToPath } from 'url';
 // passport.js
 //import sessionMiddleware from "./routes/middleware/session.middleware.js";
 import passport, { authMiddelware } from "./routes/middleware/passport.middleware.js";
@@ -35,6 +36,9 @@ import session = require('express-session');
 import { SessionOptions } from "express-session";
 import fetchImageName from "./routes/fetchImageName.js";
 const MySQLStore = require('express-mysql-session')(session);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 declare module 'express-session' {
   interface SessionData {
@@ -112,8 +116,8 @@ app.get(URLs.AUTHENTICATION_USER, authenticationUser);
 const storage = multer.diskStorage({
   destination: function (req: express.Request, file, cb) {
     const carId = req.body.carId;
-
     const newUploadPath = `./uploads/${carId}`;
+    
         fs.mkdir(newUploadPath, { recursive: true}, function(err) {
           if(err) {
             console.log("Error", err);
@@ -124,7 +128,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req: express.Request, file, cb) {
     const insertId = req.body.carId;
-    const imageName = file.fieldname + '' + Date.now() + path.extname(file.originalname);
+    const imageName = file.originalname;
     const imageNameInDatabase = insertImageName(imageName, insertId)
     
     cb(null, imageName);
@@ -133,7 +137,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post('/upload', upload.array('images', 5), (req, res) => {
+
   if (!req.files || req.files.length === 0) {
+
     return res.status(400).send('No files uploaded.');
   }
   
@@ -146,6 +152,23 @@ app.get('/uploads/:id/:imageName', (req, res) => {
   const id = req.params.id;
   res.sendFile(imageName, { root: `./uploads/${id}` });
 }); 
+
+// delete image
+app.delete(URLs.DELETE_IMAGE+"/:inserateid/:imagename", authMiddelware, (req, res) => {
+  const inserateId = req.params.inserateid;
+  const imageName = req.params.imagename;
+  console.log(inserateId + " " + imageName);
+  const filePath = path.join(__dirname, `../uploads/${inserateId}`, imageName);
+
+  fs.unlink(filePath, (error) => {
+    if(error) {
+      console.log(error);
+      return res.status(500).json({ message: 'Fehler beim Löschen.' })}
+
+    res.status(200).json({ message: 'Bild erfolgreich gelöscht' })
+  })
+
+})
 
 
 app.listen(3001, () => {

@@ -30,6 +30,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
 import ListSearchedCars from './components/pages/ListSearchedCars';
 import ViewDetailSearch from './components/pages/ViewDetailSearch';
+import DropZone from './components/pages/inserate/DropZone';
 
 const App: React.FC = () => {
   /*
@@ -60,7 +61,7 @@ const App: React.FC = () => {
         { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role={Roles.ADMIN}> <InsertModel /> </ProtectedRoute> },
         { path: URLs.FETCH_DETAIL_SEARCH + "/:id", element: <ViewDetailSearch />, errorElement: <Notfound /> },
         { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> },
-        { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> }
+        { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> },
       ]
     }
   ]);

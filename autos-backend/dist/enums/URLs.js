@@ -27,4 +27,5 @@ export var URLs;
     URLs["FETCH_LIST_CARS"] = "/listcars";
     URLs["LOGOUT"] = "/logout";
     URLs["AUTHENTICATION_USER"] = "/authenticate-user";
+    URLs["DELETE_IMAGE"] = "/delete";
 })(URLs || (URLs = {}));

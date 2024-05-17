@@ -20,6 +20,7 @@ import { DateComponentMonthYear } from '../../formularFields/DateComponentMonthY
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useNavigate } from 'react-router-dom';
+import DropZone from './DropZone';
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 
@@ -82,7 +83,6 @@ export default function InserateCar() {
 
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(dayjs().month() + 1);
-  const [requestSuccess, setRequestSuccess] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
   const [klimaValue, setKlimaValue] = useState("1");
@@ -94,15 +94,6 @@ export default function InserateCar() {
   ) => {
     setKlimaValue(value);
   };
-
-  const setAllFormsToInitial = () => {
-    setActiveStep(0);
-    setForm(initalInserate); setFormSelect(initialSelect); setFormCheckbox(initialCheckbox);
-    setListBrands([]); setListModels([]); setListCarTypes([]); setListTransmission([]); setListFuels([]); setListDoors([]);
-    setDisabledNextStep(false); setDisabledPreviousSep(true);
-
-    setYear(dayjs().year()); setMonth(dayjs().month() + 1); setRequestSuccess(false);
-  }
 
   useEffect(() => {
     setRefresh(false)
@@ -141,7 +132,6 @@ export default function InserateCar() {
   }
 
   const handleSubmit = async (event: FormEvent) => {
-
     form.year = year;
     form.month = month;
 
@@ -149,7 +139,7 @@ export default function InserateCar() {
 
     {// TODO: Add validation 
     }
-    if (true) {
+    if (activeStep === 1) {
       setLoading(true);
       const axiosData: AxiosDataInserate = {
         inserateData: form,
@@ -161,13 +151,10 @@ export default function InserateCar() {
       try {
         const response = await axios.post<AxiosInserateResponse>(URLs.ORIGIN_SERVER + URLs.POST_INSERATE_CAR, axiosData, { withCredentials: true });
 
-        console.log("Status: " + response.status)
         if (response.status === 200) {
           // Image upload on submit
-          setRequestSuccess(true);
-          setActiveStep(activeStep + 1);
           setCarId(response.data.carId);
-          setSubmitClicked(true);
+          //setSubmitClicked(true);
           setLoading(false);
         }
       } catch (error) {
@@ -183,6 +170,8 @@ export default function InserateCar() {
 
   const handleNextStep = () => {
     if (activeStep === 0) { setDisabledPreviousSep(false); setActiveStep(activeStep + 1); }
+
+
     // If active step is the length of steps.
     // change next step value to inserieren
 
@@ -225,7 +214,7 @@ export default function InserateCar() {
         }
       </Stepper>
       <form onSubmit={handleSubmit} noValidate>
-        <Box sx={{ display: requestSuccess ? 'none' : activeStep == 0 ? 'block' : 'none' }}>
+        <Box sx={{ display: activeStep === 0 ? 'block' : 'none' }}>
           <Grid container columnSpacing={2} rowSpacing={1}>
             { /* Brand */}
             <Grid item xs={12}> <SelectField values={listBrands} objectName='brand' idOfSelect='brand_id' selectedValue={formSelect.brand} handleChange={handleChangeSelect} label='Marke' /> </Grid>
@@ -282,13 +271,18 @@ export default function InserateCar() {
             placeholder='Fügen Sie bitte eine Beschreibung hinzu' minRows={8} maxRows={10} />
         </Box>
 
-        <Box sx={{ display: requestSuccess ? 'none' : activeStep == 0 ? 'none' : 'block' }}>
-          <UploadImage submitClicked={submitClicked} carId={ carId } />
+        <Box sx={{ display: activeStep === 1 ? 'block' : 'none' }}>
+          
+          { activeStep === 1 && !loading
+          ?
+          <DropZone carId={ carId } />
+            : <></>
+        }
         </Box>
 
-        <Box sx={{ display: requestSuccess ? 'block' : 'none' }}>
+        <Box sx={{ display: activeStep === 2 ? 'block' : 'none' }}>
           <HeaderIcon>
-            <Zoom in={requestSuccess} style={{ transform: 'scale(1.5)' }}>
+            <Zoom in={true} style={{ transform: 'scale(1.5)' }}>
               <CheckCircleOutlineIcon fontSize='large' sx={{ color: 'primary.main', marginTop: '3rem', transform: 'scale(1.5)' }} />
             </Zoom>
           </HeaderIcon>
@@ -296,10 +290,15 @@ export default function InserateCar() {
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection:'column', width:'200px', margin:'auto' }}>
-          <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: requestSuccess ? 'none' : 'display', marginBottom:'2rem' }}>Zurück</Button>
-          <Button variant='contained' sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'none' : 'block' }} disabled={disabledNextStep} onClick={handleNextStep}>Weiter</Button>
-          <Button  sx={{ display: requestSuccess ? 'none' : activeStep === 1 ? 'block' : 'none' }} type='submit' variant='contained'>Inserieren</Button>
+          <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: activeStep === 0 ? 'none' : 'display', marginBottom:'2rem' }}>Zurück</Button>
+
+          {/* save form */}
+          <Button variant='contained' sx={{ display: activeStep === 0 ? 'block' : 'none' }} disabled={disabledNextStep} type='submit' onClick={handleNextStep}>Weiter</Button>
           
+          {/* upload Image */}
+          <Button  sx={{ display:  activeStep === 1 ? 'block' : 'none' }} variant='contained'>Abschliessen</Button>
+          
+          {/*
           <Grid container spacing={4}>
             <Grid item xs= {12}>
               <Button variant='contained' fullWidth onClick={() => { navigate(0); }} sx={{ width:'200px', marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
@@ -308,9 +307,10 @@ export default function InserateCar() {
               <Button variant='contained' fullWidth onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width:'200px', marginTop: '2rem', display: requestSuccess ? 'display' : 'none' }}>Suchen</Button>
             </Grid>
           </Grid>
-          
+      */}
         </Box>
       </form>
+
     </DivSearchInserate>
   </>
   )
