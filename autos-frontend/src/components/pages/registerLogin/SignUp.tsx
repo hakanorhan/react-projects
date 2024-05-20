@@ -4,7 +4,7 @@ import 'dayjs/locale/de';
 import { Link } from 'react-router-dom';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Button, Checkbox, FormControlLabel, Box, Typography, Stepper, StepLabel, Step, Grid, Paper, SelectChangeEvent } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, textFieldSMWitdh, buttonHeight } from '../../../themes/ThemeColor.js';
+import { MainComponentWidth, HeaderIcon, textFieldSMWitdh, buttonHeight } from '../../../themes/Theme.js';
 
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'

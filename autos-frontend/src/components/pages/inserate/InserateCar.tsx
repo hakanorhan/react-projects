@@ -3,7 +3,7 @@ import { FormGroup, Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typograph
 import axios from 'axios';
 import { Button, FormControlLabel, Checkbox } from '@mui/material';
 import { REGEX_HUBRAUM, REGEX_NAMES, REGEX_PRICE } from '../../../../../autos-backend/src/regex/regex';
-import { DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderInserateH1, HeaderIcon, mainComponentHeight } from '../../../themes/ThemeColor';
+import { DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderInserateH1, HeaderIcon, mainComponentHeight, COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 import { notifySuccess, notifyError } from '../../../helper/toastHelper';
@@ -80,6 +80,7 @@ export default function InserateCar() {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [disabledNextStep, setDisabledNextStep] = useState<boolean>(false);
   const [disabledPreviousStep, setDisabledPreviousSep] = useState<boolean>(true);
+  const [inserateSuccess, setInserateSuccess] = useState<boolean>(false);
 
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(dayjs().month() + 1);
@@ -177,28 +178,21 @@ export default function InserateCar() {
 
   }
 
-  const handlePreviousStep = () => {
-    if (activeStep === 1) { setDisabledPreviousSep(true); setActiveStep(activeStep - 1); }
-  }
+  const handleLastStep = () => {
+    async function finishInserate() {
+      const finish = 0;
+      const inserateid = carId;
+      try {
+        const response = await axios.post(URLs.ORIGIN_SERVER + URLs.POST_INSERATE_FINISH, { finish, inserateid }, { withCredentials: true });
+        const step = activeStep + 2;
+        setActiveStep(step);
+        setInserateSuccess(true);
+      } catch(error: any) {
+        console.log(error);
+      }
+    }
 
-  // TODO: uncomment PersonalInfoComponent
-  const PersonalInfoComponent = () => {
-    return <>
-      <FormGroup>
-        <DivTwoFieldsWithSpaceBetween>
-          <DivWidthTwoFieldsRow sx={{ textAlign: 'center' }}>
-            <FormControlLabel control={<Checkbox defaultChecked disabled />} label="Interessentierte können mich gerne über den Chat kontaktieren." />
-          </DivWidthTwoFieldsRow>
-          <DivWidthTwoFieldsRow sx={{ textAlign: 'center' }}>
-            <FormControlLabel control={<Checkbox />} label="Interessentierte können mich gerne unter der angegebenen Nummer anrufen" />
-          </DivWidthTwoFieldsRow>
-        </DivTwoFieldsWithSpaceBetween>
-
-        <FormControlLabel control={<Checkbox />} label="Interessentierte dürfen mich gerne per Email-kontaktieren" />
-
-
-      </FormGroup>
-    </>
+    finishInserate();
   }
 
   return (<>
@@ -280,13 +274,13 @@ export default function InserateCar() {
         }
         </Box>
 
-        <Box sx={{ display: activeStep === 2 ? 'block' : 'none' }}>
+        <Box sx={{ display: activeStep === 3 ? 'block' : 'none' }}>
           <HeaderIcon>
             <Zoom in={true} style={{ transform: 'scale(1.5)' }}>
               <CheckCircleOutlineIcon fontSize='large' sx={{ color: 'primary.main', marginTop: '3rem', transform: 'scale(1.5)' }} />
             </Zoom>
           </HeaderIcon>
-          <HeaderInserateH1 sx={{ marginTop: '7rem', marginBottom:'3rem' }} >Das Inserat wird nach der Prüfung veröffentlicht.</HeaderInserateH1>
+          <Typography variant='h5' component='h3' sx={{ textAlign:'center', marginTop: '7rem', marginBottom:'3rem' }} >Das Inserat wird nach der Prüfung veröffentlicht.</Typography>
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection:'column', width:'200px', margin:'auto' }}>
@@ -296,18 +290,18 @@ export default function InserateCar() {
           <Button variant='contained' sx={{ display: activeStep === 0 ? 'block' : 'none' }} disabled={disabledNextStep} type='submit' onClick={handleNextStep}>Weiter</Button>
           
           {/* upload Image */}
-          <Button  sx={{ display:  activeStep === 1 ? 'block' : 'none' }} variant='contained'>Abschliessen</Button>
+          <Button onClick={ handleLastStep }  sx={{ display:  activeStep === 1 ? 'block' : 'none' }} variant='contained'>Abschliessen</Button>
           
-          {/*
+          
           <Grid container spacing={4}>
             <Grid item xs= {12}>
-              <Button variant='contained' fullWidth onClick={() => { navigate(0); }} sx={{ width:'200px', marginTop: '3rem', display: requestSuccess ? 'display' : 'none' }}>Inserieren</Button>
+              <Button variant='contained' fullWidth onClick={() => { navigate(0); }} sx={{ width:'200px', marginTop: '3rem', display: inserateSuccess ? 'display' : 'none' }}>Inserieren</Button>
             </Grid>
             <Grid item xs= {12}>
-              <Button variant='contained' fullWidth onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width:'200px', marginTop: '2rem', display: requestSuccess ? 'display' : 'none' }}>Suchen</Button>
+              <Button variant='contained' fullWidth onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width:'200px', marginTop: COMPONENT_DISTANCE, display: inserateSuccess ? 'display' : 'none' }}>Suchen</Button>
             </Grid>
           </Grid>
-      */}
+      
         </Box>
       </form>
 

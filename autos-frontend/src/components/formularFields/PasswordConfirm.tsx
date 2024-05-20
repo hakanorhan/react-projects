@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseFormPasswordConfirm } from '../../interfaces/IUseForm';
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Input } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-import { colorDanger } from '../../themes/ThemeColor';
+import { colorDanger } from '../../themes/Theme';
 
 const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChange, password1, regex }) => {
     
@@ -36,13 +36,13 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChang
     }, [password1, passwordConfirm]);
 
   return (
-    <FormControl onClick={(e) => e.stopPropagation()} required fullWidth variant="outlined" >
+    <FormControl onClick={(e) => e.stopPropagation()} required fullWidth variant="standard" >
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
-    <OutlinedInput
+    <Input
       id= {id}
       onChange= { handleOnChange }
       type={showPassword ? 'text' : 'password'}
-      label= {label}
+      
       endAdornment={
         <InputAdornment position="end">
           <IconButton disabled

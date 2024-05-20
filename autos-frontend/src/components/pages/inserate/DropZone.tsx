@@ -6,7 +6,7 @@ import { notifyError, notifySuccess } from '../../../helper/toastHelper';
 
 import { Box, Button, Grid, Tooltip, Typography } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { COMPONENT_DISTANCE } from '../../../themes/ThemeColor';
+import { COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { keyframes } from '@mui/material';
 
 import FileUploadIcon from '@mui/icons-material/FileUpload';

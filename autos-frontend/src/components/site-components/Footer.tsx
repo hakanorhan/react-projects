@@ -8,7 +8,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import { Link } from "react-router-dom";
-import { LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/ThemeColor";
+import { LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/Theme";
 import DarkMode from "../DarkMode";
 
 const gridItemStyle = { marginBottom: { xs: '3rem' } };

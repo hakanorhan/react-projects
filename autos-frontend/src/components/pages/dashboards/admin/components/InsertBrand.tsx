@@ -5,7 +5,7 @@ import { Button, Typography } from '@mui/material';
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
-import { MainComponentWidth } from "../../../../../themes/ThemeColor";
+import { MainComponentWidth } from "../../../../../themes/Theme";
 import { handleSubmitPostBrand } from "../../../../../helper/submits";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";

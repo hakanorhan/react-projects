@@ -1,4 +1,4 @@
-import { Typography, colors, createTheme } from "@mui/material";
+import { Select, Typography, colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -25,7 +25,7 @@ const LIGHT_PRIMARY_COLOR_LIGHT: string = "#97BC62";
 export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
-const LIGHT_BACKGROUND_DEFAULT = '#F5F5F5';
+const LIGHT_BACKGROUND_DEFAULT = '#FFFFFF';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = '#FFFFFF';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.blueGrey[800];
@@ -57,6 +57,16 @@ export const paperViewDetailSearchTextArea = { width: '100%', marginTop: paperMa
 export const LinkDrawer = { textDecoration: 'none' };
 
 export const paperFontSize = {xs:'1.1rem', sm: '1.3rem', md:'1rem', lg:'1.2rem'};
+export const ICON_FONT_SIZE = '1.4rem';
+
+const breakpoints = {
+    xs: 0,
+    sm: 576,
+    md: 768,
+    lg: 992,
+    xl: 1200,
+    xxl: 1400
+};
 
 const components = {
     MuiFormControl: {
@@ -103,7 +113,7 @@ const components = {
 
 const fontFamilies = {
     fontFamily: [
-        'Poppins',
+        'Poppins-Regular',
         '-apple-system',
         'BlinkMacSystemFont',
         '"Segoe UI"',
@@ -113,6 +123,11 @@ const fontFamilies = {
         'Cantarell',
         '"Helvetica Neue"',
         'sans-serif',
+        'Poppins-Extra-Light',
+        'Poppins-Bold',
+        'Poppins-Semi-Bold',
+        'Poppins-Medium',
+        'Poppins-Thin',
     ].join(',')
 };
 
@@ -135,7 +150,8 @@ export const themeLight = createTheme({
     }
     ,
     components: components,
-    typography: fontFamilies
+    typography: fontFamilies,
+    breakpoints: { values: breakpoints }
 });
 
 export const themeDark = createTheme({
@@ -391,27 +407,44 @@ export const DivContactBottom = styled('div')(({ theme }) => ({
     position: 'fixed',
     bottom: 0,
     display: 'flex',
-    justifyContent: 'center',
-
+    padding: COMPONENT_DISTANCE,
+    
     [theme.breakpoints.up("xs")]: {
-        width: '100%'
+        width: '100%',
+        display: 'block'
     },
-    [theme.breakpoints.up("sm")]: {
-    },
-    [theme.breakpoints.up("lg")]: {
+    [theme.breakpoints.up("md")]: {
+        display:'none'
     }
 }))
 
 export const COMPONENT_DISTANCE = "1rem";
+export const LINE_HEIGHT = "0.3rem";
 export const GreyHorizontalHR = styled('hr')(({ theme }) => ({
     border: 'none',
     borderTop: `1px solid ${colors.grey[300]}`,
 
 }));
 
-export const GreyVerticalalHR = styled('hr')(({ theme }) => ({
+export const GreyVerticalHR = styled('hr')(({ theme }) => ({
     border: 'none',
     borderLeft: `1px solid ${colors.grey[200]}`,
+    height: '100%',  // Set this to your desired height
+    width: '1px',
+    margin: 0,
+    padding: 0,
+    display: 'inline-block',
+}));
+
+export const GreyHorizontalBoldHR = styled('hr')(({ theme }) => ({
+    border: 'none',
+    borderTop: `5px solid ${colors.grey[300]}`,
+
+}));
+
+export const GreyVerticalBoldHR = styled('hr')(({ theme }) => ({
+    border: 'none',
+    borderLeft: `5px solid ${colors.grey[200]}`,
     height: '100%',  // Set this to your desired height
     width: '1px',
     margin: 0,
@@ -430,5 +463,14 @@ export const LinkNewSearch = styled(Link)(({ theme }) => ({
     textDecoration:'none'
 
 }));
+
+export const CustomSelect = styled(Select)(({ theme }) => ({
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: 'none',
+    },
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      border: 'none',
+    },
+  }));
 
 export const ViewDetailIconStyle = { color: 'primary.main', fontSize: '3rem' };

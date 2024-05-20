@@ -8,8 +8,9 @@ const INSERT_INTO_TECH_DESCRIPTION = "INSERT INTO technical_description (power_p
 const INSERT_INSERATE = "INSERT INTO inserate (price, model_id, technical_description_id, inserate_info_id) VALUES(?, ?, ?, ?)";
 const INSERT_FEATURE = "INSERT INTO feature (abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent) VALUES(?, ?, ?, ?)";
 export default async (req, res) => {
+    const userId = req.user.id;
     const data = req.body;
-    performQuery(data, "2", res);
+    performQuery(data, userId, res);
 };
 async function performQuery(data, userId, res) {
     const inserateSelect = data.inserateSelect;

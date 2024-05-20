@@ -6,7 +6,7 @@ import { Roles } from '../../../../../autos-backend/src/enums/Roles.js';
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Box, Button, Typography } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, buttonHeight, mainComponentHeight, LIGHT_PRIMARY_CONTRAST_TEXT } from '../../../themes/ThemeColor.js';
+import { MainComponentWidth, HeaderIcon, buttonHeight, mainComponentHeight, LIGHT_PRIMARY_CONTRAST_TEXT } from '../../../themes/Theme.js';
 
 import * as validHelper from '../../../helper/validHelper.js';
 

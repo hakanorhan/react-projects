@@ -4,7 +4,7 @@ import { SelectChangeEvent, Button, Typography } from '@mui/material';
 import { notifySuccess, notifyError } from "../../../../../helper/toastHelper";
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
-import { MainComponentWidth, mainComponentHeight } from "../../../../../themes/ThemeColor";
+import { MainComponentWidth, mainComponentHeight } from "../../../../../themes/Theme";
 import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import SelectField from "../../../../formularFields/SelectField";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";

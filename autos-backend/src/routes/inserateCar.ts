@@ -14,11 +14,9 @@ const INSERT_FEATURE = "INSERT INTO feature (abstandstempomat, ambientbeleuchtun
 
 export default async (req: express.Request, res: express.Response) => {
     
-
+    const userId = (req.user as any).id;
     const data: AxiosDataInserateRequest = req.body;
-    // TODO: message user not authenticated
-    // TODO: userId
-    performQuery(data, "2",res)
+    performQuery(data, userId, res)
     
 }
 

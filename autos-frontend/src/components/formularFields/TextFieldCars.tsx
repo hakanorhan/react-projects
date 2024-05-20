@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm';
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Input } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { colorDanger } from '../../themes/ThemeColor';
+import { COMPONENT_DISTANCE, colorDanger } from '../../themes/Theme';
 const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refresh, maxLength, checkEmail}) => {
     
     const [valueMatch, setValueMatch] = useState(false);
@@ -25,12 +25,11 @@ const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refres
       }
 
   return (
-    <FormControl sx={{ paddingBottom:'1rem' }} onClick={(e) => e.stopPropagation()} required fullWidth variant="outlined" >
+    <FormControl sx={{ paddingBottom: COMPONENT_DISTANCE }} onClick={(e) => e.stopPropagation()} required fullWidth variant="standard" >
     <InputLabel htmlFor="outlined-adornment-password">{label}</InputLabel>
-    <OutlinedInput
+    <Input
       id= {id}
       onChange= { handleOnChange }
-      label= {label}
       value={value}
       inputProps={{ maxLength: (maxLength !== undefined) ? maxLength : 55 }}
       endAdornment={

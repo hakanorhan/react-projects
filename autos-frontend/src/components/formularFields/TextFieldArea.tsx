@@ -18,7 +18,7 @@ const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, label, onChang
       }
 
   return (
-    <FormControl sx={{padding: padding }} fullWidth variant="outlined" >
+    <FormControl sx={{padding: padding }} fullWidth variant="standard" >
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <OutlinedInput fullWidth 
     disabled = { disbled }

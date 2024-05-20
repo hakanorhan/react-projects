@@ -6,6 +6,7 @@ export var URLs;
     URLs["POST_SIGINUP_EMAILCHECK"] = "/signup-checkemail";
     URLs["POST_SIGNIN"] = "/signin";
     URLs["POST_INSERATE_CAR"] = "/inseratecar";
+    URLs["POST_INSERATE_FINISH"] = "/inseratecar/finish";
     URLs["POST_INSERT_BRAND"] = "/admin/insertbrand";
     URLs["POST_INSERT_MODEL"] = "/admin/insertmodel";
     URLs["POST_PUBLISH"] = "/admin/publish";

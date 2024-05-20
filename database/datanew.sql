@@ -340,3 +340,10 @@ INSERT INTO price(price) VALUES(200000);
 INSERT INTO price(price) VALUES(300000);
 
 INSERT INTO model (model, brand_id) VALUES ("A4", 4);
+INSERT INTO model (model, brand_id) VALUES ("A3", 4);
+INSERT INTO model (model, brand_id) VALUES ("A1", 4);
+INSERT INTO model (model, brand_id) VALUES ("A5", 4);
+INSERT INTO model (model, brand_id) VALUES ("A7", 4);
+INSERT INTO model (model, brand_id) VALUES ("S8", 4);
+INSERT INTO model (model, brand_id) VALUES ("RSQ8", 4);
+INSERT INTO model (model, brand_id) VALUES ("R8", 4);

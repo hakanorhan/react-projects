@@ -15,7 +15,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { LinkDrawer, LinkHome, ParagraphSideMenu } from '../../themes/ThemeColor';
+import { LinkDrawer, LinkHome, ParagraphSideMenu } from '../../themes/Theme';
 import type { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';

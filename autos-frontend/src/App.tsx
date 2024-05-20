@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Header from './components/site-components/Header';
 import { ThemeProvider } from '@emotion/react';
-import {mainComponentHeight, themeDark, themeLight } from './themes/ThemeColor';
+import {mainComponentHeight, themeDark, themeLight } from './themes/Theme';
 import Footer from './components/site-components/Footer';
 import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
@@ -16,6 +16,7 @@ import InserateCar from './components/pages/inserate/InserateCar';
 //import darkTheme from './themes/ThemeDark';
 import Search from './components/pages/Search';
 import { Box, Tooltip } from '@mui/material';
+import './App.css'
 
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
@@ -30,6 +31,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
 import ListSearchedCars from './components/pages/ListSearchedCars';
 import ViewDetailSearch from './components/pages/ViewDetailSearch';
+import Beispiel from './Beispiel';
 
 const App: React.FC = () => {
   /*
@@ -61,6 +63,7 @@ const App: React.FC = () => {
         { path: URLs.FETCH_DETAIL_SEARCH + "/:id", element: <ViewDetailSearch />, errorElement: <Notfound /> },
         { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> },
         { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> },
+        { path: '/beispiel', element: <Beispiel /> }
       ]
     }
   ]);
@@ -71,7 +74,7 @@ const App: React.FC = () => {
     <>
       {/* Theme */}
       <ThemeProvider theme={ mode ? themeDark : themeLight }>
-        <Box>
+        <Box sx={{ backgroundColor:'background.default' }}>
           {/* Routes */}
           <RouterProvider router={router} fallbackElement={<Notfound />} />
         </Box>

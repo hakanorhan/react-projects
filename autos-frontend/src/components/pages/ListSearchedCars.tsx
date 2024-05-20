@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { Box, Button, Card, CardActionArea, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import { URLs } from '../../../../autos-backend/src/enums/URLs';
@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { SortEnums } from '../../../../autos-backend/src/enums/SortEnums';
-import { COMPONENT_DISTANCE, LinkHome, LinkNewSearch, MainBox, SearchContainer } from '../../themes/ThemeColor';
+import { COMPONENT_DISTANCE, LinkHome, LinkNewSearch, MainBox, SearchContainer } from '../../themes/Theme';
 import { useDispatch } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import ShareIcon from '@mui/icons-material/Share';
@@ -117,32 +117,22 @@ export default function ListSearchedCars() {
   }
 
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
-    return cars ? <Paper sx={{ '&:hover': { cursor: 'pointer' } }} onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }} >
-      {/* car container */}
-      <Box>
 
-        {cars ? <CarImages id={axiosPaper.inseratId} multiple={false} /> : <></>}
+    return <Card sx={{ cursor: 'pointer', height: '100%' }} 
+      onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
+      <CardActionArea>
+      <CarImages id={axiosPaper.inseratId} multiple={false} />
 
-        {/* technical description */}
-        {
-          cars ? <ShowFastPaper detailSearchValues={axiosPaper} /> : <>...loading</>
-        }
-
-      </Box>
-
-
-    </Paper>
-      : <></>
-
-
+      {/* technical description */}
+      <ShowFastPaper detailSearchValues={axiosPaper} />
+    </CardActionArea>
+    </Card>
   }
 
-  return (
-    <MainBox>
-      <SearchContainer>
-    <Grid container>
-      <Grid item xs={2}>
-        <FormControl sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
+  const TopComponent = () => {
+    return <Grid container>
+      <Grid item xs={5.5} sm={4} md={3}>
+        <FormControl sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }} variant='standard'>
           <InputLabel id="sort">Sortieren</InputLabel>
           <Select
             labelId='sort'
@@ -169,24 +159,29 @@ export default function ListSearchedCars() {
 
         </FormControl>
       </Grid>
-
-      <Grid item xs={5}> <Box sx={{ display: 'flex', justifyContent: 'end', alignItems:'center', height:'100%' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{display:'flex'}}><SearchIcon /><Typography sx={{ marginLeft:'0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box> </Grid>
-
-      <Grid item xs={5}> <Box sx={{ display: 'flex', justifyContent: 'end', alignItems:'center', height:'100%' }}> <ShareIcon /> <Typography sx={{ marginLeft:'0.3rem' }}>Suche teilen</Typography></Box> </Grid>
+      <Grid item xs={3.75}> <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', height: '100%' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{ display: 'flex' }}><SearchIcon /><Typography sx={{ marginLeft: '0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box> </Grid>
+      <Grid item xs={2.75}> <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', height: '100%' }}> <ShareIcon /> <Typography sx={{ marginLeft: '0.3rem' }}>Teilen</Typography></Box> </Grid>
     </Grid>
-        <Grid container spacing={2}>
-          {
-            cars ? cars.map((axiosPaper, index) => (
-              <Grid item xs={12} md={6} key={index}>
-                <ListContainer key={index} axiosPaper={axiosPaper} />
-              </Grid>
-            )) : <CircularProgress />
-          }
-        </Grid>
+  }
 
-        <Pagination sx={{ marginTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }} count={count} page={page} onChange={handlePagiation} />
+  return (
 
-      </SearchContainer>
-    </MainBox>
+    <Box sx={{ width:'95%', margin:'auto', paddingTop: '20px' }}>
+      
+
+
+      <Grid container spacing={4}>
+        {
+          cars ? cars.map((axiosPaper, index) => (
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={4} key={index}>
+              <ListContainer key={index} axiosPaper={axiosPaper} />
+            </Grid>
+          )) : <CircularProgress />
+        }
+      </Grid>
+
+      <Pagination sx={{ marginTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }} count={count} page={page} onChange={handlePagiation} />
+    </Box>
+
   )
 }

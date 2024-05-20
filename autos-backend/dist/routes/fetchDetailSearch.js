@@ -1,6 +1,5 @@
 import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
-import { Roles } from '../enums/Roles.js';
 const selectQueryDetail = "SELECT *"
     + " FROM inserate i "
     + " LEFT JOIN inserate_info ii ON ii.inserate_info_id = i.inserate_info_id"
@@ -23,21 +22,18 @@ const selectQueryDetail = "SELECT *"
     + " LEFT JOIN transmission tr ON tr.transmission_id = td.transmission_id"
     + " LEFT JOIN clima c ON c.clima_id = td.clima_id"
     + " LEFT JOIN tuev t ON t.tuev_id = td.tuev_id"
-    + " WHERE i.inserate_id = ?";
+    + " WHERE i.inserate_id = ? AND i.entwurf = 0";
 const updateClick = "UPDATE inserate SET clicks = clicks+ 1  WHERE inserate_id = ?";
 export default async (req, res) => {
     const inserateId = req.params.id;
-    const user = req.user;
-    const role = user.role;
     let connection;
     try {
         connection = await connectToDatabase();
-        if (role === Roles.USER)
-            await connection.execute(updateClick, [inserateId]);
+        await connection.execute(updateClick, [inserateId]);
         const queryResult = await connection.execute(selectQueryDetail, [inserateId]);
         const result = queryResult[0];
         const { inserate_id, brand, model, price, cartype, mileage_km, registration_year, registration_month, transmission, inserate_date, power_ps, vehicle_owners, cubic_capacity, au_new, hu_new, door, accident, fuel, is_car_dealer, clima, description_car, scheckheft, fit_to_drive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent, color, city, federal_state, zipcode } = result[0];
-        const axiosPaper = { inseratId: inserate_id, mileageKm: mileage_km, registrationYear: registration_year, registrationMonth: registration_month, psPower: power_ps, vehicleOwners: vehicle_owners, fuel, accident, city };
+        const axiosPaper = { inseratId: inserate_id, mileageKm: mileage_km, registrationYear: registration_year, registrationMonth: registration_month, psPower: power_ps, vehicleOwners: vehicle_owners, fuel, accident, city, isCarDealer: is_car_dealer };
         const axiosData = {
             inseratId: inserate_id, model, brand, price, cartype, transmission, axiosPaper, inserateDate: inserate_date, cubicCapacity: cubic_capacity, auNew: au_new,
             huNew: hu_new, doors: door, isCardealer: is_car_dealer, clima, description: description_car, scheckheft, fittodrive: fit_to_drive, abstandstempomat, ambientbeleuchtung,

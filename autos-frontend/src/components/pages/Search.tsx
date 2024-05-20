@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Box, Button, Container, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Container, FormControl, Grid, Tooltip, Typography } from '@mui/material';
 import axios from 'axios';
-import { SearchContainer, buttonHeight, headerSize, mainComponentHeight } from '../../themes/ThemeColor';
+import { SearchContainer, buttonHeight, headerSize, mainComponentHeight } from '../../themes/Theme';
 
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -16,9 +16,6 @@ import { URLs } from '../../../../autos-backend/src/enums/URLs';
 import { AxiosSearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
 import { SelectFieldEnums } from '../../../../autos-backend/src/enums/SelectFieldEnums';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setBackgroundImageName } from '../../redux/features/backgroundImages';
-import DropZone from './inserate/DropZone';
 
 const searchButtonText = " Treffer";
 
@@ -159,14 +156,14 @@ const Search: React.FC = () => {
 
   const YearFromComponent: React.FC = () => {
     return <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker sx={{ borderRadius: 0 }} label={'Baujahr von'} value={selectedDateFrom} views={['year']} minDate={minDateConst} maxDate={maxDateConst} onChange={(newDate) => { setSelectedDateFrom(newDate), setSelectedDateTo(newDate) }} />
-
+      <DatePicker slotProps={{ textField: { variant: 'standard', } }} label={'Baujahr von'} value={selectedDateFrom} views={['year']} minDate={minDateConst} maxDate={maxDateConst} onChange={(newDate) => { setSelectedDateFrom(newDate), setSelectedDateTo(newDate) }} />
+    
     </LocalizationProvider>
   }
 
   const YearToComponent = () => {
     return <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={selectedDateFrom} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
+      <DatePicker slotProps={{ textField: { variant: 'standard', } }} label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={selectedDateFrom} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
     </LocalizationProvider>
   }
 

@@ -35,6 +35,7 @@ const require = createRequire(import.meta.url);
 import session = require('express-session');
 import { SessionOptions } from "express-session";
 import fetchImageName from "./routes/fetchImageName.js";
+import inserateFinish from "./routes/inserateFinish.js";
 const MySQLStore = require('express-mysql-session')(session);
 
 const __filename = fileURLToPath(import.meta.url);
@@ -93,6 +94,8 @@ app.post(URLs.POST_SIGNIN, passport.authenticate('local'), signin);
 
 app.post(URLs.POST_INSERATE_CAR, authMiddelware, inserateCar);
 app.get(URLs.POST_INSERATE_CAR, authMiddelware, inserateCar);
+
+app.post(URLs.POST_INSERATE_FINISH, authMiddelware, inserateFinish);
 
 app.get(URLs.FETCH_INSERATE_PUBLISH, authMiddelware, fetchInserateForPublish);
 

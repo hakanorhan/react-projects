@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../../../../../autos-backend/src/enums/URLs';
-import { Box, IconButton, } from '@mui/material';
+import { Box, CardMedia, IconButton, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { ImageCar } from '../../../../../themes/ThemeColor';
+import { ImageCar } from '../../../../../themes/Theme';
 import { AxiosDataImagesNames } from '../../../../../../../autos-backend/src/interfaces/IAxiosData';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
@@ -80,7 +80,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
   }, [fetchImageNamesDone])
 
 
-  const SliderComponent = () => {
+  const CarouselComponent = () => {
     const iconButtonSX = (side: number) => ({
       [side === 0 ? 'left' : 'right']: 0,
       height: 'auto',
@@ -96,14 +96,18 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
     const [sliderIndex, setSliderIndex] = useState(0);
 
     return (<>
-      <Box sx={{ position: 'relative'}}>
-        { imageSrc.length > 1 ?<>
+      <CardMedia 
+      component='img'
+      image= {imageSrc[sliderIndex]}
+      alt= {"Bild"}
+      sx={{ position: 'relative', objectFit: 'cover', width:'100%', height:'250px'}}>
+    </CardMedia>
+
+    { imageSrc.length > 1 ?<>
       <IconButton sx={ iconButtonSX(0) } onClick={() => { sliderIndex === imageSrc.length - 1 ? setSliderIndex(0) : setSliderIndex(sliderIndex + 1) }}><ArrowBackIosIcon /></IconButton>
       <IconButton sx={ iconButtonSX(1) } onClick={() => { sliderIndex === 0 ? setSliderIndex(imageSrc.length - 1) : setSliderIndex(sliderIndex - 1) }}><ArrowForwardIosIcon /></IconButton>
         </>   :<></>
       }
-      <ImageCar src={imageSrc[sliderIndex]} alt="Bild" />
-    </Box>
     </>
     )
   }
@@ -114,8 +118,8 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
   }
 
   return (
-    <Box onClick={(e) => e.stopPropagation()}>
-      {succesFullDownloaded && imageSrc.length > 0 ? <SliderComponent /> : (
+    <Box>
+      {succesFullDownloaded && imageSrc.length > 0 ? <CarouselComponent /> : (
         <Box sx={{ display:'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center' }}><CameraAltIcon  sx={{ transform:'scale(1.5)' }}/> </Box>
       )}
     </Box>

@@ -15,9 +15,14 @@ const SelectField: React.FC<{
     {
       values.length === 0 ? (
         <Tooltip title={`Kein ${label} vorhanden`}>
-          <FormControl>
+          <FormControl variant="standard">
             <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-            <Select sx={{ borderRadius: 0 }}
+            <Select sx={{ borderRadius: 0,  '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          } }}
               disabled={values.length === 0}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -40,9 +45,13 @@ const SelectField: React.FC<{
           </FormControl>
         </Tooltip>
       ) : (
-        <FormControl>
+        <FormControl variant="standard">
           <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-          <Select sx={{ borderRadius: 0 }}
+          <Select sx={{ borderRadius: 0, '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+            textDecoration: 'underline',
+            color:'black'
+          }, }}
             disabled={values.length === 0}
             labelId="demo-simple-select-label"
             id="demo-simple-select"

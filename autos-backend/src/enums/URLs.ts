@@ -8,6 +8,7 @@ export enum URLs {
     POST_SIGINUP_EMAILCHECK = '/signup-checkemail',
     POST_SIGNIN = '/signin',
     POST_INSERATE_CAR = '/inseratecar',
+    POST_INSERATE_FINISH = '/inseratecar/finish',
     POST_INSERT_BRAND = '/admin/insertbrand',
     POST_INSERT_MODEL = '/admin/insertmodel',
     POST_PUBLISH = '/admin/publish',

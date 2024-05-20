@@ -1,6 +1,6 @@
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material"
 import ViewListIcon from '@mui/icons-material/ViewList';
-import { mainComponentHeight } from "../../../../../themes/ThemeColor";
+import { mainComponentHeight } from "../../../../../themes/Theme";
 import React, { useEffect, useState } from "react";
 import { seperateThousand } from "../../../../../helper/helper";
 import ViewDetailSearch from "../../../ViewDetailSearchAdmin";
@@ -16,7 +16,6 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
     
     useEffect(() => {
         if(inserateId !== null){
-            alert("setVire Car Component");
         setViewCarComponent(true);}
     }, [inserateId])
 

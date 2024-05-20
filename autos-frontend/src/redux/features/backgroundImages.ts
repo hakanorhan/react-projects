@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { mainComponentHeight } from "../../themes/ThemeColor";
+import { mainComponentHeight } from "../../themes/Theme";
 
 /**
  * Used only for display admin menus in drawer after login.

@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import * as UploadInfo from '../../../constants/Images';
-import { ImgImageUpload } from '../../../themes/ThemeColor';
+import { ImgImageUpload } from '../../../themes/Theme';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 
 interface UploadImagesProp {

@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Box, Typography } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Box, Typography, Input } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check'
-import { ValidParagraph, colorDanger } from '../../themes/ThemeColor';
+import { ValidParagraph, colorDanger } from '../../themes/Theme';
 import * as ValidHelper from '../../helper/validHelper';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
@@ -44,9 +44,9 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
 
   return (
     <Box>
-    <FormControl onClick={(e) => e.stopPropagation()} variant="outlined">
+    <FormControl onClick={(e) => e.stopPropagation()} variant="standard">
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
-    <OutlinedInput
+    <Input
       id= {id}
       onChange={handleOnChange}
       type={showPassword ? 'text' : 'password'}
@@ -68,7 +68,6 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
           </IconButton>
         </InputAdornment>
       }
-      label= { label }
     />
   </FormControl>
   <ValidationMessages />
