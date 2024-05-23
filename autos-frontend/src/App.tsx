@@ -14,8 +14,8 @@ import InserateCar from './components/pages/inserate/InserateCar';
 // TODO: Css Baseline
 //import CssBaseline from '@mui/material/CssBaseline';
 //import darkTheme from './themes/ThemeDark';
-import Search from './components/pages/Search';
-import { Box, Tooltip } from '@mui/material';
+import Search from './components/pages/search/Search';
+import { Box } from '@mui/material';
 import './App.css'
 
 import type { RootState } from './redux/store';
@@ -29,9 +29,8 @@ import PublishInserate from './components/pages/dashboards/admin/components/Publ
 
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
-import ListSearchedCars from './components/pages/ListSearchedCars';
-import ViewDetailSearch from './components/pages/ViewDetailSearch';
-import Beispiel from './Beispiel';
+import ListSearchedCars from './components/pages/search/ListSearchedCars';
+import ViewDetailSearch from './components/pages/search/viewDetail/ViewDetailSearch';
 
 const App: React.FC = () => {
   /*
@@ -63,7 +62,6 @@ const App: React.FC = () => {
         { path: URLs.FETCH_DETAIL_SEARCH + "/:id", element: <ViewDetailSearch />, errorElement: <Notfound /> },
         { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> },
         { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> },
-        { path: '/beispiel', element: <Beispiel /> }
       ]
     }
   ]);

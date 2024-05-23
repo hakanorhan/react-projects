@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Card, CardActionArea, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { AxiosPaperList } from '../../../../autos-backend/src/interfaces/IAxiosData';
-import { URLs } from '../../../../autos-backend/src/enums/URLs';
+import { AxiosPaperList } from '../../../../../autos-backend/src/interfaces/IAxiosData';
+import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 import axios from 'axios';
-import CarImages from './dashboards/admin/components/CarImages';
-import { ShowFastPaper } from './searchComponents/ShowFastPaper';
+import CarImages from './../dashboards/admin/components/CarImages';
+import { ShowFastPaper } from './../search/searchComponents/ShowFastPaper';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { SortEnums } from '../../../../autos-backend/src/enums/SortEnums';
-import { COMPONENT_DISTANCE, LinkHome, LinkNewSearch, MainBox, SearchContainer } from '../../themes/Theme';
+import { SortEnums } from '../../../../../autos-backend/src/enums/SortEnums';
+import { COMPONENT_DISTANCE, LinkHome, LinkNewSearch, MainBox, SearchContainer } from '../../../themes/Theme';
 import { useDispatch } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import ShareIcon from '@mui/icons-material/Share';
 
 const LIMIT = 5;
 
-export default function ListSearchedCars() {
+const ListSearchedCars = () => {
 
   const location = useLocation();
 
@@ -32,8 +32,6 @@ export default function ListSearchedCars() {
 
   // sort
   const [selectedSort, setSelectedSort] = useState<string>(SortEnums.PRICE_DOWN);
-
-  const dispatch = useDispatch();
 
   // ----- Pagination ------
   const [page, setPage] = useState<number>(1);
@@ -115,16 +113,17 @@ export default function ListSearchedCars() {
   const handleShowDetail = ({ id }: ({ id: number })) => {
     navigate(URLs.FETCH_DETAIL_SEARCH + `/${id}`);
   }
-
+  /* backgroundColor:{ xs:'yellow', sm:'whitesmoke', md:'red', lg:'orange', xl:'whitesmoke'}, */
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
 
-    return <Card sx={{ cursor: 'pointer', height: '100%' }} 
+    return <Card elevation={0} sx={{ cursor: 'pointer', height: '100%' }} 
       onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
       <CardActionArea>
       <CarImages id={axiosPaper.inseratId} multiple={false} />
 
       {/* technical description */}
       <ShowFastPaper detailSearchValues={axiosPaper} />
+      
     </CardActionArea>
     </Card>
   }
@@ -167,9 +166,7 @@ export default function ListSearchedCars() {
   return (
 
     <Box sx={{ width:'95%', margin:'auto', paddingTop: '20px' }}>
-      
-
-
+      <TopComponent />
       <Grid container spacing={4}>
         {
           cars ? cars.map((axiosPaper, index) => (
@@ -185,3 +182,5 @@ export default function ListSearchedCars() {
 
   )
 }
+
+export default ListSearchedCars;

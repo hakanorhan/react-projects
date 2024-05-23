@@ -84,12 +84,12 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
     const iconButtonSX = (side: number) => ({
       [side === 0 ? 'left' : 'right']: 0,
       height: 'auto',
+      position:'absolute',
+      top:'25%',
       borderRadius: '30px',
-      top: '45%',
-      position: 'absolute',
       marginLeft: '0.4rem',
       marginRight: '0.4rem',
-      opacity: '75%',
+      opacity: '90%',
       backgroundColor: 'primary.main', color: 'primary.contrastText',
       '&:hover': { backgroundColor: 'primary.dark', color:'white' }
     });
@@ -100,7 +100,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
       component='img'
       image= {imageSrc[sliderIndex]}
       alt= {"Bild"}
-      sx={{ position: 'relative', objectFit: 'cover', width:'100%', height:'250px'}}>
+      sx={{ objectFit:'cover', position:'relativr', width:'100%', height:'100%',}}>
     </CardMedia>
 
     { imageSrc.length > 1 ?<>
@@ -111,7 +111,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
     </>
     )
   }
-
 
   if (loading) {
     return <p>loading...</p>;

@@ -1,4 +1,4 @@
-import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { DatePicker, DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs from 'dayjs';
@@ -35,16 +35,16 @@ export const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, 
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='de'>
       <DemoContainer sx={{ padding: 0, borderRadius: 0 }}
         components={[
-          'DesktopDatePicker',
+          'DatePicker',
         ]}
       >
         <DemoItem>
-          <DesktopDatePicker sx={{ width: isLGDown ? '100%' : '416px' }}
+          <DatePicker sx={{ paddingTop:'1rem', width: isLGDown ? '100%' : '416px' }}
             views={['month', 'year']}
             maxDate={dayjs()}
             onChange={handleOnChange}
             value={value}
-            slotProps={{ textField: { onClick: open ? ()=> setOpen(false) : () =>setOpen(true) ,  placeholder: 'Erstzulassung: MM/YYYY' } }}
+            slotProps={{ textField: { variant:'standard', onClick: open ? ()=> setOpen(false) : () =>setOpen(true) ,  placeholder: 'Erstzulassung: MM/YYYY' } }}
             open={open}
             onOpen={() => setOpen(true)}
             onClose={() => setOpen(false)}

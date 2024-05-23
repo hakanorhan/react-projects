@@ -36,6 +36,8 @@ import session = require('express-session');
 import { SessionOptions } from "express-session";
 import fetchImageName from "./routes/fetchImageName.js";
 import inserateFinish from "./routes/inserateFinish.js";
+import sharp from "sharp";
+import { fetchClickedCars } from "./routes/fetchClickedCars.js";
 const MySQLStore = require('express-mysql-session')(session);
 
 const __filename = fileURLToPath(import.meta.url);
@@ -112,6 +114,7 @@ app.get(URLs.FETCH_IMAGENAMES + "/:id", fetchImageNames);
 app.get(URLs.FETCH_IMAGENAME + "/:id", fetchImageName);
 
 app.get(URLs.FETCH_LIST_CARS, fetchListCars);
+app.post(URLs.FETCH_CLICKED_CARS, fetchClickedCars);
 
 app.delete(URLs.LOGOUT, logout);
 app.get(URLs.AUTHENTICATION_USER, authenticationUser);
@@ -132,7 +135,7 @@ const storage = multer.diskStorage({
   filename: function (req: express.Request, file, cb) {
     const insertId = req.body.carId;
     const imageName = file.originalname;
-    const imageNameInDatabase = insertImageName(imageName, insertId)
+    
     
     cb(null, imageName);
   }
@@ -142,17 +145,46 @@ const upload = multer({ storage: storage });
 app.post('/upload', upload.array('images', 20), (req, res) => {
 
   const files = req.files as Express.Multer.File[]
-
-  files.map((file) => {
-    console.log( "ImageName: " + file.filename);
-  })
+  const insertId = req.body.carId;
+  
 
   if (!req.files || req.files.length === 0) {
 
     return res.status(400).send('No files uploaded.');
   }
+
+  async function processSharp(){
+    try {
+      const processedFiles = await Promise.all(files.map(async (file) => {
+        const imageName = 'resized_' + file.filename;
+        const outputFilePath = path.join(file.destination, imageName);
   
-  res.status(200).send('Files uploaded successfully.');
+        // Resize the image using sharp
+        await sharp(file.path)
+        // width height
+          .resize(768, 432, { fit: 'cover' })
+          .toFile(outputFilePath);
+  
+        // Log the resized image filename
+        console.log("ImageName: " + file.filename);
+        const imageNameInDatabase = insertImageName(imageName, insertId)
+        fs.unlinkSync(file.path);
+        return outputFilePath;
+      }));
+  
+      res.status(200).json({
+        message: 'Files uploaded and resized successfully.',
+        files: processedFiles
+      });
+    } catch (error) {
+      console.error('Error processing images:', error);
+      res.status(500).send('Error processing images.');
+    }
+  };
+
+  processSharp();
+  
+  //res.status(200).send('Files uploaded successfully.');
 });
 
 // send image 
@@ -165,7 +197,7 @@ app.get('/uploads/:id/:imageName', (req, res) => {
 // delete image
 app.delete(URLs.DELETE_IMAGE+"/:inserateid/:imagename", authMiddelware, (req, res) => {
   const inserateId = req.params.inserateid;
-  const imageName = req.params.imagename;
+  const imageName = 'resized_' + req.params.imagename;
   console.log(inserateId + " " + imageName);
   const filePath = path.join(__dirname, `../uploads/${inserateId}`, imageName);
 

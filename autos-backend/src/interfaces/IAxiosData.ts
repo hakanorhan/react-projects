@@ -160,7 +160,14 @@ export interface AxiosDetailsearch {
   color: string,
   city: string,
   zipcode: string,
-  federalState: string
+  federalState: string,
+  companyName: string,
+  impressum: string,
+  foreName: string,
+  sureName: string,
+  telNr: string,
+  streetNr: string | null,
+  since: string
 }
 
 export interface AxiosDataImagesNames {

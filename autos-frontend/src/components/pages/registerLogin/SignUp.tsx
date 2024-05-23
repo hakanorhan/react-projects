@@ -6,7 +6,7 @@ import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Button, Checkbox, FormControlLabel, Box, Typography, Stepper, StepLabel, Step, Grid, Paper, SelectChangeEvent } from '@mui/material';
 import { MainComponentWidth, HeaderIcon, textFieldSMWitdh, buttonHeight } from '../../../themes/Theme.js';
 
-import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers'
+import { DatePicker, LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs from 'dayjs';
@@ -270,7 +270,7 @@ const SignUpUser: React.FC = () => {
                 {/* Name */}
                 <TextFieldCars id={EnumTextField.TextFieldID.FAMILYNAME} label={ isCheckedDealer ?'Ansprechpartner:in Nachname' : 'Nachname' } onChange={value => handleOnChange(EnumTextField.TextFieldID.FAMILYNAME, value)} regex={REGEX_NAMES} />
                 
-                <MuiTelInput id={EnumTextField.TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={ telefonNr } onChange={ (value) => { setTelefonNr(value); } } />
+                <MuiTelInput variant='standard' id={EnumTextField.TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={ telefonNr } onChange={ (value) => { setTelefonNr(value); } } />
 
                 { isCheckedDealer && <>
                 <Paper sx={{ padding:'0.7rem', marginBottom:'1rem' } }elevation={10}>
@@ -285,12 +285,12 @@ const SignUpUser: React.FC = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='de'>
                   <DemoContainer
                     components={[
-                      'MobileDatePicker',
+                      'DatePicker',
                     ]}
                   >
                     <DemoItem>
-                      <MobileDatePicker sx={{ width: { xs: '100%', md: textFieldSMWitdh} }}
-                      slotProps={{ textField: {size: 'medium', fullWidth: true} }}
+                      <DatePicker sx={{ width: { xs: '100%', md: textFieldSMWitdh} }}
+                      slotProps={{ textField: { variant:'standard', size: 'medium', fullWidth: true} }}
                         label="Geburtsdatum"
                         //views={['month', 'year']}
                         onChange={(date) => setDateValue(date)}

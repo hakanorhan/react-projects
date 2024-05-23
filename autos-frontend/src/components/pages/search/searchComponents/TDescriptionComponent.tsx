@@ -1,16 +1,16 @@
 import { Box, Grid, Paper, Typography } from '@mui/material'
 import React from 'react'
-import { ViewDetailIconStyle, paperElevationValue, paperMarginTopValue, paddingPaperDetailSearch, COMPONENT_DISTANCE, paperFontSize, ICON_FONT_SIZE } from '../../../themes/Theme'
+import { ViewDetailIconStyle, paperElevationValue, paperMarginTopValue, paddingPaperDetailSearch, COMPONENT_DISTANCE, paperFontSize, ICON_FONT_SIZE } from '../../../../themes/Theme'
 import Person3Icon from '@mui/icons-material/Person3';
 import AddRoadIcon from '@mui/icons-material/AddRoad';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import CarCrashIcon from '@mui/icons-material/CarCrash';
-import { seperateThousand } from '../../../helper/helper';
+import { seperateThousand } from '../../../../helper/helper';
 import SpeedIcon from '@mui/icons-material/Speed';
 
-import { AxiosPaper } from '../../../../../autos-backend/src/interfaces/IAxiosData';
+import { AxiosPaper } from '../../../../../../autos-backend/src/interfaces/IAxiosData';
 
 
 interface GridComponentProps {

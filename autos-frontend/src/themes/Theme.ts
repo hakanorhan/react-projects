@@ -19,11 +19,13 @@ const searchContainerLGWidth = '1150px';
 
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
-
-const LIGHT_PRIMARY_COLOR_MAIN: string = "#2C5F2D";
+// #7a63f1
+const LIGHT_PRIMARY_COLOR_MAIN: string = "#7a63f1";
 const LIGHT_PRIMARY_COLOR_LIGHT: string = "#97BC62";
 export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 const LIGHT_PRIMARY_DARK = "#E4E4DE";
+
+export const LIGHT_SECONDARY_COLOR_MAIN = "#ebe8fc";
 
 const LIGHT_BACKGROUND_DEFAULT = '#FFFFFF';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = '#FFFFFF';
@@ -44,7 +46,6 @@ export const colorDanger: string = colors.red[700];
 export const buttonHeight = '55px';
 
 export const minHeightContent = '750px';
-
 export const mainComponentHeight = '750px';
 
 export const paperElevationValue = 10;
@@ -63,12 +64,22 @@ const breakpoints = {
     xs: 0,
     sm: 576,
     md: 768,
-    lg: 992,
+    lg: 1100,
     xl: 1200,
     xxl: 1400
 };
 
 const components = {
+
+    MuiPaper: {
+        styleOverrides: {
+            root: {
+                '&:hover': {
+                }
+            }
+        }
+    },
+
     MuiFormControl: {
         styleOverrides: {
             root: {
@@ -83,8 +94,11 @@ const components = {
                 borderRadius: '0px',
                 border: 'none',
                 width: '100%',
-                color: LIGHT_PRIMARY_CONTRAST_TEXT
-
+                color: LIGHT_PRIMARY_CONTRAST_TEXT,
+                '&:hover': {
+                    backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
+                    color: LIGHT_PRIMARY_COLOR_MAIN
+                }
             }
         },
 
@@ -111,9 +125,19 @@ const components = {
         }
 };
 
+export const fontRegular = 'TitilliumWeb-Regular';
+export const fontBold = 'TitilliumWeb-Bold';
+export const fontExtraLight = 'TitilliumWeb-Extra-Light';
+export const fontLight = 'TitilliumWeb-Light';
+export const fontSemiBold = 'TitilliumWeb-SemiBold';
+
 const fontFamilies = {
     fontFamily: [
-        'Poppins-Regular',
+        fontExtraLight,
+        fontLight,
+        fontRegular,
+        fontSemiBold,
+        fontBold,
         '-apple-system',
         'BlinkMacSystemFont',
         '"Segoe UI"',
@@ -135,14 +159,14 @@ export const themeLight = createTheme({
     palette: {
         mode: 'light',
         text: {
-            primary: colors.grey[900]
+            primary: '#434344'
         },
         primary: {
             main: LIGHT_PRIMARY_COLOR_MAIN,
             contrastText: LIGHT_PRIMARY_CONTRAST_TEXT,
         }, secondary: {
-            main: LIGHT_PRIMARY_COLOR_MAIN,
-            contrastText: COLOR_ON_WHITE_BACKGROUND,
+            main: LIGHT_SECONDARY_COLOR_MAIN,
+            contrastText: LIGHT_PRIMARY_COLOR_MAIN,
         }, background: {
             default: LIGHT_BACKGROUND_DEFAULT,
             paper: LIGHT_BACKGROUND_PAPER_DEFAULT
@@ -177,7 +201,7 @@ export const themeDark = createTheme({
     typography: fontFamilies
 });
 
-export const headerSize = { color: LIGHT_PRIMARY_CONTRAST_TEXT, padding: '4.2rem', textAlign: 'center', fontWeight: 'bold', fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem', lg: '3.3rem' } };
+export const headerSize = { color: 'black', textAlign: 'center', fontFamily: fontBold, backgroundColor: 'white', opacity:'70%', padding:'1.5rem', marginBottom: '2rem' };
 
 export const MainBox = styled('div')(({ theme }) => ({
     paddingTop: COMPONENT_DISTANCE,
@@ -349,7 +373,6 @@ export const SearchContainer = styled('div')(({ theme }) => ({
 
 export const ImgImageUpload = styled('img')(({ theme }) => ({
     width: '100%',
-    objectFit: 'contain',
     height: '100%'
 }))
 
@@ -438,13 +461,13 @@ export const GreyVerticalHR = styled('hr')(({ theme }) => ({
 
 export const GreyHorizontalBoldHR = styled('hr')(({ theme }) => ({
     border: 'none',
-    borderTop: `5px solid ${colors.grey[300]}`,
+    borderTop: `1px solid ${colors.grey[300]}`,
 
 }));
 
 export const GreyVerticalBoldHR = styled('hr')(({ theme }) => ({
     border: 'none',
-    borderLeft: `5px solid ${colors.grey[200]}`,
+    borderLeft: `1px solid ${colors.grey[200]}`,
     height: '100%',  // Set this to your desired height
     width: '1px',
     margin: 0,

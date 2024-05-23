@@ -155,7 +155,7 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
                             <img
                                 src={file.preview}
                                 alt={file.name}
-                                style={{ width: '100%', aspectRatio: 16 / 9, objectFit: 'cover' }}
+                                style={{ width: '100%', aspectRatio: 1.78, objectFit: 'cover' }}
                             />
                             <Tooltip title="Bild entfernen">
                                 <Button onClick={() => removeFile(file.name)} sx={{ position: 'absolute', zIndex: 10, left: '45%', borderRadius: '50%', width: '60px', top: '42%', height: '60px', backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'primary.dark' } }}><DeleteOutlineIcon /></Button>

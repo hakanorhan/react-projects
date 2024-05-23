@@ -60,6 +60,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mysql": "^5.0.10",
     "sequelize": "^6.37.3",
+    "sharp": "^0.33.4",
     "uuid": "^9.0.1"
   }
 }

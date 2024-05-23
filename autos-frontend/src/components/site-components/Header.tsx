@@ -15,7 +15,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { LinkDrawer, LinkHome, ParagraphSideMenu } from '../../themes/Theme';
+import { LinkDrawer, LinkHome, ParagraphSideMenu, fontBold } from '../../themes/Theme';
 import type { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -33,7 +33,7 @@ const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem
 
 const drawerFontSize = '28px';
 
-const drawerSizes = { color: 'secondary.contrastText', fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px' };
+const drawerSizes = { color: 'secondary.contrastText', fontSize: drawerFontSize, fontFamily: fontBold, paddingLeft: '25px' };
 const accordionIconStyle = { fontSize: drawerFontSize };
 const accordionStyle = { fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px', marginBottom: '0.8rem' };
 
@@ -171,15 +171,15 @@ export default function Header() {
   // -------------------------------------- ADMIN ----------------------------------------------------------
 
   const DrawerMenuComponent = () => {
-    return <Drawer anchor='right' open={drawerOpen} onClose={handleOnCloseDrawer}>
-      <Box p={2} sx={{ width: { xs: '100vw', sm: '500px' } }} role='presentation'>
+    return <Drawer sx={{ height: '100%' }} anchor='right' open={drawerOpen} onClose={handleOnCloseDrawer}>
+      <Box p={2} sx={{ height:'100%', backgroundColor:'secondary.main', width: { xs: '100vw', sm: '500px' } }} role='presentation'>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', paddingTop: '20px' }}>
           <IconButton onClick={() => { setDrawerOpen(false) }} sx={{
             backgroundColor: 'transparent', "&.MuiButtonBase-root:hover": {
               backgroundColor: "transparent"
             }
           }}>
-            <CloseOutlinedIcon sx={{ "&:hover": { border: '0px' }, fontSize: '70px', fontWeight: 'bold', marginRight: '40px', borderStyle: 'solid', borderRadius: '5px', padding: '10px' }} />
+            <CloseOutlinedIcon sx={{ color: 'primary.main', "&:hover": { border: '0px' }, fontSize: '70px', marginRight: '40px', borderStyle: 'solid', borderRadius: '5px', padding: '10px' }} />
           </IconButton>
         </Box>
         {

@@ -164,6 +164,7 @@ CREATE TABLE technical_description(
 
 CREATE TABLE inserate(
     inserate_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    second_title VARCHAR(50) NULL,
     price INT NOT NULL,
     model_id INT NOT NULL,
     technical_description_id INT NOT NULL,
@@ -285,7 +286,6 @@ INSERT INTO brand (brand) VALUES ("Isuzu");
 INSERT INTO brand (brand) VALUES ("Jaguar");
 INSERT INTO brand (brand) VALUES ("Jeep");
 INSERT INTO brand (brand) VALUES ("Kia");
-INSERT INTO brand (brand) VALUES ("Alfa Romeo");
 INSERT INTO brand (brand) VALUES ("Lexus");
 INSERT INTO brand (brand) VALUES ("Maserati");
 INSERT INTO brand (brand) VALUES ("Maybach");
@@ -347,3 +347,5 @@ INSERT INTO model (model, brand_id) VALUES ("A7", 4);
 INSERT INTO model (model, brand_id) VALUES ("S8", 4);
 INSERT INTO model (model, brand_id) VALUES ("RSQ8", 4);
 INSERT INTO model (model, brand_id) VALUES ("R8", 4);
+
+INSERT INTO model (model, brand_id) VALUES ("116", 6);

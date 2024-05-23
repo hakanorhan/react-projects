@@ -1,9 +1,9 @@
-import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material"
+import { Box, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material"
 import ViewListIcon from '@mui/icons-material/ViewList';
 import { mainComponentHeight } from "../../../../../themes/Theme";
 import React, { useEffect, useState } from "react";
 import { seperateThousand } from "../../../../../helper/helper";
-import ViewDetailSearch from "../../../ViewDetailSearchAdmin";
+import ViewDetailSearch from "../../ViewDetailSearchAdmin";
 import dayjs from "dayjs";
 
 interface PublishListProps {
@@ -32,7 +32,7 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
                             secondary={"Datum Uhrzeit: " + dayjs(item.inserate_date).format('DD.MM.YYYY HH:MM') } >
                         </ListItemText>
                     </ListItem>        
-                )) : <Box sx={{ marginLeft:'1rem' }}>Keine neue Inserate.</Box>
+                )) : <Box sx={{ marginLeft:'1rem' }}><Typography>Keine neue Inserate.</Typography></Box>
 
             }
         </List>
@@ -42,7 +42,7 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
     <Box sx={{ width: '100%' }}>
         <ViewListComponent />
         {
-            viewCarComponent ? <ViewDetailSearch id={inserateId} /> : <></>
+            viewCarComponent ? <ViewDetailSearch multiple={ true } id={inserateId} /> : <></>
         }
     </Box>
   )

@@ -1,6 +1,6 @@
 import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
-const selectQueryDetail = "SELECT *"
+const selectQueryDetail = "SELECT *, YEAR(ac.created_date) AS since"
     + " FROM inserate i "
     + " LEFT JOIN inserate_info ii ON ii.inserate_info_id = i.inserate_info_id"
     + " LEFT JOIN inserate_check ic ON i.inserate_id = ic.inserate_id"
@@ -32,14 +32,17 @@ export default async (req, res) => {
         await connection.execute(updateClick, [inserateId]);
         const queryResult = await connection.execute(selectQueryDetail, [inserateId]);
         const result = queryResult[0];
-        const { inserate_id, brand, model, price, cartype, mileage_km, registration_year, registration_month, transmission, inserate_date, power_ps, vehicle_owners, cubic_capacity, au_new, hu_new, door, accident, fuel, is_car_dealer, clima, description_car, scheckheft, fit_to_drive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent, color, city, federal_state, zipcode } = result[0];
-        const axiosPaper = { inseratId: inserate_id, mileageKm: mileage_km, registrationYear: registration_year, registrationMonth: registration_month, psPower: power_ps, vehicleOwners: vehicle_owners, fuel, accident, city, isCarDealer: is_car_dealer };
+        const { inserate_id, brand, model, price, cartype, mileage_km, registration_year, registration_month, transmission, inserate_date, power_ps, vehicle_owners, cubic_capacity, au_new, hu_new, door, accident, fuel, is_car_dealer, clima, description_car, scheckheft, fit_to_drive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent, color, city, federal_state, zipcode, companyname, impressum, forename, surename, tel_nr, street_nr, since } = result[0];
+        const axiosPaper = { inseratId: inserate_id, mileageKm: mileage_km, registrationYear: registration_year, registrationMonth: registration_month, psPower: power_ps,
+            vehicleOwners: vehicle_owners, fuel, accident, city, isCarDealer: is_car_dealer };
         const axiosData = {
             inseratId: inserate_id, model, brand, price, cartype, transmission, axiosPaper, inserateDate: inserate_date, cubicCapacity: cubic_capacity, auNew: au_new,
             huNew: hu_new, doors: door, isCardealer: is_car_dealer, clima, description: description_car, scheckheft, fittodrive: fit_to_drive, abstandstempomat, ambientbeleuchtung,
-            headupdisplay, totwinkelassistent, color, city, federalState: federal_state, zipcode
+            headupdisplay, totwinkelassistent, color, city, federalState: federal_state, zipcode, companyName: companyname, impressum, foreName: forename, sureName: surename,
+            telNr: tel_nr, streetNr: is_car_dealer ? street_nr : null, since
         };
         connection.end();
+        console.log(axiosData.streetNr + " since: " + since);
         return res.status(200).json(axiosData);
     }
     catch (error) {

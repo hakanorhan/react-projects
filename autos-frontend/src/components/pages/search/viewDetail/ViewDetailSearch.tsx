@@ -4,7 +4,8 @@ import ViewDetailGeneral from './ViewDetailGeneral';
 
 const ViewDetailSearch = () =>  {
   const { id } = useParams();
-   return <ViewDetailGeneral id={ id } /> 
+  
+   return <ViewDetailGeneral id={ id } multiple={true}/> 
 }
 
 export default ViewDetailSearch;

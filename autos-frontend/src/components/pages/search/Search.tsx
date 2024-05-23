@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Box, Button, Container, FormControl, Grid, Tooltip, Typography } from '@mui/material';
 import axios from 'axios';
-import { SearchContainer, buttonHeight, headerSize, mainComponentHeight } from '../../themes/Theme';
+import { COMPONENT_DISTANCE, SearchContainer, buttonHeight, fontRegular, fontSemiBold, headerSize, mainComponentHeight } from '../../../themes/Theme';
 
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -11,11 +11,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useSpring, animated } from 'react-spring';
-import SelectField from '../formularFields/SelectField';
-import { URLs } from '../../../../autos-backend/src/enums/URLs';
-import { AxiosSearch } from '../../../../autos-backend/src/interfaces/IAxiosData';
-import { SelectFieldEnums } from '../../../../autos-backend/src/enums/SelectFieldEnums';
+import SelectField from '../../formularFields/SelectField';
+import { URLs } from '../../../../../autos-backend/src/enums/URLs';
+import { AxiosSearch } from '../../../../../autos-backend/src/interfaces/IAxiosData';
+import { SelectFieldEnums } from '../../../../../autos-backend/src/enums/SelectFieldEnums';
 import { createSearchParams, useNavigate } from 'react-router-dom';
+import { useMediaQuery } from '@mui/material';
+import SearchedCars from './SearchedCars';
 
 const searchButtonText = " Treffer";
 
@@ -46,6 +48,11 @@ const Search: React.FC = () => {
     federal_state: SelectFieldEnums.ALL_VALUE,
     price: SelectFieldEnums.ALL_VALUE
   }
+
+  const isXS = useMediaQuery('(max-width:570px)');
+  const isSM = useMediaQuery('(max-width:768px)');
+  const isMD = useMediaQuery('(max-width:1100px)');
+
 
   const [formSelect, setFormSelect] = React.useState<AxiosSearch>(initalValue);
 
@@ -124,7 +131,6 @@ const Search: React.FC = () => {
     const dateFrom = selectedDateFrom?.year() === null ? SelectFieldEnums.ALL_VALUE : selectedDateFrom?.year();
     const dateTo = selectedDateTo?.year() === null ? SelectFieldEnums.ALL_VALUE : selectedDateTo?.year();
 
-
     const searchParams = { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo };
 
     try {
@@ -168,13 +174,12 @@ const Search: React.FC = () => {
   }
 
   return (
-    <>
+    <Box>
     <Box sx={{ backgroundImage:'url("pexels-shkrabaanthony-7144243.jpg")', backgroundSize:'cover', backgroundPosition:'center', paddingTop:'4rem', paddingBottom:'4rem'}}>
-    <Box sx={{ display:'flex', justifyContent:'end'}}>
-      <a style={{ fontSize:'1.5rem', paddingRight:'1rem' }} href='https://www.pexels.com/de-de/foto/mann-frau-auto-fahrzeug-7144243/' target='_blank'>pexels - Foto von Antoni Shkraba: </a></Box>
-    
-        <Typography component='h1' sx={ headerSize}>Neues Auto.</Typography>
+        
+        <Typography variant={ isXS ? 'h3' : isSM ? 'h5' : isMD ? 'h4' : 'h2'} component='h1' sx={ headerSize}>Neues Auto.</Typography>
         <SearchContainer onClick={(e) => e.stopPropagation()} sx={{ padding:'1.5rem', cursor:'default', backgroundColor:'background.default' }}>
+        
           <Grid container sx={{  }} justifyContent="center" columnSpacing={1}>
             <Grid item xs={6} md={4}>
               {/* Brand */}
@@ -231,8 +236,20 @@ const Search: React.FC = () => {
             </Grid>
           </Grid>
         </SearchContainer>
+        <Box sx={{ display:'flex', justifyContent:'end', marginTop:'2rem'}}>
+      <a style={{ paddingRight:'1rem' }} href='https://www.pexels.com/de-de/foto/mann-frau-auto-fahrzeug-7144243/' target='_blank'>
+        <Typography sx={{ color:'white' }}>pexels - Foto von Antoni Shkraba:</Typography> </a>
+      </Box>
+       
+       
        </Box>
-    </>
+
+      <Typography variant='h6' component='h1' sx={{ fontFamily: fontSemiBold, marginTop: COMPONENT_DISTANCE, marginLeft: '2rem' }}>Am meisten gesucht</Typography>
+      <SearchedCars type={"most"}/>
+      <SearchedCars type={"electric"}/>
+      
+
+    </Box>
   )
 }
 
