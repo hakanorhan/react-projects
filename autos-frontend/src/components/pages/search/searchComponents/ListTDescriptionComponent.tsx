@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Rating, Typography } from '@mui/material'
+import { Box, Grid, Rating, Typography } from '@mui/material'
 import React from 'react'
 import { LINE_HEIGHT, ICON_FONT_SIZE } from '../../../../themes/Theme'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';

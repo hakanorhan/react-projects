@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { TableContainer, Table, Paper, TableHead, TableCell, TableRow, Tooltip } from '@mui/material'
 
-
   interface TableNormalValues {
     listValues: any[],
     insertId: number | null
@@ -29,10 +28,10 @@ const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
     function TableHeaders() {
       return (
         <TableHead>
-        <TableRow key={'row'}>
+        <TableRow>
           {
               Object.keys(listValues[0]).map((key, index) => (
-                  <TableCell key={index}> {key} </TableCell>
+                  <TableCell key={ index }> {key} </TableCell>
               ))
           }
         </TableRow>
@@ -48,7 +47,7 @@ const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
           <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             { /* Table cell */}
             { Object.values(tableRow).map((value: any, index1) => (
-              <Tooltip title="Anzeigen">
+              <Tooltip title="Anzeigen" key={ index1 }>
               <TableCell onClick={() => {  }} sx={{ fontSize:'1.2rem', backgroundColor: markLastInsert(value, index1) }} component='th' scope='row' key={index1} > {value} </TableCell>
               </Tooltip>
             )) }

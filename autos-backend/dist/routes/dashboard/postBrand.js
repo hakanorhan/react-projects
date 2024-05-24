@@ -4,6 +4,7 @@ const insertIntoBrand = "INSERT INTO brand (brand) VALUES (?)";
 const selectBrandQuery = "SELECT * FROM brand";
 export default async (req, res) => {
     const { value } = req.body;
+    console.log(value);
     let connection;
     try {
         connection = await connectToDatabase();
@@ -11,12 +12,18 @@ export default async (req, res) => {
         const [resultBrand] = await connection.execute(insertIntoBrand, [value]);
         const insertId = resultBrand.insertId;
         const queryResult = await connection.query(selectBrandQuery);
-        const result = queryResult;
-        const resultTableCell = result[0];
+        const result = queryResult[0];
+        const brands = result.map((row) => {
+            const object = {
+                brandId: row.brand_id,
+                brand: row.brand
+            };
+            return object;
+        });
+        const axiosDataPacket = { message: "Erfolgreich hinzugefügt", dataBrands: brands };
         await connection.commit();
-        console.log(resultTableCell);
         connection.end();
-        return res.status(200).json({ message: 'Erfolgreich hinzugefügt', tableValues: resultTableCell, insertId: insertId });
+        return res.status(200).json(axiosDataPacket);
     }
     catch (error) {
         connection?.rollback();

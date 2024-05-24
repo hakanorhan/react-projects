@@ -21,7 +21,8 @@ export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = (
 
     const axiosPaper: AxiosPaper = {
         inseratId: detailSearchValues.inseratId, mileageKm: detailSearchValues.mileageKm, registrationMonth: detailSearchValues.registrationMonth,
-        registrationYear: detailSearchValues.registrationYear, psPower: detailSearchValues.psPower, fuel: detailSearchValues.fuel, accident: detailSearchValues.accident, vehicleOwners: detailSearchValues.vehicleOwners, city: detailSearchValues.city
+        registrationYear: detailSearchValues.registrationYear, psPower: detailSearchValues.psPower, fuel: detailSearchValues.fuel,
+        accident: detailSearchValues.accident, vehicleOwners: detailSearchValues.vehicleOwners, city: detailSearchValues.city, isCarDealer: detailSearchValues.isCarDealer
     };
 
     return (

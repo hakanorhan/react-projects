@@ -7,8 +7,16 @@ export default async (req, res) => {
         connection = await connectToDatabase();
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0];
+        const brands = result.map((row) => {
+            const object = {
+                brandId: row.brand_id,
+                brand: row.brand
+            };
+            return object;
+        });
         connection.end();
-        return res.status(200).json({ message: 'Data send', tableValues: result });
+        const axiosDataPacket = { message: '', dataBrands: brands };
+        return res.status(200).json(axiosDataPacket);
     }
     catch (error) {
         console.log("Error:", error);

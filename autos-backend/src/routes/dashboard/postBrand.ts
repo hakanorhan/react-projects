@@ -3,12 +3,14 @@ import express from "express";
 import { connectToDatabase } from "../../dbConnect1.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { insertMysqlErrorMessages } from "../../helper/messages.js";
+import { AxiosDataPacketBrand } from "../../interfaces/types.js";
 const insertIntoBrand: string = "INSERT INTO brand (brand) VALUES (?)";
 const selectBrandQuery: string = "SELECT * FROM brand";
+import { Brand } from "../../interfaces/types.js";
 
 export default async (req: express.Request, res: express.Response) => {
     const { value } = req.body;
-
+    console.log(value);
     let connection ;
     try {
         connection = await connectToDatabase();
@@ -18,15 +20,21 @@ export default async (req: express.Request, res: express.Response) => {
             const insertId = resultBrand.insertId;
 
             const queryResult = await connection.query(selectBrandQuery);
-            const result = queryResult as RowDataPacket[];
+            const result = queryResult[0] as RowDataPacket[];
 
-            // Brandnames
-            const resultTableCell = result[0];
+            const brands: Brand[] = result.map((row: RowDataPacket) => {
+                const object: Brand = {
+                    brandId: row.brand_id,
+                    brand: row.brand
+                }
+                return object;
+            })
 
+            const axiosDataPacket : AxiosDataPacketBrand = { message: "Erfolgreich hinzugefügt", dataBrands: brands }
+            
             await connection.commit();
-            console.log(resultTableCell);
             connection.end();
-            return res.status(200).json({ message: 'Erfolgreich hinzugefügt', tableValues: resultTableCell, insertId: insertId })
+            return res.status(200).json( axiosDataPacket )
         } catch (error: any){
             connection?.rollback();
             connection?.end();

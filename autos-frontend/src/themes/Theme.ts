@@ -74,7 +74,9 @@ const components = {
     MuiPaper: {
         styleOverrides: {
             root: {
+                backgroundColor: '#f4f4f4',
                 '&:hover': {
+
                 }
             }
         }
