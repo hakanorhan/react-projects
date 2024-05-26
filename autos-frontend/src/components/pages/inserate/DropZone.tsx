@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
-import { notifyError, notifySuccess } from '../../../helper/toastHelper';
+import { notifySuccess } from '../../../helper/toastHelper';
 
 import { Box, Button, Grid, Tooltip, Typography } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';

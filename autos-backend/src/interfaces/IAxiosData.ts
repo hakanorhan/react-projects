@@ -1,47 +1,3 @@
-export interface SignInForm {
-  email: string,
-  password: string
-}
-
-export interface SignUpForm {
-  name: string,
-  familyname: string,
-  email: string,
-  password1: string,
-  password2: string,
-  impressumdaten: string | null,
-  companyname: string | null,
-  // Address
-  street: string,
-  nr: string,
-  city: string,
-  zipcode: number
-}
-
-export interface FormBaureiheSelect {
-  brand: string,
-  model: string,
-  cartype: string
-}
-
-export interface FormBaureihe {
-  baureihe: string,
-  kw: string,
-  hubraum: string
-}
-
-export interface AxiosDataBaureihe {
-  formBaureiheSelect: FormBaureiheSelect,
-  formBaureihe: FormBaureihe,
-  from: number | undefined,
-  to: number | undefined
-}
-
-export interface AxiosDataModel {
-  brandid: string,
-  model: string
-}
-
 // Car inserate
 export interface InserateSelect {
   brand: string,
@@ -135,56 +91,10 @@ export interface AxiosPaperList {
   vehicleOwners: number
 }
 
-export interface AxiosDetailsearch {
-  inseratId: number,
-  brand: string,
-  model: string,
-  price: number,
-  axiosPaper: AxiosPaper,
-  transmission: string,
-  inserateDate: string,
-  cubicCapacity: number,
-  auNew: boolean,
-  huNew: boolean,
-  cartype: string,
-  doors: number,
-  isCardealer: boolean,
-  clima: string,
-  description: string,
-  scheckheft: boolean,
-  fittodrive: boolean,
-  abstandstempomat: boolean,
-  ambientbeleuchtung: boolean,
-  headupdisplay: boolean,
-  totwinkelassistent: boolean,
-  color: string,
-  city: string,
-  zipcode: string,
-  federalState: string,
-  companyName: string,
-  impressum: string,
-  foreName: string,
-  sureName: string,
-  telNr: string,
-  streetNr: string | null,
-  since: string
-}
-
 export interface AxiosDataImagesNames {
   imagename: string,
   firstplace: boolean,
   carId: number
-}
-
-export interface AxiosDataSignup {
-  form: SignUpForm,
-  selectedBundesland: string,
-  isCheckedDealer: boolean,
-  isCheckedEmail: boolean,
-  isCheckedTelefon: boolean,
-  isCheckedchat: boolean,
-  formattedDate: string,
-  telefonNr: string,
 }
 
 export interface AxiosDataPublish {

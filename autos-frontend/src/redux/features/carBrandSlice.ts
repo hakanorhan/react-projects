@@ -53,6 +53,7 @@ const dataSlice = createSlice({
             })
             .addCase(insertBrand.rejected, (state, action: PayloadAction<unknown | AxiosDataPacketBrand>) => {
                 state.loading = false;
+                notifyError("error", "Bereits vorhanden");
             });
         
     }

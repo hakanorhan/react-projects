@@ -13,6 +13,7 @@ export default async (req: express.Request, res: express.Response) => {
         connection = await connectToDatabase();
         const queryResult = await connection.execute(selectQueryModels, [selectedBrand]);
         const resultModels = queryResult[0] as RowDataPacket[];
+        console.log(resultModels);
         connection.end();
         return res.status(200).json({ message: 'Data send', tableValues: resultModels});
     } catch (error: any) {

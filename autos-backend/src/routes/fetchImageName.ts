@@ -1,7 +1,7 @@
 import express from 'express';
 import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
-import { AxiosDataImagesNames, AxiosDetailsearch } from '../interfaces/IAxiosData.js';
+import { AxiosDataImagesNames } from '../interfaces/IAxiosData.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 
 const selectQueryDetail: string = "SELECT * FROM imagename WHERE inserate_id = ?";

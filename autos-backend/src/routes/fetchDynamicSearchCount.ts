@@ -8,7 +8,6 @@ import { selectMysqlErrorMessages } from "../helper/messages.js";
 export async function performQueryGet(req: express.Request, res: express.Response) {
     
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;
-    console.log("dynamicSearchCount");
     const whereClause: string[] = [" i.inserate_id = ic.inserate_id AND i.entwurf = 0 AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id "];
     const whereValue: any[] = [];
 

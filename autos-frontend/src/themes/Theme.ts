@@ -1,16 +1,7 @@
-import { Select, Typography, colors, createTheme } from "@mui/material";
+import { Select, colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
-/*
-    xs, extra-small: 0px
-    sm, small: 600px
-    md, medium: 900px
-    lg, large: 1200px
-    xl, extra-large: 1536px
-*/
-
-const textFieldXSWitdh = '90%';
 export const textFieldSMWitdh = '560px';
 
 const searchContainerXSWidth = '95%';
@@ -19,9 +10,8 @@ const searchContainerLGWidth = '1150px';
 
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
-// #7a63f1
+
 const LIGHT_PRIMARY_COLOR_MAIN: string = "#7a63f1";
-const LIGHT_PRIMARY_COLOR_LIGHT: string = "#97BC62";
 export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
@@ -31,13 +21,9 @@ const LIGHT_BACKGROUND_DEFAULT = '#FFFFFF';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = '#FFFFFF';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.blueGrey[800];
-const DARK_PRIMARY_COLOR_LIGHT = colors.grey[700];
-const DARK_PRIMARY_COLOR_DARK = '#648dae';
 const DARK_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 
 const DARK_SECONDARY_COLOR_MAIN = colors.grey[700];
-const DARK_SECONDARY_COLOR_LIGHT = '#ffa733';
-const DARK_SECONDARY_COLOR_DARK = '#b26500';
 const DARK_SECONDARY_CONTRAST_TEXT = '#FFFFFF';
 
 export const COLOR_ON_WHITE_BACKGROUND = colors.grey[900];
@@ -57,7 +43,7 @@ export const paperViewDetailSearch = { marginTop: paperMarginTopValue };
 export const paperViewDetailSearchTextArea = { width: '100%', marginTop: paperMarginTopValue };
 export const LinkDrawer = { textDecoration: 'none' };
 
-export const paperFontSize = {xs:'1.1rem', sm: '1.3rem', md:'1rem', lg:'1.2rem'};
+export const paperFontSize = { xs: '1.1rem', sm: '1.3rem', md: '1rem', lg: '1.2rem' };
 export const ICON_FONT_SIZE = '1.4rem';
 
 const breakpoints = {
@@ -123,8 +109,8 @@ const components = {
                 letterSpacing: 0.12
             }
         }
-    
-        }
+
+    }
 };
 
 export const fontRegular = 'TitilliumWeb-Regular';
@@ -203,7 +189,7 @@ export const themeDark = createTheme({
     typography: fontFamilies
 });
 
-export const headerSize = { color: 'black', textAlign: 'center', fontFamily: fontBold, backgroundColor: 'white', opacity:'70%', padding:'1.5rem', marginBottom: '2rem' };
+export const headerSize = { color: 'black', textAlign: 'center', fontFamily: fontBold, backgroundColor: 'white', opacity: '70%', padding: '1.5rem', marginBottom: '2rem' };
 
 export const MainBox = styled('div')(({ theme }) => ({
     paddingTop: COMPONENT_DISTANCE,
@@ -320,7 +306,7 @@ export const DivWidthTwoFieldsRow = styled('div')(({ theme }) => ({
 export const HeaderIcon = styled('div')(({ theme }) => ({
     margin: 'auto',
     textAlign: 'center',
-    color: theme.palette.primary.contrastText,
+    color: theme.palette.primary.main,
     paddingBottom: '1rem',
     [theme.breakpoints.up("xs")]: {
 
@@ -348,11 +334,6 @@ export const HeaderInserateH1 = styled('h1')(({ theme }) => ({
 
 }));
 
-export const ValidParagraph = styled('p')(({ }) => ({
-    lineHeight: '1.4rem',
-    paddingLeft: '.2rem',
-}));
-
 /**
  * All Search Container have the same width.
  */
@@ -373,7 +354,7 @@ export const SearchContainer = styled('div')(({ theme }) => ({
     }
 }))
 
-export const ImgImageUpload = styled('img')(({ theme }) => ({
+export const ImgImageUpload = styled('img')(({ }) => ({
     width: '100%',
     height: '100%'
 }))
@@ -404,7 +385,7 @@ export const SpanSideMenu = styled('span')(({ theme }) => ({
     }
 }))
 
-export const ImageCar = styled('img')(({ theme }) => ({
+export const ImageCar = styled('img')(({ }) => ({
     width: '100%',
     padding: '0',
     margin: '0',
@@ -433,44 +414,44 @@ export const DivContactBottom = styled('div')(({ theme }) => ({
     bottom: 0,
     display: 'flex',
     padding: COMPONENT_DISTANCE,
-    
+
     [theme.breakpoints.up("xs")]: {
         width: '100%',
         display: 'block'
     },
     [theme.breakpoints.up("md")]: {
-        display:'none'
+        display: 'none'
     }
 }))
 
 export const COMPONENT_DISTANCE = "1rem";
 export const LINE_HEIGHT = "0.3rem";
-export const GreyHorizontalHR = styled('hr')(({ theme }) => ({
+export const GreyHorizontalHR = styled('hr')(({ }) => ({
     border: 'none',
     borderTop: `1px solid ${colors.grey[300]}`,
 
 }));
 
-export const GreyVerticalHR = styled('hr')(({ theme }) => ({
+export const GreyVerticalHR = styled('hr')(({ }) => ({
     border: 'none',
     borderLeft: `1px solid ${colors.grey[200]}`,
-    height: '100%',  // Set this to your desired height
+    height: '100%',
     width: '1px',
     margin: 0,
     padding: 0,
     display: 'inline-block',
 }));
 
-export const GreyHorizontalBoldHR = styled('hr')(({ theme }) => ({
+export const GreyHorizontalBoldHR = styled('hr')(({ }) => ({
     border: 'none',
     borderTop: `1px solid ${colors.grey[300]}`,
 
 }));
 
-export const GreyVerticalBoldHR = styled('hr')(({ theme }) => ({
+export const GreyVerticalBoldHR = styled('hr')(({ }) => ({
     border: 'none',
     borderLeft: `1px solid ${colors.grey[200]}`,
-    height: '100%',  // Set this to your desired height
+    height: '100%',
     width: '1px',
     margin: 0,
     padding: 0,
@@ -479,23 +460,23 @@ export const GreyVerticalBoldHR = styled('hr')(({ theme }) => ({
 
 export const LinkHome = styled(Link)(({ theme }) => ({
     color: theme.palette.primary.contrastText,
-    textDecoration:'none'
+    textDecoration: 'none'
 
 }));
 
 export const LinkNewSearch = styled(Link)(({ theme }) => ({
     color: theme.palette.text.primary,
-    textDecoration:'none'
+    textDecoration: 'none'
 
 }));
 
-export const CustomSelect = styled(Select)(({ theme }) => ({
+export const CustomSelect = styled(Select)(({ }) => ({
     '& .MuiOutlinedInput-notchedOutline': {
-      border: 'none',
+        border: 'none',
     },
     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      border: 'none',
+        border: 'none',
     },
-  }));
+}));
 
 export const ViewDetailIconStyle = { color: 'primary.main', fontSize: '3rem' };

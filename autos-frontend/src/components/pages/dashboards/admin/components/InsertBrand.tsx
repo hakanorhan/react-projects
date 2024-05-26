@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Button, Typography } from '@mui/material';
 
@@ -7,11 +6,8 @@ import { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
 import { MainComponentWidth } from "../../../../../themes/Theme";
 import { fetchBrand, insertBrand } from "../../../../../redux/features/carBrandSlice";
-import { URLs } from "../../../../../../../autos-backend/src/enums/URLs";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
-import { REGEX_NAMES } from "../../../../../../../autos-backend/src/regex/regex";
-import { notifyError, notifySuccess } from "../../../../../helper/toastHelper";
-import { Brand } from "../../../../../interfaces/types";
+import { REGEX_NAMES } from "../../../../../regex/REGEX";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../redux/store";
 
@@ -26,9 +22,7 @@ const formBrand: IFormBrand = {
 // Components
 const InsertBrand = () => {
   const [form, setForm] = useState(formBrand);
-  const [insertId, setInsertId] = useState<number | null>(null);
-  const [refresh, setRefresh] = useState(false);
-  const values = useSelector((state: RootState) => state.responseData.brands);
+  const values = useSelector((state: RootState) => state.carBrandSlice.brands);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -48,15 +42,15 @@ const InsertBrand = () => {
   return <><Toaster />
     <MainComponentWidth>
       <form onSubmit={handleSubmit} noValidate>
-        <TextFieldCars id="brand" label="Marke" onChange={value => handleOnChange('brand', value)} regex={REGEX_NAMES} refresh={refresh} />
+        <TextFieldCars id="brand" label="Marke" onChange={value => handleOnChange('brand', value)} regex={REGEX_NAMES} refresh={false} />
 
         <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
       </form>
 
       {/* All Brands */}
       <Typography sx={{ textAlign: 'center', marginBottom: '1.5rem' }} variant='h3' component='h1'> {"Alle Automarken"} </Typography>
-      
-      <TableNormal listValues={ values } insertId={insertId} />
+
+      <TableNormal listValues={values} />
     </MainComponentWidth>
   </>
 };

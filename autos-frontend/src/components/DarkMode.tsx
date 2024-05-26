@@ -6,20 +6,18 @@ import { setMode } from "../redux/features/darkLightMode";
 
 export default function DarkMode() {
 
-  //const [mode, setMode] = useState<boolean | undefined>();
-
   const dispatch = useDispatch();
   const mode = useSelector((state: RootState) => state.mode.mode);
-  
+
   useEffect(() => {
-    if(localStorage.getItem('cars.de.mode')) {
+    if (localStorage.getItem('cars.de.mode')) {
       const localStorageMode = localStorage.getItem('cars.de.mode');
       const valueLocalStorage = localStorageMode === 'dark';
       dispatch(setMode(valueLocalStorage));
-    }  else {
+    } else {
       localStorage.setItem('cars.de.mode', "light");
     }
-  },[ ])
+  }, [])
 
   const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
@@ -28,17 +26,18 @@ export default function DarkMode() {
     dispatch(setMode(checked));
   }
 
-  return (<Box sx={{ display:'flex', color:'whitesmoke' }}>
-   
-      {<Switch sx={{ color:'yellow', fill:'yellow',
-        '& .MuiSwitch-thumb': {
-          color: 'whitesmoke'
-        }
-       }}
-      
-      checked={ mode } 
-      onChange={handleChangeSwitch} 
-      />}
-    <Typography sx={{ alignContent:'center', color: 'primary.contrastText' }} variant="body1" component='p'> { mode ? "Dunkler Modus" : "Heller Modus" } </Typography>
+  return (<Box sx={{ display: 'flex', color: 'whitesmoke' }}>
+
+    {<Switch sx={{
+      color: 'yellow', fill: 'yellow',
+      '& .MuiSwitch-thumb': {
+        color: 'whitesmoke'
+      }
+    }}
+
+      checked={mode}
+      onChange={handleChangeSwitch}
+    />}
+    <Typography sx={{ alignContent: 'center', color: 'primary.contrastText' }} variant="body1" component='p'> {mode ? "Dunkler Modus" : "Heller Modus"} </Typography>
   </Box>)
 }

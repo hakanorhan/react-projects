@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-import { URLs } from '../../../../../../../autos-backend/src/enums/URLs';
+import { URLs } from '../../../../../enums/URLs';
 import { Box, CardMedia, IconButton, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { ImageCar } from '../../../../../themes/Theme';
-import { AxiosDataImagesNames } from '../../../../../../../autos-backend/src/interfaces/IAxiosData';
+import { AxiosDataImagesNames } from '../../../../../interfaces/IAxiosData';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
- export interface CarImagesProps {
+export interface CarImagesProps {
   id: number | null | string | undefined,
   multiple: boolean
 }
@@ -24,32 +23,32 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
 
   useEffect(() => {
     setSuccessFullDownloaded(false);
-    const fetchImageNames = async() => {
+    const fetchImageNames = async () => {
       try {
-      const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAMES +'/' + id, { withCredentials: true })
-      setFetchedImageInformations(response.data);
+        const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAMES + '/' + id, { withCredentials: true })
+        setFetchedImageInformations(response.data);
         setFetchImageNamesDone(true);
-        
-    } catch(error) {
+
+      } catch (error) {
         console.log(error)
       }
     }
 
-    const fetchImageName = async() => {
+    const fetchImageName = async () => {
       try {
-      const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAME +'/' + id, { withCredentials: true })
-      setFetchedImageInformations(response.data);
+        const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAME + '/' + id, { withCredentials: true })
+        setFetchedImageInformations(response.data);
         setFetchImageNamesDone(true);
-        
-    } catch(error) {
+
+      } catch (error) {
         console.log(error)
       }
     }
 
-    if(multiple)
-    fetchImageNames();
+    if (multiple)
+      fetchImageNames();
     else
-    fetchImageName();
+      fetchImageName();
   }, [id])
 
   useEffect(() => {
@@ -74,7 +73,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
         setFetchImageNamesDone(false);
       }
     };
-    if(fetchImageNamesDone)
+    if (fetchImageNamesDone)
       fetchImages();
 
   }, [fetchImageNamesDone])
@@ -84,29 +83,29 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
     const iconButtonSX = (side: number) => ({
       [side === 0 ? 'left' : 'right']: 0,
       height: 'auto',
-      position:'absolute',
-      top:'25%',
+      position: 'absolute',
+      top: '25%',
       borderRadius: '30px',
       marginLeft: '0.4rem',
       marginRight: '0.4rem',
       opacity: '90%',
       backgroundColor: 'primary.main', color: 'primary.contrastText',
-      '&:hover': { backgroundColor: 'primary.dark', color:'white' }
+      '&:hover': { backgroundColor: 'primary.dark', color: 'white' }
     });
     const [sliderIndex, setSliderIndex] = useState(0);
 
     return (<>
-      <CardMedia 
-      component='img'
-      image= {imageSrc[sliderIndex]}
-      alt= {"Bild"}
-      sx={{ objectFit:'cover', position:'relativr', width:'100%', height:'100%',}}>
-    </CardMedia>
+      <CardMedia
+        component='img'
+        image={imageSrc[sliderIndex]}
+        alt={"Bild"}
+        sx={{ objectFit: 'cover', position: 'relativr', width: '100%', height: '100%', }}>
+      </CardMedia>
 
-    { imageSrc.length > 1 ?<>
-      <IconButton sx={ iconButtonSX(0) } onClick={() => { sliderIndex === imageSrc.length - 1 ? setSliderIndex(0) : setSliderIndex(sliderIndex + 1) }}><ArrowBackIosIcon /></IconButton>
-      <IconButton sx={ iconButtonSX(1) } onClick={() => { sliderIndex === 0 ? setSliderIndex(imageSrc.length - 1) : setSliderIndex(sliderIndex - 1) }}><ArrowForwardIosIcon /></IconButton>
-        </>   :<></>
+      {imageSrc.length > 1 ? <>
+        <IconButton sx={iconButtonSX(0)} onClick={() => { sliderIndex === imageSrc.length - 1 ? setSliderIndex(0) : setSliderIndex(sliderIndex + 1) }}><ArrowBackIosIcon /></IconButton>
+        <IconButton sx={iconButtonSX(1)} onClick={() => { sliderIndex === 0 ? setSliderIndex(imageSrc.length - 1) : setSliderIndex(sliderIndex - 1) }}><ArrowForwardIosIcon /></IconButton>
+      </> : <></>
       }
     </>
     )
@@ -119,7 +118,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
   return (
     <Box>
       {succesFullDownloaded && imageSrc.length > 0 ? <CarouselComponent /> : (
-        <Box sx={{ display:'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center' }}><CameraAltIcon  sx={{ transform:'scale(1.5)' }}/> </Box>
+        <Box sx={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}><CameraAltIcon sx={{ transform: 'scale(1.5)' }} /> </Box>
       )}
     </Box>
   );

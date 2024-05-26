@@ -1,22 +1,17 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Input } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui/material';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => {
+const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ id, label, onChange }) => {
 
-     // Check icon
-  const [passwordMatch, setPasswordMatch] = useState(false);
-  const [isEmpty, setIsEmpty] = useState(true);
   // Show password
   const [showPassword, setShowPassword] = useState(false);
 
   const handlePassword = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     onChange(value);
-    setIsEmpty(value.length === 0);
-    setPasswordMatch(regex.test(value));
   }
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -25,7 +20,7 @@ const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ id, label, onChange, rege
   };
 
   return (
-    <FormControl onClick={(e) => e.stopPropagation()} variant="standard">
+    <FormControl variant="standard">
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <Input
       id= {id}

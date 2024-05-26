@@ -1,7 +1,7 @@
 import React from 'react'
-import { URLs } from '../../../../../autos-backend/src/enums/URLs';
+import { URLs } from '../../../enums/URLs';
 import axios from 'axios';
-import { AxiosDataPublish } from '../../../../../autos-backend/src/interfaces/IAxiosData';
+import { AxiosDataPublish } from '../../../interfaces/IAxiosData';
 import { CarImagesProps } from './admin/components/CarImages';
 import { Button, Grid } from '@mui/material';
 

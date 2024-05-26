@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Box, Button, Container, FormControl, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
-import { COMPONENT_DISTANCE, SearchContainer, buttonHeight, fontRegular, fontSemiBold, headerSize, mainComponentHeight } from '../../../themes/Theme';
+import { COMPONENT_DISTANCE, SearchContainer, buttonHeight, fontSemiBold, headerSize } from '../../../themes/Theme';
 
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -12,21 +12,26 @@ import dayjs, { Dayjs } from 'dayjs';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useSpring, animated } from 'react-spring';
 import SelectField from '../../formularFields/SelectField';
-import { URLs } from '../../../../../autos-backend/src/enums/URLs';
-import { AxiosSearch } from '../../../../../autos-backend/src/interfaces/IAxiosData';
-import { SelectFieldEnums } from '../../../../../autos-backend/src/enums/SelectFieldEnums';
+import { URLs } from '../../../enums/URLs';
+import { AxiosSearch } from '../../../interfaces/IAxiosData';
+import { SelectFieldEnums } from '../../../enums/SelectFieldEnums';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
 import SearchedCars from './SearchedCars';
+import { DisplayTypes } from '../../../enums/DisplayTypes';
 
 const searchButtonText = " Treffer";
+
+interface NumberProps {
+  n: number | undefined
+}
 
 const Search: React.FC = () => {
 
   const navigate = useNavigate();
 
 
-  const Number = ({ n }) => {
+  const Number: React.FC<NumberProps> = ({ n }) => {
     const { number } = useSpring({
       from: { number: 0 },
       number: n,
@@ -68,7 +73,7 @@ const Search: React.FC = () => {
   // Date
   const [selectedDateFrom, setSelectedDateFrom] = React.useState<Dayjs | null>();
   const [selectedDateTo, setSelectedDateTo] = React.useState(selectedDateFrom);
-  const [maxDate, setMaxDate] = React.useState(dayjs());
+  const maxDate = dayjs();
 
   // Fetch static data for select fields
   //useEffectFetch(URLs.FETCH_BRAND, setListBrands);
@@ -245,8 +250,8 @@ const Search: React.FC = () => {
        </Box>
 
       <Typography variant='h6' component='h1' sx={{ fontFamily: fontSemiBold, marginTop: COMPONENT_DISTANCE, marginLeft: '2rem' }}>Am meisten gesucht</Typography>
-      <SearchedCars type={"most"}/>
-      <SearchedCars type={"electric"}/>
+      <SearchedCars type={DisplayTypes.MOST_CLICKED}/>
+      <SearchedCars type={DisplayTypes.ELECTRIC}/>
       
 
     </Box>

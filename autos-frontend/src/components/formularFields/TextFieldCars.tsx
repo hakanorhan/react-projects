@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm';
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Input } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { COMPONENT_DISTANCE, colorDanger } from '../../themes/Theme';
@@ -20,7 +20,8 @@ const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refres
         const currentValue = event.target.value;
         setValue(currentValue);
         onChange(currentValue);
-        setValueMatch(regex.test(currentValue));
+        if(regex)
+          setValueMatch(regex.test(currentValue));
         setIsEmpty(currentValue.length === 0);
       }
 

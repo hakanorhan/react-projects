@@ -1,5 +1,4 @@
-import { FormBaureihe, FormBaureiheSelect } from "../../../autos-backend/src/interfaces/IAxiosData";
-import * as REGEX from "../../../autos-backend/src/regex/regex";
+import * as REGEX from '../regex/REGEX';
 
 export interface IAtLeastMessage {
     message: string,
@@ -13,7 +12,7 @@ const iAtLeastMessages: IAtLeastMessage[] = [
     { message: "Atleast one Uppercase character", pattern: REGEX.REGEX_UPPERCASE, isValid: false },
     { message: "Atleast one number", pattern: REGEX.REGEX_NUMBER, isValid: false },
     { message: "Atleast one special symbol #?!@$ %^&*-", pattern: REGEX.REGEX_SPECIAL, isValid: false },
-    { message: "Should have atleast 8 characters", pattern:REGEX.REGEX_MIN_8, isValid: false },
+    { message: "Should have atleast 8 characters", pattern: REGEX.REGEX_MIN_8, isValid: false },
     { message: "Password is valid", pattern: REGEX.REGEX_PASSWORD, isValid: false }
 ];
 
@@ -39,11 +38,11 @@ export function formularPasswordValid(valuePassword: string): boolean {
  * @param valuePassword current value
  * @returns 
  */
-export function passwordSpecificValid(valuePassword: string):IAtLeastMessage[] {
+export function passwordSpecificValid(valuePassword: string): IAtLeastMessage[] {
 
     const iAtLeastMessagesValid: IAtLeastMessage[] = [];
 
-    for(let i = 0; i < iAtLeastMessages.length; i++) {
+    for (let i = 0; i < iAtLeastMessages.length; i++) {
         const iAtLeastMessage = iAtLeastMessages[i];
         // current value matches the regular expression element 
         iAtLeastMessage.isValid = (iAtLeastMessages[i].pattern).test(valuePassword);
@@ -67,7 +66,7 @@ export function password2Valid(password1: string, password2: string) {
 }
 
 export function formularSignUpIsValid(name: string, familyname: string, email: string,
-        password1: string, password2: string) {
+    password1: string, password2: string) {
 
     return formularNameValid(name) && formularNameValid(familyname) && formularEmailValid(email) && formularPasswordValid(password1) && formularPasswordValid(password2)
         && password2Valid(password1, password2);
@@ -77,11 +76,6 @@ export function formularNameValid(value: string) {
     return REGEX.REGEX_NAMES.test(value);
 }
 
-export function formularBaureiheIsValid(form: FormBaureihe, formSelect: FormBaureiheSelect) {
-    
-    return REGEX.REGEX_BAUREIHE.test(form.baureihe) && REGEX.REGEX_HUBRAUM.test(form.kw) && REGEX.REGEX_HUBRAUM.test(form.hubraum) && 
-        formSelect.brand && formSelect.cartype && formSelect.model;
-}
 
 export function formularStreetIsValid(street: string) {
     return REGEX.REGEX_STREET.test(street)

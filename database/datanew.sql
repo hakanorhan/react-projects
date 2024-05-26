@@ -29,8 +29,7 @@ CREATE TABLE personal_data(
 CREATE TABLE contact_preffered(
     contact_preffered_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     contact_telefon TINYINT(1) NOT NULL DEFAULT 0,
-    contact_email TINYINT(1) NOT NULL DEFAULT 0, 
-    contact_chat TINYINT(1) NOT NULL DEFAULT 0
+    contact_email TINYINT(1) NOT NULL DEFAULT 0
 );
 
 CREATE TABLE account_data(

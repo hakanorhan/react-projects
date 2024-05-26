@@ -1,7 +1,7 @@
 import express from 'express';
 import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
-import { AxiosDetailsearch, AxiosPaper } from '../interfaces/IAxiosData.js';
+import { AxiosDetailsearch } from '../interfaces/types.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 
 const selectQueryDetail: string = "SELECT *, YEAR(ac.created_date) AS since"
@@ -48,11 +48,9 @@ export default async (req: express.Request, res: express.Response) => {
              is_car_dealer, clima, description_car, scheckheft, fit_to_drive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent, color, city, federal_state,
              zipcode, companyname, impressum, forename, surename, tel_nr, street_nr, since } = result[0];
         
-        const axiosPaper: AxiosPaper = { inseratId: inserate_id, mileageKm: mileage_km, registrationYear: registration_year, registrationMonth: registration_month, psPower: power_ps,
-            vehicleOwners: vehicle_owners, fuel, accident, city, isCarDealer: is_car_dealer }
-        
         const axiosData: AxiosDetailsearch = {
-            inseratId: inserate_id, model, brand, price, cartype, transmission, axiosPaper, inserateDate: inserate_date , cubicCapacity: cubic_capacity, auNew: au_new,
+            inseratId: inserate_id, model, brand, price, mileageKm: mileage_km, registrtionYear: registration_year, registrationMonth: registration_month, powerPS: power_ps, vehicleOwners: vehicle_owners,
+            cartype, accident, fuel, transmission, inserateDate: inserate_date , cubicCapacity: cubic_capacity, auNew: au_new,
             huNew: hu_new, doors: door, isCardealer: is_car_dealer, clima, description: description_car, scheckheft, fittodrive: fit_to_drive, abstandstempomat, ambientbeleuchtung,
             headupdisplay, totwinkelassistent, color, city, federalState: federal_state, zipcode, companyName: companyname, impressum, foreName: forename, sureName: surename,
             telNr: tel_nr, streetNr: is_car_dealer ? street_nr : null, since

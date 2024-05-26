@@ -1,17 +1,17 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { FormGroup, Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typography } from '@mui/material';
 import axios from 'axios';
 import { Button, FormControlLabel, Checkbox } from '@mui/material';
-import { REGEX_HUBRAUM, REGEX_NAMES, REGEX_PRICE } from '../../../../../autos-backend/src/regex/regex';
-import { DivSearchInserate, DivTwoFieldsWithSpaceBetween, DivWidthTwoFieldsRow, HeaderInserateH1, HeaderIcon, mainComponentHeight, COMPONENT_DISTANCE } from '../../../themes/Theme';
-import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../../../autos-backend/src/interfaces/IAxiosData';
-import { URLs } from '../../../../../autos-backend/src/enums/URLs';
-import { notifySuccess, notifyError } from '../../../helper/toastHelper';
+import { REGEX_HUBRAUM, REGEX_NAMES, REGEX_PRICE } from '../../../regex/REGEX';
+import { DivSearchInserate, HeaderIcon, mainComponentHeight, COMPONENT_DISTANCE } from '../../../themes/Theme';
+import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../interfaces/IAxiosData';
+import { URLs } from '../../../enums/URLs';
+import { notifyError } from '../../../helper/toastHelper';
 import TextFieldCars from '../../formularFields/TextFieldCars';
 import TextFieldArea from '../../formularFields/TextFieldArea';
 import { Box } from '@mui/material';
 import SelectField from '../../formularFields/SelectField';
-import UploadImage from './UploadImage';
+//import UploadImage from './UploadImage';
 import { useEffectModel } from '../../../helper/DataLoading';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Zoom from '@mui/material/Zoom';
@@ -65,8 +65,6 @@ export default function InserateCar() {
   const [formSelect, setFormSelect] = useState<InserateSelect>(initialSelect);
   const [formCheckbox, setFormCheckbox] = useState<InserateCheckbox>(initialCheckbox);
 
-  const [submitClicked, setSubmitClicked] = useState(false);
-
   const [loading, setLoading] = useState(false);
 
   // States
@@ -78,8 +76,6 @@ export default function InserateCar() {
   const [listDoors, setListDoors] = useState<string[]>([]);
 
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [disabledNextStep, setDisabledNextStep] = useState<boolean>(false);
-  const [disabledPreviousStep, setDisabledPreviousSep] = useState<boolean>(true);
   const [inserateSuccess, setInserateSuccess] = useState<boolean>(false);
 
   const [year, setYear] = useState(dayjs().year());
@@ -170,7 +166,7 @@ export default function InserateCar() {
   }
 
   const handleNextStep = () => {
-    if (activeStep === 0) { setDisabledPreviousSep(false); setActiveStep(activeStep + 1); }
+    if (activeStep === 0) { setActiveStep(activeStep + 1); }
 
 
     // If active step is the length of steps.
@@ -287,7 +283,7 @@ export default function InserateCar() {
          {/* <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: activeStep === 0 ? 'none' : 'display', marginBottom:'2rem' }}>Zurück</Button> */}
 
           {/* save form */}
-          <Button variant='contained' sx={{ display: activeStep === 0 ? 'block' : 'none' }} disabled={disabledNextStep} type='submit' onClick={handleNextStep}>Weiter</Button>
+          <Button variant='contained' sx={{ display: activeStep === 0 ? 'block' : 'none' }} disabled={false} type='submit' onClick={handleNextStep}>Weiter</Button>
           
           {/* upload Image */}
           <Button onClick={ handleLastStep }  sx={{ display:  activeStep === 1 ? 'block' : 'none' }} variant='contained'>Abschliessen</Button>

@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Box, Typography, Input } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, Box, Typography, Input } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check'
-import { ValidParagraph, colorDanger } from '../../themes/Theme';
+import { colorDanger } from '../../themes/Theme';
 import * as ValidHelper from '../../helper/validHelper';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
@@ -21,7 +21,8 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     onChange(value);
-    setPasswordMatch(regex.test(value));
+    if(regex)
+      setPasswordMatch(regex.test(value));
     setPasswordValue(value);
     setIsEmpty(value.length === 0);
     ValidationMessages();
@@ -33,18 +34,14 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
   };
 
   const ValidationMessages = () => {
-     
-    if (passwordValue) {
-        return ValidHelper.passwordSpecificValid(passwordValue).map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'primary.contrastText' : 'secondary.contrastText' }}> {item.message} </Typography></ValidParagraph>)
-
-    } else {
-        return ValidHelper.passwordSpecificValid("").map(item => <ValidParagraph key={item.message}> <Typography sx={{ color: item.isValid ? 'primary.contrastText' : 'secondary.contrastText' }}> {item.message} </Typography> </ValidParagraph>)
-    }
+    return passwordValue 
+        ? ValidHelper.passwordSpecificValid(passwordValue).map(item =>  <Typography variant='body1' component='p' key={item.message} sx={{ color: item.isValid ? 'primary.main' : 'secondary.red' }}> {item.message} </Typography>)
+        : ValidHelper.passwordSpecificValid("").map(item => <Typography variant='body1' component='p' key={item.message} sx={{ color: item.isValid ? 'primary.main' : 'red' }}> {item.message} </Typography>)
 }
 
   return (
     <Box>
-    <FormControl onClick={(e) => e.stopPropagation()} variant="standard">
+    <FormControl variant="standard">
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <Input
       id= {id}

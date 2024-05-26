@@ -1,24 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TableContainer, Table, Paper, TableHead, TableCell, TableRow, Tooltip } from '@mui/material'
 
   interface TableNormalValues {
-    listValues: any[],
-    insertId: number | null
+    listValues: any[]
   }
-  let indexState;
 
-const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
-
-  const [indexState, setIndexState] = useState(0);
-    const markLastInsert = (value: any, index1: any) => {
-
-      if( value == insertId) {
-        setIndexState(index1);
-        return 'primary.dark'
-      } else {
-        return 'primary.contrastText';
-      }
-    }
+const TableNormal: React.FC<TableNormalValues> = ({listValues}) => {
 
     /**
    * TableHeader
@@ -48,7 +35,7 @@ const TableNormal: React.FC<TableNormalValues> = ({listValues, insertId}) => {
             { /* Table cell */}
             { Object.values(tableRow).map((value: any, index1) => (
               <Tooltip title="Anzeigen" key={ index1 }>
-              <TableCell onClick={() => {  }} sx={{ fontSize:'1.2rem', backgroundColor: markLastInsert(value, index1) }} component='th' scope='row' key={index1} > {value} </TableCell>
+              <TableCell onClick={() => {  }} sx={{ fontSize:'1.2rem' }} component='th' scope='row' key={index1} > {value} </TableCell>
               </Tooltip>
             )) }
           </TableRow>

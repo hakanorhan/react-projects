@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { AxiosDetailsearch } from '../../../../../../autos-backend/src/interfaces/IAxiosData';
-import { URLs } from '../../../../../../autos-backend/src/enums/URLs';
-import axios from 'axios';
 import { Box, Button, Grid, Rating, Typography } from '@mui/material';
-import { COMPONENT_DISTANCE, GreyHorizontalBoldHR, GreyHorizontalHR, GreyVerticalBoldHR, ICON_FONT_SIZE, LINE_HEIGHT,
+import { COMPONENT_DISTANCE, GreyHorizontalHR, ICON_FONT_SIZE, LINE_HEIGHT,
    fontBold, fontLight, fontRegular, paperViewDetailSearch, paperViewDetailSearchTextArea } from '../../../../themes/Theme';
    import CalculateIcon from '@mui/icons-material/Calculate';
 import Check from '@mui/icons-material/Check';
@@ -28,7 +25,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextFieldCars from '../../../formularFields/TextFieldCars';
-import { REGEX_EMAIL } from '../../../../../../autos-backend/src/regex/regex';
+import { REGEX_EMAIL } from '../../../../regex/REGEX';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../../redux/store';
+import { fetchDetailSearch } from '../../../../redux/features/search/detailSearch';
 
 const gridItemXS = 4;
 const gridItemSM = 4;
@@ -48,8 +48,11 @@ interface GridComponentProps {
 
 const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
 
-  const [detailSearchValues, setDetailSearchValues] = useState<AxiosDetailsearch | null>(null);
+  //const [detailSearchValues, setDetailSearchValues] = useState<AxiosDetailsearch | null>(null);
   const [open, setOpen] = React.useState(false);
+
+  const detailSearchValues = useSelector((state: RootState) => state.detailSearch.detailState);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -60,23 +63,14 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      // Detail search
-      await axios.get<AxiosDetailsearch>(`${URLs.ORIGIN_SERVER}` + URLs.FETCH_DETAIL_SEARCH + `/${id}`, { withCredentials: true })
-
-        .then(response => {
-          const axiosData: AxiosDetailsearch = response.data;
-          setDetailSearchValues(axiosData);
-        })
-        .catch(error => console.log(error))
-    }
-    fetchData();
+    if(id)
+    dispatch(fetchDetailSearch(id));
   }, [id])
 
   const GridTechnicalComponent: React.FC<GridTechnicalDetails> = ({ title, value, icon, indexColor }) => {
-    return <Grid sx={{
-      display: 'flex', padding: '0.7rem'
-    }} item xs={12}> <Grid item xs={6}><Typography sx={{  }} variant='body1' component='p'>{`${title}:`}</Typography></Grid> <Grid item xs={6}> <Typography sx={{ fontWeight: 'bold' }} variant='body1' component='p'>{value}</Typography>{icon}</Grid>
+    return <Grid sx={{ display: 'flex', padding: '0.7rem'}} item xs={12}>
+       <Grid item xs={6}><Typography sx={{  }} variant='body1' component='p'>{`${title}:`}</Typography></Grid> 
+       <Grid item xs={6}> <Typography sx={{ fontWeight: 'bold' }} variant='body1' component='p'>{value}</Typography>{icon}</Grid>
     </Grid>
   }
 
@@ -212,7 +206,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
                 </Box>
               </Grid>
 
-              <TDescriptionComponent detailSearchValues={detailSearchValues.axiosPaper} />
+              <TDescriptionComponent />
 
               <Grid item xs={gridItemXS} sm={gridItemSM} md={gridItemMD} lg={3.5}>
                 <Rating sx={{ color:'primary.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
@@ -237,7 +231,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
               <Grid item xs={12} lg={4}>
                 <Typography variant='h6' component='h4' sx={{ fontFamily: fontBold, paddingTop: COMPONENT_DISTANCE }}> Technische Daten </Typography>
               </Grid>
-              <Grid container xs={12} lg={8} sx={{ paddingTop: COMPONENT_DISTANCE }}>
+              <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
                 <GridTechnicalComponent indexColor={1} title='Marke' value={detailSearchValues?.brand} />
                 <GridTechnicalComponent indexColor={2} title='Modell' value={detailSearchValues?.model} />
                 <GridTechnicalComponent indexColor={1} title='Fahrzeugtyp' value={detailSearchValues.cartype} />
@@ -260,7 +254,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
                 <Typography variant='h6' component='h4' sx={{ fontFamily: fontBold, paddingTop: COMPONENT_DISTANCE }}> Ausstattung </Typography>
               </Grid>
 
-              <Grid xs={12} lg={8} container sx={{ paddingTop: COMPONENT_DISTANCE }}>
+              <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
                 <GridTechnicalComponent indexColor={1} title='Scheckheftgepflegt' icon={<CheckOrFalseIcon checked={detailSearchValues.scheckheft} />} />
                 <GridTechnicalComponent indexColor={2} title='Fahrtüchtig' icon={<CheckOrFalseIcon checked={detailSearchValues.fittodrive} />} />
                 <GridTechnicalComponent indexColor={1} title='Abstandstempomat' icon={<CheckOrFalseIcon checked={detailSearchValues.abstandstempomat} />} />
@@ -273,7 +267,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
           </Box>
 
 
-          <Grid xs={12} container>
+          <Grid container>
 
             <Box sx={paperViewDetailSearchTextArea}>
               <GreyHorizontalHR />

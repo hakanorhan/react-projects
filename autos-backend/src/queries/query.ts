@@ -8,7 +8,7 @@ interface InsertTransactionResult {
     message: string
 }
 
-export async function insertTransaction(insertQuery: string, values: any[], res: express.Response) {
+ async function insertTransaction(insertQuery: string, values: any[], res: express.Response) {
 
     const resultFromTransaction: InsertTransactionResult = { insertId: null, success: false, message: '' };
 

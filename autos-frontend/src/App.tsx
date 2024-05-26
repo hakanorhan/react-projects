@@ -2,18 +2,12 @@ import React from 'react';
 import './App.css';
 import Header from './components/site-components/Header';
 import { ThemeProvider } from '@emotion/react';
-import {mainComponentHeight, themeDark, themeLight } from './themes/Theme';
+import { themeDark, themeLight } from './themes/Theme';
 import Footer from './components/site-components/Footer';
 import SignIn from './components/pages/registerLogin/SignIn';
 import SignUpUser from './components/pages/registerLogin/SignUp';
 import InserateCar from './components/pages/inserate/InserateCar';
 
-// TODO: HomeImage
-//import HomeImage from '/home.jpg';
-
-// TODO: Css Baseline
-//import CssBaseline from '@mui/material/CssBaseline';
-//import darkTheme from './themes/ThemeDark';
 import Search from './components/pages/search/Search';
 import { Box } from '@mui/material';
 import './App.css'
@@ -33,15 +27,9 @@ import ListSearchedCars from './components/pages/search/ListSearchedCars';
 import ViewDetailSearch from './components/pages/search/viewDetail/ViewDetailSearch';
 
 const App: React.FC = () => {
-  /*
-  const handleShowSource = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation(); 
-    window.open(imageUrl, "_blank");
-  } */
-  // backgroundImage: mode ? 'url("pexels-albinberlin-919073.jpg")' :`url("user-2160923_1920.png")`, backgroundRepeat:'no-repeat' 
-// cursor:'pointer',  backgroundImage: 'url("pexels-albinberlin-919073.jpg")', backgroundSize:'cover', backgroundRepeat:'no-repeat',
+
   const AppLayout = () => (
-    <Box sx={{ width: '100%'}}>
+    <Box sx={{ width: '100%' }}>
       <Header />
       <Outlet />
       <Footer />
@@ -71,8 +59,8 @@ const App: React.FC = () => {
   return (
     <>
       {/* Theme */}
-      <ThemeProvider theme={ mode ? themeDark : themeLight }>
-        <Box sx={{ backgroundColor:'background.default' }}>
+      <ThemeProvider theme={mode ? themeDark : themeLight}>
+        <Box sx={{ backgroundColor: 'background.default' }}>
           {/* Routes */}
           <RouterProvider router={router} fallbackElement={<Notfound />} />
         </Box>

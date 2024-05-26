@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Card, CardActionArea, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Typography } from '@mui/material'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { AxiosPaperList } from '../../../../../autos-backend/src/interfaces/IAxiosData';
-import { URLs } from '../../../../../autos-backend/src/enums/URLs';
+import { Box, Card, CardActionArea, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { AxiosPaperList } from '../../../interfaces/IAxiosData';
+import { URLs } from '../../../enums/URLs';
 import axios from 'axios';
 import CarImages from './../dashboards/admin/components/CarImages';
 import { ShowFastPaper } from './../search/searchComponents/ShowFastPaper';
@@ -10,9 +10,8 @@ import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { SortEnums } from '../../../../../autos-backend/src/enums/SortEnums';
-import { COMPONENT_DISTANCE, LinkHome, LinkNewSearch, MainBox, SearchContainer } from '../../../themes/Theme';
-import { useDispatch } from 'react-redux';
+import { SortEnums } from '../../../enums/SortEnums';
+import { COMPONENT_DISTANCE, LinkNewSearch } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
 import ShareIcon from '@mui/icons-material/Share';
 

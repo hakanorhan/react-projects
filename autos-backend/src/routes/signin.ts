@@ -1,5 +1,5 @@
-import express, { NextFunction } from "express";
-import { AuthResponse } from "../interfaces/auth/AuthResponse.js";
+import express from "express";
+import { AuthResponse } from "../interfaces/types.js";
 
 export default async (req: express.Request, res: express.Response) => {
     const id = (req.user as any).id;

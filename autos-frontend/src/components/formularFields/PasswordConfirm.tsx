@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseFormPasswordConfirm } from '../../interfaces/IUseForm';
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Input } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
@@ -36,7 +36,7 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChang
     }, [password1, passwordConfirm]);
 
   return (
-    <FormControl onClick={(e) => e.stopPropagation()} required fullWidth variant="standard" >
+    <FormControl required fullWidth variant="standard" >
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <Input
       id= {id}

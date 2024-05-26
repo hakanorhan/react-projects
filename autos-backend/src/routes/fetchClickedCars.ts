@@ -3,6 +3,7 @@ import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { AxiosPaperList } from '../interfaces/IAxiosData.js';
+import { DisplayTypes } from '../enums/DisplayTypes.js';
 
 export async function fetchClickedCars(req: express.Request, res: express.Response) {
 
@@ -27,7 +28,7 @@ export async function fetchClickedCars(req: express.Request, res: express.Respon
 
     whereClause.push(" AND i.inserate_info_id = ii.inserate_info_id AND ii.user_id = u.user_id AND u.personal_data_id = pd.personal_data_id AND pd.address_id = ad.address_id AND ad.federal_state_id = fs.federal_state_id ");
 
-    if(type === 'electric') {
+    if(type === DisplayTypes.ELECTRIC) {
         whereClause.push(' AND f.fuel_id = 4 ');
     }
 
@@ -35,7 +36,7 @@ export async function fetchClickedCars(req: express.Request, res: express.Respon
         query = query + clause;
     })
 
-    query = query + (type === 'most' ? " ORDER BY i.clicks DESC, i.price DESC, td.registration_year DESC" : "");
+    query = query + (type === DisplayTypes.MOST_CLICKED ? " ORDER BY i.clicks DESC, i.price DESC, td.registration_year DESC" : "");
     console.log(query);
     let connection;
     try {

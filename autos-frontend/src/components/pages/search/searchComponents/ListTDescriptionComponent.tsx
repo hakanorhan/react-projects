@@ -7,7 +7,7 @@ import SpeedIcon from '@mui/icons-material/Speed';
 import PersonIcon from '@mui/icons-material/Person';
 import StoreIcon from '@mui/icons-material/Store';
 import { seperateThousand } from '../../../../helper/helper';
-import { AxiosPaper } from '../../../../../../autos-backend/src/interfaces/IAxiosData';
+import { AxiosPaper } from '../../../../interfaces/IAxiosData';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useMediaQuery } from '@mui/material'
 

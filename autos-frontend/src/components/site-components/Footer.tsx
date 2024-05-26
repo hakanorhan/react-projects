@@ -5,14 +5,13 @@ import XIcon from '@mui/icons-material/X';
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import CopyrightIcon from "@mui/icons-material/Copyright";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import { Link } from "react-router-dom";
 import { LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/Theme";
 import DarkMode from "../DarkMode";
 
 const gridItemStyle = { marginBottom: { xs: '3rem' } };
-const iconStyle = { marginRight:'0.5rem', fill: LIGHT_PRIMARY_CONTRAST_TEXT };
+const iconStyle = { marginRight: '0.5rem', fill: LIGHT_PRIMARY_CONTRAST_TEXT };
 
 const gridXS = 12;
 const gridSM = 6;
@@ -41,7 +40,7 @@ const PRIVATE_DEALER = [
 export default function Footer() {
 
   const CreateLink = (linkname: string, index: number) => {
-    return <Link key={index}  style={ LinkDrawer } to={""}> <Typography sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > { linkname } </Typography> </Link>
+    return <Link key={index} style={LinkDrawer} to={""}> <Typography sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > {linkname} </Typography> </Link>
   }
 
   const createHeaderForLinks = (header: string) => {
@@ -49,11 +48,11 @@ export default function Footer() {
   }
 
   return (
-    <Box sx={{ backgroundColor:'primary.main' }}>
-      <Grid sx={{ margin:'auto', padding:'2rem', paddingTop:'3rem'  }} container item xs={ 12 } md={ 11 }>
-        <Grid item xs={ gridXS } sm={ gridSM } md={ gridMD } lg= { gridLG } sx={ gridItemStyle }>
+    <Box sx={{ backgroundColor: 'primary.main' }}>
+      <Grid sx={{ margin: 'auto', padding: '2rem', paddingTop: '3rem' }} container item xs={12} md={11}>
+        <Grid item xs={gridXS} sm={gridSM} md={gridMD} lg={gridLG} sx={gridItemStyle}>
           {
-            createHeaderForLinks("Unternehmen") 
+            createHeaderForLinks("Unternehmen")
           }
 
           {
@@ -62,9 +61,9 @@ export default function Footer() {
             ))
           }
         </Grid>
-        <Grid item xs={ gridXS } sm={ gridSM } md={ gridMD } lg={ gridLG } sx={ gridItemStyle }>
-        {
-            createHeaderForLinks("Service") 
+        <Grid item xs={gridXS} sm={gridSM} md={gridMD} lg={gridLG} sx={gridItemStyle}>
+          {
+            createHeaderForLinks("Service")
           }
           {
             SERVICE.map((links, index) => (
@@ -72,9 +71,9 @@ export default function Footer() {
             ))
           }
         </Grid>
-        <Grid item xs={ gridXS } sm={ gridSM } md={ gridMD } lg={ gridLG } sx={ gridItemStyle }>
-        {
-            createHeaderForLinks("Händler / Privat") 
+        <Grid item xs={gridXS} sm={gridSM} md={gridMD} lg={gridLG} sx={gridItemStyle}>
+          {
+            createHeaderForLinks("Händler / Privat")
           }
           {
             PRIVATE_DEALER.map((links, index) => (
@@ -83,21 +82,21 @@ export default function Footer() {
           }
         </Grid>
 
-        <Grid item xs = { gridXS } sm={ gridSM } md={ 12 } lg={ gridLG } sx={ gridItemStyle }>
-        {
-            createHeaderForLinks("Soziale Medien") 
+        <Grid item xs={gridXS} sm={gridSM} md={12} lg={gridLG} sx={gridItemStyle}>
+          {
+            createHeaderForLinks("Soziale Medien")
           }
-          <FacebookIcon sx={ iconStyle } />
-        <XIcon sx={ iconStyle } />
-        <InstagramIcon sx={ iconStyle } />
-        <LinkedInIcon sx={ iconStyle } />
-        <YouTubeIcon sx={ iconStyle } />
-        <PinterestIcon sx={ iconStyle }/>
+          <FacebookIcon sx={iconStyle} />
+          <XIcon sx={iconStyle} />
+          <InstagramIcon sx={iconStyle} />
+          <LinkedInIcon sx={iconStyle} />
+          <YouTubeIcon sx={iconStyle} />
+          <PinterestIcon sx={iconStyle} />
         </Grid>
-        
-      <Grid>
-        <DarkMode />
-      </Grid>
+
+        <Grid>
+          <DarkMode />
+        </Grid>
       </Grid>
     </Box>
   )

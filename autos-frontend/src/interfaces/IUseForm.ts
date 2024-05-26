@@ -8,7 +8,7 @@ export interface IUseForm {
     id: string,
     label: string,
     onChange: (value: string) => void; // callback,
-    regex: RegExp,
+    regex?: RegExp,
     refresh?: boolean,
     maxLength?: number,
     checkEmail?: boolean | null

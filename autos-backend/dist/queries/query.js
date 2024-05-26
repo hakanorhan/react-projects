@@ -1,5 +1,5 @@
 import { connectToDatabase } from "../dbConnect1.js";
-export async function insertTransaction(insertQuery, values, res) {
+async function insertTransaction(insertQuery, values, res) {
     const resultFromTransaction = { insertId: null, success: false, message: '' };
     let connection;
     try {

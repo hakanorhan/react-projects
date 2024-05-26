@@ -1,13 +1,11 @@
-import express, { response } from "express";
-import ISignUpUser from "../interfaces/ISignUp.js";
+import express from "express";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import IRequestSignUp from "../interfaces/ISignUp.js";
 import { IResponseSignup } from "../interfaces/ISignUp.js";
 
 import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../enums/Roles.js";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-import { AxiosDataSignup } from "../interfaces/IAxiosData.js";
+import { AxiosDataSignup } from "../interfaces/types.js";
 import { connectToDatabase } from "../dbConnect1.js";
 
 export const insertAdress: string =
@@ -20,7 +18,7 @@ export const insertAccountData: string =
     "INSERT INTO account_data (email, password_secret, account_role) VALUES (?, ?, ?)";
 
 export const insertIntoContactPreffered: string =
-    "INSERT INTO contact_preffered (contact_telefon, contact_email, contact_chat) VALUES(?, ?, ?)";
+    "INSERT INTO contact_preffered (contact_telefon, contact_email) VALUES(?, ?)";
 
 export const insertUser: string = 
     "INSERT INTO user (personal_data_id, account_data_id, contact_preffered_id, is_car_dealer) VALUES (?, ?, ?, ?)";
@@ -93,7 +91,7 @@ async function performQuery(requestData: any, res: express.Response){
 
         const [resultContactPreffered]: [ResultSetHeader, any] = await connection.execute(
             insertIntoContactPreffered,
-            [axiosData.isCheckedTelefon, axiosData.isCheckedEmail, axiosData.isCheckedchat]);
+            [axiosData.isCheckedTelefon, axiosData.isCheckedEmail]);
         const contactPrefferedId = resultContactPreffered.insertId;
 
         const [resultUser]: [ResultSetHeader, any] = await connection.execute(

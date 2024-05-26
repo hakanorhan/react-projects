@@ -1,6 +1,6 @@
-import axios, { all } from "axios"
+import axios from "axios"
 import { useEffect, Dispatch, SetStateAction } from "react"
-import { URLs } from "../../../autos-backend/src/enums/URLs";
+import { URLs } from "../enums/URLs"
 
 export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>) => {
     useEffect(() => {
@@ -20,9 +20,7 @@ export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAct
     }, [])
 }
 
-
-
-export const useEffectModel =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>, selectedBrand: string) => {
+ export const useEffectModel =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>, selectedBrand: string) => {
   useEffect(() => {
   // valid brand
   const fetchData = async() => {

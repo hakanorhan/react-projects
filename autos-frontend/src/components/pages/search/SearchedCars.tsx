@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Card, CardActionArea, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Typography } from '@mui/material'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { AxiosPaperList } from '../../../../../autos-backend/src/interfaces/IAxiosData';
-import { URLs } from '../../../../../autos-backend/src/enums/URLs';
+import { Box, Card, CardActionArea, Grid } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { AxiosPaperList } from '../../../interfaces/IAxiosData';
+import { URLs } from '../../../enums/URLs';
 import axios from 'axios';
 import CarImages from '../dashboards/admin/components/CarImages';
 import { ShowFastPaper } from './searchComponents/ShowFastPaper';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { SortEnums } from '../../../../../autos-backend/src/enums/SortEnums';
-import { COMPONENT_DISTANCE, LinkHome, LinkNewSearch, MainBox, SearchContainer } from '../../../themes/Theme';
-import { SearchEnum } from '../../../enums/SearchEnum';
+import { COMPONENT_DISTANCE } from '../../../themes/Theme';
+import { DisplayTypes } from '../../../enums/DisplayTypes';
 
 const LIMIT = 5;
 
-const SearchedCars: React.FC<{ type: SearchEnum }> = ({ type }) => {
-    
+const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
+
   const navigate = useNavigate();
 
   const [cars, setCars] = useState<AxiosPaperList[]>();
-
-  const [count, setCount] = useState<number>(0);
 
   const [offset, setOffset] = useState<number>(0);
 
@@ -59,22 +54,22 @@ const SearchedCars: React.FC<{ type: SearchEnum }> = ({ type }) => {
   /* backgroundColor:{ xs:'yellow', sm:'whitesmoke', md:'red', lg:'orange', xl:'whitesmoke'}, */
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
 
-    return <Card elevation={0} sx={{ cursor: 'pointer', height: '100%' }} 
+    return <Card elevation={0} sx={{ cursor: 'pointer', height: '100%' }}
       onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
       <CardActionArea>
-      <CarImages id={axiosPaper.inseratId} multiple={false} />
+        <CarImages id={axiosPaper.inseratId} multiple={false} />
 
-      {/* technical description */}
-      <ShowFastPaper detailSearchValues={axiosPaper} />
-      
-    </CardActionArea>
+        {/* technical description */}
+        <ShowFastPaper detailSearchValues={axiosPaper} />
+
+      </CardActionArea>
     </Card>
   }
 
   return (
 
-    <Box sx={{ width:'95%', margin:'auto', paddingTop: '20px' }}>
-      
+    <Box sx={{ width: '95%', margin: 'auto', paddingTop: '20px' }}>
+
       <Grid container spacing={4}>
         {
           cars ? cars.map((axiosPaper, index) => (

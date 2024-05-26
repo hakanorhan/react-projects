@@ -10,7 +10,7 @@ import { Drawer, Button, List, ListItem, ListItemButton, ListItemIcon, ListItemT
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { Roles } from '../../../../autos-backend/src/enums/Roles';
+import { Roles } from '../../enums/Roles';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -23,11 +23,11 @@ import AddIcon from '@mui/icons-material/Add';
 import UpdateIcon from '@mui/icons-material/Update';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
-import { URLs } from '../../../../autos-backend/src/enums/URLs';
+import { URLs } from '../../enums/URLs';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
-import { AuthResponse } from '../../../../autos-backend/src/interfaces/auth/AuthResponse';
+import { AuthResponse } from '../../interfaces/types';
 
 const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem' }, justifyContent: 'flex-start' };
 
