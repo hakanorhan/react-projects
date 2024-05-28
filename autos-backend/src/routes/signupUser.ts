@@ -1,6 +1,5 @@
 import express from "express";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import { IResponseSignup } from "../interfaces/ISignUp.js";
 
 import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../enums/Roles.js";
@@ -33,19 +32,16 @@ async function performQuery(requestData: any, res: express.Response){
     console.log(axiosData);
     
     if(!form.email.match(REGEX_EMAIL)) {
-        const iResponseSignUp: IResponseSignup = { message: "Email ungültig" }
-        return res.status(401).json( iResponseSignUp )
+        return res.status(401).json( { message: "Email ungültig" } )
     }
 
     if(!form.password1!.match(REGEX_PASSWORD)) {
-        const iResponseSignUp: IResponseSignup = { message: "Password ungültig" }
-        return res.status(401).json( iResponseSignUp )
+        return res.status(401).json( { message: "Password ungültig" } )
     }
 
             // passwort not matches, process password matches is used in frontend for better user experience
     if(form.password1 !== form.password2) {
-        const iResponseSignUp: IResponseSignup = { message: "Passwörter stimmen nicht überein" }
-        return res.status(401).json(iResponseSignUp);
+        return res.status(401).json({ message: "Passwörter stimmen nicht überein" });
             }
 
     const connection = await connectToDatabase();
@@ -59,8 +55,7 @@ async function performQuery(requestData: any, res: express.Response){
         const result = queryResult as RowDataPacket[];
         
         if(result[0].length === 1) {
-            const iResponseSignUp: IResponseSignup = { message: "Email existiert bereits" }
-            return res.status(409).json(iResponseSignUp);
+            return res.status(409).json({ message: "Email existiert bereits" });
         }
         
         // hash password
@@ -108,17 +103,15 @@ async function performQuery(requestData: any, res: express.Response){
             }
         
         await connection.commit();
-        const iResponseSignUp: IResponseSignup = { message: "Sie haben erfolgreich eingeloggt"} 
         connection.end();
-        return res.status(200).json(iResponseSignUp)
+        return res.status(200).json({ message: 'Erfolgreich eingeloggt.' })
 
     } catch(err) {
         // rollback
         console.error(err);
         await connection.rollback();
-        connection.end();
-        const iResponseSignUp: IResponseSignup = { message: "Bitte versuchen Sie es erneut."} 
-        return res.status(401).json(iResponseSignUp);
+        connection.end(); 
+        return res.status(401).json({ message: "Bitte versuchen Sie es erneut." });
         
     } 
 }

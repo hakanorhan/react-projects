@@ -1,4 +1,5 @@
 export default (req, res) => {
+    console.log(req.session.isAuth + " is auth");
     if (req.isAuthenticated())
         req.logOut((error) => {
             if (error) {
@@ -16,5 +17,5 @@ export default (req, res) => {
             });
         });
     else
-        return res.status(401).json({ message: "" });
+        return res.status(401).json({ message: "Sie sind nicht authentifiziert worden" });
 };

@@ -87,7 +87,7 @@ export default function InserateCar() {
   const [carId, setCarId] = useState<number>(-1);
 
   const handleChange = (
-    event: React.MouseEvent<HTMLElement>, value: string,
+    _: React.SyntheticEvent<HTMLElement>, value: string,
   ) => {
     setKlimaValue(value);
   };
@@ -167,11 +167,6 @@ export default function InserateCar() {
 
   const handleNextStep = () => {
     if (activeStep === 0) { setActiveStep(activeStep + 1); }
-
-
-    // If active step is the length of steps.
-    // change next step value to inserieren
-
   }
 
   const handleLastStep = () => {
@@ -179,12 +174,13 @@ export default function InserateCar() {
       const finish = 0;
       const inserateid = carId;
       try {
-        const response = await axios.post(URLs.ORIGIN_SERVER + URLs.POST_INSERATE_FINISH, { finish, inserateid }, { withCredentials: true });
+        await axios.post(URLs.ORIGIN_SERVER + URLs.POST_INSERATE_FINISH, { finish, inserateid }, { withCredentials: true });
         const step = activeStep + 2;
         setActiveStep(step);
         setInserateSuccess(true);
       } catch(error: any) {
-        console.log(error);
+        const message = error.response.data.message;
+        notifyError(message, message)
       }
     }
 

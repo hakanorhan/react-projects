@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { SortEnums } from '../../../enums/SortEnums';
-import { COMPONENT_DISTANCE, LinkNewSearch } from '../../../themes/Theme';
+import { COMPONENT_DISTANCE, LinkNewSearch, ZOOM_HOVER } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
 import ShareIcon from '@mui/icons-material/Share';
 
@@ -34,7 +34,7 @@ const ListSearchedCars = () => {
 
   // ----- Pagination ------
   const [page, setPage] = useState<number>(1);
-  const handlePagiation = (event: any, value: number) => {
+  const handlePagiation = (_event: any, value: number) => {
     const offsetTemp: number = LIMIT * (value - 1);
     setOffset(offsetTemp);
     setPage(value);
@@ -112,18 +112,18 @@ const ListSearchedCars = () => {
   const handleShowDetail = ({ id }: ({ id: number })) => {
     navigate(URLs.FETCH_DETAIL_SEARCH + `/${id}`);
   }
-  /* backgroundColor:{ xs:'yellow', sm:'whitesmoke', md:'red', lg:'orange', xl:'whitesmoke'}, */
+
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
 
-    return <Card elevation={0} sx={{ cursor: 'pointer', height: '100%' }} 
+    return <Card elevation={0} sx={ZOOM_HOVER}
       onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
       <CardActionArea>
-      <CarImages id={axiosPaper.inseratId} multiple={false} />
+        <CarImages id={axiosPaper.inseratId} multiple={false} />
 
-      {/* technical description */}
-      <ShowFastPaper detailSearchValues={axiosPaper} />
-      
-    </CardActionArea>
+        {/* technical description */}
+        <ShowFastPaper detailSearchValues={axiosPaper} />
+
+      </CardActionArea>
     </Card>
   }
 
@@ -164,7 +164,7 @@ const ListSearchedCars = () => {
 
   return (
 
-    <Box sx={{ width:'95%', margin:'auto', paddingTop: '20px' }}>
+    <Box sx={{ width: '95%', margin: 'auto', paddingTop: '20px' }}>
       <TopComponent />
       <Grid container spacing={4}>
         {

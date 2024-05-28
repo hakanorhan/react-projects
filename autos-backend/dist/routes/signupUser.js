@@ -13,16 +13,13 @@ async function performQuery(requestData, res) {
     const form = axiosData.form;
     console.log(axiosData);
     if (!form.email.match(REGEX_EMAIL)) {
-        const iResponseSignUp = { message: "Email ungültig" };
-        return res.status(401).json(iResponseSignUp);
+        return res.status(401).json({ message: "Email ungültig" });
     }
     if (!form.password1.match(REGEX_PASSWORD)) {
-        const iResponseSignUp = { message: "Password ungültig" };
-        return res.status(401).json(iResponseSignUp);
+        return res.status(401).json({ message: "Password ungültig" });
     }
     if (form.password1 !== form.password2) {
-        const iResponseSignUp = { message: "Passwörter stimmen nicht überein" };
-        return res.status(401).json(iResponseSignUp);
+        return res.status(401).json({ message: "Passwörter stimmen nicht überein" });
     }
     const connection = await connectToDatabase();
     try {
@@ -31,8 +28,7 @@ async function performQuery(requestData, res) {
         const queryResult = await connection.query(selectQuery, [form.email]);
         const result = queryResult;
         if (result[0].length === 1) {
-            const iResponseSignUp = { message: "Email existiert bereits" };
-            return res.status(409).json(iResponseSignUp);
+            return res.status(409).json({ message: "Email existiert bereits" });
         }
         const salt = genSaltSync(10);
         const hash = hashSync(axiosData.form.password1, salt);
@@ -52,16 +48,14 @@ async function performQuery(requestData, res) {
             await connection.execute(insertIntoUserDealer, [userId, axiosData.form.companyname, axiosData.form.impressumdaten]);
         }
         await connection.commit();
-        const iResponseSignUp = { message: "Sie haben erfolgreich eingeloggt" };
         connection.end();
-        return res.status(200).json(iResponseSignUp);
+        return res.status(200).json({ message: 'Erfolgreich eingeloggt.' });
     }
     catch (err) {
         console.error(err);
         await connection.rollback();
         connection.end();
-        const iResponseSignUp = { message: "Bitte versuchen Sie es erneut." };
-        return res.status(401).json(iResponseSignUp);
+        return res.status(401).json({ message: "Bitte versuchen Sie es erneut." });
     }
 }
 export default async (req, res) => {

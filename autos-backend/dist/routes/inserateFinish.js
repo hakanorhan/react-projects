@@ -1,5 +1,4 @@
 import { connectToDatabase } from "../dbConnect1.js";
-import { insertMysqlErrorMessages } from "../helper/messages.js";
 const INSERT_INSERATE_FINISH = "UPDATE inserate SET entwurf = ? WHERE inserate_id = ?";
 export default async (req, res) => {
     const { finish, inserateid } = req.body;
@@ -21,6 +20,6 @@ async function performUpdate(finish, inserateId, res) {
         await connection?.rollback();
         console.log(error);
         connection?.end();
-        insertMysqlErrorMessages(error.errno, res);
+        return res.status(500).json({ message: 'Es ist ein Fehler aufgetreten. Die Daten wurden als Entwurf gespeichert.' });
     }
 }

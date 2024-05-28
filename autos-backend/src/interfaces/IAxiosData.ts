@@ -101,3 +101,8 @@ export interface AxiosDataPublish {
   inserateId: null | number | undefined | string,
   canPublish: boolean
 }
+
+export interface AxiosRejectPackage {
+  messageId: string,
+  message: string
+}

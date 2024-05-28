@@ -1,8 +1,9 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { URLs } from "../../../../autos-backend/src/enums/URLs";
+import { URLs } from "../../enums/URLs";
 import { RequestAxiosDataModel, AxiosDataPacketBrand, AxiosDataPacketModel, Brand, Model } from "../../interfaces/types";
 import { notifyError, notifySuccess } from "../../helper/toastHelper";
+import { AxiosRejectPackage } from "../../interfaces/IAxiosData";
 
 export const fetchBrandModel = createAsyncThunk(
     'data/fetchBrandModel',
@@ -12,12 +13,18 @@ export const fetchBrandModel = createAsyncThunk(
     }
 );
 
-export const insertModel = createAsyncThunk(
+export const insertModel = createAsyncThunk<
+    AxiosDataPacketModel,
+    RequestAxiosDataModel,
+    { rejectValue: AxiosRejectPackage }>(
     'data/insertModel',
-    async ( axiosDataModel: RequestAxiosDataModel ) => {
+    async ( axiosDataModel: RequestAxiosDataModel, { rejectWithValue } ) => {
+        try {
         const response = await axios.post<AxiosDataPacketModel>(URLs.ORIGIN_SERVER + URLs.POST_INSERT_MODEL, axiosDataModel, { withCredentials: true });
-        
         return response.data;
+        } catch(error: any) {
+            return rejectWithValue(error.response.data as AxiosRejectPackage);
+        }
     }
 );
 
@@ -53,11 +60,14 @@ const dataSlice = createSlice({
                 state.models = action.payload.dataModels;
                 state.brandName = action.payload.brand;
                 state.loading = false;
-                notifySuccess("success", "Erfolgreich hinzugefügt");
+                notifySuccess(action.payload.message, action.payload.message);
             })
-            .addCase(insertModel.rejected, (state, action: PayloadAction<unknown | AxiosDataPacketModel>) => {
+            .addCase(insertModel.rejected, (state, action: PayloadAction<AxiosRejectPackage | undefined>) => {
                 state.loading = false;
-                notifyError("failed", "Wert bereits vorhanden");
+                if(action.payload?.messageId) { 
+                    notifyError(action.payload.messageId, action.payload.message);
+                } else
+                    notifyError("500", "Unerwarteter Fehler aufgetreten");
             });
         
     }

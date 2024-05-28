@@ -150,7 +150,7 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
 
   if (!req.files || req.files.length === 0) {
 
-    return res.status(400).send('No files uploaded.');
+    return res.status(400).json({ message: 'Keine Bilder gesendet.' });
   }
 
   async function processSharp(){
@@ -173,12 +173,11 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
       }));
   
       res.status(200).json({
-        message: 'Files uploaded and resized successfully.',
+        message: 'Bilder erfolgreich geladen.',
         files: processedFiles
       });
     } catch (error) {
-      console.error('Error processing images:', error);
-      res.status(500).send('Error processing images.');
+      res.status(500).json( { message: 'Biite versuchen Sie es erneut.'} );
     }
   };
 

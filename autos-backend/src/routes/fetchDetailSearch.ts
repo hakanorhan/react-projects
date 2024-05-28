@@ -57,7 +57,6 @@ export default async (req: express.Request, res: express.Response) => {
         }
 
         connection.end();
-        console.log(axiosData.streetNr + " since: " + since)
         return res.status(200).json( axiosData );
     } catch (error: any) {
         console.log("Error:", error);

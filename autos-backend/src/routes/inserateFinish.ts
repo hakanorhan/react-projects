@@ -31,6 +31,6 @@ async function performUpdate(finish: number, inserateId: any, res: express.Respo
         await connection?.rollback();
         console.log(error);
         connection?.end();
-        insertMysqlErrorMessages(error.errno, res);  
+        return res.status(500).json({ message: 'Es ist ein Fehler aufgetreten. Die Daten wurden als Entwurf gespeichert.' }); 
     } 
 }

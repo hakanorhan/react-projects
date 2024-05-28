@@ -1,23 +1,38 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { URLs } from "../../../../autos-backend/src/enums/URLs";
+import { URLs } from "../../enums/URLs";
 import { AxiosDataPacketBrand, Brand } from "../../interfaces/types";
 import { notifyError, notifySuccess } from "../../helper/toastHelper";
+import { AxiosRejectPackage } from "../../interfaces/IAxiosData";
 
-export const fetchBrand = createAsyncThunk(
+export const fetchBrand = createAsyncThunk<
+    AxiosDataPacketBrand,
+    void,
+    { rejectValue: AxiosRejectPackage }>(
     'data/fetchBrand',
-    async () => {
+    async (_, { rejectWithValue }) => {
+        try {
         const response = await axios.get<AxiosDataPacketBrand>(URLs.ORIGIN_SERVER + URLs.FETCH_BRAND, { withCredentials: true });
         return response.data;
+        } catch(error: any) {
+            return rejectWithValue(error.response.data as AxiosRejectPackage)
+        }
     }
 );
 
-export const insertBrand = createAsyncThunk(
+export const insertBrand = createAsyncThunk<
+    AxiosDataPacketBrand,
+    string,
+    { rejectValue: AxiosRejectPackage }>(
     'data/insertBrand',
-    async (value: string) => {
-        const response = await axios.post<AxiosDataPacketBrand>(URLs.ORIGIN_SERVER + URLs.POST_INSERT_BRAND, { value }, { withCredentials: true });
-        
+    async (value: string, { rejectWithValue }) => {
+        try {
+            const response = await axios.post<AxiosDataPacketBrand>(URLs.ORIGIN_SERVER + URLs.POST_INSERT_BRAND, { value }, { withCredentials: true });
         return response.data;
+        } catch(error: any) {
+            return rejectWithValue(error.response.data as AxiosRejectPackage);
+            
+        }
     }
 );
 
@@ -38,8 +53,13 @@ const dataSlice = createSlice({
                 state.brands = action.payload.dataBrands;
                 state.loading = false;
             })
-            .addCase(fetchBrand.rejected,(state) => {
+            .addCase(fetchBrand.rejected,(state, action: PayloadAction<AxiosRejectPackage | undefined>) => {
                 state.loading = false;
+                if(action.payload?.messageId) { 
+                    notifyError(action.payload.messageId, action.payload.message);
+                } else
+                    notifyError("500", "Unerwarteter Fehler aufgetreten");
+            
             });
 
             builder
@@ -49,11 +69,14 @@ const dataSlice = createSlice({
             .addCase(insertBrand.fulfilled, (state, action: PayloadAction<AxiosDataPacketBrand>) => {
                 state.brands = action.payload.dataBrands;
                 state.loading = false;
-                notifySuccess("success", "Erfolgreich hinzugefügt");
+                notifySuccess(action.payload.message, action.payload.message);
             })
-            .addCase(insertBrand.rejected, (state, action: PayloadAction<unknown | AxiosDataPacketBrand>) => {
+            .addCase(insertBrand.rejected, (state, action: PayloadAction<AxiosRejectPackage | undefined>) => {
                 state.loading = false;
-                notifyError("error", "Bereits vorhanden");
+                if(action.payload?.messageId) { 
+                    notifyError(action.payload.messageId, action.payload.message);
+                } else
+                    notifyError("500", "Unerwarteter Fehler aufgetreten");
             });
         
     }

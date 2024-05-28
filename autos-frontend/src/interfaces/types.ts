@@ -35,12 +35,12 @@ export interface RequestAxiosDataModel {
 // ---- Axios Data Packet ---
 export interface AxiosDataPacketBrand {
     dataBrands: Brand[],
-    message: string | null
+    message: string
 }
 
 export interface AxiosDataPacketModel {
     dataModels: Model[],
-    message: string | null,
+    message: string,
     brand: string
 }
 

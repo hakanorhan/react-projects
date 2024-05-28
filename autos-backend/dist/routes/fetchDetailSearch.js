@@ -41,7 +41,6 @@ export default async (req, res) => {
             telNr: tel_nr, streetNr: is_car_dealer ? street_nr : null, since
         };
         connection.end();
-        console.log(axiosData.streetNr + " since: " + since);
         return res.status(200).json(axiosData);
     }
     catch (error) {

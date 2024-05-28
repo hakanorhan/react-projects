@@ -8,7 +8,7 @@ import CarImages from '../dashboards/admin/components/CarImages';
 import { ShowFastPaper } from './searchComponents/ShowFastPaper';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
-import { COMPONENT_DISTANCE } from '../../../themes/Theme';
+import { COMPONENT_DISTANCE, ZOOM_HOVER } from '../../../themes/Theme';
 import { DisplayTypes } from '../../../enums/DisplayTypes';
 
 const LIMIT = 5;
@@ -23,7 +23,7 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
 
   // ----- Pagination ------
   const [page, setPage] = useState<number>(1);
-  const handlePagiation = (event: any, value: number) => {
+  const handlePagiation = (_event: any, value: number) => {
     const offsetTemp: number = LIMIT * (value - 1);
     setOffset(offsetTemp);
     setPage(value);
@@ -51,10 +51,9 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   const handleShowDetail = ({ id }: ({ id: number })) => {
     navigate(URLs.FETCH_DETAIL_SEARCH + `/${id}`);
   }
-  /* backgroundColor:{ xs:'yellow', sm:'whitesmoke', md:'red', lg:'orange', xl:'whitesmoke'}, */
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
 
-    return <Card elevation={0} sx={{ cursor: 'pointer', height: '100%' }}
+    return <Card elevation={0} sx={ ZOOM_HOVER }
       onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
       <CardActionArea>
         <CarImages id={axiosPaper.inseratId} multiple={false} />

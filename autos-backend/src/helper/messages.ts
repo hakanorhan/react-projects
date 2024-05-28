@@ -1,25 +1,33 @@
 import express  from "express";
+import { AxiosRejectPackage } from "../interfaces/IAxiosData.js";
 
 export const insertMysqlErrorMessages = async (errno: number, res: express.Response) => {
-    
+    let axiosRejected : AxiosRejectPackage;
     switch(errno) {
         case 1062:
-            return res.status(409).json({ message: "Wert ist bereits vorhanden." , errno});
+            axiosRejected = { messageId: errno.toString(), message: "Wert ist bereits vorhanden" }
+            break;
         default:
-            return res.status(409).json({ message: "Bitte versuchen Sie es erneut.", errno });
+            axiosRejected = { messageId: errno.toString(), message: "Bitte versuchen Sie es erneut" }
     }
+    console.log(axiosRejected.message + " " + axiosRejected.messageId)
+    return res.status(409).json( axiosRejected );
     
 }
 
 export const selectMysqlErrorMessages = async function (errCode: string, res: express.Response ) {
+    let axiosRejected: AxiosRejectPackage;
     switch(errCode) {
         case 'ER_PARSE_ERROR':
             // Abfragesyntax ungültig
-            return res.status(400).json({ message: "Bitte versuchen Sie es erneut." });
+             axiosRejected = { messageId: errCode, message: 'Bitte versuchen Sie es erneut' }
+            return res.status(400).json( axiosRejected );
         case 'ER_NO_SUCH_TABLE':
             // Tabelle nicht gefunden
-            return res.status(404).json({ messages: "Bitte versuchen Sie es erneut." });
+            axiosRejected = { messageId: errCode, message: 'Bitte versuchen Sie es erneut' }
+            return res.status(404).json(axiosRejected);
         default:
-            return res.status(500).json({ messages: "Serverfehler. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut." });
+            axiosRejected = { messageId: 'unknown', message: "Serverfehler. Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut." }
+            return res.status(500).json( axiosRejected );
         } 
 }

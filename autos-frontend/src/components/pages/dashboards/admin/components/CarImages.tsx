@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../../../enums/URLs';
-import { Box, CardMedia, IconButton, } from '@mui/material';
+import { Box, CardMedia, IconButton, Typography, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { AxiosDataImagesNames } from '../../../../../interfaces/IAxiosData';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-
 export interface CarImagesProps {
   id: number | null | string | undefined,
   multiple: boolean
@@ -78,7 +77,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
 
   }, [fetchImageNamesDone])
 
-
   const CarouselComponent = () => {
     const iconButtonSX = (side: number) => ({
       [side === 0 ? 'left' : 'right']: 0,
@@ -94,12 +92,12 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
     });
     const [sliderIndex, setSliderIndex] = useState(0);
 
-    return (<>
+    return (<div>
       <CardMedia
         component='img'
         image={imageSrc[sliderIndex]}
         alt={"Bild"}
-        sx={{ objectFit: 'cover', position: 'relativr', width: '100%', height: '100%', }}>
+        sx={{ objectFit: 'cover', position: 'relative', width: '100%', height: 'auto', }}>
       </CardMedia>
 
       {imageSrc.length > 1 ? <>
@@ -107,7 +105,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
         <IconButton sx={iconButtonSX(1)} onClick={() => { sliderIndex === 0 ? setSliderIndex(imageSrc.length - 1) : setSliderIndex(sliderIndex - 1) }}><ArrowForwardIosIcon /></IconButton>
       </> : <></>
       }
-    </>
+    </div>
     )
   }
 
@@ -116,11 +114,15 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
   }
 
   return (
-    <Box>
-      {succesFullDownloaded && imageSrc.length > 0 ? <CarouselComponent /> : (
-        <Box sx={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}><CameraAltIcon sx={{ transform: 'scale(1.5)' }} /> </Box>
-      )}
+  <Box sx={{ height: '100%' }}>
+  {succesFullDownloaded && imageSrc.length > 0 ? (
+    <CarouselComponent />
+  ) : (
+    <Box sx={{ display: 'flex', width: '100%', aspectRatio:16/9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+      <CameraAltIcon sx={{ fontSize: '8rem', height: '100%', aspectRatio:16/9, }} />
     </Box>
+  )}
+</Box>
   );
 };
 

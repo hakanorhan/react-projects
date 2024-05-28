@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 
 export default (req: Request, res: Response) => {
+    
+    console.log(req.session.isAuth + " is auth");
+
     if(req.isAuthenticated()) 
     req.logOut((error) => {
         if (error) {
@@ -20,5 +23,5 @@ export default (req: Request, res: Response) => {
             return res.status(200).json({ message: "Logout erfolgreich" });
         });
     });
-    else return res.status(401).json({ message: "" })
+    else return res.status(401).json({ message: "Sie sind nicht authentifiziert worden" })
 };

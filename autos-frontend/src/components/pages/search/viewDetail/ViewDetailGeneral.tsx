@@ -37,8 +37,7 @@ const gridItemMD = 4;
 interface GridTechnicalDetails {
   title: string,
   value?: string,
-  icon?: JSX.Element,
-  indexColor?: number
+  icon?: JSX.Element
 }
 
 interface GridComponentProps {
@@ -67,7 +66,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
     dispatch(fetchDetailSearch(id));
   }, [id])
 
-  const GridTechnicalComponent: React.FC<GridTechnicalDetails> = ({ title, value, icon, indexColor }) => {
+  const GridTechnicalComponent: React.FC<GridTechnicalDetails> = ({ title, value, icon }) => {
     return <Grid sx={{ display: 'flex', padding: '0.7rem'}} item xs={12}>
        <Grid item xs={6}><Typography sx={{  }} variant='body1' component='p'>{`${title}:`}</Typography></Grid> 
        <Grid item xs={6}> <Typography sx={{ fontWeight: 'bold' }} variant='body1' component='p'>{value}</Typography>{icon}</Grid>
@@ -232,14 +231,14 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
                 <Typography variant='h6' component='h4' sx={{ fontFamily: fontBold, paddingTop: COMPONENT_DISTANCE }}> Technische Daten </Typography>
               </Grid>
               <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
-                <GridTechnicalComponent indexColor={1} title='Marke' value={detailSearchValues?.brand} />
-                <GridTechnicalComponent indexColor={2} title='Modell' value={detailSearchValues?.model} />
-                <GridTechnicalComponent indexColor={1} title='Fahrzeugtyp' value={detailSearchValues.cartype} />
-                <GridTechnicalComponent indexColor={2} title='Farbe' value={detailSearchValues.color} />
-                <GridTechnicalComponent indexColor={1} title='Hubraum' value={`${detailSearchValues.cubicCapacity} ccm³`} />
-                <GridTechnicalComponent indexColor={2} title='Getriebeart' value={detailSearchValues.transmission} />
-                <GridTechnicalComponent indexColor={1} title='HU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.huNew} />} />
-                <GridTechnicalComponent indexColor={2} title='AU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.auNew} />} />
+                <GridTechnicalComponent title='Marke' value={detailSearchValues?.brand} />
+                <GridTechnicalComponent title='Modell' value={detailSearchValues?.model} />
+                <GridTechnicalComponent title='Fahrzeugtyp' value={detailSearchValues.cartype} />
+                <GridTechnicalComponent title='Farbe' value={detailSearchValues.color} />
+                <GridTechnicalComponent title='Hubraum' value={`${detailSearchValues.cubicCapacity} ccm³`} />
+                <GridTechnicalComponent title='Getriebeart' value={detailSearchValues.transmission} />
+                <GridTechnicalComponent title='HU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.huNew} />} />
+                <GridTechnicalComponent title='AU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.auNew} />} />
 
               </Grid>
             </Grid>
@@ -255,13 +254,13 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
               </Grid>
 
               <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
-                <GridTechnicalComponent indexColor={1} title='Scheckheftgepflegt' icon={<CheckOrFalseIcon checked={detailSearchValues.scheckheft} />} />
-                <GridTechnicalComponent indexColor={2} title='Fahrtüchtig' icon={<CheckOrFalseIcon checked={detailSearchValues.fittodrive} />} />
-                <GridTechnicalComponent indexColor={1} title='Abstandstempomat' icon={<CheckOrFalseIcon checked={detailSearchValues.abstandstempomat} />} />
-                <GridTechnicalComponent indexColor={2} title='Ambientbeleuchtung' icon={<CheckOrFalseIcon checked={detailSearchValues.ambientbeleuchtung} />} />
-                <GridTechnicalComponent indexColor={1} title='Klimatisierung' value={detailSearchValues.clima} />
-                <GridTechnicalComponent indexColor={2} title='Head-up Display' icon={<CheckOrFalseIcon checked={detailSearchValues.headupdisplay} />} />
-                <GridTechnicalComponent indexColor={1} title='Totwinkelassistent' icon={<CheckOrFalseIcon checked={detailSearchValues.totwinkelassistent} />} />
+                <GridTechnicalComponent title='Scheckheftgepflegt' icon={<CheckOrFalseIcon checked={detailSearchValues.scheckheft} />} />
+                <GridTechnicalComponent title='Fahrtüchtig' icon={<CheckOrFalseIcon checked={detailSearchValues.fittodrive} />} />
+                <GridTechnicalComponent title='Abstandstempomat' icon={<CheckOrFalseIcon checked={detailSearchValues.abstandstempomat} />} />
+                <GridTechnicalComponent title='Ambientbeleuchtung' icon={<CheckOrFalseIcon checked={detailSearchValues.ambientbeleuchtung} />} />
+                <GridTechnicalComponent title='Klimatisierung' value={detailSearchValues.clima} />
+                <GridTechnicalComponent title='Head-up Display' icon={<CheckOrFalseIcon checked={detailSearchValues.headupdisplay} />} />
+                <GridTechnicalComponent title='Totwinkelassistent' icon={<CheckOrFalseIcon checked={detailSearchValues.totwinkelassistent} />} />
               </Grid>
             </Grid>
           </Box>

@@ -9,7 +9,7 @@ import { MainComponentWidth, HeaderIcon, textFieldSMWitdh, buttonHeight, COMPONE
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 import * as EnumCheck from '../../../enums/CheckBoxID';
 import * as EnumTextField from '../../../enums/TextFieldID';
@@ -56,11 +56,12 @@ const SignUpUser: React.FC = () => {
   const [federalState, setFederalState] = useState<any[]>([]);
   const [selectedBundesland, setSelectedBundesland] = useState<string>("");
 
-  const [dateValue, setDateValue] = useState(dayjs());
+  const [dateValue, setDateValue] = useState<Dayjs | null>(dayjs());
   const [telefonNr, setTelefonNr] = useState("");
 
   const [emailIsValidChecked, setEmailIsValidChecked] = useState(false);
   const [emailNotUsed, setEmailNotUsed] = useState(false);
+  const [emailUsedMessage, setEmailUsedMessage] = useState<null | string>('\u00A0');
 
   useEffectFetch(URLs.FETCH_BUNDESLAENDER, setFederalState);
 
@@ -92,10 +93,13 @@ const SignUpUser: React.FC = () => {
           const response = await axios.post(URLs.ORIGIN_SERVER + URLs.POST_SIGINUP_EMAILCHECK, { value }, { withCredentials: true })
           setEmailIsValidChecked(false);
           setEmailNotUsed(true);
-        } catch (error) {
+          const message = response.data.message;
+          setEmailUsedMessage(message);
+        } catch (error: any) {
           setEmailNotUsed(false);
           setEmailIsValidChecked(false);
-          // TODO: error handling
+          const message = error.response.data.message;
+          setEmailUsedMessage(message);
         }
       }
 
@@ -187,20 +191,22 @@ const SignUpUser: React.FC = () => {
     // TODO: change if statemnt
     // all Formular field are valid
     else {
-      const formattedDate = dateValue.format('DD-MM-YYYY');
-
+      const formattedDate = dateValue?.format('DD-MM-YYYY');
+      if(formattedDate) {
       const axiosData: AxiosDataSignup = { form, selectedBundesland, isCheckedDealer, isCheckedEmail, isCheckedTelefon, formattedDate, telefonNr }
 
-      await axios.post(URLs.ORIGIN_SERVER + URLs.POST_SIGINUP,
-        axiosData, { withCredentials: true })
-        .then(function (response) {
-
-          navigate(URLs.POST_SIGNIN);
-
-        }).catch(function (err) {
-          notifyError("signupError", "Error")
-        })
+      try {
+        await axios.post(URLs.ORIGIN_SERVER + URLs.POST_SIGINUP, axiosData, { withCredentials: true })
+        navigate(URLs.POST_SIGNIN);
+      }catch(error: any) {
+        const message = error.response.data.message;
+        notifyError(message, message);
+      }
+    } else {
+      notifyError("error", "Fehler aufgetreten. Bitte versuchen Sie es erneut.");
+      navigate(0);
     }
+  }
   }
 
   const SubmitComponent = () => {
@@ -243,7 +249,7 @@ const SignUpUser: React.FC = () => {
               {/* Email */}
               <Box>
                 <TextFieldCars id={EnumTextField.TextFieldID.EMAIL} label='Email' onChange={value => handleOnChange(EnumTextField.TextFieldID.EMAIL, value,)} regex={REGEX_EMAIL} checkEmail={emailNotUsed} />
-                <Typography sx={{ marginBottom: COMPONENT_DISTANCE, color: 'text.primary' }}>{ValidHelper.formularEmailValid(form.email) ? emailNotUsed ? "Email nicht vorhanden" : "Email bereits vorhanden" : '\u00A0'}</Typography>
+                <Typography sx={{ marginBottom: COMPONENT_DISTANCE, color: 'text.primary' }}>{ValidHelper.formularEmailValid(form.email) ? emailUsedMessage : '\u00A0'}</Typography>
               </Box>
               <Box sx={{ marginBottom: COMPONENT_DISTANCE }}>
                 <PasswordSignUp id={EnumTextField.TextFieldID.PASSWORD1} label='Password' onChange={value => handleOnChange(EnumTextField.TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />

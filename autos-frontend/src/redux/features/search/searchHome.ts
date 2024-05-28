@@ -17,8 +17,8 @@ export const fetchCount = createAsyncThunk(
 export const fetchModelSearchHome = createAsyncThunk(
     'data/fetchModelSearchHome',
     async (selectedBrand: string) => {
-            const response = await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand } , { withCredentials: true })                  
-           return response;
+        const response = await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand }, { withCredentials: true })
+        return response;
     }
 )
 
@@ -36,17 +36,11 @@ const searchHomeSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {},
-    extraReducers: (builder) =>{
+    extraReducers: (builder) => {
         builder
-            .addCase(fetchCount.pending, (state) => {
-                
-            })
             .addCase(fetchCount.fulfilled, (state, action: PayloadAction<number>) => {
                 state.count = action.payload;
             })
-            .addCase(fetchCount.rejected,(state) => {
-                
-            });
     }
 })
 

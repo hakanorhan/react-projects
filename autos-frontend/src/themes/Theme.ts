@@ -2,11 +2,21 @@ import { Select, colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
+const breakpoints = {
+    xs: 0,
+    sm: 576,
+    md: 768,
+    lg: 1100,
+    xl: 1200,
+    xxl: 1400
+};
+
 export const textFieldSMWitdh = '560px';
 
 const searchContainerXSWidth = '95%';
 const searchContainerMDWidth = '95%';
-const searchContainerLGWidth = '1150px';
+const searchContainerLGWidth = '1050px';
+const searchContainerXLWidth = '1150px'
 
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
@@ -46,14 +56,8 @@ export const LinkDrawer = { textDecoration: 'none' };
 export const paperFontSize = { xs: '1.1rem', sm: '1.3rem', md: '1rem', lg: '1.2rem' };
 export const ICON_FONT_SIZE = '1.4rem';
 
-const breakpoints = {
-    xs: 0,
-    sm: 576,
-    md: 768,
-    lg: 1100,
-    xl: 1200,
-    xxl: 1400
-};
+export const TRANSITION = '1S';
+export const ZOOM_HOVER = {transition: TRANSITION, '&:hover': { transform: 'scale(1.03)'}, cursor: 'pointer', height: '100%' };
 
 const components = {
 
@@ -85,7 +89,8 @@ const components = {
                 color: LIGHT_PRIMARY_CONTRAST_TEXT,
                 '&:hover': {
                     backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
-                    color: LIGHT_PRIMARY_COLOR_MAIN
+                    color: LIGHT_PRIMARY_COLOR_MAIN,
+                    transition: TRANSITION
                 }
             }
         },
@@ -351,6 +356,9 @@ export const SearchContainer = styled('div')(({ theme }) => ({
     },
     [theme.breakpoints.up("lg")]: {
         width: searchContainerLGWidth
+    },
+    [theme.breakpoints.up("xl")]: {
+        width: searchContainerXLWidth
     }
 }))
 

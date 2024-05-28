@@ -18,7 +18,7 @@ export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = (
     };
 
     return (
-        <>{/* backgroundColor:{ xs:'yellow', sm:'whitesmoke', md:'red', lg:'orange', xl:'whitesmoke', xxl: 'yellow' } */}
+        <>
             <CardContent>
                 <Typography sx={{ fontFamily: fontBold }} variant='h6' component='h1'>{detailSearchValues.brand} {detailSearchValues.model}</Typography>
                 

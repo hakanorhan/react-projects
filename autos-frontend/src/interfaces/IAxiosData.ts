@@ -102,3 +102,7 @@
     canPublish: boolean
   }
   
+  export interface AxiosRejectPackage {
+    messageId: string,
+    message: string
+  }

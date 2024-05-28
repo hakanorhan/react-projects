@@ -6,7 +6,7 @@ import { URLs } from '../../enums/URLs';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
 import { RootState } from '../../redux/store';
-import SignIn from '../pages/registerLogin/SignIn';
+import { useNavigate } from 'react-router-dom';
 
 interface ProtectedRoteProps {
     children: ReactNode,
@@ -16,6 +16,8 @@ interface ProtectedRoteProps {
 const ProtectedRoute = ({ children, role }: ProtectedRoteProps) => {
     const userLoggedStatus = useSelector((state: RootState) => state.userLoggedIn);
     const dispatch = useDispatch();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -33,6 +35,7 @@ const ProtectedRoute = ({ children, role }: ProtectedRoteProps) => {
                 dispatch(setUserLoggedIn(logged));
                 const authRole = authResponse.role;
                 dispatch(setRole(authRole));
+                navigate(URLs.POST_SIGNIN);
             }
         }
         checkAuth();
@@ -40,7 +43,7 @@ const ProtectedRoute = ({ children, role }: ProtectedRoteProps) => {
     }, [])
 
     return userLoggedStatus.userLoggedIn && role === userLoggedStatus.role
-        ? children : <SignIn />;
+        ? children : <></>;
 };
 
 export default ProtectedRoute;

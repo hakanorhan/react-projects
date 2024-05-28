@@ -7,16 +7,19 @@ export default async (req, res) => {
     let connection;
     try {
         connection = await connectToDatabase();
+        let message;
         await connection.beginTransaction();
-        if (axiosData.canPublish)
+        if (axiosData.canPublish) {
             await connection.execute(UPDATE, [axiosData.canPublish, axiosData.inserateId]);
+            message = "Inserat freigegeben";
+        }
         else {
-            console.log(axiosData.canPublish);
             await connection.execute(UPDATE_CANCELLED, [axiosData.inserateId]);
+            message = "Inserate nicht freigegeben";
         }
         await connection.commit();
         connection.end();
-        return res.status(200).json({ message: 'Erfolgreich hinzugefügt' });
+        return res.status(200).json({ message });
     }
     catch (error) {
         console.log(error);

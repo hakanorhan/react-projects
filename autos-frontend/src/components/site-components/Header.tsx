@@ -28,6 +28,8 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
 import { AuthResponse } from '../../interfaces/types';
+import { notifyError } from '../../helper/toastHelper';
+import { Toaster } from 'react-hot-toast';
 
 const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem' }, justifyContent: 'flex-start' };
 
@@ -89,23 +91,19 @@ export default function Header() {
   };
 
   async function logoutLogin() {
-
-    if (loggedIn) {
-
+    if(loggedIn) {
+    try {
       axios.delete(URLs.ORIGIN_SERVER + URLs.LOGOUT, { withCredentials: true })
-        .then(response => {
-          dispatch(setUserLoggedIn(false));
-          navigate(URLs.HOME_ALL_SEARCH_COUNT);
-        })
-        .catch(error => {
-          alert("Error")
-
-        })
-    } else {
-      navigate(URLs.POST_SIGNIN);
+      dispatch(setUserLoggedIn(false));
+      navigate(URLs.HOME_ALL_SEARCH_COUNT);
+    } catch(error: any) {
+      const message = error.response.data.message;
+      notifyError(message, message);
     }
+  } else {
+    navigate(URLs.POST_SIGNIN);
   }
-
+  }
 
   // -------------------------------------- ADMIN ----------------------------------------------------------
   const AccordionHinzufuegen = () => {
@@ -230,7 +228,8 @@ export default function Header() {
     </Drawer>
   }
 
-  return (
+  return (<>
+  <Toaster />
     <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={{ backgroundColor:'primary.main' }} elevation={2} position="static" >
         <DrawerMenuComponent />
@@ -282,5 +281,6 @@ export default function Header() {
         </Toolbar>
       </AppBar>
     </Box>
+    </>
   );
 }
