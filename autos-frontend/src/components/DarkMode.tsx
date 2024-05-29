@@ -26,7 +26,7 @@ export default function DarkMode() {
     dispatch(setMode(checked));
   }
 
-  return (<Box sx={{ display: 'flex', color: 'whitesmoke' }}>
+  return (<Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'flex' }, color: 'whitesmoke' }}>
 
     {<Switch sx={{
       color: 'yellow', fill: 'yellow',

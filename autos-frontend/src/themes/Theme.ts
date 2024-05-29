@@ -27,7 +27,7 @@ const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
 export const LIGHT_SECONDARY_COLOR_MAIN = "#ebe8fc";
 
-const LIGHT_BACKGROUND_DEFAULT = '#FFFFFF';
+const LIGHT_BACKGROUND_DEFAULT = 'whitesmoke';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = '#FFFFFF';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.blueGrey[800];
@@ -64,7 +64,7 @@ const components = {
     MuiPaper: {
         styleOverrides: {
             root: {
-                backgroundColor: '#f4f4f4',
+                backgroundColor: '#ffffff',
                 '&:hover': {
 
                 }
@@ -305,6 +305,15 @@ export const DivWidthTwoFieldsRow = styled('div')(({ theme }) => ({
 
 }));
 
+export const Boxprint = styled('div')(({}) => ({
+    '@media print': {
+        display: 'none',
+    },
+    '@media screen': {
+        display: 'block',
+    },
+ }));
+
 /**
  * Signin and Signout icons.
  */
@@ -448,6 +457,17 @@ export const GreyVerticalHR = styled('hr')(({ }) => ({
     margin: 0,
     padding: 0,
     display: 'inline-block',
+}));
+
+export const GreyHorizontalTechBoldHR = styled('hr')(({ theme }) => ({
+    border: 'none',
+    borderTop: `1px solid ${colors.grey[300]}`,
+    [theme.breakpoints.up('xs')]: {
+        display: 'block'
+    },
+    [theme.breakpoints.up('lg')]: {
+        display: 'none'
+    }
 }));
 
 export const GreyHorizontalBoldHR = styled('hr')(({ }) => ({

@@ -53,7 +53,7 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   }
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
 
-    return <Card elevation={0} sx={ ZOOM_HOVER }
+    return <Card elevation={1} sx={ ZOOM_HOVER }
       onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
       <CardActionArea>
         <CarImages id={axiosPaper.inseratId} multiple={false} />

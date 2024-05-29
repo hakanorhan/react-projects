@@ -11,7 +11,7 @@ import { LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/Theme";
 import DarkMode from "../DarkMode";
 
 const gridItemStyle = { marginBottom: { xs: '3rem' } };
-const iconStyle = { marginRight: '0.5rem', fill: LIGHT_PRIMARY_CONTRAST_TEXT };
+const iconStyle = { marginRight: '0.5rem', '@media screen': { fill: LIGHT_PRIMARY_CONTRAST_TEXT }, '@media print': { fill: 'black' } };
 
 const gridXS = 12;
 const gridSM = 6;
@@ -40,15 +40,15 @@ const PRIVATE_DEALER = [
 export default function Footer() {
 
   const CreateLink = (linkname: string, index: number) => {
-    return <Link key={index} style={LinkDrawer} to={""}> <Typography sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > {linkname} </Typography> </Link>
+    return <Link key={index} style={LinkDrawer} to={""}> <Typography sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > {linkname} </Typography> </Link>
   }
 
   const createHeaderForLinks = (header: string) => {
-    return <Typography key={header} variant="h5" component='h1' sx={{ color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
+    return <Typography key={header} variant="h5" component='h1' sx={{ '@media print': { color: 'black'}, color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
   }
 
   return (
-    <Box sx={{ backgroundColor: 'primary.main' }}>
+    <Box sx={{ backgroundColor: 'primary.main', '@media print': { breakBefore: 'page' } }}>
       <Grid sx={{ margin: 'auto', padding: '2rem', paddingTop: '3rem' }} container item xs={12} md={11}>
         <Grid item xs={gridXS} sm={gridSM} md={gridMD} lg={gridLG} sx={gridItemStyle}>
           {

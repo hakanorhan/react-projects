@@ -8,9 +8,15 @@ import { AxiosDataImagesNames } from '../../../../../interfaces/IAxiosData';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 export interface CarImagesProps {
   id: number | null | string | undefined,
-  multiple: boolean
+  multiple: boolean,
+  isDetail?: boolean
 }
-const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
+
+enum ArrowDirection {
+  ARROW_DIRECTION_LEFT = 'left', ARROW_DIRECTION_RIGHT = 'right' 
+}
+
+const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
   const [fetchImageNamesDone, setFetchImageNamesDone] = useState(false);
   const [fetchedImageInformations, setFetchedImageInformations] = useState<AxiosDataImagesNames[]>([]);
@@ -80,32 +86,48 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple }) => {
   const CarouselComponent = () => {
     const iconButtonSX = (side: number) => ({
       [side === 0 ? 'left' : 'right']: 0,
-      height: 'auto',
       position: 'absolute',
-      top: '25%',
+      top: '45%',
       borderRadius: '30px',
       marginLeft: '0.4rem',
       marginRight: '0.4rem',
-      opacity: '90%',
-      backgroundColor: 'primary.main', color: 'primary.contrastText',
-      '&:hover': { backgroundColor: 'primary.dark', color: 'white' }
+      opacity: '70%',
+      backgroundColor: 'black', color: 'primary.contrastText',
+      '&:hover': { backgroundColor: 'primary.dark', color: 'white' },
+      '@media print': { display: 'none' },
     });
-    const [sliderIndex, setSliderIndex] = useState(0);
+    const [sliderIndex, setSliderIndex] = useState(1);
 
-    return (<div>
+    const handleSliderIndex = (direction: ArrowDirection) => {
+    
+      if(direction === ArrowDirection.ARROW_DIRECTION_LEFT) {
+        if(sliderIndex === 1) 
+          setSliderIndex(imageSrc.length)
+        else
+          setSliderIndex(sliderIndex - 1)
+      } else {
+        if(sliderIndex === imageSrc.length)
+          setSliderIndex(1);
+        else 
+          setSliderIndex(sliderIndex + 1);
+      }
+    }
+
+    return (<Box sx={{ position: 'relative' }}>
       <CardMedia
         component='img'
-        image={imageSrc[sliderIndex]}
+        image={imageSrc[sliderIndex - 1]}
         alt={"Bild"}
-        sx={{ objectFit: 'cover', position: 'relative', width: '100%', height: 'auto', }}>
+        sx={{ objectFit: 'cover', width: '100%', height: 'auto' }}>
       </CardMedia>
 
+      <Box sx={{  '@media print': { display: 'none' }, '@media screen': { display: isDetail ? 'block' : 'none' }, position: 'absolute', top:'7%', marginRight: '0.4rem', backgroundColor:'black', padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0 }}><Typography>{ `${sliderIndex} / ${imageSrc.length}` }</Typography></Box>
       {imageSrc.length > 1 ? <>
-        <IconButton sx={iconButtonSX(0)} onClick={() => { sliderIndex === imageSrc.length - 1 ? setSliderIndex(0) : setSliderIndex(sliderIndex + 1) }}><ArrowBackIosIcon /></IconButton>
-        <IconButton sx={iconButtonSX(1)} onClick={() => { sliderIndex === 0 ? setSliderIndex(imageSrc.length - 1) : setSliderIndex(sliderIndex - 1) }}><ArrowForwardIosIcon /></IconButton>
+        <IconButton sx={iconButtonSX(0)} onClick={() => { handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
+        <IconButton sx={iconButtonSX(1)} onClick={() => { handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
       </> : <></>
       }
-    </div>
+      </Box>
     )
   }
 

@@ -3,7 +3,7 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import { mainComponentHeight } from "../../../../../themes/Theme";
 import React, { useEffect, useState } from "react";
 import { seperateThousand } from "../../../../../helper/helper";
-import ViewDetailSearch from "../../ViewDetailSearchAdmin";
+import ViewDetailSearchAdmin from "../../ViewDetailSearchAdmin";
 import dayjs from "dayjs";
 
 interface PublishListProps {
@@ -29,7 +29,7 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
                         <ListItemIcon> <ViewListIcon /> </ListItemIcon>
                         <ListItemText  key={index} 
                             primary={"Inserat ID: " + item.inserate_id + "  " + item.brand  + " " + item.model + " Preis: " + seperateThousand(item.price) + "€"} 
-                            secondary={"Datum Uhrzeit: " + dayjs(item.inserate_date).format('DD.MM.YYYY HH:MM') } >
+                            secondary={"Datum Uhrzeit: " + dayjs(item.inserate_date).format('DD.MM.YYYY HH:mm') } >
                         </ListItemText>
                     </ListItem>        
                 )) : <Box sx={{ marginLeft:'1rem' }}><Typography>Keine neue Inserate.</Typography></Box>
@@ -42,7 +42,7 @@ export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
     <Box sx={{ width: '100%' }}>
         <ViewListComponent />
         {
-            viewCarComponent ? <ViewDetailSearch multiple={ true } id={inserateId} /> : <></>
+            viewCarComponent ? <ViewDetailSearchAdmin multiple={ true } id={ inserateId } /> : <></>
         }
     </Box>
   )

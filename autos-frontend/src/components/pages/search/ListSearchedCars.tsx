@@ -15,7 +15,7 @@ import { COMPONENT_DISTANCE, LinkNewSearch, ZOOM_HOVER } from '../../../themes/T
 import SearchIcon from '@mui/icons-material/Search';
 import ShareIcon from '@mui/icons-material/Share';
 
-const LIMIT = 5;
+const LIMIT = 6;
 
 const ListSearchedCars = () => {
 
@@ -115,7 +115,7 @@ const ListSearchedCars = () => {
 
   const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
 
-    return <Card elevation={0} sx={ZOOM_HOVER}
+    return <Card elevation={1} sx={ZOOM_HOVER}
       onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
       <CardActionArea>
         <CarImages id={axiosPaper.inseratId} multiple={false} />

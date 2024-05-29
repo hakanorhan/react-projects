@@ -23,15 +23,14 @@ export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = (
                 <Typography sx={{ fontFamily: fontBold }} variant='h6' component='h1'>{detailSearchValues.brand} {detailSearchValues.model}</Typography>
                 
 
-                <Grid container >
-                    {/*<TDescriptionComponent detailSearchValues={axiosPaper} />
-                     */}
+                
+                    {/*<TDescriptionComponent detailSearchValues={axiosPaper} /> */}
                    
                     <ListTDescriptionComponent detailSearchValues={axiosPaper} />
-
+                    <Grid container >
                     <Grid item xs={5.5}>
                 <Box sx={{ paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
-                  <Typography variant='h6' component='h2' sx={{ color: 'primary.main', fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
+                  <Typography variant='h6' component='h2' sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
                   <Typography variant='body2' component='p' sx={{ display: 'flex', justifyContent: 'center' }}>{"Preis"}</Typography>
                 </Box>
               </Grid>
@@ -39,7 +38,7 @@ export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = (
               <Grid item xs={5.5}>
                 <Box sx={{ paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
                 <Button sx={{ backgroundColor: 'secondary.main', color: 'primary.main'  }} variant='contained' endIcon={<CalculateIcon />}>Finanzieren</Button>
-                  <Typography variant='h6' component='h2' sx={{ color: 'primary.main', fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(550)} {" €"}</Typography>
+                  <Typography variant='h6' component='h2' sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(550)} {" €"}</Typography>
                   
                 </Box>
               </Grid>
