@@ -1,4 +1,4 @@
-import { Box, Switch, Typography } from "@mui/material";
+import { Box, Switch, Typography, colors } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -29,10 +29,23 @@ export default function DarkMode() {
   return (<Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'flex' }, color: 'whitesmoke' }}>
 
     {<Switch sx={{
-      color: 'yellow', fill: 'yellow',
+      width: '60px',
+      '& .MuiSwitch-switchBase': {
+        '&.Mui-checked': {
+          '& + .MuiSwitch-track': {
+            backgroundColor: colors.yellow[600],
+            opacity: 1,
+          },
+        },
+      },
       '& .MuiSwitch-thumb': {
-        color: 'whitesmoke'
-      }
+        color: 'primary.contrastText',
+        opacity: 1
+      },
+      '& .MuiSwitch-track': {
+        backgroundColor: 'primary.conrastText',
+        opacity: 1,
+      },
     }}
 
       checked={mode}

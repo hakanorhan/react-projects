@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material'
 import React from 'react'
-import { COMPONENT_DISTANCE, ICON_FONT_SIZE } from '../../../../themes/Theme'
+import { COMPONENT_DISTANCE, SX_ICON } from '../../../../themes/Theme'
 import Person3Icon from '@mui/icons-material/Person3';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -31,27 +31,27 @@ export const TDescriptionComponent = () => {
   return (
     <Grid container>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<Person3Icon sx={{ fontSize: ICON_FONT_SIZE }} />} value={detailSearchValues?.vehicleOwners} />
+        <GridComponent icon={<Person3Icon sx={ SX_ICON } />} value={detailSearchValues?.vehicleOwners} />
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<DirectionsCarIcon sx={{ fontSize: ICON_FONT_SIZE }}/>} value={seperateThousand(detailSearchValues?.mileageKm) + " KM"} />
+        <GridComponent icon={<DirectionsCarIcon sx={ SX_ICON }/>} value={seperateThousand(detailSearchValues?.mileageKm) + " KM"} />
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
         <Box sx={{ display:'flex'}}>
           { detailSearchValues ?
-        <GridComponent icon={<CalendarTodayIcon sx={{ fontSize: ICON_FONT_SIZE }}/>} value={(detailSearchValues.registrationMonth < 10 ? '0' + detailSearchValues.registrationMonth : detailSearchValues?.registrationMonth) + " / " + detailSearchValues?.registrtionYear} />
+        <GridComponent icon={<CalendarTodayIcon sx={ SX_ICON }/>} value={(detailSearchValues.registrationMonth < 10 ? '0' + detailSearchValues.registrationMonth : detailSearchValues?.registrationMonth) + " / " + detailSearchValues?.registrtionYear} />
           : <></>}
         </Box>
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<SpeedIcon sx={{ fontSize: ICON_FONT_SIZE }} />}  value={seperateThousand(detailSearchValues?.powerPS) + " PS"} />
+        <GridComponent icon={<SpeedIcon sx={ SX_ICON } />}  value={seperateThousand(detailSearchValues?.powerPS) + " PS"} />
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
-        <GridComponent icon={<LocalGasStationIcon sx={{ fontSize: ICON_FONT_SIZE }}/>} value={detailSearchValues?.fuel} />
+        <GridComponent icon={<LocalGasStationIcon sx={ SX_ICON }/>} value={detailSearchValues?.fuel} />
       </Grid>
       <Grid item xs={ gridItemXS } md={ gridItemMD }>
       <Box sx={{ display:'flex' }}>
-        <GridComponent icon={<CarCrashIcon sx={{ fontSize: ICON_FONT_SIZE }} />}  value={detailSearchValues && detailSearchValues?.accident ? 'Unfallwagen' : 'Unfallfrei'} />
+        <GridComponent icon={<CarCrashIcon sx={ SX_ICON } />}  value={detailSearchValues && detailSearchValues?.accident ? 'Unfallwagen' : 'Unfallfrei'} />
         </Box>
       </Grid>
     </Grid>  

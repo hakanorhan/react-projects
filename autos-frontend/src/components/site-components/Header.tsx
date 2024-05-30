@@ -82,7 +82,7 @@ export default function Header() {
     setDrawerOpen(false);
   }
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenu = (event: React.SyntheticEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -274,8 +274,6 @@ export default function Header() {
               onClose={handleClose}
             >
               <MenuItem onClick={() => { logoutLogin(); handleClose() }}>{(loggedIn) ? "Abmelden" : "Anmelden"}</MenuItem>
-
-              {/* <MenuItem onClick={(() => { handleClose(); (loggedIn) ? navigate('/signin') : navigate('/signin'); })}> {loggedIn ? "Abmelden" : "Anmelden" } </MenuItem> */}
             </Menu>
           </div>
         </Toolbar>

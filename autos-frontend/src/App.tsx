@@ -60,7 +60,7 @@ const App: React.FC = () => {
     <>
       {/* Theme */}
       <ThemeProvider theme={mode ? themeDark : themeLight}>
-        <Box sx={{ backgroundColor: 'background.default' }}>
+        <Box sx={{ backgroundColor:'background.default' }}>
           {/* Routes */}
           <RouterProvider router={router} fallbackElement={<Notfound />} />
         </Box>

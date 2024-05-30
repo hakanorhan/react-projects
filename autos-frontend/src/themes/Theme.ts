@@ -23,20 +23,18 @@ export const ToggleButtonSMWidth = '150px';
 
 const LIGHT_PRIMARY_COLOR_MAIN: string = "#7a63f1";
 export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
-const LIGHT_PRIMARY_DARK = "#E4E4DE";
+
+//const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
 export const LIGHT_SECONDARY_COLOR_MAIN = "#ebe8fc";
-
-const LIGHT_BACKGROUND_DEFAULT = 'whitesmoke';
+const LIGHT_BACKGROUND_DEFAULT = colors.grey[100];
 const LIGHT_BACKGROUND_PAPER_DEFAULT = '#FFFFFF';
 
-const DARK_PRIMARY_COLOR_MAIN = colors.blueGrey[800];
+const DARK_PRIMARY_COLOR_MAIN = colors.cyan[600];
 const DARK_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 
-const DARK_SECONDARY_COLOR_MAIN = colors.grey[700];
+const DARK_SECONDARY_COLOR_MAIN = colors.grey[900];
 const DARK_SECONDARY_CONTRAST_TEXT = '#FFFFFF';
-
-export const COLOR_ON_WHITE_BACKGROUND = colors.grey[900];
 
 export const colorDanger: string = colors.red[700];
 export const buttonHeight = '55px';
@@ -58,6 +56,8 @@ export const ICON_FONT_SIZE = '1.4rem';
 
 export const TRANSITION = '1S';
 export const ZOOM_HOVER = {transition: TRANSITION, '&:hover': { transform: 'scale(1.03)'}, cursor: 'pointer', height: '100%' };
+
+export const SX_ICON = { fontSize: ICON_FONT_SIZE, color:'text.primary' };
 
 const components = {
 
@@ -102,7 +102,7 @@ const components = {
                 backgroundColor: LIGHT_PRIMARY_COLOR_MAIN,
                 color: LIGHT_PRIMARY_CONTRAST_TEXT,
                 '&:hover': {
-                    backgroundColor: LIGHT_PRIMARY_DARK
+                    backgroundColor: 'white'
                 }
             }
         }
@@ -116,6 +116,59 @@ const components = {
         }
 
     }
+};
+
+const componentsDark = {
+
+    MuiFormControl: {
+        styleOverrides: {
+            root: {
+                paddingBottom: '1rem',
+                width: '100%'
+            }
+        }
+    },
+
+    MuiButton: {
+        styleOverrides: {
+            root: {
+                borderRadius: '0px',
+                border: 'none',
+                width: '100%',
+                color: DARK_PRIMARY_CONTRAST_TEXT,
+                '&:hover': {
+                    backgroundColor: DARK_SECONDARY_COLOR_MAIN,
+                    color: DARK_PRIMARY_COLOR_MAIN,
+                    transition: TRANSITION
+                }
+            }
+        },
+
+    },
+
+    MuiFab: {
+        styleOverrides: {
+            root: {
+                backgroundColor: DARK_PRIMARY_COLOR_MAIN,
+                color: DARK_PRIMARY_CONTRAST_TEXT,
+                '&:hover': {
+                    backgroundColor: DARK_PRIMARY_COLOR_MAIN
+                }
+            }
+        }
+    },
+
+    MuiTypography: {
+        styleOverrides: {
+            root: {
+                lineHeight: 1.5,
+                letterSpacing: 0.12,
+                color: 'white'
+            }
+        }
+
+    }
+
 };
 
 export const fontRegular = 'TitilliumWeb-Regular';
@@ -152,7 +205,8 @@ export const themeLight = createTheme({
     palette: {
         mode: 'light',
         text: {
-            primary: '#434344'
+            primary: '#434344',
+            secondary: colors.grey[600]
         },
         primary: {
             main: LIGHT_PRIMARY_COLOR_MAIN,
@@ -185,13 +239,14 @@ export const themeDark = createTheme({
             main: DARK_SECONDARY_COLOR_MAIN,
             contrastText: DARK_SECONDARY_CONTRAST_TEXT
         }, background: {
-            default: colors.grey[900],
+            default: 'black',
             paper: colors.grey[900]
         },
     }
     ,
-    components: components,
-    typography: fontFamilies
+    components: componentsDark,
+    typography: fontFamilies,
+    breakpoints: { values: breakpoints }
 });
 
 export const headerSize = { color: 'black', textAlign: 'center', fontFamily: fontBold, backgroundColor: 'white', opacity: '70%', padding: '1.5rem', marginBottom: '2rem' };

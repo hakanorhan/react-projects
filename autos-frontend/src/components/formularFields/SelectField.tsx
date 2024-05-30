@@ -9,9 +9,9 @@ const SelectField: React.FC<{
   handleChange: (event: SelectChangeEvent<string>) => void, label: string, allOption?: boolean
 }> = ({ values, objectName, idOfSelect, selectedValue, handleChange, label, allOption }) => {
 
-  const FIELD_STYLE = { color: 'sexondary.contrastText' };
+  const FIELD_STYLE = { color: 'text' };
 
-  return <Box onClick={(e) => e.stopPropagation()}>
+  return <Box>
     {
       values.length === 0 ? (
         <Tooltip title={`Kein ${label} vorhanden`}>
