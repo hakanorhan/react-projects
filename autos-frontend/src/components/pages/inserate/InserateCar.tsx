@@ -178,7 +178,7 @@ export default function InserateCar() {
         const step = activeStep + 2;
         setActiveStep(step);
         setInserateSuccess(true);
-      } catch(error: any) {
+      } catch (error: any) {
         const message = error.response.data.message;
         notifyError(message, message)
       }
@@ -204,7 +204,7 @@ export default function InserateCar() {
           <Grid container columnSpacing={2} rowSpacing={1}>
             { /* Brand */}
             <Grid item xs={12}> <SelectField values={listBrands} objectName='brand' idOfSelect='brand_id' selectedValue={formSelect.brand} handleChange={handleChangeSelect} label='Marke' /> </Grid>
-            
+
             <Grid item xs={6}> <SelectField values={listModels} objectName='model' idOfSelect='model_id' selectedValue={formSelect.model} handleChange={handleChangeSelect} label='Modell' /> </Grid>
 
             <Grid item xs={6}>  <SelectField values={listCarTypes} objectName='cartype' idOfSelect='cartype_id' selectedValue={formSelect.cartype} handleChange={handleChangeSelect} label='Typ' /> </Grid>
@@ -226,10 +226,10 @@ export default function InserateCar() {
 
             <Grid item xs={12}> <hr /> </Grid>
 
-            <Grid item xs={6}><FormControlLabel  control={<Checkbox checked={refresh ? false : formCheckbox.abstandstempomat} id='abstandstempomat' onChange={handleOnChangeCheckbox} />} label="Abstandstempomat" /></Grid>
-            <Grid item xs={6}><FormControlLabel  control={<Checkbox checked={refresh ? false : formCheckbox.ambientbeleuchtung} id='ambientbeleuchtung' onChange={handleOnChangeCheckbox} />} label="Ambientbeleuchtung" /></Grid>
+            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.abstandstempomat} id='abstandstempomat' onChange={handleOnChangeCheckbox} />} label="Abstandstempomat" /></Grid>
+            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.ambientbeleuchtung} id='ambientbeleuchtung' onChange={handleOnChangeCheckbox} />} label="Ambientbeleuchtung" /></Grid>
             <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.headupdisplay} id='headupdisplay' onChange={handleOnChangeCheckbox} />} label="Head-up Display" /></Grid>
-            <Grid item xs={6}><FormControlLabel  control={<Checkbox checked={refresh ? false : formCheckbox.totwinkelassistent} id='totwinkelassistent' onChange={handleOnChangeCheckbox} />} label="Totwinkelassistent" /></Grid>
+            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.totwinkelassistent} id='totwinkelassistent' onChange={handleOnChangeCheckbox} />} label="Totwinkelassistent" /></Grid>
 
             <Grid item xs={12}>      <ToggleButtonGroup
               color="primary"
@@ -258,12 +258,12 @@ export default function InserateCar() {
         </Box>
 
         <Box sx={{ display: activeStep === 1 ? 'block' : 'none' }}>
-          
-          { activeStep === 1 && !loading
-          ?
-          <DropZone carId={ carId } />
+
+          {activeStep === 1 && !loading
+            ?
+            <DropZone carId={carId} />
             : <></>
-        }
+          }
         </Box>
 
         <Box sx={{ display: activeStep === 3 ? 'block' : 'none' }}>
@@ -272,28 +272,28 @@ export default function InserateCar() {
               <CheckCircleOutlineIcon fontSize='large' sx={{ color: 'primary.main', marginTop: '3rem', transform: 'scale(1.5)' }} />
             </Zoom>
           </HeaderIcon>
-          <Typography variant='h5' component='h3' sx={{ textAlign:'center', marginTop: '7rem', marginBottom:'3rem' }} >Das Inserat wird nach der Prüfung veröffentlicht.</Typography>
+          <Typography variant='h5' component='h3' sx={{ textAlign: 'center', marginTop: '7rem', marginBottom: '3rem' }} >Das Inserat wird nach der Prüfung veröffentlicht.</Typography>
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection:'column', width:'200px', margin:'auto' }}>
-         {/* <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: activeStep === 0 ? 'none' : 'display', marginBottom:'2rem' }}>Zurück</Button> */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '200px', margin: 'auto' }}>
+          {/* <Button variant='contained' disabled={disabledPreviousStep} onClick={handlePreviousStep} sx={{ display: activeStep === 0 ? 'none' : 'display', marginBottom:'2rem' }}>Zurück</Button> */}
 
           {/* save form */}
           <Button variant='contained' sx={{ display: activeStep === 0 ? 'block' : 'none' }} disabled={false} type='submit' onClick={handleNextStep}>Weiter</Button>
-          
+
           {/* upload Image */}
-          <Button onClick={ handleLastStep }  sx={{ display:  activeStep === 1 ? 'block' : 'none' }} variant='contained'>Abschliessen</Button>
-          
-          
+          <Button onClick={handleLastStep} sx={{ display: activeStep === 1 ? 'block' : 'none' }} variant='contained'>Abschliessen</Button>
+
+
           <Grid container spacing={4}>
-            <Grid item xs= {12}>
-              <Button variant='contained' fullWidth onClick={() => { navigate(0); }} sx={{ width:'200px', marginTop: '3rem', display: inserateSuccess ? 'display' : 'none' }}>Inserieren</Button>
+            <Grid item xs={12}>
+              <Button variant='contained' fullWidth onClick={() => { navigate(0); }} sx={{ width: '200px', marginTop: '3rem', display: inserateSuccess ? 'display' : 'none' }}>Inserieren</Button>
             </Grid>
-            <Grid item xs= {12}>
-              <Button variant='contained' fullWidth onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width:'200px', marginTop: COMPONENT_DISTANCE, display: inserateSuccess ? 'display' : 'none' }}>Suchen</Button>
+            <Grid item xs={12}>
+              <Button variant='contained' fullWidth onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width: '200px', marginTop: COMPONENT_DISTANCE, display: inserateSuccess ? 'display' : 'none' }}>Suchen</Button>
             </Grid>
           </Grid>
-      
+
         </Box>
       </form>
 

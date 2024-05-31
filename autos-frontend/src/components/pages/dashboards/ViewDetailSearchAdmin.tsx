@@ -2,7 +2,7 @@ import React from 'react'
 import { URLs } from '../../../enums/URLs';
 import axios from 'axios';
 import { AxiosDataPublish } from '../../../interfaces/IAxiosData';
-import { CarImagesProps } from './admin/components/CarImages';
+import { CarImagesProps } from '../search/CarImages';
 import { Button, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Publish } from '@mui/icons-material';

@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../enums/URLs';
 import axios from 'axios';
-import CarImages from './../dashboards/admin/components/CarImages';
+import CarImages from './CarImages';
 import { ShowFastPaper } from './../search/searchComponents/ShowFastPaper';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';

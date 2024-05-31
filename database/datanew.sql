@@ -179,6 +179,7 @@ CREATE TABLE imagename(
     image_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     imagename VARCHAR(255) NOT NULL,
     inserate_id INT NOT NULL,
+    UNIQUE (imagename, inserate_id),
     FOREIGN KEY (inserate_id) REFERENCES inserate(inserate_id)
 );
 

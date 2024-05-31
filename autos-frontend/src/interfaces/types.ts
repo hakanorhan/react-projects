@@ -87,11 +87,13 @@ export interface AxiosDetailsearch {
     federalState: string,
     companyName: string,
     impressum: string,
-    foreName: string,
-    sureName: string,
+    foreName: string | null,
+    sureName: string | null,
     telNr: string,
     streetNr: string | null,
-    since: string
+    since: string,
+    contactPerson: string | null,
+    contactPersonSurname: string | null
   }
 
 // -------- AxiosDataPacketStaticSearch -------

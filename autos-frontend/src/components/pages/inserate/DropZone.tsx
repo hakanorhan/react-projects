@@ -30,7 +30,7 @@ const blink = keyframes`
   }
 `;
 
-const MAX_FILES = (20);
+const MAX_FILES = (6);
 
 const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
 
@@ -39,18 +39,7 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
 
-        // TODO: if maxsize then message
-        if (acceptedFiles?.length) {
-            setFiles((previousFiles) => [
-                ...previousFiles,
-                ...acceptedFiles.map((file) =>
-                    Object.assign(file, { preview: URL.createObjectURL(file) })
-                ),
-            ]);
-
-            uploadImage(acceptedFiles);
-
-        }
+        uploadImage(acceptedFiles);
 
     }, []);
 
@@ -66,8 +55,9 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
 
     const uploadImage = async (acceptedFiles: File[]) => {
 
-        if (!acceptedFiles.length) { return alert("Fehler") }
-
+        if (files.length + acceptedFiles.length > MAX_FILES) return notifyError("maxSize error", "Sie dürfen maximal " + MAX_FILES + " Bilder hochladen");
+        if (!acceptedFiles.length) { return notifyError("image", "Sie haben kein Bild ausgewählt") }
+        
         if (carId)
             try {
                 const formData = new FormData();
@@ -89,11 +79,24 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
                 notifySuccess(message, message);
 
 
+                // setFiles
+                if (acceptedFiles?.length) {
+                    setFiles((previousFiles) => [
+                        ...previousFiles,
+                        ...acceptedFiles.map((file) =>
+                            Object.assign(file, { preview: URL.createObjectURL(file) })
+                        ),
+                    ]);
+
+                }
+
             } catch (error: any) {
                 const message = error.response.data.message;
                 notifyError(message, message);
+
             }
     }
+
     const removeFile = (imagename: string) => {
 
         const inserateid = carId;
@@ -120,13 +123,11 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
                     {...getRootProps()}
                     sx={{
                         marginTop: '20px',
-                        color: 'primary.main',
                         border: '2px dashed',
-                        borderRadius: '20px',
                         padding: '20px',
                         height: '300px',
                         textAlign: 'center',
-                        background: isDragActive ? '#e0f7fa' : 'whitesmoke',
+                        background: isDragActive ? 'secondary.main' : 'background.default',
                         width: { xs: '100%' },
                     }}
                 >
@@ -153,16 +154,16 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
 
 
                 <Box>
-                    <Grid container columnSpacing={0.5} sx={{ margin: 'auto', width: '100%', paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
+                    <Grid container columnGap ={0.5} sx={{ width: '100%', paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
                         {files.map((file) => (
-                            <Grid item xs={12} lg={4} key={file.name} sx={{ position: 'relative' }}>
+                            <Grid item xs={12} lg={3.95} key={file.name} sx={{ position: 'relative' }}>
                                 <img
                                     src={file.preview}
                                     alt={file.name}
                                     style={{ width: '100%', aspectRatio: 1.78, objectFit: 'cover' }}
                                 />
                                 <Tooltip title="Bild entfernen">
-                                    <Button onClick={() => removeFile(file.name)} sx={{ position: 'absolute', zIndex: 10, left: '45%', borderRadius: '50%', width: '60px', top: '42%', height: '60px', backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'primary.dark' } }}><DeleteOutlineIcon /></Button>
+                                    <Button onClick={() => removeFile(file.name)} sx={{ position: 'absolute', zIndex: 10, left: '45%', borderRadius: '50%', width: '60px', top: '30%', height: '60px', backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'primary.dark' } }}><DeleteOutlineIcon /></Button>
 
                                 </Tooltip>
                             </Grid>

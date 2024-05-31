@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response } from "express";
 import cors from "cors";
 import signin from "./routes/signin.js";
 import signupUser from "./routes/signupUser.js";
@@ -38,6 +38,7 @@ import fetchImageName from "./routes/fetchImageName.js";
 import inserateFinish from "./routes/inserateFinish.js";
 import sharp from "sharp";
 import { fetchClickedCars } from "./routes/fetchClickedCars.js";
+import { connectToDatabase } from "./dbConnect1.js";
 const MySQLStore = require('express-mysql-session')(session);
 
 const __filename = fileURLToPath(import.meta.url);
@@ -153,8 +154,15 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
     return res.status(400).json({ message: 'Keine Bilder gesendet.' });
   }
 
-  async function processSharp(){
+  async function processUpload(){
+
+    const insertInto: string = "INSERT INTO imagename(imagename, inserate_id) VALUES(?, ?)"
+
+    let connection = await connectToDatabase();
+
     try {
+      connection.beginTransaction();
+
       const processedFiles = await Promise.all(files.map(async (file) => {
         const imageName = 'resized_' + file.filename;
         const outputFilePath = path.join(file.destination, imageName);
@@ -167,21 +175,27 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
   
         // Log the resized image filename
         console.log("ImageName: " + file.filename);
-        const imageNameInDatabase = insertImageName(imageName, insertId)
+        
+        await connection.execute(insertInto, [imageName, insertId]);
         fs.unlinkSync(file.path);
         return outputFilePath;
       }));
-  
+
+      connection.commit();
+      connection.end();
+      
       res.status(200).json({
-        message: 'Bilder erfolgreich geladen.',
+        message: fileURLToPath.length > 1 ? "Bilder" : "Bild" + ' erfolgreich hochgeladen.',
         files: processedFiles
       });
     } catch (error) {
+      connection.rollback();
+      connection.end();
       res.status(500).json( { message: 'Biite versuchen Sie es erneut.'} );
     }
   };
 
-  processSharp();
+  processUpload();
   
   //res.status(200).send('Files uploaded successfully.');
 });
@@ -193,21 +207,46 @@ app.get('/uploads/:id/:imageName', (req, res) => {
   res.sendFile(imageName, { root: `./uploads/${id}` });
 }); 
 
+async function deleteImageDBAndFile(inserateId: string, imageName: string, res: Response) {
+  
+  const deleteQuery: string = "DELETE FROM imagename WHERE inserate_id = ? AND imagename = ?";
+  const filePath = path.join(__dirname, `../uploads/${inserateId}`, imageName);
+  let message = 'Erfolgreich gelöscht';
+  let status: number = 200;
+  const connection = await connectToDatabase();
+  try {
+    // delete from database
+    await connection.execute(deleteQuery, [inserateId, imageName]);
+
+    // delete from folder
+    fs.unlink(filePath, (error) => {
+    if(error) {
+      
+      console.log(error);
+      message = 'Fehler beim Löschen.';
+      status = 500;
+      throw error;
+    }
+  })
+  connection.commit();
+
+  } catch(error: any) {
+    connection.rollback();
+    message = 'Fehler beim Löschen.';
+    status = 500;
+  } finally {
+    connection.end();
+    return res.status(status).json({ message });
+  } 
+}
+
 // delete image
 app.delete(URLs.DELETE_IMAGE+"/:inserateid/:imagename", authMiddelware, (req, res) => {
   const inserateId = req.params.inserateid;
   const imageName = 'resized_' + req.params.imagename;
   console.log(inserateId + " " + imageName);
-  const filePath = path.join(__dirname, `../uploads/${inserateId}`, imageName);
-
-  fs.unlink(filePath, (error) => {
-    if(error) {
-      console.log(error);
-      return res.status(500).json({ message: 'Fehler beim Löschen.' })}
-
-    res.status(200).json({ message: 'Bild erfolgreich gelöscht' })
-  })
-
+  
+  deleteImageDBAndFile(inserateId, imageName, res);
 })
 
 

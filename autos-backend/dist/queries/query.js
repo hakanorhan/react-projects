@@ -51,12 +51,12 @@ export const insertImageName = async (imageName, carId) => {
         return false;
     }
 };
-export const deleteImages = async (inserateId) => {
-    const deleteQuery = "DELETE FROM imagename WHERE inserate_id = ?";
+export const deleteImages = async (inserateId, imageName) => {
+    const deleteQuery = "DELETE FROM imagename WHERE inserate_id = ? AND imagename = ?";
     let connection;
     try {
         connection = await connectToDatabase();
-        await connection.execute(deleteQuery, [inserateId]);
+        await connection.execute(deleteQuery, [inserateId, imageName]);
         connection.end();
     }
     catch (error) {

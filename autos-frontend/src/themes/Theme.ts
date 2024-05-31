@@ -316,12 +316,8 @@ export const DivSearchInserate = styled('div')(({ theme }) => ({
         width: '95%',
 
     },
-    [theme.breakpoints.up("sm")]: {
-        width: '560px',
-
-    },
     [theme.breakpoints.up("md")]: {
-        width: '850px'
+        width: '750px'
     }
 
 }));
