@@ -6,8 +6,8 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { COMPONENT_DISTANCE, GreyHorizontalHR, fontBold } from '../../../../themes/Theme';
-import ShareIcon from '@mui/icons-material/Share';
 import { ListTDescriptionComponent } from './ListTDescriptionComponent';
+import ShareComponent from '../../ShareComponent';
 
 export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = ({ detailSearchValues }) => {
 
@@ -20,35 +20,21 @@ export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = (
     return (
         <>
             <CardContent>
-                <Typography sx={{ fontFamily: fontBold }} variant='h6' component='h1'>{detailSearchValues.brand} {detailSearchValues.model}</Typography>
-                
-
-                
-                    {/*<TDescriptionComponent detailSearchValues={axiosPaper} /> */}
-                   
-                    <ListTDescriptionComponent detailSearchValues={axiosPaper} />
-                    <Grid container >
-                    <Grid item xs={5.5}>
-                <Box sx={{ paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
-                  <Typography variant='h6' component='h2' sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
-                  <Typography variant='body2' component='p' sx={{ display: 'flex', justifyContent: 'center' }}>{"Preis"}</Typography>
-                </Box>
-              </Grid>
-
-              <Grid item xs={5.5}>
-                <Box sx={{ paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
-                <Button sx={{ backgroundColor: 'secondary.main', color: 'primary.main'  }} variant='contained' endIcon={<CalculateIcon />}>Finanzieren</Button>
-                  <Typography variant='h6' component='h2' sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(550)} {" €"}</Typography>
+                <Box display={'flex'} width={'100%'}>
+                <Typography sx={{ fontFamily: fontBold, width:'50%' }} variant='h6' component='h1'>{detailSearchValues.brand} {detailSearchValues.model}</Typography>
+                <Typography variant='h6' component='h2' sx={{ alignContent:'end', fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
                   
                 </Box>
-              </Grid>
+                    <ListTDescriptionComponent detailSearchValues={axiosPaper} />
+                    <Grid container >
+
                      <Grid item xs={12}>
                     <GreyHorizontalHR />
                     </Grid>
 
                     <Grid container sx={{ marginTop: COMPONENT_DISTANCE }}>
                         <Grid item xs={6}> <Box sx={{ display: 'flex' }}><FavoriteBorderIcon /></Box> </Grid>
-                        <Grid item xs={6}> <Box sx={{ display: 'flex', justifyContent: 'end' }}> <ShareIcon /> </Box></Grid>
+                        <Grid item xs={6}> <Box sx={{ display: 'flex', justifyContent: 'end' }}> <Box onClick={(e) => { e.stopPropagation() }}><ShareComponent showText={true} /> </Box></Box></Grid>
                     </Grid>
                 </Grid>
             </CardContent>

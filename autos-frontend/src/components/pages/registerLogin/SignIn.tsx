@@ -93,10 +93,10 @@ const SignIn: React.FC = () => {
           <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Sign in</Button>
           <div style={{ display: 'flex', marginBottom: '4rem' }}>
             <Box style={{ width: '40%', color: 'primary.main' }}>
-              <Typography sx={{ color: 'primary.main' }} variant='body1' component='p'>Forgot Password</Typography>
+              <Typography sx={{ color: 'primary.main' }} variant='body1' component='p'>Passwort vergessen</Typography>
             </Box>
             <div style={{ width: '60%', display: 'flex', justifyContent: 'flex-end' }}>
-              <Link to={URLs.POST_SIGINUP} style={{ textDecoration: 'none' }}><Typography variant='body1' component='p' sx={{ color: 'primary.main' }}>Don't have an account? Sign Up</Typography> </Link>
+              <Link to={URLs.POST_SIGINUP} style={{ textDecoration: 'none' }}><Typography variant='body1' component='p' sx={{ color: 'primary.main' }}>Haben Sie kein Konto? Registrieren</Typography> </Link>
             </div>
           </div>
         </form>

@@ -212,15 +212,15 @@ const SignUpUser: React.FC = () => {
   const SubmitComponent = () => {
     return <>
       <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Registrieren</Button>
-      <div style={{ display: 'flex', paddingBottom: '4rem' }}>
-        <div style={{ width: '40%' }}><Typography variant='body1' component='p' sx={{ color: 'primary.main' }}>Passwort vergessen</Typography></div>
-        <Box sx={{ display: 'flex', width: '60%', justifyContent: 'end' }}><Link to="/signin" style={{ textDecoration: 'none' }}><Typography sx={{ color: 'primary.main' }}>Bereits registriert? Login</Typography></Link></Box>
-      </div>
     </>
   }
 
   const ForwardComponent = () => {
-    return <Button fullWidth onClick={() => { activeStepHandler() }} type='button' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Weiter</Button>
+    return <> <Button fullWidth onClick={() => { activeStepHandler() }} type='button' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Weiter</Button>
+              <div style={{ display: 'flex', paddingBottom: '4rem' }}>
+        <Box sx={{ display: 'flex', width: '100%', justifyContent: 'end' }}><Link to="/signin" style={{ textDecoration: 'none' }}><Typography sx={{ color: 'primary.main' }}>Bereits registriert? Login</Typography></Link></Box>
+      </div>
+      </>
   }
 
   return (<>

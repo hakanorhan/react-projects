@@ -2,9 +2,12 @@ import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { DisplayTypes } from '../enums/DisplayTypes.js';
 export async function fetchClickedCars(req, res) {
-    const limit = req.body.limit;
-    const offset = req.body.offset;
+    const limit = parseInt(req.body.limit);
+    const offset = parseInt(req.body.offset);
     const type = req.body.type;
+    if (isNaN(limit) || isNaN(offset)) {
+        return selectMysqlErrorMessages("ER_PARSE_ERROR", res);
+    }
     console.log("limit: " + limit + 'offset: ' + offset);
     const whereClause = [" i.inserate_id = ic.inserate_id AND i.entwurf = 0 AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id AND td.fuel_id = f.fuel_id AND td.vehicle_condition_id = vc.vehicle_condition_id AND td.transmission_id = t.transmission_id AND td.cartype_id = ct.cartype_id "];
     const attributes = " i.inserate_id, b.brand, m.model, i.price, ad.city, fs.federal_state, td.vehicle_owners, td.mileage_km, td.registration_year, td.registration_month, td.power_ps, f.fuel, vc.fit_to_drive, t.transmission, ct.cartype, u.is_car_dealer ";
@@ -20,18 +23,17 @@ export async function fetchClickedCars(req, res) {
     whereClause.map((clause) => {
         query = query + clause;
     });
-    query = query + (type === DisplayTypes.MOST_CLICKED ? " ORDER BY i.clicks DESC, i.price DESC, td.registration_year DESC" : "");
-    console.log(query);
+    query = query + (type === DisplayTypes.MOST_CLICKED ? " ORDER BY i.clicks DESC, i.price DESC, td.registration_year DESC" : " ");
+    query = query + " LIMIT ? OFFSET ?";
     let connection;
     try {
         connection = await connectToDatabase();
-        const queryResult = await connection.execute(query, [limit, offset]);
+        const queryResult = await connection.query(query, [limit, offset]);
         const result = queryResult;
         const cars = result[0];
         const axiosPapers = [];
         cars.map((axiosData) => {
             const { is_car_dealer, price, city, federal_state, brand, model, inserate_id, cartype, transmission, mileage_km, registration_year, registration_month, power_ps, fuel, accident, vehicle_owners } = axiosData;
-            console.log(vehicle_owners);
             const axiosPaperList = {
                 isCarDealer: is_car_dealer, price, city, federalState: federal_state, brand, model, transmission, cartype, fuel, accident,
                 inseratId: inserate_id, mileageKm: mileage_km, registrationMonth: registration_month, registrationYear: registration_year, psPower: power_ps, vehicleOwners: vehicle_owners

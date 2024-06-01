@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/protectedRoutes/ProtectedRoute';
 import { Roles } from '../../autos-backend/src/enums/Roles';
 import InsertBrand from './components/pages/dashboards/admin/components/InsertBrand';
-import { URLs } from '../../autos-backend/src/enums/URLs';
+import { URLs } from './enums/URLs';
 import InsertModel from './components/pages/dashboards/admin/components/InsertModel';
 import PublishInserate from './components/pages/dashboards/admin/components/PublishInserate';
 
@@ -25,6 +25,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Notfound from './components/pages/Notfound';
 import ListSearchedCars from './components/pages/search/ListSearchedCars';
 import ViewDetailSearch from './components/pages/search/viewDetail/ViewDetailSearch';
+import AccessDenied from './components/protectedRoutes/AccessDenied';
 
 const App: React.FC = () => {
 
@@ -42,6 +43,7 @@ const App: React.FC = () => {
       element: <AppLayout />,
       children: [
         { path: URLs.POST_SIGINUP, element: <SignUpUser />, errorElement: <Notfound /> },
+        { path: URLs.ACCESS_DENIED, element: <AccessDenied />, errorElement: <Notfound /> },
         { path: URLs.POST_SIGNIN, element: <SignIn />, errorElement: <Notfound /> },
         { path: URLs.POST_INSERATE_CAR, element: <ProtectedRoute role={Roles.USER}><InserateCar /></ProtectedRoute>, errorElement: <Notfound /> },
         { path: URLs.FETCH_INSERATE_PUBLISH, element: <ProtectedRoute role={Roles.ADMIN}> <PublishInserate /> </ProtectedRoute> },

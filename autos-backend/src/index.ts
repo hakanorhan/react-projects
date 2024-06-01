@@ -28,7 +28,7 @@ import { fileURLToPath } from 'url';
 // passport.js
 //import sessionMiddleware from "./routes/middleware/session.middleware.js";
 import passport, { authMiddelware } from "./routes/middleware/passport.middleware.js";
-import authenticationUser from "./routes/authenticationUser.js";
+import authenticationUser from "./routes/middleware/authenticationUser.js";
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);

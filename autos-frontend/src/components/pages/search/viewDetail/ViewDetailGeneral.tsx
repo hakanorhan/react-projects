@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Grid, Rating, Typography, colors } from '@mui/material';
+import { Box, Button, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, Rating, Typography, colors } from '@mui/material';
 import {
   Boxprint,
   COMPONENT_DISTANCE, GreyHorizontalHR, GreyHorizontalTechBoldHR, ICON_FONT_SIZE, LINE_HEIGHT,
-  fontBold, fontLight, fontRegular, paperViewDetailSearchTextArea, SX_ICON, paperViewDetailSearch
+  fontBold, fontLight, fontRegular, paperViewDetailSearchTextArea, SX_ICON
 } from '../../../../themes/Theme';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import Check from '@mui/icons-material/Check';
@@ -14,7 +14,6 @@ import { TDescriptionComponent } from '../searchComponents/TDescriptionComponent
 import TextFieldArea from '../../../formularFields/TextFieldArea';
 import EmailIcon from '@mui/icons-material/Email';
 import CallIcon from '@mui/icons-material/Call';
-import ShareIcon from '@mui/icons-material/Share';
 import PrintIcon from '@mui/icons-material/Print';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -22,7 +21,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import StoreIcon from '@mui/icons-material/Store';
 import InfoIcon from '@mui/icons-material/Info';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -34,7 +32,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../redux/store';
 import { fetchDetailSearch } from '../../../../redux/features/search/detailSearch';
 import GroupIcon from '@mui/icons-material/Group';
-
+import ShareComponent from '../../ShareComponent';
 const gridItemXS = 4;
 const gridItemSM = 4;
 const gridItemMD = 4;
@@ -54,7 +52,6 @@ interface GridComponentProps {
 
 const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
 
-  //const [detailSearchValues, setDetailSearchValues] = useState<AxiosDetailsearch | null>(null);
   const [open, setOpen] = React.useState(false);
 
   const detailSearchValues = useSelector((state: RootState) => state.detailSearch.detailState);
@@ -187,13 +184,13 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
               <Boxprint>
                 <Grid container>
                   <Grid sx={{ display: 'flex' }} item xs={4}>
-                    <ShareIcon sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color:'text.primary' }} /> <Typography sx={{ fontFamily: fontBold }} variant='body1' component='p'>{"Teilen"}</Typography>
+                    <ShareComponent />
                   </Grid>
                   <Grid sx={{ display: 'flex', justifyContent: 'center' }} item xs={4}>
-                    <FavoriteBorderIcon sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color:'text.primary' }} /> <Typography sx={{ fontFamily: fontBold }} variant='body1' component='p'>{"Merken"}</Typography>
+                    <FavoriteBorderIcon sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Merken"}</Typography>
                   </Grid>
                   <Grid onClick={() => { window.print() }} item sx={{ cursor: 'pointer', justifyContent: 'end', display: 'flex' }} xs={4}>
-                    <PrintIcon sx={{ marginRight: COMPONENT_DISTANCE, color:'text.primary' }} /> <Typography sx={{ fontFamily: fontBold }} variant='body1' component='p'>{"Drucken"}</Typography>
+                    <PrintIcon sx={{ marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Drucken"}</Typography>
                   </Grid>
                 </Grid>
               </Boxprint>
@@ -225,12 +222,12 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
                 </Grid>
                 <Grid item xs={gridItemXS} sm={gridItemSM} md={gridItemMD} lg={4}>
                   <Box display='flex' justifyContent='left' >
-                    {detailSearchValues.isCardealer ? <GridComponent icon={<StoreIcon sx={ SX_ICON } />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={ SX_ICON } />} value={"Privat"} />}
+                    {detailSearchValues.isCardealer ? <GridComponent icon={<StoreIcon sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={SX_ICON} />} value={"Privat"} />}
                   </Box>
                 </Grid>
                 <Grid item xs={detailSearchValues.city.length > 13 ? 12 : gridItemXS} sm={detailSearchValues.city.length > 13 ? 12 : gridItemSM} md={detailSearchValues.city.length > 13 ? 12 : gridItemSM} lg={12}>
                   <Box display='flex' justifyContent='left' >
-                    <Grid item><Box sx={{ display: 'flex', marginBottom: LINE_HEIGHT }}> <LocationOnIcon sx={ SX_ICON } />  <Typography sx={{ fontFamily: fontRegular, marginLeft: '.5rem', whiteSpace: 'nowrap' }} variant='body1' component='p'>{detailSearchValues.city}</Typography></Box></Grid>
+                    <Grid item><Box sx={{ display: 'flex', marginBottom: LINE_HEIGHT }}> <LocationOnIcon sx={SX_ICON} />  <Typography sx={{ fontFamily: fontRegular, marginLeft: '.5rem', whiteSpace: 'nowrap' }} variant='body1' component='p'>{detailSearchValues.city}</Typography></Box></Grid>
                   </Box>
                 </Grid>
 
@@ -302,7 +299,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
               <Typography sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>Anbieter:in seit  {detailSearchValues.since}</Typography>
 
               <Box width='100%'>
-                {detailSearchValues.isCardealer ? <GridComponent icon={<StoreIcon sx={ SX_ICON } />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={ SX_ICON } />} value={"Privat"} />}
+                {detailSearchValues.isCardealer ? <GridComponent icon={<StoreIcon sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={SX_ICON} />} value={"Privat"} />}
 
                 {
                   detailSearchValues.isCardealer
@@ -316,7 +313,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
                 <Typography sx={{ fontFamily: fontLight }}>45 Bewertungen</Typography>
 
                 <Box sx={{ display: 'flex', marginTop: COMPONENT_DISTANCE }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><AccessTimeIcon sx={ SX_ICON }/></Box>
+                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><AccessTimeIcon sx={SX_ICON} /></Box>
                   <Box>
                     <Typography>{"Geöffnet"}</Typography>
                     <Typography>{"Beispiel. Schließt um 19:00 Uhr"}</Typography>
@@ -324,25 +321,25 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
                 </Box>
 
                 <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><GroupIcon sx={ SX_ICON } /></Box>
+                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><GroupIcon sx={SX_ICON} /></Box>
                   <Box>
                     <Typography>{"Ansprechpatner:in"}</Typography>
-                    <Typography>{detailSearchValues.foreName} {detailSearchValues.sureName }</Typography>
+                    <Typography>{detailSearchValues.foreName} {detailSearchValues.sureName}</Typography>
                     <Typography>{detailSearchValues.telNr}</Typography>
                   </Box>
                 </Box>
 
-                <Box sx={{ display: 'flex', marginTop: COMPONENT_DISTANCE }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><LocationOnIcon sx={ SX_ICON } /></Box>
+                <Box sx={{ display: 'flex', marginTop: COMPONENT_DISTANCE, paddingBottom: detailSearchValues.isCardealer ? 0 : "2rem" }}>
+                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><LocationOnIcon sx={SX_ICON} /></Box>
                   <Box>
                     <Typography>{detailSearchValues.streetNr}</Typography>
-                    <Typography>{ detailSearchValues.zipcode } {detailSearchValues.city}</Typography>
+                    <Typography>{detailSearchValues.zipcode} {detailSearchValues.city}</Typography>
                     <Typography>{detailSearchValues.federalState}</Typography>
                   </Box>
                 </Box>
 
-                <Box sx={{ display: 'flex', marginTop: COMPONENT_DISTANCE, paddingBottom: "2rem" }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><InfoIcon sx={ SX_ICON } /></Box>
+                <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE, paddingBottom: "2rem" }}>
+                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><InfoIcon sx={SX_ICON} /></Box>
                   <Box>
                     <Typography>{detailSearchValues.impressum}</Typography>
                   </Box>

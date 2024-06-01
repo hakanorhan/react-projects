@@ -11,6 +11,8 @@ const breakpoints = {
     xxl: 1400
 };
 
+export const BREAKPOINT_MIN_LG = 1101;
+
 export const textFieldSMWitdh = '560px';
 
 const searchContainerXSWidth = '95%';
@@ -27,7 +29,7 @@ export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 //const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
 export const LIGHT_SECONDARY_COLOR_MAIN = "#ebe8fc";
-const LIGHT_BACKGROUND_DEFAULT = colors.grey[100];
+const LIGHT_BACKGROUND_DEFAULT = 'white';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = '#FFFFFF';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.cyan[600];
@@ -55,7 +57,7 @@ export const paperFontSize = { xs: '1.1rem', sm: '1.3rem', md: '1rem', lg: '1.2r
 export const ICON_FONT_SIZE = '1.4rem';
 
 export const TRANSITION = '1S';
-export const ZOOM_HOVER = {transition: TRANSITION, '&:hover': { transform: 'scale(1.03)'}, cursor: 'pointer', height: '100%' };
+export const ZOOM_HOVER = {transition: TRANSITION, '&:hover': { transform: 'scale(1.01)'}, cursor: 'pointer', height: '100%' };
 
 export const SX_ICON = { fontSize: ICON_FONT_SIZE, color:'text.primary' };
 
@@ -64,7 +66,7 @@ const components = {
     MuiPaper: {
         styleOverrides: {
             root: {
-                backgroundColor: '#ffffff',
+                backgroundColor: 'whitesmoke',
                 '&:hover': {
 
                 }

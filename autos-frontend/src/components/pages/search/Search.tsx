@@ -1,10 +1,14 @@
 import * as React from 'react'
 import { Box, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
-import { COMPONENT_DISTANCE, SearchContainer, buttonHeight, fontSemiBold, headerSize } from '../../../themes/Theme';
-
+import { 
+  COMPONENT_DISTANCE,
+  SearchContainer,
+  buttonHeight,
+  fontSemiBold,
+  headerSize 
+} from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -17,8 +21,9 @@ import { AxiosSearch } from '../../../interfaces/IAxiosData';
 import { SelectFieldEnums } from '../../../enums/SelectFieldEnums';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
-import SearchedCars from './SearchedCars';
+import ClickedCars from './ClickedCars';
 import { DisplayTypes } from '../../../enums/DisplayTypes';
+import { notifyError } from '../../../helper/toastHelper';
 
 const searchButtonText = " Treffer";
 
@@ -30,7 +35,6 @@ const Search: React.FC = () => {
 
   const navigate = useNavigate();
 
-
   const Number: React.FC<NumberProps> = ({ n }) => {
     const { number } = useSpring({
       from: { number: 0 },
@@ -40,9 +44,9 @@ const Search: React.FC = () => {
     });
     return <animated.div>{number.to(n => n.toFixed(0))}</animated.div>
   }
-  
+
   // available cars 
-  const [countCars, setCountCars] = React.useState<number>();
+  const [countCars, setCountCars] = React.useState<number>(0);
 
   const initalValue: AxiosSearch = {
     yearFrom: 0,
@@ -57,7 +61,6 @@ const Search: React.FC = () => {
   const isXS = useMediaQuery('(max-width:570px)');
   const isSM = useMediaQuery('(max-width:768px)');
   const isMD = useMediaQuery('(max-width:1100px)');
-
 
   const [formSelect, setFormSelect] = React.useState<AxiosSearch>(initalValue);
 
@@ -75,14 +78,11 @@ const Search: React.FC = () => {
   const [selectedDateTo, setSelectedDateTo] = React.useState(selectedDateFrom);
   const maxDate = dayjs();
 
-  // Fetch static data for select fields
-  //useEffectFetch(URLs.FETCH_BRAND, setListBrands);
-
   // Fetch static data
   React.useEffect(() => {
 
     async function fetchData() {
-      
+
       try {
         const response = await axios.get(URLs.ORIGIN_SERVER + URLs.SEARCH_DATAS, { withCredentials: true })
         if (response.data) {
@@ -99,30 +99,29 @@ const Search: React.FC = () => {
     }
 
     fetchData();
-    return () => {}
+    return () => { }
   }, [])
 
   React.useEffect(() => {
     const selectedBrand = formSelect.brand;
-    const fetchData = async() => {
-      await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand } , { withCredentials: true })
-            
-      .then(response => { 
-        console.log(response.data.tableValues);
-  
-              //toast.success(response.data.message);
-            setListModel(response.data.tableValues);
-             })
-             .catch(error => console.log(error))
+    const fetchData = async () => {
+      await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand }, { withCredentials: true })
+
+        .then(response => {
+          console.log(response.data.tableValues);
+
+          setListModel(response.data.tableValues);
+        })
+        .catch(error => console.log(error))
     }
-    if(selectedBrand) fetchData();
-    return () => {}
-    }, [formSelect.brand])
+    if (selectedBrand) fetchData();
+    return () => { }
+  }, [formSelect.brand])
 
   // fetch data on every select field changes, count cars
   React.useEffect(() => {
     handleDynamicSearch();
-    return () => {}
+    return () => { }
   }, [formSelect, selectedDateFrom, selectedDateTo])
 
   // dynamic search
@@ -149,7 +148,6 @@ const Search: React.FC = () => {
     }
   }
 
-
   const handleChangeSelect = (event: SelectChangeEvent<string>) => {
     setFormSelect(prevState => ({
       ...prevState,
@@ -168,7 +166,7 @@ const Search: React.FC = () => {
   const YearFromComponent: React.FC = () => {
     return <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker slotProps={{ textField: { variant: 'standard', } }} label={'Baujahr von'} value={selectedDateFrom} views={['year']} minDate={minDateConst} maxDate={maxDateConst} onChange={(newDate) => { setSelectedDateFrom(newDate), setSelectedDateTo(newDate) }} />
-    
+
     </LocalizationProvider>
   }
 
@@ -178,14 +176,33 @@ const Search: React.FC = () => {
     </LocalizationProvider>
   }
 
+  const navigateToListSearch = () => {
+
+    const brandid = formSelect.brand;
+                  const modelid = formSelect.model;
+                  const price = formSelect.price;
+                  const cartypeid = formSelect.cartype;
+                  const dateFrom = selectedDateFrom === undefined || selectedDateFrom === null ? SelectFieldEnums.ALL_VALUE : selectedDateFrom.year().toString();
+                  const dateTo = selectedDateTo === undefined || selectedDateTo === null ? SelectFieldEnums.ALL_VALUE : selectedDateTo.year().toString();
+                  const blandid = formSelect.federal_state;
+
+                  navigate({
+                    pathname: URLs.FETCH_LIST_CARS,
+                    search: createSearchParams({
+                      brandid, modelid, cartypeid, price, blandid, dateFrom, dateTo
+                    }).toString()
+                  });
+
+  }
+
   return (
     <Box>
-    <Box sx={{ backgroundImage:'url("pexels-shkrabaanthony-7144243.jpg")', backgroundSize:'cover', backgroundPosition:'center', paddingTop:'4rem', paddingBottom:'4rem'}}>
-        
-        <Typography variant={ isXS ? 'h3' : isSM ? 'h5' : isMD ? 'h4' : 'h2'} component='h1' sx={ headerSize}>Neues Auto.</Typography>
-        <SearchContainer onClick={(e) => e.stopPropagation()} sx={{ padding:'1.5rem', cursor:'default', backgroundColor:'background.default' }}>
-        
-          <Grid container sx={{  }} justifyContent="center" columnSpacing={1}>
+      <Box sx={{ backgroundImage: 'url("pexels-shkrabaanthony-7144243.jpg")', backgroundSize: 'cover', backgroundPosition: 'center', paddingTop: '4rem', paddingBottom: '4rem' }}>
+
+        <Typography variant={isXS ? 'h3' : isSM ? 'h5' : isMD ? 'h4' : 'h2'} component='h1' sx={headerSize}>Neues Auto.</Typography>
+        <SearchContainer onClick={(e) => e.stopPropagation()} sx={{ padding: '1.5rem', cursor: 'default', backgroundColor: 'background.default' }}>
+
+          <Grid container sx={{}} justifyContent="center" columnSpacing={1}>
             <Grid item xs={6} md={4}>
               {/* Brand */}
               <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brand_id' handleChange={handleChangeSelect} label='Marke' allOption={true} />
@@ -221,38 +238,30 @@ const Search: React.FC = () => {
 
             <Grid item xs={6} md={8}>
               <Button
-                onClick={() => {
-                  const brandid = formSelect.brand;
-                  const modelid = formSelect.model;
-                  const price = formSelect.price;
-                  const cartypeid = formSelect.cartype;
-                  const dateFrom = selectedDateFrom === undefined || selectedDateFrom === null ? SelectFieldEnums.ALL_VALUE : selectedDateFrom.year().toString();
-                  const dateTo = selectedDateTo  === undefined || selectedDateTo === null ? SelectFieldEnums.ALL_VALUE : selectedDateTo.year().toString();
-                  const blandid = formSelect.federal_state;
-
-                  navigate({
-                    pathname: URLs.FETCH_LIST_CARS,
-                    search: createSearchParams({
-                      brandid, modelid, cartypeid, price,  blandid, dateFrom, dateTo
-                    }).toString()
-                  });
+                onClick={() => { 
+                  if(countCars > 0)
+                    navigateToListSearch();
+                  else
+                    notifyError("no cars", "Zurzeit keine Inserate");
                 }}
-                sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained"><SearchIcon />  <Number n={countCars} /> {` ${searchButtonText}`}</Button>
+                sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained" startIcon={<SearchIcon />}>  <Number n={countCars} /> &nbsp;{` ${searchButtonText}`}</Button>
             </Grid>
           </Grid>
         </SearchContainer>
-        <Box sx={{ display:'flex', justifyContent:'end', marginTop:'2rem'}}>
-      <a style={{ paddingRight:'1rem' }} href='https://www.pexels.com/de-de/foto/mann-frau-auto-fahrzeug-7144243/' target='_blank'>
-        <Typography sx={{ color:'white' }}>pexels - Foto von Antoni Shkraba:</Typography> </a>
-      </Box>
-       
-       
-       </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'end', marginTop: '2rem' }}>
+          <a style={{ paddingRight: '1rem' }} href='https://www.pexels.com/de-de/foto/mann-frau-auto-fahrzeug-7144243/' target='_blank'>
+            <Typography sx={{ color: 'white' }}>pexels - Foto von Antoni Shkraba:</Typography> </a>
+        </Box>
 
+
+      </Box>
+      { countCars > 0 ?
       <Typography variant='h6' component='h1' sx={{ fontFamily: fontSemiBold, marginTop: COMPONENT_DISTANCE, marginLeft: '2rem' }}>Am meisten gesucht</Typography>
-      <SearchedCars type={DisplayTypes.MOST_CLICKED}/>
-      <SearchedCars type={DisplayTypes.ELECTRIC}/>
-      
+        : null
+    }
+      <ClickedCars type={DisplayTypes.MOST_CLICKED} />
+      <ClickedCars type={DisplayTypes.ELECTRIC} />
+
 
     </Box>
   )

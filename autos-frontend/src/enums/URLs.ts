@@ -24,7 +24,7 @@ export enum URLs {
     HOME_ALL_SEARCH_COUNT = '/',
     GET_CHECK_AUTH = '/api/checkAuth',
     FETCH_COUNT = '/search/count/all',
-    FETCH_CLICKED_CARS =  '/search/most-clicked',
+    FETCH_CLICKED_CARS = '/search/most-clicked',
     UPLOAD = '/upload',
     IMAGE_PATH = '/uploads',
     FETCH_IMAGENAMES = '/fetch-imagenames',
@@ -33,6 +33,7 @@ export enum URLs {
     FETCH_LIST_CARS = "/listcars",
     LOGOUT = '/logout',
     AUTHENTICATION_USER = "/authenticate-user",
+    ACCESS_DENIED = '/access-denied',
 
     // ----- GET --------
     DELETE_IMAGE = '/delete'

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { Roles } from "../enums/Roles.js";
-import { AuthResponse } from "../interfaces/types.js";
+import { Roles } from "../../enums/Roles.js";
+import { AuthResponse } from "../../interfaces/types.js";
 
 export default function (req: Request, res: Response) {
     

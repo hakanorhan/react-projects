@@ -18,11 +18,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { LinkDrawer, LinkHome, ParagraphSideMenu, fontBold } from '../../themes/Theme';
 import type { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import UpdateIcon from '@mui/icons-material/Update';
-import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
-import UnpublishedIcon from '@mui/icons-material/Unpublished';
+import PublishIcon from '@mui/icons-material/Publish';
 import { URLs } from '../../enums/URLs';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -31,16 +28,27 @@ import { AuthResponse } from '../../interfaces/types';
 import { notifyError } from '../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
 
-const headlineStyle = { paddingLeft: '20px', fontSize: { xs: '0.9rem', lg: '1rem' }, justifyContent: 'flex-start' };
+const headlineStyle = { color: 'secondary.contrastText', paddingLeft: '20px', justifyContent: 'flex-start' };
 
 const drawerFontSize = '28px';
 
 const drawerSizes = { color: 'secondary.contrastText', fontSize: drawerFontSize, fontFamily: fontBold, paddingLeft: '25px' };
-const accordionIconStyle = { fontSize: drawerFontSize };
-const accordionStyle = { fontSize: drawerFontSize, fontWeight: 'bold', paddingLeft: '25px', marginBottom: '0.8rem' };
+const accordionIconStyle = { fontSize: drawerFontSize, color:'secondary.contrastText' };
+const accordionStyle = { backgroundColor:'secondary.main', paddingLeft: '25px', marginBottom: '0.8rem' };
+
+interface AccordionProps {
+  icon: JSX.Element,
+  title: string,
+  urlBrand: URLs,
+  urlModel: URLs
+}
+
+interface ListItemLinkProps {
+  title: string,
+  url: URLs
+}
 
 export default function Header() {
-  // TODO: navigate Header.tsx
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -91,86 +99,61 @@ export default function Header() {
   };
 
   async function logoutLogin() {
-    if(loggedIn) {
-    try {
-      axios.delete(URLs.ORIGIN_SERVER + URLs.LOGOUT, { withCredentials: true })
-      dispatch(setUserLoggedIn(false));
-      navigate(URLs.HOME_ALL_SEARCH_COUNT);
-    } catch(error: any) {
-      const message = error.response.data.message;
-      notifyError(message, message);
+    if (loggedIn) {
+      try {
+        axios.delete(URLs.ORIGIN_SERVER + URLs.LOGOUT, { withCredentials: true })
+        dispatch(setUserLoggedIn(false));
+        navigate(URLs.HOME_ALL_SEARCH_COUNT);
+      } catch (error: any) {
+        const message = error.response.data.message;
+        notifyError(message, message);
+      }
+    } else {
+      navigate(URLs.POST_SIGNIN);
     }
-  } else {
-    navigate(URLs.POST_SIGNIN);
-  }
   }
 
   // -------------------------------------- ADMIN ----------------------------------------------------------
-  const AccordionHinzufuegen = () => {
+
+  const AccordionComponent: React.FC<AccordionProps> = ({icon, title, urlBrand, urlModel}) => {
     return <Accordion elevation={0} sx={accordionStyle}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1-content"
-        id="panel1-header"
-      >
-        <AddIcon sx={accordionIconStyle} /> <ParagraphSideMenu>Hinzufügen</ParagraphSideMenu>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box >
-          <Button sx={headlineStyle} onClick={() => {
-            setDrawerOpen(false); navigate(URLs.POST_INSERT_BRAND)
-          }} > Marke </Button>
-          <Button sx={headlineStyle} onClick={() => {
-            setDrawerOpen(false); navigate(URLs.POST_INSERT_MODEL)
-          }}> Modell </Button>
-        </Box>
-      </AccordionDetails>
-    </Accordion>
+    <AccordionSummary
+      expandIcon={ <ExpandMoreIcon sx={{ color: 'secondary.contrastText' }}/> }
+      aria-controls="panel1-content"
+      id="panel1-header"
+    >
+      { icon } <ParagraphSideMenu><Typography sx={{ color: 'secondary.contrastText' }} variant='h6'>{ title }</Typography></ParagraphSideMenu>
+    </AccordionSummary>
+    <AccordionDetails>
+      <Box >
+        <Button sx={headlineStyle} onClick={() => {
+          // URLs.POST_INSERT_BRAND
+          setDrawerOpen(false); navigate( urlBrand )
+        }} > Marke </Button>
+        <Button sx={headlineStyle} onClick={() => {
+          // URLs.POST_INSERT_MODEL
+          setDrawerOpen(false); navigate( urlModel )
+        }}> Modell </Button>
+      </Box>
+    </AccordionDetails>
+  </Accordion>
   }
 
-  const AccordionUpdate = () => {
-    return <Accordion elevation={0} sx={accordionStyle}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1-content"
-        id="panel1-header"
-      >
-        <UpdateIcon sx={accordionIconStyle} /> <ParagraphSideMenu>Aktualisieren</ParagraphSideMenu>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box>
-          <Button sx={headlineStyle} > Auto </Button>
-          <Button sx={headlineStyle} > Marke </Button>
-          <Button sx={headlineStyle} > Modell </Button>
-        </Box>
-      </AccordionDetails>
-    </Accordion>
-  }
-
-  const AccordionEntfernen = () => {
-    return <Accordion elevation={0} sx={accordionStyle}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1-content"
-        id="panel1-header"
-      >
-        <DeleteIcon sx={accordionIconStyle} /> <ParagraphSideMenu>Entfernen</ParagraphSideMenu>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box>
-          <Button sx={headlineStyle} > Auto </Button>
-          <Button sx={headlineStyle} > Marke </Button>
-          <Button sx={headlineStyle} > Modell </Button>
-        </Box>
-      </AccordionDetails>
-    </Accordion>
+  const ListItemLink: React.FC<ListItemLinkProps> = ({ title, url }) => {
+   return  <ListItem>
+    <ListItemButton>
+      <ListItemIcon>
+        <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={ url }><Typography sx={drawerSizes}> { title } </Typography></Link>} />
+      </ListItemIcon>
+    </ListItemButton>
+  </ListItem>
   }
 
   // -------------------------------------- ADMIN ----------------------------------------------------------
 
   const DrawerMenuComponent = () => {
     return <Drawer sx={{ height: '100%' }} anchor='right' open={drawerOpen} onClose={handleOnCloseDrawer}>
-      <Box p={2} sx={{ height:'100%', backgroundColor:'secondary.main', width: { xs: '100vw', sm: '500px' } }} role='presentation'>
+      <Box p={2} sx={{ height: '100%', backgroundColor: 'secondary.main', width: { xs: '100vw', sm: '500px' } }} role='presentation'>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', paddingTop: '20px' }}>
           <IconButton onClick={() => { setDrawerOpen(false) }} sx={{
             backgroundColor: 'transparent', "&.MuiButtonBase-root:hover": {
@@ -180,48 +163,24 @@ export default function Header() {
             <CloseOutlinedIcon sx={{ color: 'primary.main', "&:hover": { border: '0px' }, fontSize: '70px', marginRight: '40px', borderStyle: 'solid', borderRadius: '5px', padding: '10px' }} />
           </IconButton>
         </Box>
-        {
           <List>
 
-            <ListItem>
-              <ListItemButton>
-                <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={URLs.HOME_ALL_SEARCH_COUNT}><Typography sx={drawerSizes}> Suchen </Typography></Link>} />
-                </ListItemIcon>
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem>
-              <ListItemButton>
-                <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={URLs.POST_INSERATE_CAR}> <Typography sx={drawerSizes}>Inserieren</Typography></Link>} />
-                </ListItemIcon>
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem>
-              <ListItemButton>
-                <ListItemIcon>
-                  <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to='/service'> <Typography sx={drawerSizes}>Unser Service</Typography></Link>} />
-                </ListItemIcon>
-              </ListItemButton>
-            </ListItem>
+            <ListItemLink title='Suchen' url={URLs.HOME_ALL_SEARCH_COUNT} />
+            { role === Roles.USER || role === Roles.NULL ?
+            <ListItemLink title='Inserieren' url={URLs.POST_INSERATE_CAR} />
+            : null
+            }
           </List>
-        }
-
-
+        
         {role === Roles.ADMIN &&
           <> <hr />
             <Box sx={{ marginTop: '1rem' }}>
-              <AccordionHinzufuegen />
-              <AccordionUpdate />
-              <AccordionEntfernen />
-
+              <AccordionComponent icon={<AddIcon sx={ accordionIconStyle } />} title={"Hinzufügen"} urlBrand={URLs.POST_INSERT_BRAND} urlModel={URLs.POST_INSERT_MODEL} />
+              
               <Button onClick={() => {
                 setDrawerOpen(false); navigate(URLs.FETCH_INSERATE_PUBLISH)
-              }} sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<PublishedWithChangesIcon />}> <p>Veröffentlichen </p></Button>
-              <Button sx={{ marginTop: '0.8rem' }} fullWidth variant="outlined" startIcon={<UnpublishedIcon />}> <p>AUFHEBEN </p></Button>
-            </Box>
+              }} sx={{ width:'250px', color:'secondary.contrastText', '&:hover': { color: 'secondary.contrastText' }, marginTop: '0.8rem' }}  startIcon={<PublishIcon sx={ accordionIconStyle }/>}> <Typography>Veröffentlichen </Typography></Button>
+               </Box>
           </>
         }
       </Box>
@@ -229,22 +188,22 @@ export default function Header() {
   }
 
   return (<>
-  <Toaster />
+    <Toaster />
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar sx={{ backgroundColor:'primary.main' }} elevation={2} position="static" >
+      <AppBar sx={{ backgroundColor: 'primary.main' }} elevation={2} position="static" >
         <DrawerMenuComponent />
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             aria-label="menu"
-            sx={{ mr: 2, color:'primary.contrastText' }}
+            sx={{ mr: 2, color: 'primary.contrastText' }}
             onClick={handleHamburgerMenu}
           >
             <MenuIcon />
           </IconButton>
           <Box sx={{ width: '100%' }}>
-            <LinkHome  to={URLs.HOME_ALL_SEARCH_COUNT}>  <Typography variant="h6" component="div" sx={{ flexGrow: 1, }}> {"cars"} </Typography> </LinkHome>
+            <LinkHome to={URLs.HOME_ALL_SEARCH_COUNT}>  <Typography variant="h6" component="div" sx={{ flexGrow: 1, }}> {"cars"} </Typography> </LinkHome>
           </Box>
 
           <div>
@@ -256,7 +215,7 @@ export default function Header() {
               aria-haspopup="true"
               onClick={handleMenu}
             >
-              <AccountCircle sx={{ color: 'primary.contrastText' }}/>
+              <AccountCircle sx={{ color: 'primary.contrastText' }} />
             </IconButton>
             <Menu sx={{ mt: '55px' }}
               id="menu-appbar"
@@ -279,6 +238,6 @@ export default function Header() {
         </Toolbar>
       </AppBar>
     </Box>
-    </>
+  </>
   );
 }

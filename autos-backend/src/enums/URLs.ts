@@ -33,7 +33,7 @@ export enum URLs {
     FETCH_LIST_CARS = "/listcars",
     LOGOUT = '/logout',
     AUTHENTICATION_USER = "/authenticate-user",
-
+    
     // ----- GET --------
     DELETE_IMAGE = '/delete'
 }

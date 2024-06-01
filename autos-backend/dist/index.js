@@ -26,7 +26,7 @@ import logout from "./routes/logout.js";
 import { fetchListCars } from "./routes/fetchListCars.js";
 import { fileURLToPath } from 'url';
 import passport, { authMiddelware } from "./routes/middleware/passport.middleware.js";
-import authenticationUser from "./routes/authenticationUser.js";
+import authenticationUser from "./routes/middleware/authenticationUser.js";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const session = __require("express-session");

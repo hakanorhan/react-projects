@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
 import { RootState } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
+import Notfound from '../pages/Notfound';
 
 interface ProtectedRoteProps {
     children: ReactNode,
@@ -29,6 +30,9 @@ const ProtectedRoute = ({ children, role }: ProtectedRoteProps) => {
                 const authRole = authResponse.role;
                 dispatch(setRole(authRole));
 
+                if (role !== authRole)
+                    return navigate(URLs.ACCESS_DENIED);
+
             } catch (error: any) {
                 const authResponse: AuthResponse = error.response.data;
                 const logged = authResponse.authenticated;
@@ -43,7 +47,7 @@ const ProtectedRoute = ({ children, role }: ProtectedRoteProps) => {
     }, [])
 
     return userLoggedStatus.userLoggedIn && role === userLoggedStatus.role
-        ? children : <></>;
+        ? children : <Notfound />;
 };
 
 export default ProtectedRoute;

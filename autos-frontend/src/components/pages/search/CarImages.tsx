@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../enums/URLs';
-import { Box, CardMedia, Dialog, IconButton, Typography, } from '@mui/material';
+import { Box, CardMedia, Dialog, IconButton, Typography, colors, useMediaQuery, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { AxiosDataImagesNames } from '../../../interfaces/IAxiosData';
@@ -18,6 +18,8 @@ enum ArrowDirection {
 
 const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
+  const lgQuery = useMediaQuery('(min-width:1101px)');
+
   const [fetchImageNamesDone, setFetchImageNamesDone] = useState(false);
   const [fetchedImageInformations, setFetchedImageInformations] = useState<AxiosDataImagesNames[]>([]);
 
@@ -29,12 +31,24 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if(lgQuery)
+      setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  const BigImage = () => {
+    return <Dialog sx={{ '& .MuiDialog-paper': {
+      width: '950px',
+      maxWidth: 'none', 
+    }, }}
+    open={open}
+    onClose={handleClose}>
+      <CarouselComponent />
+    </Dialog>
+  }
 
   useEffect(() => {
     setSuccessFullDownloaded(false);
@@ -93,14 +107,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
   }, [fetchImageNamesDone])
 
-  const BigImage = () => {
-    return <Dialog
-    open={open}
-    onClose={handleClose}>
-      <CarouselComponent />
-  </Dialog>
-  }
-
   const CarouselComponent = () => {
     const iconButtonSX = (side: number) => ({
       [side === 0 ? 'left' : 'right']: 0,
@@ -140,10 +146,11 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
         sx={{ objectFit: 'cover', width: '100%', height: 'auto' }}>
       </CardMedia>
 
-      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: isDetail ? 'block' : 'none' }, position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black', padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0 }}><Typography>{`${sliderIndex} / ${imageSrc.length}`}</Typography></Box>
+      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: isDetail ? 'block' : 'none' }, position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
+        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0 }}><Typography>{`${sliderIndex} / ${imageSrc.length}`}</Typography></Box>
       {imageSrc.length > 1 ? <>
-        <IconButton sx={iconButtonSX(0)} onClick={() => { handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
-        <IconButton sx={iconButtonSX(1)} onClick={() => { handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
+        <IconButton sx={iconButtonSX(0)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
+        <IconButton sx={iconButtonSX(1)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
       </> : <></>
       }
     </Box>
@@ -159,7 +166,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
       {succesFullDownloaded && imageSrc.length > 0 ? (
         <CarouselComponent />
       ) : (
-        <Box sx={{ display: 'flex', width: '100%', aspectRatio: 16 / 9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <Box sx={{ backgroundColor: colors.grey[400], display: 'flex', width: '100%', aspectRatio: 16 / 9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
           <CameraAltIcon sx={{ fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
         </Box>
       )}

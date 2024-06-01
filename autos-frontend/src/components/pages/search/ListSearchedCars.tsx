@@ -13,7 +13,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { SortEnums } from '../../../enums/SortEnums';
 import { COMPONENT_DISTANCE, LinkNewSearch, ZOOM_HOVER } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
-import ShareIcon from '@mui/icons-material/Share';
+import ShareComponent from '../ShareComponent';
 
 const LIMIT = 6;
 
@@ -158,7 +158,7 @@ const ListSearchedCars = () => {
         </FormControl>
       </Grid>
       <Grid item xs={3.75}> <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', height: '100%' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{ display: 'flex' }}><SearchIcon /><Typography sx={{ marginLeft: '0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box> </Grid>
-      <Grid item xs={2.75}> <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', height: '100%' }}> <ShareIcon /> <Typography sx={{ marginLeft: '0.3rem' }}>Teilen</Typography></Box> </Grid>
+      <Grid item xs={2.75}> <Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center', height: '100%' }}> <ShareComponent /></Box> </Grid>
     </Grid>
   }
 
@@ -169,14 +169,14 @@ const ListSearchedCars = () => {
       <Grid container spacing={4}>
         {
           cars ? cars.map((axiosPaper, index) => (
-            <Grid item xs={12} sm={12} md={6} lg={6} xl={4} key={index}>
+            <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={index}>
               <ListContainer key={index} axiosPaper={axiosPaper} />
             </Grid>
           )) : <CircularProgress />
         }
       </Grid>
 
-      <Pagination sx={{ marginTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }} count={count} page={page} onChange={handlePagiation} />
+      <Pagination sx={{ marginTop: COMPONENT_DISTANCE, paddingBottom: '4rem' }} count={count} page={page} onChange={handlePagiation} />
     </Box>
 
   )
