@@ -3,6 +3,7 @@ import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
 import { AxiosDetailsearch } from '../interfaces/types.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
+import { formularIsNumber } from '../helper/validHelper.js';
 
 const selectQueryDetail: string = "SELECT *, YEAR(ac.created_date) AS since"
     + " FROM inserate i "
@@ -32,8 +33,9 @@ const selectQueryDetail: string = "SELECT *, YEAR(ac.created_date) AS since"
 
 export default async (req: express.Request, res: express.Response) => {
     const inserateId = req.params.id
-    //const user: any = req.user;
-    
+    if(!formularIsNumber(inserateId)) {
+        selectMysqlErrorMessages("error id", res);
+    } else {
     let connection;
     try {
         connection = await connectToDatabase();
@@ -63,4 +65,5 @@ export default async (req: express.Request, res: express.Response) => {
         selectMysqlErrorMessages(error.code, res);
         connection?.end();
     } 
+}
 }

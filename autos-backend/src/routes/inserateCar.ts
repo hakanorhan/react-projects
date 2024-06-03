@@ -1,7 +1,7 @@
 import express from "express";
 import { ResultSetHeader } from "mysql2";
 import { connectToDatabase } from "../dbConnect1.js";
-import { AxiosDataInserate as AxiosDataInserateRequest, AxiosInserateResponse } from "../interfaces/IAxiosData.js";
+import { AxiosDataInserate as AxiosDataInserateRequest, AxiosInserateResponse, AxiosRejectPackage } from "../interfaces/IAxiosData.js";
 import { insertMysqlErrorMessages } from "../helper/messages.js";
 
 const INSERT_INSERATE_INFO: string = "INSERT INTO inserate_info (user_id) VALUES(?)";
@@ -25,6 +25,16 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
     const inserateSelect = data.inserateSelect;
     const inserateData = data.inserateData;
     const inserateCheckBox = data.inserateCheckbox;
+
+    // Check data is valid
+    let select: keyof typeof inserateSelect;
+    for(select in inserateSelect) {
+        const value = inserateSelect[select];
+        if(!value || value === "") {
+            let axiosRejected : AxiosRejectPackage = { messageId: `error ${select}` , message: "Bitte prüfen Sie das Feld." }
+            return res.status(409).json( axiosRejected );
+        }
+    }
 
     console.log(JSON.stringify(inserateSelect) + " " + JSON.stringify(inserateData) + " " + JSON.stringify(inserateCheckBox));
 
@@ -59,10 +69,9 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
             [inserateData.price, inserateSelect.model, techDescriptionId, inserateInfoId]);
         const inserateId = resultInserate.insertId;
         
-        // TODO: id
         await connection.execute(INSERT_INSERATE_CHECK, [inserateId]);
 
-        const axiosData: AxiosInserateResponse = { carId: inserateId, message:'succes' };
+        const axiosData: AxiosInserateResponse = { carId: inserateId, message:'Als Entwurf gespeichert' };
 
         await connection.commit();
         connection.end();

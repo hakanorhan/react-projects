@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseFormTextArea } from '../../interfaces/IUseForm';
 import { FormControl, OutlinedInput } from '@mui/material';
 
-const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, label, onChange, placeholder, minRows, maxRows, refresh, disbled, areaText }) => {
+const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, onChange, placeholder, minRows, maxRows, refresh, disbled, areaText }) => {
 
   const [value, setValue] = useState("");
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../enums/URLs';
 import { Box, CardMedia, Dialog, IconButton, Typography, colors, useMediaQuery, } from '@mui/material';
@@ -9,7 +9,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 export interface CarImagesProps {
   id: number | null | string | undefined,
   multiple: boolean,
-  isDetail?: boolean
+  isDetail?: boolean,
 }
 
 enum ArrowDirection {
@@ -24,7 +24,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
   const [fetchedImageInformations, setFetchedImageInformations] = useState<AxiosDataImagesNames[]>([]);
 
   const [imageSrc, setImageSrc] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [succesFullDownloaded, setSuccessFullDownloaded] = useState(false);
 
@@ -60,6 +60,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
       } catch (error) {
         console.log(error)
+        setFetchImageNamesDone(false);
       }
     }
 
@@ -71,6 +72,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
       } catch (error) {
         console.log(error)
+        setFetchImageNamesDone(false);
       }
     }
 
@@ -82,7 +84,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      setLoading(true);
       try {
         const fetchedImages = await Promise.all(
           fetchedImageInformations.map(async imageInfo => {
@@ -136,41 +137,41 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
           setSliderIndex(sliderIndex + 1);
       }
     }
-
+    
     return (<Box sx={{ position: 'relative' }} onClick={() => { handleClickOpen()}}>
 
       <CardMedia
         component='img'
         image={imageSrc[sliderIndex - 1]}
         alt={"Bild"}
-        sx={{ objectFit: 'cover', width: '100%', height: 'auto' }}>
+        sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16/9, height: 'auto', '&:hover': { cursor:'pointer' } }}>
       </CardMedia>
 
       <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: isDetail ? 'block' : 'none' }, position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
         padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0 }}><Typography>{`${sliderIndex} / ${imageSrc.length}`}</Typography></Box>
-      {imageSrc.length > 1 ? <>
+      {imageSrc.length > 1 && <>
         <IconButton sx={iconButtonSX(0)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
         <IconButton sx={iconButtonSX(1)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
-      </> : <></>
+      </> 
       }
     </Box>
     )
   }
 
-  if (loading) {
-    return <p>loading...</p>;
-  }
+  
 
   return (<>
+    {
     <Box sx={{ height: '100%' }}>
-      {succesFullDownloaded && imageSrc.length > 0 ? (
+      { succesFullDownloaded && imageSrc.length > 0 ? (
         <CarouselComponent />
       ) : (
-        <Box sx={{ backgroundColor: colors.grey[400], display: 'flex', width: '100%', aspectRatio: 16 / 9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <CameraAltIcon sx={{ fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
+        <Box sx={{ backgroundColor: 'background.paper', display: 'flex', width: '100%', aspectRatio: 16 / 9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+          <CameraAltIcon sx={{ color:'background.paper', fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
         </Box>
       )}
     </Box>
+}
     <BigImage />
     </>
   );

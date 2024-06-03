@@ -255,13 +255,11 @@ const Search: React.FC = () => {
 
 
       </Box>
-      { countCars > 0 ?
       <Typography variant='h6' component='h1' sx={{ fontFamily: fontSemiBold, marginTop: COMPONENT_DISTANCE, marginLeft: '2rem' }}>Am meisten gesucht</Typography>
-        : null
-    }
+      <Box sx={{ minHeight: {xs: '600px', sm: '680px', md: '600px'} }}>
       <ClickedCars type={DisplayTypes.MOST_CLICKED} />
       <ClickedCars type={DisplayTypes.ELECTRIC} />
-
+      </Box>
 
     </Box>
   )

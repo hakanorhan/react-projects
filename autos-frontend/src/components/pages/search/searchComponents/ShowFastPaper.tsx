@@ -1,8 +1,7 @@
-import { Box, Button, CardContent, Grid, Typography } from '@mui/material'
+import { Box, CardContent, Grid, Typography } from '@mui/material'
 import React from 'react'
 import { seperateThousand } from '../../../../helper/helper';
 import { AxiosPaper, AxiosPaperList } from '../../../../interfaces/IAxiosData';
-import CalculateIcon from '@mui/icons-material/Calculate';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { COMPONENT_DISTANCE, GreyHorizontalHR, fontBold } from '../../../../themes/Theme';

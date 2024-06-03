@@ -4,6 +4,7 @@ import { connectToDatabase } from "../../dbConnect1.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { insertMysqlErrorMessages } from "../../helper/messages.js";
 import { AxiosDataPacketModel, Model, RequestAxiosDataModel } from "../../interfaces/types.js";
+import { formularIsNumber, formularModelIsValid } from "../../helper/validHelper.js";
 
 const insertIntoModels: string = "insert into model(model, brand_id)VALUES(?, ?)";
 const selectModel: string = "SELECT model_id, model FROM model WHERE brand_id = ?";
@@ -11,6 +12,10 @@ const selectBrand: string = "SELECT brand FROM brand WHERE brand_id = ?";
 
 export default async (req: express.Request, res: express.Response) => {
     const axiosData: RequestAxiosDataModel = req.body;
+
+    if(!formularIsNumber(axiosData.brandid) || !formularModelIsValid(axiosData.model)) {
+        insertMysqlErrorMessages(1, res);
+    } else {
     
     let connection;
     try {
@@ -47,5 +52,6 @@ export default async (req: express.Request, res: express.Response) => {
             connection?.end();
             insertMysqlErrorMessages(error.errno, res);
         }
+    }
 
 }

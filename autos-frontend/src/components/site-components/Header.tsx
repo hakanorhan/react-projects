@@ -103,6 +103,7 @@ export default function Header() {
       try {
         axios.delete(URLs.ORIGIN_SERVER + URLs.LOGOUT, { withCredentials: true })
         dispatch(setUserLoggedIn(false));
+        dispatch(setRole(Roles.NULL));
         navigate(URLs.HOME_ALL_SEARCH_COUNT);
       } catch (error: any) {
         const message = error.response.data.message;
@@ -172,7 +173,7 @@ export default function Header() {
             }
           </List>
         
-        {role === Roles.ADMIN &&
+        {role === Roles.ADMIN && loggedIn &&
           <> <hr />
             <Box sx={{ marginTop: '1rem' }}>
               <AccordionComponent icon={<AddIcon sx={ accordionIconStyle } />} title={"Hinzufügen"} urlBrand={URLs.POST_INSERT_BRAND} urlModel={URLs.POST_INSERT_MODEL} />

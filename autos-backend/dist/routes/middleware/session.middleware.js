@@ -7,8 +7,8 @@ const MySQLStore = require('express-mysql-session')(session);
 import { connectToDatabase } from '../../dbConnect1.js';
 const sessionStore = new MySQLStore({
     clearExpired: true,
-    checkExpirationInterval: 447000000,
-    expiration: 150000000,
+    checkExpirationInterval: 3000,
+    expiration: 12000,
     createDatabaseTable: true
 }, connectToDatabase);
 const sessionMiddleware = session({
@@ -26,17 +26,3 @@ export const sessionAuthMiddleware = (req, res, next) => {
         res.status(401).json({ message: "Nicht authentifiziert!" });
     }
 };
-export function addConnectListener() {
-    if (!sessionStore.listenerCount('connect')) {
-        console.log("Add connection listener!");
-        sessionStore.on('connect', () => {
-        });
-    }
-}
-export function addDisconnectListener() {
-    if (!sessionStore.listenerCount('disconnect')) {
-        sessionStore.on('disconnect', () => {
-        });
-    }
-}
-export default sessionMiddleware;

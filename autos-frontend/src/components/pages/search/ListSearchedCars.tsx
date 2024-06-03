@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Card, CardActionArea, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { useEffect, useMemo, useState } from 'react'
+import { Button, useMediaQuery, Box, Card, CardActionArea, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography, useTheme } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../enums/URLs';
 import axios from 'axios';
 import CarImages from './CarImages';
 import { ShowFastPaper } from './../search/searchComponents/ShowFastPaper';
-import Pagination from '@mui/material/Pagination';
-import CircularProgress from '@mui/material/CircularProgress';
+import AddIcon from '@mui/icons-material/Add';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { SortEnums } from '../../../enums/SortEnums';
@@ -15,15 +14,15 @@ import { COMPONENT_DISTANCE, LinkNewSearch, ZOOM_HOVER } from '../../../themes/T
 import SearchIcon from '@mui/icons-material/Search';
 import ShareComponent from '../ShareComponent';
 
-const LIMIT = 6;
-
 const ListSearchedCars = () => {
+
+  const LIMIT = 3;
 
   const location = useLocation();
 
   const navigate = useNavigate();
 
-  const [cars, setCars] = useState<AxiosPaperList[]>();
+  const [cars, setCars] = useState<AxiosPaperList[]>([]);
 
   const [count, setCount] = useState<number>(0);
 
@@ -31,14 +30,6 @@ const ListSearchedCars = () => {
 
   // sort
   const [selectedSort, setSelectedSort] = useState<string>(SortEnums.PRICE_DOWN);
-
-  // ----- Pagination ------
-  const [page, setPage] = useState<number>(1);
-  const handlePagiation = (_event: any, value: number) => {
-    const offsetTemp: number = LIMIT * (value - 1);
-    setOffset(offsetTemp);
-    setPage(value);
-  };
 
   // count
   useEffect(() => {
@@ -63,10 +54,7 @@ const ListSearchedCars = () => {
         })
         const anzahl = response.data;
 
-        let countCalculate: number = Math.floor(anzahl / LIMIT);
-        countCalculate = (anzahl % LIMIT) > 0 ? countCalculate + 1 : countCalculate;
-
-        setCount(countCalculate);
+        setCount(anzahl);
 
       } catch (error) {
         console.log(error)
@@ -92,8 +80,9 @@ const ListSearchedCars = () => {
           withCredentials: true,
           params: { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, LIMIT, offset, sorttype }
         })
-        const data = response.data;
-        setCars(data);
+        const data: AxiosPaperList[] = response.data;
+        if (data && data.length > 0)
+          setCars(prevCars => [...prevCars, ...data]);
 
       } catch (error) {
         console.log(error)
@@ -102,7 +91,7 @@ const ListSearchedCars = () => {
     }
 
     fetchFromServer();
-  }, [page, selectedSort])
+  }, [selectedSort, offset])
 
   const handleChangeSort = (event: SelectChangeEvent) => {
     const sortId = event.target.value as string;
@@ -113,19 +102,28 @@ const ListSearchedCars = () => {
     navigate(URLs.FETCH_DETAIL_SEARCH + `/${id}`);
   }
 
-  const ListContainer: React.FC<{ axiosPaper: AxiosPaperList }> = ({ axiosPaper }) => {
+  const handleShowNewCars = (_event: any) => {
+    if (offset + LIMIT <= count)
+      setOffset(offset + LIMIT);
+  };
 
-    return <Card elevation={1} sx={ZOOM_HOVER}
-      onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
-      <CardActionArea>
-        <CarImages id={axiosPaper.inseratId} multiple={false} />
+  const MemoizedContainer = useMemo(() => {
 
-        {/* technical description */}
-        <ShowFastPaper detailSearchValues={axiosPaper} />
+    return ({ axiosPaper }: { axiosPaper: AxiosPaperList }) => {
 
-      </CardActionArea>
-    </Card>
-  }
+      return <>{<Card elevation={1} sx={ZOOM_HOVER}
+        onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
+        <CardActionArea>
+
+          <CarImages id={axiosPaper.inseratId} multiple={false} />
+
+          {/* technical description */}
+          <ShowFastPaper detailSearchValues={axiosPaper} />
+
+        </CardActionArea>
+      </Card>}</>
+    }
+  }, [])
 
   const TopComponent = () => {
     return <Grid container>
@@ -163,23 +161,32 @@ const ListSearchedCars = () => {
   }
 
   return (
-
-    <Box sx={{ width: '95%', margin: 'auto', paddingTop: '20px' }}>
+    <Box sx={{ minHeight: '95vh', width: '95%', margin: 'auto', paddingTop: '2rem' }}>
       <TopComponent />
       <Grid container spacing={4}>
         {
-          cars ? cars.map((axiosPaper, index) => (
+          cars && cars.map((axiosPaper, index) => (
             <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={index}>
-              <ListContainer key={index} axiosPaper={axiosPaper} />
+              <MemoizedContainer key={index} axiosPaper={axiosPaper} />
             </Grid>
-          )) : <CircularProgress />
+          ))
         }
       </Grid>
 
-      <Pagination sx={{ marginTop: COMPONENT_DISTANCE, paddingBottom: '4rem' }} count={count} page={page} onChange={handlePagiation} />
+      <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
+        <Button onClick={handleShowNewCars} sx={{ width: '250px', color: 'text.primary', '&:hover': { backgroundColor: 'transparent' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
+      </Box>
     </Box>
 
   )
 }
 
 export default ListSearchedCars;
+/*
+ <Box sx={{ display:'column', backgroundColor:'background.default', height: '80vh', width:'100%' }}>
+      <Typography color={'text.primary'} paddingTop={'20%'} align="center" variant={'h4'} component={'p'}>{"Keine Fahrzeuge gefunden"}</Typography>
+      <Box sx={{ margin:'auto', width:'150px' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{ display: 'flex' }}><SearchIcon /><Typography sx={{ marginLeft: '0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box>
+      
+      
+    </Box>
+    */

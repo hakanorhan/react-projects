@@ -11,7 +11,7 @@ export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAct
 
         setListValues(response.data.tableValues);  
       } catch (error) {
-        // TODO: error handling
+        
         console.log(error)
       }
       }

@@ -7,7 +7,6 @@ export default function (req, res) {
         res.status(201).json(authResponse);
     }
     else {
-        console.log("not authenticated");
         const authResponse = { role: Roles.NULL, authenticated: false };
         res.status(401).json(authResponse);
     }

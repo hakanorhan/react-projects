@@ -37,6 +37,7 @@ const DARK_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 
 const DARK_SECONDARY_COLOR_MAIN = colors.grey[900];
 const DARK_SECONDARY_CONTRAST_TEXT = '#FFFFFF';
+const DARK_PRIMARY_LIGHT = colors.grey[900];
 
 export const colorDanger: string = colors.red[700];
 export const buttonHeight = '55px';
@@ -57,9 +58,9 @@ export const paperFontSize = { xs: '1.1rem', sm: '1.3rem', md: '1rem', lg: '1.2r
 export const ICON_FONT_SIZE = '1.4rem';
 
 export const TRANSITION = '1S';
-export const ZOOM_HOVER = {transition: TRANSITION, '&:hover': { transform: 'scale(1.01)'}, cursor: 'pointer', height: '100%' };
+export const ZOOM_HOVER = { transition: TRANSITION, '&:hover': { transform: 'scale(1.01)' }, cursor: 'pointer', height: '100%' };
 
-export const SX_ICON = { fontSize: ICON_FONT_SIZE, color:'text.primary' };
+export const SX_ICON = { fontSize: ICON_FONT_SIZE, color: 'text.primary' };
 
 const components = {
 
@@ -169,6 +170,29 @@ const componentsDark = {
             }
         }
 
+    },
+    MuiInputBase: {
+        styleOverrides: {
+            input: {
+                '&:-webkit-autofill': {
+                    WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
+                    WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
+                }
+                ,
+                '&:-webkit-autofill:focus': {
+                    WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
+                    WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
+                },
+                '&:-webkit-autofill:hover': {
+                    WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
+                    WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
+                },
+                '&:-webkit-autofill:active': {
+                    WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
+                    WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
+                },
+            }
+        }
     }
 
 };
@@ -358,14 +382,14 @@ export const DivWidthTwoFieldsRow = styled('div')(({ theme }) => ({
 
 }));
 
-export const Boxprint = styled('div')(({}) => ({
+export const Boxprint = styled('div')(({ }) => ({
     '@media print': {
         display: 'none',
     },
     '@media screen': {
         display: 'block',
     },
- }));
+}));
 
 /**
  * Signin and Signout icons.

@@ -14,7 +14,6 @@ import path, { dirname } from "path";
 import fetchStaticData from "./routes/fetchStaticData.js";
 import dynamicSearchCount from "./routes/fetchDynamicSearchCount.js";
 import fs from 'fs'
-import { insertImageName } from "./queries/query.js";
 import fetchInserateForPublish from "./routes/dashboard/fetchInserateForPublish.js";
 import fetchDetailSearch from "./routes/fetchDetailSearch.js";
 import fetchImageNames from "./routes/fetchImageNames.js";
@@ -23,7 +22,6 @@ import postPublish from "./routes/dashboard/postPublish.js";
 import emailCheck from "./routes/emailCheck.js";
 import logout from "./routes/logout.js";
 import { fetchListCars } from "./routes/fetchListCars.js";
-import mysql from 'mysql2/promise';
 import { fileURLToPath } from 'url';
 // passport.js
 //import sessionMiddleware from "./routes/middleware/session.middleware.js";
@@ -33,13 +31,16 @@ import authenticationUser from "./routes/middleware/authenticationUser.js";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import session = require('express-session');
-import { SessionOptions } from "express-session";
 import fetchImageName from "./routes/fetchImageName.js";
 import inserateFinish from "./routes/inserateFinish.js";
 import sharp from "sharp";
 import { fetchClickedCars } from "./routes/fetchClickedCars.js";
 import { connectToDatabase } from "./dbConnect1.js";
 const MySQLStore = require('express-mysql-session')(session);
+
+import dotenv from 'dotenv'
+dotenv.config();
+const sessionSecret = process.env.SESSION_SECRET || "default-secret";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -54,16 +55,21 @@ declare module 'express-session' {
 const app = express();
 
 const options = {
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: '',
-  database: 'cars'
+  host: process.env.HOST,
+  port: process.env.PORT,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.DATABASE,
+
+  clearExpired: true,
+  checkExpirationInterval: 1_000 * 60 * 10, 
+  expiration: 1_000 * 60 * 60 * 4
 }
 
 const sessionStore = new MySQLStore(options);
 app.use(session({
-  secret: 'Session_secret',
+  secret: sessionSecret,
+  
   store: sessionStore,
   resave: false,
   saveUninitialized: false

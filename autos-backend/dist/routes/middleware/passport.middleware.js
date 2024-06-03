@@ -3,44 +3,54 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { connectToDatabase } from "../../dbConnect1.js";
 import { Roles } from "../../enums/Roles.js";
 import bcrypt from 'bcrypt';
+import * as ValidHelper from '../../helper/validHelper.js';
 const findOne = async (email) => {
     let connection;
-    try {
-        connection = await connectToDatabase();
-        const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE ad.email = ? AND ad.account_data_id = u.account_data_id", [email]);
-        const result = queryResult;
-        const resultUserId = result[0][0].user_id;
-        const resultPassword = result[0][0].password_secret;
-        const resultEmail = result[0][0].email;
-        const accountRole = result[0][0].account_role;
-        const user = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER };
-        connection.end();
-        return user;
-    }
-    catch (error) {
-        console.log("findOne: " + "user nicht gefunden!");
-        connection?.end();
+    if (!ValidHelper.formularEmailValid(email)) {
         return null;
+    }
+    else {
+        try {
+            connection = await connectToDatabase();
+            const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE ad.email = ? AND ad.account_data_id = u.account_data_id", [email]);
+            const result = queryResult;
+            const resultUserId = result[0][0].user_id;
+            const resultPassword = result[0][0].password_secret;
+            const resultEmail = result[0][0].email;
+            const accountRole = result[0][0].account_role;
+            const user = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER };
+            connection.end();
+            return user;
+        }
+        catch (error) {
+            connection?.end();
+            return null;
+        }
     }
 };
 const findById = async (id) => {
     let connection;
-    try {
-        connection = await connectToDatabase();
-        const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE u.user_id = ? AND ad.account_data_id = u.account_data_id", [id]);
-        const result = queryResult;
-        const resultUserId = result[0][0].user_id;
-        const resultPassword = result[0][0].password_secret;
-        const resultEmail = result[0][0].email;
-        const accountRole = result[0][0].account_role;
-        const user = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER };
-        connection.end();
-        return user;
-    }
-    catch (error) {
-        console.log(error);
-        connection?.end();
+    if (!ValidHelper.formularIsNumber(id)) {
         return null;
+    }
+    else {
+        try {
+            connection = await connectToDatabase();
+            const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE u.user_id = ? AND ad.account_data_id = u.account_data_id", [id]);
+            const result = queryResult;
+            const resultUserId = result[0][0].user_id;
+            const resultPassword = result[0][0].password_secret;
+            const resultEmail = result[0][0].email;
+            const accountRole = result[0][0].account_role;
+            const user = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER };
+            connection.end();
+            return user;
+        }
+        catch (error) {
+            console.log(error);
+            connection?.end();
+            return null;
+        }
     }
 };
 passport.use(new LocalStrategy({

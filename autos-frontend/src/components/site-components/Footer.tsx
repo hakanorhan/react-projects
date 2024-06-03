@@ -7,8 +7,9 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import { Link } from "react-router-dom";
-import { LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/Theme";
+import { COMPONENT_DISTANCE, LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/Theme";
 import DarkMode from "../DarkMode";
+import { URLs } from "../../enums/URLs";
 
 const gridItemStyle = { marginBottom: { xs: '3rem' } };
 const iconStyle = { marginRight: '0.5rem', '@media screen': { fill: LIGHT_PRIMARY_CONTRAST_TEXT }, '@media print': { fill: 'black' } };
@@ -32,19 +33,14 @@ const SERVICE = [
   "Hilfe"
 ];
 
-const PRIVATE_DEALER = [
-  "Anmelden",
-  "Registrieren"
-]
-
 export default function Footer() {
 
-  const CreateLink = (linkname: string, index: number) => {
-    return <Link key={index} style={LinkDrawer} to={""}> <Typography sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > {linkname} </Typography> </Link>
+  const CreateLink = (linkname: string, index: number, url: URLs = URLs.HOME_ALL_SEARCH_COUNT) => {
+    return <Link key={index} style={LinkDrawer} to={url}> <Typography sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > {linkname} </Typography> </Link>
   }
 
   const createHeaderForLinks = (header: string) => {
-    return <Typography key={header} variant="h5" component='h1' sx={{ '@media print': { color: 'black'}, color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
+    return <Typography paddingBottom={COMPONENT_DISTANCE} key={header} variant="h5" component='h1' sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
   }
 
   return (
@@ -76,9 +72,10 @@ export default function Footer() {
             createHeaderForLinks("Händler / Privat")
           }
           {
-            PRIVATE_DEALER.map((links, index) => (
-              CreateLink(links, index)
-            ))
+            CreateLink("Anmelden", 0, URLs.POST_SIGNIN)
+          }
+          {
+            CreateLink("Registrieren", 1, URLs.POST_SIGINUP)
           }
         </Grid>
 

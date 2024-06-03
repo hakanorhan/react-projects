@@ -6,6 +6,7 @@ import { RowDataPacket } from "mysql2";
 import { Roles } from "../../enums/Roles.js";
 import bcrypt from 'bcrypt';
 import { Request, Response, NextFunction } from "express";
+import * as ValidHelper from '../../helper/validHelper.js';
 
 export interface User {
     id: number,
@@ -16,46 +17,54 @@ export interface User {
 
 const findOne = async (email: string): Promise<User | null> => {
     let connection;
-    try {
-        connection = await connectToDatabase();
-        const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE ad.email = ? AND ad.account_data_id = u.account_data_id", [email]);
-        const result = queryResult as RowDataPacket[];
-        const resultUserId = result[0][0].user_id;
-        const resultPassword = result[0][0].password_secret;
-        const resultEmail = result[0][0].email;
-        const accountRole = result[0][0].account_role;
 
-        const user: User = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER }
-        connection.end();
-        return user;
-    } catch (error) {
-        // TODO: handle user not found
-        console.log("findOne: " + "user nicht gefunden!")
-        connection?.end();
-        //console.log(error);
+    if (!ValidHelper.formularEmailValid(email)) {
         return null;
+    } else {
+
+        try {
+            connection = await connectToDatabase();
+            const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE ad.email = ? AND ad.account_data_id = u.account_data_id", [email]);
+            const result = queryResult as RowDataPacket[];
+            const resultUserId = result[0][0].user_id;
+            const resultPassword = result[0][0].password_secret;
+            const resultEmail = result[0][0].email;
+            const accountRole = result[0][0].account_role;
+
+            const user: User = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER }
+            connection.end();
+            return user;
+        } catch (error) {
+            connection?.end();
+            return null;
+        }
     }
 }
 
 const findById = async (id: number): Promise<User | null> => {
     let connection;
-    
-    try {
-        connection = await connectToDatabase();
-        const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE u.user_id = ? AND ad.account_data_id = u.account_data_id", [id]);
-        const result = queryResult as RowDataPacket[];
-        const resultUserId = result[0][0].user_id;
-        const resultPassword = result[0][0].password_secret;
-        const resultEmail = result[0][0].email;
-        const accountRole = result[0][0].account_role;
 
-        const user: User = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER }
-        connection.end();
-        return user;
-    } catch (error) {
-        console.log(error)
-        connection?.end();
+    if (!ValidHelper.formularIsNumber(id)) {
         return null;
+    } else {
+
+        try {
+            connection = await connectToDatabase();
+            const queryResult = await connection.query("SELECT * FROM account_data ad, user u WHERE u.user_id = ? AND ad.account_data_id = u.account_data_id", [id]);
+            const result = queryResult as RowDataPacket[];
+            const resultUserId = result[0][0].user_id;
+            const resultPassword = result[0][0].password_secret;
+            const resultEmail = result[0][0].email;
+            const accountRole = result[0][0].account_role;
+
+            const user: User = { id: resultUserId, email: resultEmail, password: resultPassword, role: accountRole === Roles.ADMIN ? Roles.ADMIN : Roles.USER }
+            connection.end();
+            return user;
+        } catch (error) {
+            console.log(error)
+            connection?.end();
+            return null;
+        }
     }
 }
 

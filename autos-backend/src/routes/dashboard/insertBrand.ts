@@ -4,12 +4,18 @@ import { connectToDatabase } from "../../dbConnect1.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { insertMysqlErrorMessages } from "../../helper/messages.js";
 import { AxiosDataPacketBrand } from "../../interfaces/types.js";
+
 const insertIntoBrand: string = "INSERT INTO brand (brand) VALUES (?)";
 const selectBrandQuery: string = "SELECT * FROM brand";
 import { Brand } from "../../interfaces/types.js";
-
+import { formularNameValid } from "../../helper/validHelper.js";
 export default async (req: express.Request, res: express.Response) => {
     const { value } = req.body;
+
+    if(!formularNameValid(value)) {
+        insertMysqlErrorMessages(1, res);
+    } else {
+
     console.log(value);
     let connection ;
     try {
@@ -41,4 +47,5 @@ export default async (req: express.Request, res: express.Response) => {
             insertMysqlErrorMessages(error.errno, res);
             
         }
+    }
 }

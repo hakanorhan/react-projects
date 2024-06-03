@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, Rating, Typography, colors } from '@mui/material';
+import { Box, Button, Grid, Rating, Typography, colors } from '@mui/material';
 import {
   Boxprint,
   COMPONENT_DISTANCE, GreyHorizontalHR, GreyHorizontalTechBoldHR, ICON_FONT_SIZE, LINE_HEIGHT,
@@ -165,7 +165,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
   }
 
   return (
-    <Box>
+    <Box sx={{ minHeight:'1000px' }}>
       <Grid container sx={{ backgroundColor: 'background.paper', width: { xs: '100%', lg: '1050px' }, margin: 'auto', marginTop: { xs: 0, lg: '4rem' }, marginBottom: { xs: 0, lg: '4rem' } }}>
 
         <ContactFixed />

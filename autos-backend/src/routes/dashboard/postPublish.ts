@@ -19,7 +19,7 @@ export default async (req: express.Request, res: express.Response) => {
                 message = "Inserat freigegeben";
                 } else {
                 await connection.execute(UPDATE_CANCELLED, [axiosData.inserateId]);
-                message = "Inserate nicht freigegeben"
+                message = "Inserat nicht freigegeben"
             }
             await connection.commit();
                 connection.end();

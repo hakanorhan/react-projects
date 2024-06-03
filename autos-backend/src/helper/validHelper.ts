@@ -1,4 +1,4 @@
-import * as REGEX from '../regex/REGEX';
+import * as REGEX from '../regex/regex.js';
 
 export interface IAtLeastMessage {
     message: string,
@@ -96,7 +96,7 @@ export function formularMileageIsValid(mileage: number) {
     return REGEX.REGEX_MILEAGE.test(mileage.toString()); 
 }
 
-export function formularIsNumber(value: number) {
+export function formularIsNumber(value: number | string) {
     return REGEX.REGEX_NUMBER.test(value.toString());
 }
 

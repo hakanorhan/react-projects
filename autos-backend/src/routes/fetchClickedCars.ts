@@ -11,7 +11,6 @@ export async function fetchClickedCars(req: express.Request, res: express.Respon
     const offset: number = parseInt(req.body.offset);
     const type = req.body.type;
 
-        // Ensure limit and offset are valid numbers
         if (isNaN(limit) || isNaN(offset)) {
             return selectMysqlErrorMessages("ER_PARSE_ERROR", res);
         }

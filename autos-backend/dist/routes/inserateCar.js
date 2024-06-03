@@ -16,6 +16,14 @@ async function performQuery(data, userId, res) {
     const inserateSelect = data.inserateSelect;
     const inserateData = data.inserateData;
     const inserateCheckBox = data.inserateCheckbox;
+    let select;
+    for (select in inserateSelect) {
+        const value = inserateSelect[select];
+        if (!value || value === "") {
+            let axiosRejected = { messageId: `error ${select}`, message: "Bitte prüfen Sie das Feld." };
+            return res.status(409).json(axiosRejected);
+        }
+    }
     console.log(JSON.stringify(inserateSelect) + " " + JSON.stringify(inserateData) + " " + JSON.stringify(inserateCheckBox));
     let connection;
     try {
@@ -35,7 +43,7 @@ async function performQuery(data, userId, res) {
         const [resultInserate] = await connection.execute(INSERT_INSERATE, [inserateData.price, inserateSelect.model, techDescriptionId, inserateInfoId]);
         const inserateId = resultInserate.insertId;
         await connection.execute(INSERT_INSERATE_CHECK, [inserateId]);
-        const axiosData = { carId: inserateId, message: 'succes' };
+        const axiosData = { carId: inserateId, message: 'Als Entwurf gespeichert' };
         await connection.commit();
         connection.end();
         return res.status(200).json(axiosData);

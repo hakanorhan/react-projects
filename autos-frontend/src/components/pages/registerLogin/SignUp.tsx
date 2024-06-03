@@ -134,9 +134,13 @@ const SignUpUser: React.FC = () => {
         notifyError("name-field", "Bitte prüfen Sie das Name-Feld.")
       } else if (!ValidHelper.formularNameValid(surname)) {
         notifyError("surname-field", "Bitte prüfen Sie das Nachname-Feld")
+      } else if (!telefonNr || telefonNr.length <= 7) {
+        notifyError("phone-field", "Bitte prüfen Sie das Telefon-Feld.")
+      } else if(!form.impressumdaten || form.impressumdaten === "") {
+        notifyError("impressum-field", "Bitte prüfen Sie das Impressum-Feld.")
       } else if (diff <= 365 * 18) {
-        notifyError("birh-field", "Geburtsdatum ist kleiner 18.")
-      } else {
+        notifyError("birth-field", "Geburtsdatum ist kleiner 18.")
+      } else  {
         setActiveStep(activeStep + 1);
       }
     } if (activeStep === 2) {
@@ -187,9 +191,6 @@ const SignUpUser: React.FC = () => {
     if (!(isCheckedEmail || isCheckedTelefon)) {
       notifyError("contact-field", "Bitte wählen Sie mindestens eine Kontaktmöglichkeit aus.")
     }
-
-    // TODO: change if statemnt
-    // all Formular field are valid
     else {
       const formattedDate = dateValue?.format('DD-MM-YYYY');
       if(formattedDate) {
@@ -272,7 +273,7 @@ const SignUpUser: React.FC = () => {
                 {/* Name */}
                 <TextFieldCars id={EnumTextField.TextFieldID.FAMILYNAME} label={isCheckedDealer ? 'Ansprechpartner:in Nachname' : 'Nachname'} onChange={value => handleOnChange(EnumTextField.TextFieldID.FAMILYNAME, value)} regex={REGEX_NAMES} />
 
-                <MuiTelInput variant='standard' id={EnumTextField.TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={telefonNr} onChange={(value) => { setTelefonNr(value); }} />
+                <MuiTelInput required variant='standard' id={EnumTextField.TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={telefonNr} onChange={(value) => { setTelefonNr(value); }} />
 
                 {isCheckedDealer && <>
                   <Paper sx={{ padding: '0.7rem', marginBottom: COMPONENT_DISTANCE }} elevation={10}>

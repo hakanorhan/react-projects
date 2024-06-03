@@ -36,19 +36,25 @@ import sharp from "sharp";
 import { fetchClickedCars } from "./routes/fetchClickedCars.js";
 import { connectToDatabase } from "./dbConnect1.js";
 const MySQLStore = require('express-mysql-session')(session);
+import dotenv from 'dotenv';
+dotenv.config();
+const sessionSecret = process.env.SESSION_SECRET || "default-secret";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 const options = {
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'cars'
+    host: process.env.HOST,
+    port: process.env.PORT,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.DATABASE,
+    clearExpired: true,
+    checkExpirationInterval: 1000 * 60 * 10,
+    expiration: 1000 * 60 * 60 * 4
 };
 const sessionStore = new MySQLStore(options);
 app.use(session({
-    secret: 'Session_secret',
+    secret: sessionSecret,
     store: sessionStore,
     resave: false,
     saveUninitialized: false

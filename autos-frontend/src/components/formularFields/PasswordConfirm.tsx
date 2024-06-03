@@ -30,7 +30,6 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChang
     };
 
     useEffect(() => {
-        console.log("Password1 changes!" + password1 + ": confirm " + passwordConfirm);
         // basierend auf gültigem Passwort: Passwort bestätigen
         setValueMatch(regex.test(passwordConfirm) && password1 === passwordConfirm);
     }, [password1, passwordConfirm]);

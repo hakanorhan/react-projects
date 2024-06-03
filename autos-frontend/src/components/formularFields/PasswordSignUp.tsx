@@ -41,7 +41,7 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
 
   return (
     <Box>
-    <FormControl variant="standard">
+    <FormControl required variant="standard">
     <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
     <Input
       id= {id}

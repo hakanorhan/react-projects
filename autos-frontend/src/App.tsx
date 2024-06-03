@@ -41,19 +41,19 @@ const App: React.FC = () => {
   const router = createBrowserRouter([
     {
       element: <AppLayout />,
+      errorElement: <Notfound />,
       children: [
-        { path: URLs.POST_SIGINUP, element: <SignUpUser />, errorElement: <Notfound /> },
-        { path: URLs.ACCESS_DENIED, element: <AccessDenied />, errorElement: <Notfound /> },
-        { path: URLs.POST_SIGNIN, element: <SignIn />, errorElement: <Notfound /> },
-        { path: URLs.POST_INSERATE_CAR, element: <ProtectedRoute role={Roles.USER}><InserateCar /></ProtectedRoute>, errorElement: <Notfound /> },
+        { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> },
+        { path: URLs.POST_SIGINUP, element: <SignUpUser />},
+        { path: URLs.POST_SIGNIN, element: <SignIn /> },
+        { path: URLs.POST_INSERATE_CAR, element: <ProtectedRoute role={Roles.USER}><InserateCar /></ProtectedRoute> },
         { path: URLs.FETCH_INSERATE_PUBLISH, element: <ProtectedRoute role={Roles.ADMIN}> <PublishInserate /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_BRAND, element: <ProtectedRoute role={Roles.ADMIN}> <InsertBrand /> </ProtectedRoute> },
         { path: URLs.POST_INSERT_MODEL, element: <ProtectedRoute role={Roles.ADMIN}> <InsertModel /> </ProtectedRoute> },
-        { path: URLs.FETCH_DETAIL_SEARCH + "/:id", element: <ViewDetailSearch />, errorElement: <Notfound /> },
-        { path: URLs.HOME_ALL_SEARCH_COUNT, element: <Search /> },
-        { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> },
+        { path: URLs.FETCH_DETAIL_SEARCH + "/:id", element: <ViewDetailSearch />},
+        { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars />},
       ]
-    }
+    }, { path: URLs.ACCESS_DENIED, element: <AccessDenied /> }
   ]);
 
   // Background image changes on different components 
@@ -64,7 +64,7 @@ const App: React.FC = () => {
       <ThemeProvider theme={mode ? themeDark : themeLight}>
         <Box sx={{ backgroundColor:'background.default' }}>
           {/* Routes */}
-          <RouterProvider router={router} fallbackElement={<Notfound />} />
+          <RouterProvider router={router} />
         </Box>
       </ThemeProvider>
     </>

@@ -10,6 +10,8 @@ import TextFieldCars from "../../../../formularFields/TextFieldCars";
 import { REGEX_NAMES } from "../../../../../regex/REGEX";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../redux/store";
+import { formularNameValid } from "../../../../../helper/validHelper";
+import { notifyError } from "../../../../../helper/toastHelper";
 
 interface IFormBrand {
   brand: string
@@ -32,7 +34,10 @@ const InsertBrand = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const value = form.brand;
-    dispatch(insertBrand(value))
+    if(!formularNameValid(value))
+      notifyError("error", "Minimal 2 Buchstaben erforderlich")
+    else
+      dispatch(insertBrand(value))
   }
 
   const handleOnChange = (fieldName: string, fieldValue: string) => {

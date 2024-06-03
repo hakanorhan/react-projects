@@ -59,8 +59,11 @@ const InsertModel = () => {
       model: form.model
     }
 
-    if (!formularModelIsValid(axiosDataModel.model)) {
-      notifyError("model", "Bitte korrigieren Sie das Modell.")
+    if(!selectedBrand) {
+      notifyError("brand", "Bitte wählen Sie eine Marke.")
+    }
+    else if (!formularModelIsValid(axiosDataModel.model)) {
+      notifyError("model", "Bitte prüfen Sie das Modell-Feld.")
     } else {
       dispatch(insertModel(axiosDataModel));
     }

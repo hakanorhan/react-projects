@@ -5,7 +5,7 @@ export const insertMysqlErrorMessages = async (errno, res) => {
             axiosRejected = { messageId: errno.toString(), message: "Wert ist bereits vorhanden" };
             break;
         default:
-            axiosRejected = { messageId: errno.toString(), message: "Bitte versuchen Sie es erneut" };
+            axiosRejected = { messageId: errno.toString(), message: "Bitte prüfen Sie Ihre Eingabe" };
     }
     console.log(axiosRejected.message + " " + axiosRejected.messageId);
     return res.status(409).json(axiosRejected);
