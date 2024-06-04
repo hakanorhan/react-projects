@@ -52,7 +52,6 @@ export default async (req: express.Request, res: express.Response) => {
         return res.status(200).json({ message: 'Data send',
              tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices, isAuthenticated }});
     } catch (error: any) {
-        console.log("Error:", error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     } 

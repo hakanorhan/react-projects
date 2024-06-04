@@ -68,9 +68,7 @@ const components = {
         styleOverrides: {
             root: {
                 backgroundColor: 'whitesmoke',
-                '&:hover': {
-
-                }
+                
             }
         }
     },
@@ -86,6 +84,7 @@ const components = {
     MuiButton: {
         styleOverrides: {
             root: {
+                fontSize: '1.2rem',
                 borderRadius: '0px',
                 border: 'none',
                 width: '100%',
@@ -94,7 +93,10 @@ const components = {
                     backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
                     color: LIGHT_PRIMARY_COLOR_MAIN,
                     transition: TRANSITION
-                }
+                }, textTransform: 'none',
+                '& .MuiButton-label': {
+                    textTransform: 'capitalize',
+                },
             }
         },
 
@@ -135,6 +137,7 @@ const componentsDark = {
     MuiButton: {
         styleOverrides: {
             root: {
+                fontSize: '1.2rem',
                 borderRadius: '0px',
                 border: 'none',
                 width: '100%',
@@ -143,7 +146,11 @@ const componentsDark = {
                     backgroundColor: DARK_SECONDARY_COLOR_MAIN,
                     color: DARK_PRIMARY_COLOR_MAIN,
                     transition: TRANSITION
-                }
+                },
+                textTransform: 'none',
+                '& .MuiButton-label': {
+                    textTransform: 'capitalize',
+                },
             }
         },
 
@@ -288,12 +295,13 @@ export const MainBox = styled('div')(({ theme }) => ({
  * Responsive.
  * Width for Formular.
  */
-export const MainComponentWidth = styled('div')(({ theme }) => ({
+ export const MainComponentWidth = styled('div')(({ theme }) => ({
     display: 'flex',
     paddingTop: '1rem',
     paddingBottom: '3rem',
     margin: 'auto',
     flexDirection: 'column',
+    minHeight: '100vh',
     [theme.breakpoints.up("xs")]: {
         width: '90%',
 

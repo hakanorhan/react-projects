@@ -34,7 +34,7 @@ const drawerFontSize = '28px';
 
 const drawerSizes = { color: 'secondary.contrastText', fontSize: drawerFontSize, fontFamily: fontBold, paddingLeft: '25px' };
 const accordionIconStyle = { fontSize: drawerFontSize, color:'secondary.contrastText' };
-const accordionStyle = { backgroundColor:'secondary.main', paddingLeft: '25px', marginBottom: '0.8rem' };
+const accordionStyle = { backgroundColor:'secondary.main', paddingLeft: '35px', marginBottom: '0.8rem' };
 
 interface AccordionProps {
   icon: JSX.Element,
@@ -123,7 +123,7 @@ export default function Header() {
       aria-controls="panel1-content"
       id="panel1-header"
     >
-      { icon } <ParagraphSideMenu><Typography sx={{ color: 'secondary.contrastText' }} variant='h6'>{ title }</Typography></ParagraphSideMenu>
+      { icon } <ParagraphSideMenu><Typography variant='h5' component='h3' sx={{ color: 'secondary.contrastText' }}>{ title }</Typography></ParagraphSideMenu>
     </AccordionSummary>
     <AccordionDetails>
       <Box >
@@ -180,7 +180,7 @@ export default function Header() {
               
               <Button onClick={() => {
                 setDrawerOpen(false); navigate(URLs.FETCH_INSERATE_PUBLISH)
-              }} sx={{ width:'250px', color:'secondary.contrastText', '&:hover': { color: 'secondary.contrastText' }, marginTop: '0.8rem' }}  startIcon={<PublishIcon sx={ accordionIconStyle }/>}> <Typography>Veröffentlichen </Typography></Button>
+              }} sx={{ width:'250px', color:'secondary.contrastText', '&:hover': { color: 'secondary.contrastText' }, marginTop: '0.8rem', paddingLeft:'55px' }}  startIcon={<PublishIcon sx={ accordionIconStyle }/>}> <Typography  variant='h5' component='h4'>Veröffentlichen </Typography></Button>
                </Box>
           </>
         }

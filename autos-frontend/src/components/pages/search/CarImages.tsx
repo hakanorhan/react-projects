@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../enums/URLs';
-import { Box, CardMedia, Dialog, IconButton, Typography, colors, useMediaQuery, } from '@mui/material';
+import { Box, CardMedia, Dialog, IconButton, Typography, useMediaQuery, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { AxiosDataImagesNames } from '../../../interfaces/IAxiosData';

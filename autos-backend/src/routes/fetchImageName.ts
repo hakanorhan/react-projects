@@ -21,7 +21,6 @@ export default async (req: express.Request, res: express.Response) => {
         connection.end();  
         return res.status(200).json( axiosData );
     } catch (error: any) {
-        console.log(error)
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     } 

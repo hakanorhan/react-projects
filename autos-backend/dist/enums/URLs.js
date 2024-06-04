@@ -21,6 +21,7 @@ export var URLs;
     URLs["GET_CHECK_AUTH"] = "/api/checkAuth";
     URLs["FETCH_COUNT"] = "/search/count/all";
     URLs["FETCH_CLICKED_CARS"] = "/search/most-clicked";
+    URLs["FETCH_CLICKED_CARS_COUNT"] = "/search/most-clicked-count";
     URLs["UPLOAD"] = "/upload";
     URLs["IMAGE_PATH"] = "/uploads";
     URLs["FETCH_IMAGENAMES"] = "/fetch-imagenames";

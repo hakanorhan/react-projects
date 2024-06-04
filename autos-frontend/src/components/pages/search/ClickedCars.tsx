@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Box, Button, Card, CardActionArea, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { AxiosPaperList } from '../../../interfaces/IAxiosData';
+import { AxiosPaperList, AxiosRejectPackage } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../enums/URLs';
 import axios from 'axios';
 import CarImages from './CarImages';
@@ -9,41 +9,65 @@ import { ShowFastPaper } from './searchComponents/ShowFastPaper';
 import { COMPONENT_DISTANCE, ZOOM_HOVER } from '../../../themes/Theme';
 import { DisplayTypes } from '../../../enums/DisplayTypes';
 import AddIcon from '@mui/icons-material/Add';
-import SkeletonCard from '../skeleton/SkeletonCard';
-
-const LIMIT = 1;
+import LimitMediaQuery from '../../../helper/LimitMediaQuery';
+import { notifyError, notifySuccess } from '../../../helper/toastHelper';
+import { Toaster } from 'react-hot-toast';
 
 const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
+
+  const LIMIT = LimitMediaQuery();
 
   const navigate = useNavigate();
 
   const [cars, setCars] = useState<AxiosPaperList[]>([]);
 
   const [offset, setOffset] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
+
+  async function fetchFromServer() {
+    try {
+      const limit = LIMIT;
+      const response = await axios.post<AxiosPaperList[]>(URLs.ORIGIN_SERVER + URLs.FETCH_CLICKED_CARS, { offset, limit, type }, {
+        withCredentials: true,
+      })
+      const data: AxiosPaperList[] = response.data;
+      if(data.length > 0) {
+        setCars(prevCars => [...prevCars, ...data]);
+        setOffset(offset + data.length);
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+  async function fetchCountFromServer() {
+    try {
+      const response = await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_CLICKED_CARS_COUNT, { type }, {
+        withCredentials: true,
+      })
+      const data = response.data;
+      setCount(data);
+
+    } catch (error: any) {
+      const axiosRejectPackage: AxiosRejectPackage = error.response.data;
+      notifyError(axiosRejectPackage.messageId, axiosRejectPackage.message);
+    }
+
+  }
 
   const handleShowNewCars = (_event: any) => {
-    setOffset(offset + LIMIT);
+    if (offset <= cars.length) {
+      fetchFromServer();
+    }
+      
   };
 
   useEffect(() => {
-    async function fetchFromServer() {
-      try {
-        const limit = LIMIT;
-        const response = await axios.post<AxiosPaperList[]>(URLs.ORIGIN_SERVER + URLs.FETCH_CLICKED_CARS, { offset, limit, type }, {
-          withCredentials: true,
-        })
-        const data: AxiosPaperList[] = response.data;
-        if(data.length > 0)
-          setCars(prevCars => [...prevCars, ...data]);
-
-      } catch (error) {
-        console.log(error)
-      }
-
-    }
-
+    fetchCountFromServer();
     fetchFromServer();
-  }, [offset])
+  }, [])
 
   const handleShowDetail = ({ id }: ({ id: number })) => {
     navigate(URLs.FETCH_DETAIL_SEARCH + `/${id}`);
@@ -66,11 +90,7 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   }, [])
 
   return (<>
-    {
-      <Box sx={{ display: cars ? 'none' : 'block' }}>
-        <SkeletonCard />
-      </Box>
-    }
+  <Toaster />
     { cars && cars?.length > 0 &&
     <Box sx={{ display:'block', width: '95%', margin: 'auto', paddingTop: '20px', marginBottom: COMPONENT_DISTANCE }}>
 
@@ -85,7 +105,7 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
       </Grid>
 
       <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE }}>
-      <Button onClick={  handleShowNewCars } sx={{ width:'250px', color: 'text.primary', '&:hover': { backgroundColor:'transparent' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
+      <Button disabled={ offset >= count } onClick={  handleShowNewCars } sx={{ width:'250px', color: 'text.primary', '&:hover': { backgroundColor:'transparent' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
       </Box>
     </Box>
 }

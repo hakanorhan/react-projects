@@ -5,13 +5,13 @@ import ShareIcon from '@mui/icons-material/Share';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { COMPONENT_DISTANCE } from '../../themes/Theme';
-import { IconButton, ListItemIcon, Menu, MenuItem, MenuList, Typography } from '@mui/material';
+import { Button, ListItemIcon, Menu, MenuItem, MenuList, Typography } from '@mui/material';
 
 interface ShareComponentProps {
     showText?: boolean
 }
 
-const ShareComponent:React.FC<ShareComponentProps> = ({ showText: showNoText }) => {
+const ShareComponent: React.FC<ShareComponentProps> = ({ showText: showNoText }) => {
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -24,25 +24,13 @@ const ShareComponent:React.FC<ShareComponentProps> = ({ showText: showNoText }) 
     };
 
     return <div>
-        <IconButton
-            sx={{
-                p: 0, color: 'primary.contrastText', backgroundColor: 'transparent', "&.MuiButtonBase-root:hover": {
-                    backgroundColor: "transparent"
-                }
-            }}
+        <Button sx={{ p: 0, color: 'text.primary', backgroundColor: 'transparent', "&.MuiButtonBase-root:hover": { backgroundColor: "transparent" } }}
             size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
             onClick={handleMenu}
-        >
-            <ShareIcon sx={{ cursor: 'pointer', marginRight: !showNoText ? COMPONENT_DISTANCE : 0, color: 'text.primary' }} />
-            {
-                !showNoText ?
-                <Typography sx={{ color: 'text.primary' }} variant='body1' component='p'>{"Teilen"}</Typography>
-                : null
-            }
-        </IconButton>
+            startIcon={<ShareIcon sx={{ cursor: 'pointer', marginRight: !showNoText ? COMPONENT_DISTANCE : 0, color: 'text.primary' }} />}>
+            {"Teilen"}
+        </Button>
+
         <Menu sx={{ mt: '30px' }}
             id="menu-appbar"
             anchorEl={anchorEl}

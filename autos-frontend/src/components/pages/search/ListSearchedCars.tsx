@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Button, useMediaQuery, Box, Card, CardActionArea, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography, useTheme } from '@mui/material'
+import { Button, Box, Card, CardActionArea, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../enums/URLs';
@@ -13,10 +13,9 @@ import { SortEnums } from '../../../enums/SortEnums';
 import { COMPONENT_DISTANCE, LinkNewSearch, ZOOM_HOVER } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
 import ShareComponent from '../ShareComponent';
+import LimitMediaQuery from '../../../helper/LimitMediaQuery';
 
 const ListSearchedCars = () => {
-
-  const LIMIT = 3;
 
   const location = useLocation();
 
@@ -31,6 +30,9 @@ const ListSearchedCars = () => {
   // sort
   const [selectedSort, setSelectedSort] = useState<string>(SortEnums.PRICE_DOWN);
 
+
+  const LIMIT = LimitMediaQuery();
+
   // count
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(location.search);
@@ -43,7 +45,7 @@ const ListSearchedCars = () => {
     const price = urlSearchParams.get('price');
 
     const searchParams = { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo };
-    // 
+
     async function fetch() {
 
       try {
@@ -53,7 +55,6 @@ const ListSearchedCars = () => {
           params: searchParams
         })
         const anzahl = response.data;
-
         setCount(anzahl);
 
       } catch (error) {
@@ -63,39 +64,44 @@ const ListSearchedCars = () => {
     fetch();
   }, [])
 
-  useEffect(() => {
-    async function fetchFromServer() {
-      try {
-        const searchParams = new URLSearchParams(location.search);
-        const brandid = searchParams.get('brandid');
-        const modelid = searchParams.get('modelid');
-        const cartypeid = searchParams.get('cartypeid');
-        const blandid = searchParams.get('blandid');
-        const dateFrom = searchParams.get('dateFrom');
-        const dateTo = searchParams.get('dateTo');
-        const price = searchParams.get('price');
-        const sorttype = selectedSort;
+  async function fetchFromServer() {
+    try {
+      const searchParams = new URLSearchParams(location.search);
+      const brandid = searchParams.get('brandid');
+      const modelid = searchParams.get('modelid');
+      const cartypeid = searchParams.get('cartypeid');
+      const blandid = searchParams.get('blandid');
+      const dateFrom = searchParams.get('dateFrom');
+      const dateTo = searchParams.get('dateTo');
+      const price = searchParams.get('price');
+      const sorttype = selectedSort;
 
-        const response = await axios.get<AxiosPaperList[]>(URLs.ORIGIN_SERVER + URLs.FETCH_LIST_CARS, {
-          withCredentials: true,
-          params: { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, LIMIT, offset, sorttype }
-        })
-        const data: AxiosPaperList[] = response.data;
-        if (data && data.length > 0)
-          setCars(prevCars => [...prevCars, ...data]);
-
-      } catch (error) {
-        console.log(error)
+      const response = await axios.get<AxiosPaperList[]>(URLs.ORIGIN_SERVER + URLs.FETCH_LIST_CARS, {
+        withCredentials: true,
+        params: { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, LIMIT, offset, sorttype }
+      })
+      const data: AxiosPaperList[] = response.data;
+      
+      if (data && data.length > 0) {
+        setCars(prevCars => [...prevCars, ...data]);
+        setOffset(offset + data.length)
       }
 
+    } catch (error) {
+      console.log(error)
     }
 
-    fetchFromServer();
-  }, [selectedSort, offset])
+  }
+
+  useEffect(() => {
+     fetchFromServer();
+  }, [selectedSort])
 
   const handleChangeSort = (event: SelectChangeEvent) => {
     const sortId = event.target.value as string;
     setSelectedSort(sortId);
+    setCars([]);
+    setOffset(0);
   };
 
   const handleShowDetail = ({ id }: ({ id: number })) => {
@@ -103,8 +109,10 @@ const ListSearchedCars = () => {
   }
 
   const handleShowNewCars = (_event: any) => {
-    if (offset + LIMIT <= count)
-      setOffset(offset + LIMIT);
+    if (offset <= count) {
+      fetchFromServer();
+    }
+      
   };
 
   const MemoizedContainer = useMemo(() => {
@@ -174,7 +182,7 @@ const ListSearchedCars = () => {
       </Grid>
 
       <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
-        <Button onClick={handleShowNewCars} sx={{ width: '250px', color: 'text.primary', '&:hover': { backgroundColor: 'transparent' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
+        <Button disabled={ offset >= count } onClick={handleShowNewCars} sx={{ width: '250px', color: 'text.primary', '&:hover': { backgroundColor: 'transparent' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
       </Box>
     </Box>
 

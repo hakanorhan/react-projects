@@ -5,6 +5,7 @@ import { SortEnums } from '../enums/SortEnums.js';
 export async function fetchListCars(req, res) {
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, offset, LIMIT, sorttype } = req.query;
     console.log("Sort type: " + sorttype);
+    console.log("LIMIT: " + LIMIT + " offset: " + offset);
     const whereClause = [" i.inserate_id = ic.inserate_id AND i.entwurf = 0 AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id AND td.fuel_id = f.fuel_id AND td.vehicle_condition_id = vc.vehicle_condition_id AND td.transmission_id = t.transmission_id AND td.cartype_id = ct.cartype_id "];
     const whereValue = [];
     const attributes = " i.inserate_id, b.brand, m.model, i.price, ad.city, fs.federal_state, td.vehicle_owners, td.mileage_km, td.registration_year, td.registration_month, td.power_ps, f.fuel, vc.fit_to_drive, t.transmission, ct.cartype, u.is_car_dealer ";
@@ -99,7 +100,6 @@ export async function fetchListCars(req, res) {
         const axiosPapers = [];
         cars.map((axiosData) => {
             const { is_car_dealer, price, city, federal_state, brand, model, inserate_id, cartype, transmission, mileage_km, registration_year, registration_month, power_ps, fuel, accident, vehicle_owners } = axiosData;
-            console.log(vehicle_owners);
             const axiosPaperList = { isCarDealer: is_car_dealer, price, city, federalState: federal_state, brand, model, transmission, cartype, fuel, accident,
                 inseratId: inserate_id, mileageKm: mileage_km, registrationMonth: registration_month, registrationYear: registration_year, psPower: power_ps, vehicleOwners: vehicle_owners };
             axiosPapers.push(axiosPaperList);
@@ -108,7 +108,6 @@ export async function fetchListCars(req, res) {
         return res.status(200).json(axiosPapers);
     }
     catch (error) {
-        console.log(error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     }

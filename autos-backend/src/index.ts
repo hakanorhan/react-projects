@@ -23,8 +23,6 @@ import emailCheck from "./routes/emailCheck.js";
 import logout from "./routes/logout.js";
 import { fetchListCars } from "./routes/fetchListCars.js";
 import { fileURLToPath } from 'url';
-// passport.js
-//import sessionMiddleware from "./routes/middleware/session.middleware.js";
 import passport, { authMiddelware } from "./routes/middleware/passport.middleware.js";
 import authenticationUser from "./routes/middleware/authenticationUser.js";
 
@@ -39,6 +37,7 @@ import { connectToDatabase } from "./dbConnect1.js";
 const MySQLStore = require('express-mysql-session')(session);
 
 import dotenv from 'dotenv'
+import { fetchCountClickedCars } from "./routes/fetchCountClickedCars.js";
 dotenv.config();
 const sessionSecret = process.env.SESSION_SECRET || "default-secret";
 
@@ -81,7 +80,7 @@ sessionStore.onReady().then(() => {
 	console.log('MySQLStore ready');
 }).catch((error: unknown) => {
 	// Something went wrong.
-	console.error(error);
+	//console.error(error);
 });
 
 app.use(passport.initialize());
@@ -122,6 +121,7 @@ app.get(URLs.FETCH_IMAGENAME + "/:id", fetchImageName);
 
 app.get(URLs.FETCH_LIST_CARS, fetchListCars);
 app.post(URLs.FETCH_CLICKED_CARS, fetchClickedCars);
+app.post(URLs.FETCH_CLICKED_CARS_COUNT, fetchCountClickedCars);
 
 app.delete(URLs.LOGOUT, logout);
 app.get(URLs.AUTHENTICATION_USER, authenticationUser);
@@ -133,7 +133,8 @@ const storage = multer.diskStorage({
     
         fs.mkdir(newUploadPath, { recursive: true}, function(err) {
           if(err) {
-            console.log("Error", err);
+            // TODO: 
+            //console.log("Error", err);
           } else {
             cb(null, newUploadPath);
           }
@@ -178,9 +179,6 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
         // width height
           .resize(768, 432, { fit: 'cover' })
           .toFile(outputFilePath);
-  
-        // Log the resized image filename
-        console.log("ImageName: " + file.filename);
         
         await connection.execute(insertInto, [imageName, insertId]);
         fs.unlinkSync(file.path);
@@ -227,8 +225,6 @@ async function deleteImageDBAndFile(inserateId: string, imageName: string, res: 
     // delete from folder
     fs.unlink(filePath, (error) => {
     if(error) {
-      
-      console.log(error);
       message = 'Fehler beim Löschen.';
       status = 500;
       throw error;
@@ -250,7 +246,6 @@ async function deleteImageDBAndFile(inserateId: string, imageName: string, res: 
 app.delete(URLs.DELETE_IMAGE+"/:inserateid/:imagename", authMiddelware, (req, res) => {
   const inserateId = req.params.inserateid;
   const imageName = 'resized_' + req.params.imagename;
-  console.log(inserateId + " " + imageName);
   
   deleteImageDBAndFile(inserateId, imageName, res);
 })

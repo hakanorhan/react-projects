@@ -32,7 +32,6 @@ export default async (req, res) => {
             tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices, isAuthenticated } });
     }
     catch (error) {
-        console.log("Error:", error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     }

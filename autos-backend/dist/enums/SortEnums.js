@@ -1,6 +1,6 @@
 export var SortEnums;
 (function (SortEnums) {
-    SortEnums["EZ_UP"] = "ezdown";
+    SortEnums["EZ_UP"] = "ez_up";
     SortEnums["EZ_DOWN"] = "ez_down";
     SortEnums["KM_UP"] = "kmup";
     SortEnums["KM_DOWN"] = "kmdown";

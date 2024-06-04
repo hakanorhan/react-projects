@@ -11,7 +11,8 @@ export async function fetchListCars(req: express.Request, res: express.Response)
 
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, offset, LIMIT, sorttype } = req.query;
     console.log("Sort type: " + sorttype );
-    // check offset and limit
+    console.log("LIMIT: " + LIMIT + " offset: " + offset);
+    
 
 
     const whereClause: string[] = [" i.inserate_id = ic.inserate_id AND i.entwurf = 0 AND ic.inserate_public = 1 AND ic.inserate_cancelled = 0 ", " AND ii.inserate_info_id = i.inserate_info_id AND ii.is_active = 1 AND i.technical_description_id = td.technical_description_id AND td.fuel_id = f.fuel_id AND td.vehicle_condition_id = vc.vehicle_condition_id AND td.transmission_id = t.transmission_id AND td.cartype_id = ct.cartype_id "];
@@ -127,7 +128,6 @@ export async function fetchListCars(req: express.Request, res: express.Response)
 
             cars.map((axiosData: any) => {
                 const {is_car_dealer, price, city, federal_state, brand, model, inserate_id, cartype, transmission, mileage_km, registration_year, registration_month, power_ps, fuel, accident, vehicle_owners } = axiosData;
-            console.log(vehicle_owners)
             const axiosPaperList: AxiosPaperList = { isCarDealer: is_car_dealer, price, city, federalState: federal_state, brand, model, transmission, cartype, fuel, accident, 
                 inseratId: inserate_id, mileageKm: mileage_km, registrationMonth: registration_month, registrationYear: registration_year, psPower: power_ps, vehicleOwners: vehicle_owners }
                 
@@ -144,7 +144,7 @@ export async function fetchListCars(req: express.Request, res: express.Response)
             return res.status(200).json(axiosPapers);
 
     } catch (error: any) {
-        console.log(error);
+        //console.log(error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     } 

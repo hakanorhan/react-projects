@@ -25,6 +25,7 @@ export enum URLs {
     GET_CHECK_AUTH = '/api/checkAuth',
     FETCH_COUNT = '/search/count/all',
     FETCH_CLICKED_CARS = '/search/most-clicked',
+    FETCH_CLICKED_CARS_COUNT = '/search/most-clicked-count',
     UPLOAD = '/upload',
     IMAGE_PATH = '/uploads',
     FETCH_IMAGENAMES = '/fetch-imagenames',
