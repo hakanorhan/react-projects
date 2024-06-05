@@ -24,7 +24,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
   const [fetchedImageInformations, setFetchedImageInformations] = useState<AxiosDataImagesNames[]>([]);
 
   const [imageSrc, setImageSrc] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
 
   const [succesFullDownloaded, setSuccessFullDownloaded] = useState(false);
 
@@ -99,7 +98,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
       } catch (error) {
         console.error('Fehler beim Herunterladen der Bilder:', error);
       } finally {
-        setLoading(false);
         setFetchImageNamesDone(false);
       }
     };
@@ -147,7 +145,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
         sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16/9, height: 'auto', '&:hover': { cursor:'pointer' } }}>
       </CardMedia>
 
-      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: isDetail ? 'block' : 'none' }, position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
+      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: isDetail ? 'block' : 'none' }, color:'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
         padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0 }}><Typography>{`${sliderIndex} / ${imageSrc.length}`}</Typography></Box>
       {imageSrc.length > 1 && <>
         <IconButton sx={iconButtonSX(0)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>

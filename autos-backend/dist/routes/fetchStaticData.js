@@ -1,6 +1,6 @@
 import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
-const selectQueryBrands = 'SELECT * from brand';
+const selectQueryBrands = 'SELECT * FROM brand WHERE brand_id IN (SELECT brand_id FROM model)';
 const selectQueryCartypes = 'SELECT * FROM cartype';
 const selectQueryTransmissions = 'SELECT * FROM transmission';
 const selectQueryFuels = 'SELECT * FROM fuel';
@@ -32,6 +32,7 @@ export default async (req, res) => {
             tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices, isAuthenticated } });
     }
     catch (error) {
+        console.log(error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     }

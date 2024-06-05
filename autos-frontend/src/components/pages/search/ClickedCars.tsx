@@ -1,16 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Box, Button, Card, CardActionArea, Grid } from '@mui/material'
+import { Box, Button, Card, CardActionArea, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { AxiosPaperList, AxiosRejectPackage } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../enums/URLs';
 import axios from 'axios';
 import CarImages from './CarImages';
 import { ShowFastPaper } from './searchComponents/ShowFastPaper';
-import { COMPONENT_DISTANCE, ZOOM_HOVER } from '../../../themes/Theme';
+import { COMPONENT_DISTANCE, ZOOM_HOVER, fontSemiBold } from '../../../themes/Theme';
 import { DisplayTypes } from '../../../enums/DisplayTypes';
 import AddIcon from '@mui/icons-material/Add';
 import LimitMediaQuery from '../../../helper/LimitMediaQuery';
-import { notifyError, notifySuccess } from '../../../helper/toastHelper';
+import { notifyError } from '../../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
 
 const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
@@ -93,6 +93,12 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   <Toaster />
     { cars && cars?.length > 0 &&
     <Box sx={{ display:'block', width: '95%', margin: 'auto', paddingTop: '20px', marginBottom: COMPONENT_DISTANCE }}>
+
+    <Typography variant='h6' component='h1' sx={{ fontFamily: fontSemiBold, marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
+      {
+        type === DisplayTypes.ELECTRIC ? "Elektroautos" : "Am meisten gesucht"
+      }
+    </Typography>
 
       <Grid container spacing={4}>
         {

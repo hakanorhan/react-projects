@@ -39,15 +39,15 @@ const ProtectedRoute = ({ children, role }: ProtectedRoteProps) => {
                 dispatch(setUserLoggedIn(logged));
                 const authRole = authResponse.role;
                 dispatch(setRole(authRole));
-                navigate(URLs.POST_SIGNIN);
+                navigate(URLs.ACCESS_DENIED);
             }
         }
         checkAuth();
 
     }, [])
-
+    
     return userLoggedStatus.userLoggedIn && role === userLoggedStatus.role
-        ? children : <Notfound />;
+        ? children : navigate(URLs.ACCESS_DENIED);
 };
 
 export default ProtectedRoute;

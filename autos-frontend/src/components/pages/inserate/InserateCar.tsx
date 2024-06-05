@@ -3,7 +3,7 @@ import { Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typography } from '@
 import axios from 'axios';
 import { Button, FormControlLabel, Checkbox } from '@mui/material';
 import { REGEX_HUBRAUM, REGEX_MILEAGE, REGEX_NAMES, REGEX_OWNER, REGEX_POWER, REGEX_PRICE } from '../../../regex/REGEX';
-import { DivSearchInserate, HeaderIcon, mainComponentHeight, COMPONENT_DISTANCE } from '../../../themes/Theme';
+import {  HeaderIcon, mainComponentHeight, COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../enums/URLs';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper';
@@ -214,7 +214,12 @@ export default function InserateCar() {
 
   return (<>
   <Toaster />
-    <DivSearchInserate sx={{ height: activeStep === 2 ? mainComponentHeight : 'auto' }}>
+    <Box sx={{ display: 'flex',
+    paddingTop: '3rem',
+    paddingBottom: '3rem',
+    margin: 'auto',
+    flexDirection: 'column',
+   width: { xs: '95%', md:'750px' } }}>
       <Typography variant='h4' component='h1'>Fahrzeug inserieren</Typography>
       <Stepper activeStep={activeStep} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
         {
@@ -322,7 +327,7 @@ export default function InserateCar() {
         </Box>
       </form>
 
-    </DivSearchInserate>
+    </Box>
   </>
   )
 }

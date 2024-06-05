@@ -24,7 +24,6 @@ export async function fetchCountClickedCars(req, res) {
         const queryResult = await connection.query(query);
         const result = queryResult;
         const count = result[0][0].count;
-        console.log(type + " " + count);
         connection.end();
         return res.status(200).json(count);
     }

@@ -3,7 +3,7 @@ import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 
-const selectQueryBrands: string = 'SELECT * from brand';
+const selectQueryBrands: string = 'SELECT * FROM brand WHERE brand_id IN (SELECT brand_id FROM model)';
 const selectQueryCartypes: string = 'SELECT * FROM cartype';
 const selectQueryTransmissions: string = 'SELECT * FROM transmission';
 const selectQueryFuels: string = 'SELECT * FROM fuel';
@@ -52,6 +52,7 @@ export default async (req: express.Request, res: express.Response) => {
         return res.status(200).json({ message: 'Data send',
              tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices, isAuthenticated }});
     } catch (error: any) {
+        console.log(error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     } 

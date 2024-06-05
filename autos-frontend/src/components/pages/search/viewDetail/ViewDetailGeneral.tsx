@@ -3,7 +3,7 @@ import { Box, Button, Grid, Rating, Typography, colors } from '@mui/material';
 import {
   Boxprint,
   COMPONENT_DISTANCE, GreyHorizontalHR, GreyHorizontalTechBoldHR, ICON_FONT_SIZE, LINE_HEIGHT,
-  fontBold, fontLight, fontRegular, paperViewDetailSearchTextArea, SX_ICON
+  fontBold, fontLight, fontRegular, paperViewDetailSearchTextArea, SX_ICON, fontSemiBold, GreyVerticalHR
 } from '../../../../themes/Theme';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import Check from '@mui/icons-material/Check';
@@ -33,9 +33,9 @@ import { AppDispatch, RootState } from '../../../../redux/store';
 import { fetchDetailSearch } from '../../../../redux/features/search/detailSearch';
 import GroupIcon from '@mui/icons-material/Group';
 import ShareComponent from '../../ShareComponent';
-const gridItemXS = 4;
-const gridItemSM = 4;
-const gridItemMD = 4;
+import Logo from '../../../Logo';
+import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
+
 
 const XS = 11.3;
 
@@ -72,8 +72,8 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
 
   const GridTechnicalComponent: React.FC<GridTechnicalDetails> = ({ title, value, icon }) => {
     return <Grid sx={{ display: 'flex', padding: '0.7rem' }} item xs={12}>
-      <Grid item xs={6}><Typography sx={{}} variant='body1' component='p'>{`${title}:`}</Typography></Grid>
-      <Grid item xs={6}> <Typography sx={{ fontWeight: 'bold' }} variant='body1' component='p'>{value}</Typography>{icon}</Grid>
+      <Grid item xs={6}><Typography sx={{ fontFamily: fontSemiBold }} variant='body1' component='p'>{`${title}:`}</Typography></Grid>
+      <Grid item xs={6}> <Typography sx={{ fontFamily: fontSemiBold }} variant='body1' component='p'>{value}</Typography>{icon}</Grid>
     </Grid>
   }
 
@@ -112,12 +112,13 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
       alignItems: 'center',
       paddingTop: COMPONENT_DISTANCE,
       margin: 'auto',
-      backgroundColor: 'background.default'
+      zIndex: 100,
+      backgroundColor: 'whitesmoke'
     }} >
-      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', textAlign: 'center' }}>
+      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', padding: '10px', paddingRight: '5px', textAlign: 'center' }}>
         <Button sx={{ height: '55px' }} variant='contained' endIcon={<CallIcon />}>Anrufen</Button>
       </Box>
-      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', textAlign: 'center' }}>
+      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', padding: '10px', paddingLeft: '5px', textAlign: 'center' }}>
         <Button onClick={() => { handleClickOpen() }} sx={{ height: '55px', backgroundColor: 'secondary.main', color: 'primary.main' }} variant='contained' endIcon={<EmailIcon />}>Email</Button>
       </Box>
     </Box>
@@ -165,16 +166,53 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
   }
 
   return (
-    <Box sx={{ minHeight:'1000px' }}>
+    <Box>
       <Grid container sx={{ backgroundColor: 'background.paper', width: { xs: '100%', lg: '1050px' }, margin: 'auto', marginTop: { xs: 0, lg: '4rem' }, marginBottom: { xs: 0, lg: '4rem' } }}>
 
         <ContactFixed />
 
         {/*  Container */}
-        <Grid item xs={12} lg={7} sx={{ border: { xs: 'none', lg: 'solid' }, borderWidth: '1px', color: colors.grey[300] }}>
+        <Grid item xs={12} lg={7}>
           <Box sx={{ padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
             <CarImages id={id} multiple={true} isDetail={true} />
           </Box>
+
+          <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'flex' : 'none' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
+            <Logo />
+            <Box sx={{ marginLeft:'30px', marginRight: '10px' }}>
+              <LocationOnIcon sx={ SX_ICON }/>
+            </Box>
+            <Box sx={{ color:'text.primary' }}>
+            <Typography variant='body1'>{detailSearchValues?.companyName}</Typography>
+            <Typography variant='body2'>{`${detailSearchValues?.streetNr}`}</Typography>
+            <Typography variant='body2'>{`${detailSearchValues?.zipcode} ${detailSearchValues?.city}`}</Typography>
+            </Box>
+
+            <Box sx={{ marginLeft: '30px', color:'text.primary' }}>
+            {detailSearchValues?.isCardealer ? <GridComponent icon={<StoreIcon sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={SX_ICON} />} value={"Privat"} />}
+            <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
+            <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize:'1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography  sx={{ marginLeft:'7px' }} variant='body2'>45 Bewertungen</Typography></Box>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'none' : 'flex' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
+          <Box sx={{ marginRight: '10px' }}>
+              <LocationOnIcon sx={ SX_ICON }/>
+            </Box>
+            <Box sx={{ color:'text.primary' }}>
+            <Typography variant='body1'>{`${detailSearchValues?.zipcode} ${detailSearchValues?.city}`}</Typography>
+            </Box>
+
+            <Box sx={{ marginLeft: '50px', color:'text.primary' }}>
+              <Box>
+            {detailSearchValues?.isCardealer ? <GridComponent icon={<StoreIcon sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={SX_ICON} />} value={"Privat"} />}
+              </Box>
+            <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
+            <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize:'1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography  sx={{ marginLeft:'7px' }} variant='body2'>45 Bewertungen</Typography></Box>
+            
+            </Box>
+          </Box>
+
         </Grid>
         {detailSearchValues ?
           <>
@@ -195,49 +233,63 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
                 </Grid>
               </Boxprint>
 
-              <Grid sx={{ height: '100%', paddingTop: COMPONENT_DISTANCE }} container>
+              <Grid sx={{ height: '100%', marginTop: '1rem' }} container>
                 {/* Marke Modell */}
-                <Grid item xs={12}> <Typography sx={{ fontFamily: fontBold }} variant='h6' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
+                <Grid item xs={12}> <Typography sx={{ fontFamily: fontBold }} variant='h5' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
 
-                <Grid item xs={5.5}>
-                  <Box sx={{ paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
-                    <Typography variant='h6' component='h2' sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
-                    <Typography variant='body2' component='p' sx={{ display: 'flex', justifyContent: 'center' }}>{"Preis"}</Typography>
-                  </Box>
+                <Grid container  sx={{ marginTop: COMPONENT_DISTANCE }}>
+                  <Grid item xs={6}>
+                    <Box sx={{ backgroundColor: 'secondary.main', padding: '16px' }}>
+                      <Typography variant="h6" component="h2" sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>
+                        {seperateThousand(detailSearchValues.price)} {" €"}
+                      </Typography>
+                      <Typography variant="body2" component="p" sx={{ display: 'flex', justifyContent: 'center' }}>
+                        {"Preis"}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Box sx={{ backgroundColor: 'primary.main', padding: '16px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
+                      <Button sx={{ '@media print': { display: 'none' }, backgroundColor: 'secondary.main', color: 'primary.main' }} variant="contained" endIcon={<CalculateIcon />}>
+                        Finanzieren
+                      </Button>
+                      <Typography sx={{ textAlign: 'center', '@media screen': { display: 'none' } }}>
+                        {'Finanzierung'}
+                      </Typography>
+                      <Typography variant="h6" component="h2" sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>
+                        {seperateThousand(550)} {" €"}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+                
+                <Grid sx={{ marginTop:COMPONENT_DISTANCE }} item xs={12}>
+                <GreyHorizontalHR />
+                </Grid>
+                <Box sx={{ display: 'flex', marginTop: '1rem' }}>
+                <HealthAndSafetyIcon sx={{ color: 'text.primary', fontSize:'3rem', marginRight:'10px' }}/>
+                <Box>
+                  <Typography variant='h6' sx={{ fontFamily: fontSemiBold }}>{"Ab 12,89€ monatlich"}</Typography>
+                  <Typography variant='body2'>{"KFZ-Versicherung vergleichen"}</Typography>
+                </Box>
+                </Box>
+
+                <Grid sx={{ marginTop:COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }} item xs={12}>
+                <GreyHorizontalHR />
                 </Grid>
 
-                <Grid item xs={5.5}>
-                  <Box sx={{ paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
-                    <Button sx={{ '@media print': { display: 'none' }, backgroundColor: 'secondary.main', color: 'primary.main' }} variant='contained' endIcon={<CalculateIcon />}>Finanzieren</Button>
-                    <Typography sx={{ textAlign: 'center', '@media screen': { display: 'none' } }}>{'Finanzierung'}</Typography>
-                    <Typography variant='h6' component='h2' sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(550)} {" €"}</Typography>
-                  </Box>
-
-                </Grid>
-
+                
                 <TDescriptionComponent />
 
-                <Grid item xs={gridItemXS} sm={gridItemSM} md={gridItemMD} lg={4}>
-                  <Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
-                </Grid>
-                <Grid item xs={gridItemXS} sm={gridItemSM} md={gridItemMD} lg={4}>
-                  <Box display='flex' justifyContent='left' >
-                    {detailSearchValues.isCardealer ? <GridComponent icon={<StoreIcon sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={SX_ICON} />} value={"Privat"} />}
-                  </Box>
-                </Grid>
-                <Grid item xs={detailSearchValues.city.length > 13 ? 12 : gridItemXS} sm={detailSearchValues.city.length > 13 ? 12 : gridItemSM} md={detailSearchValues.city.length > 13 ? 12 : gridItemSM} lg={12}>
-                  <Box display='flex' justifyContent='left' >
-                    <Grid item><Box sx={{ display: 'flex', marginBottom: LINE_HEIGHT }}> <LocationOnIcon sx={SX_ICON} />  <Typography sx={{ fontFamily: fontRegular, marginLeft: '.5rem', whiteSpace: 'nowrap' }} variant='body1' component='p'>{detailSearchValues.city}</Typography></Box></Grid>
-                  </Box>
-                </Grid>
 
               </Grid>
 
               <Grid item xs={12} sx={{ display: { xs: 'none', lg: 'flex' }, paddingTop: COMPONENT_DISTANCE }}>
-                <Box sx={{ width: '50%', textAlign: 'center' }}>
+                <Box sx={{ width: '49%', textAlign: 'center' }}>
                   <Button sx={{}} variant='contained' endIcon={<CallIcon />}>Anrufen</Button>
                 </Box>
-                <Box sx={{ width: '50%', textAlign: 'center' }}>
+                <Box sx={{ width: '2%' }}></Box>
+                <Box sx={{ width: '49%', textAlign: 'center' }}>
                   <Button onClick={() => { handleClickOpen() }} sx={{ backgroundColor: 'secondary.main', color: 'primary.main' }} variant='contained' endIcon={<EmailIcon />}>Email</Button>
                 </Box>
               </Grid>
@@ -245,7 +297,9 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
             </Grid>
 
             <Grid item sx={{ '@media print': { breakBefore: 'page' }, margin: 'auto' }} xs={XS}>
-              <GreyHorizontalTechBoldHR />
+              <Grid sx={{ marginTop: COMPONENT_DISTANCE }} item xs={12}>
+                <GreyHorizontalHR />
+              </Grid>
               <Grid container>
                 <Grid item xs={12} lg={4}>
                   <Typography variant='h6' component='h4' sx={{ fontFamily: fontBold, paddingTop: COMPONENT_DISTANCE }}> Technische Daten </Typography>
@@ -312,7 +366,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
                 <Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
                 <Typography sx={{ fontFamily: fontLight }}>45 Bewertungen</Typography>
 
-                <Box sx={{ display: 'flex', marginTop: COMPONENT_DISTANCE }}>
+                <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>
                   <Box sx={{ marginRight: COMPONENT_DISTANCE }}><AccessTimeIcon sx={SX_ICON} /></Box>
                   <Box>
                     <Typography>{"Geöffnet"}</Typography>

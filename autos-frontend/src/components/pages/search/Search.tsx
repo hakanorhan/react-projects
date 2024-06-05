@@ -2,10 +2,8 @@ import * as React from 'react'
 import { Box, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import { 
-  COMPONENT_DISTANCE,
   SearchContainer,
   buttonHeight,
-  fontSemiBold,
   headerSize 
 } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
@@ -255,7 +253,7 @@ const Search: React.FC = () => {
 
 
       </Box>
-      <Typography variant='h6' component='h1' sx={{ fontFamily: fontSemiBold, marginTop: COMPONENT_DISTANCE, marginLeft: '2rem' }}>Am meisten gesucht</Typography>
+      
       <Box sx={{ minHeight: {xs: '600px', sm: '680px', md: '600px'} }}>
       <ClickedCars type={DisplayTypes.MOST_CLICKED} />
       <ClickedCars type={DisplayTypes.ELECTRIC} />

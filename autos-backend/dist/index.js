@@ -1,5 +1,3 @@
-import { createRequire as _createRequire } from "module";
-const __require = _createRequire(import.meta.url);
 import express from "express";
 import cors from "cors";
 import signin from "./routes/signin.js";
@@ -29,7 +27,7 @@ import passport, { authMiddelware } from "./routes/middleware/passport.middlewar
 import authenticationUser from "./routes/middleware/authenticationUser.js";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const session = __require("express-session");
+import session from 'express-session';
 import fetchImageName from "./routes/fetchImageName.js";
 import inserateFinish from "./routes/inserateFinish.js";
 import sharp from "sharp";
@@ -131,7 +129,7 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
                 const imageName = 'resized_' + file.filename;
                 const outputFilePath = path.join(file.destination, imageName);
                 await sharp(file.path)
-                    .resize(768, 432, { fit: 'cover' })
+                    .resize(1920, 1080, { fit: 'cover' })
                     .toFile(outputFilePath);
                 await connection.execute(insertInto, [imageName, insertId]);
                 fs.unlinkSync(file.path);

@@ -27,8 +27,8 @@ const ShareComponent: React.FC<ShareComponentProps> = ({ showText: showNoText })
         <Button sx={{ p: 0, color: 'text.primary', backgroundColor: 'transparent', "&.MuiButtonBase-root:hover": { backgroundColor: "transparent" } }}
             size="large"
             onClick={handleMenu}
-            startIcon={<ShareIcon sx={{ cursor: 'pointer', marginRight: !showNoText ? COMPONENT_DISTANCE : 0, color: 'text.primary' }} />}>
-            {"Teilen"}
+            startIcon={<ShareIcon sx={{  cursor: 'pointer', marginRight: !showNoText ? COMPONENT_DISTANCE : 0, color: 'text.primary' }} />}>
+            <Typography variant='body1' component='h4'>{"Teilen"}</Typography>
         </Button>
 
         <Menu sx={{ mt: '30px' }}

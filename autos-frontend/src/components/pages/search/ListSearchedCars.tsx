@@ -169,7 +169,7 @@ const ListSearchedCars = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '95vh', width: '95%', margin: 'auto', paddingTop: '2rem' }}>
+    <Box sx={{ minHeight: '100vh', width: '95%', margin: 'auto', paddingTop: '2rem' }}>
       <TopComponent />
       <Grid container spacing={4}>
         {

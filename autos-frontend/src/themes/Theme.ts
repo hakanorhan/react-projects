@@ -30,7 +30,7 @@ export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 
 export const LIGHT_SECONDARY_COLOR_MAIN = "#ebe8fc";
 const LIGHT_BACKGROUND_DEFAULT = 'white';
-const LIGHT_BACKGROUND_PAPER_DEFAULT = '#FFFFFF';
+const LIGHT_BACKGROUND_PAPER_DEFAULT = 'whitesmoke';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.cyan[600];
 const DARK_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
@@ -212,10 +212,9 @@ export const fontSemiBold = 'TitilliumWeb-SemiBold';
 
 const fontFamilies = {
     fontFamily: [
-        fontExtraLight,
-        fontLight,
         fontRegular,
-        fontSemiBold,
+        fontLight,
+        fontExtraLight,
         fontBold,
         '-apple-system',
         'BlinkMacSystemFont',
@@ -340,12 +339,13 @@ export const RegisterLoginWidth = styled('div')(({ theme }) => ({
  * Responsive.
  * Width for Formular.
  */
-export const DivSearchInserate = styled('div')(({ theme }) => ({
+ const DivSearchInserate = styled('div')(({ theme }) => ({
     display: 'flex',
     paddingTop: '3rem',
     paddingBottom: '3rem',
     margin: 'auto',
     flexDirection: 'column',
+    minHeight: '100vh',
     [theme.breakpoints.up("xs")]: {
         width: '95%',
 

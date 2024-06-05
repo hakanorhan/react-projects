@@ -32,7 +32,9 @@ const App: React.FC = () => {
   const AppLayout = () => (
     <Box sx={{ width: '100%' }}>
       <Header />
-      <Outlet />
+      <Box sx={{ minHeight: 'calc(100vh - 50px)' }}>
+        <Outlet />
+      </Box>
       <Footer />
     </Box>
   )

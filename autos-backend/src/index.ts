@@ -28,7 +28,8 @@ import authenticationUser from "./routes/middleware/authenticationUser.js";
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-import session = require('express-session');
+import session from 'express-session'
+//import session = require('express-session');
 import fetchImageName from "./routes/fetchImageName.js";
 import inserateFinish from "./routes/inserateFinish.js";
 import sharp from "sharp";
@@ -177,7 +178,7 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
         // Resize the image using sharp
         await sharp(file.path)
         // width height
-          .resize(768, 432, { fit: 'cover' })
+          .resize(1920, 1080, { fit: 'cover' })
           .toFile(outputFilePath);
         
         await connection.execute(insertInto, [imageName, insertId]);

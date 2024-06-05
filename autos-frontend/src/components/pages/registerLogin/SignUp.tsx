@@ -136,7 +136,7 @@ const SignUpUser: React.FC = () => {
         notifyError("surname-field", "Bitte prüfen Sie das Nachname-Feld")
       } else if (!telefonNr || telefonNr.length <= 7) {
         notifyError("phone-field", "Bitte prüfen Sie das Telefon-Feld.")
-      } else if(!form.impressumdaten || form.impressumdaten === "") {
+      } else if(isCheckedDealer && !form.impressumdaten || form.impressumdaten === "") {
         notifyError("impressum-field", "Bitte prüfen Sie das Impressum-Feld.")
       } else if (diff <= 365 * 18) {
         notifyError("birth-field", "Geburtsdatum ist kleiner 18.")
