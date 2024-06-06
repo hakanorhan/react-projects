@@ -36,8 +36,6 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
         }
     }
 
-    console.log(JSON.stringify(inserateSelect) + " " + JSON.stringify(inserateData) + " " + JSON.stringify(inserateCheckBox));
-
     let connection;
     try {
         connection = await connectToDatabase();

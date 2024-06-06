@@ -28,7 +28,9 @@ export default function DarkMode() {
 
   return (<Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'flex' }, color: 'whitesmoke' }}>
 
-    {<Switch sx={{
+    {<Switch 
+    id={"darkLightMode"}
+    sx={{
       width: '60px',
       '& .MuiSwitch-switchBase': {
         '&.Mui-checked': {

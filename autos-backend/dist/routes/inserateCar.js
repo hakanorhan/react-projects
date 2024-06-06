@@ -24,7 +24,6 @@ async function performQuery(data, userId, res) {
             return res.status(409).json(axiosRejected);
         }
     }
-    console.log(JSON.stringify(inserateSelect) + " " + JSON.stringify(inserateData) + " " + JSON.stringify(inserateCheckBox));
     let connection;
     try {
         connection = await connectToDatabase();

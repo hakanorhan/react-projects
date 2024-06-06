@@ -21,9 +21,12 @@ const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ id, label, onChange }) =>
 
   return (
     <FormControl required variant="standard">
-    <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
+    <InputLabel htmlFor={ label }>{ label }</InputLabel>
     <Input
-      id= {id}
+      name={ label }
+      inputProps={{
+        id: label
+      }}
       onChange={handlePassword}
       type={showPassword ? 'text' : 'password'}
       endAdornment={

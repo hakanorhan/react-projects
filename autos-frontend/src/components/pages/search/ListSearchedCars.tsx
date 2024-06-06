@@ -119,31 +119,44 @@ const ListSearchedCars = () => {
 
     return ({ axiosPaper }: { axiosPaper: AxiosPaperList }) => {
 
-      return <>{<Card elevation={1} sx={ZOOM_HOVER}
+      return <Box>{<Card elevation={1} sx={
+        ZOOM_HOVER
+      }
         onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
         <CardActionArea>
 
-          <CarImages id={axiosPaper.inseratId} multiple={false} />
+          <CarImages id={axiosPaper.inseratId} multiple={false} isDetail={ false }/>
 
           {/* technical description */}
           <ShowFastPaper detailSearchValues={axiosPaper} />
 
         </CardActionArea>
-      </Card>}</>
+      </Card>}</Box>
     }
   }, [])
-
   const TopComponent = () => {
+    const label = "sortieren";
     return <Grid container>
       <Grid item xs={5.5} sm={4} md={3}>
         <FormControl sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }} variant='standard'>
-          <InputLabel id="sort">Sortieren</InputLabel>
-          <Select
-            labelId='sort'
-            value={selectedSort}
-            label={"Sortieren"}
-            onChange={handleChangeSort}
-          >
+        <InputLabel htmlFor={ 'sort' }>{label}</InputLabel>
+            <Select sx={{
+              borderRadius: 0, '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+                textDecoration: 'underline',
+                color: 'black'
+              },
+            }}
+              id= { label }
+              value={selectedSort}
+              label={label}
+              name={'sort'}
+              onChange={handleChangeSort}
+              inputProps={{
+                id: 'sort'
+              }}
+            >
+
             <MenuItem value={SortEnums.EZ_UP}>Erstzulassung <ArrowUpwardIcon fontSize='small' /></MenuItem>
             <MenuItem value={SortEnums.EZ_DOWN}>Erstzulassung <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr />
@@ -169,8 +182,9 @@ const ListSearchedCars = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', width: '95%', margin: 'auto', paddingTop: '2rem' }}>
+    <Box sx={{ width: '95%', margin: 'auto' , paddingTop: '2rem' }}>
       <TopComponent />
+      <Box sx={{ width:'100%', minHeight:{xs: 'calc(100vh - 50px)', sm: 'calc(70vh)' } }}>
       <Grid container spacing={4}>
         {
           cars && cars.map((axiosPaper, index) => (
@@ -180,10 +194,11 @@ const ListSearchedCars = () => {
           ))
         }
       </Grid>
-
+        </Box>
       <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
         <Button disabled={ offset >= count } onClick={handleShowNewCars} sx={{ width: '250px', color: 'text.primary', '&:hover': { backgroundColor: 'transparent' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
-      </Box>
+      </Box> 
+
     </Box>
 
   )

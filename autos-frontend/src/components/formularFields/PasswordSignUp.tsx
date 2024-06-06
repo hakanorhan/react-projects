@@ -42,9 +42,10 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
   return (
     <Box>
     <FormControl required variant="standard">
-    <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
+    <InputLabel htmlFor={label}>{ label }</InputLabel>
     <Input
-      id= {id}
+    name={label}
+    inputProps={{ id: label }}
       onChange={handleOnChange}
       type={showPassword ? 'text' : 'password'}
       endAdornment={

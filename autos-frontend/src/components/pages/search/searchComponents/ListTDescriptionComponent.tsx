@@ -28,7 +28,6 @@ export const ListTDescriptionComponent: React.FC<{ detailSearchValues: AxiosPape
   return (
     <Box>
       <Grid container>
-        
         <Grid item xs={gridItemXS} sm={gridItemSM} md={ gridItemMD}>
           <Rating sx={{ color:'primary.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
         </Grid>

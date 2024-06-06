@@ -79,7 +79,7 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
         onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
         <CardActionArea>
   
-          <CarImages id={axiosPaper.inseratId} multiple={false} />
+          <CarImages id={axiosPaper.inseratId} multiple={false} isDetail={ false }/>
   
           {/* technical description */}
           <ShowFastPaper detailSearchValues={axiosPaper} />

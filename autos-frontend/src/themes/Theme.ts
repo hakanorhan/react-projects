@@ -92,7 +92,6 @@ const components = {
                 '&:hover': {
                     backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
                     color: LIGHT_PRIMARY_COLOR_MAIN,
-                    transition: TRANSITION
                 }, textTransform: 'none',
                 '& .MuiButton-label': {
                     textTransform: 'capitalize',
@@ -331,27 +330,6 @@ export const RegisterLoginWidth = styled('div')(({ theme }) => ({
     },
     [theme.breakpoints.up("xl")]: {
         width: '610px'
-    }
-
-}));
-
-/**
- * Responsive.
- * Width for Formular.
- */
- const DivSearchInserate = styled('div')(({ theme }) => ({
-    display: 'flex',
-    paddingTop: '3rem',
-    paddingBottom: '3rem',
-    margin: 'auto',
-    flexDirection: 'column',
-    minHeight: '100vh',
-    [theme.breakpoints.up("xs")]: {
-        width: '95%',
-
-    },
-    [theme.breakpoints.up("md")]: {
-        width: '750px'
     }
 
 }));

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
 import { RootState } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
-import Notfound from '../pages/Notfound';
+import { Box } from '@mui/material';
 
 interface ProtectedRoteProps {
     children: ReactNode,
@@ -29,10 +29,8 @@ const ProtectedRoute = ({ children, role }: ProtectedRoteProps) => {
                 dispatch(setUserLoggedIn(logged));
                 const authRole = authResponse.role;
                 dispatch(setRole(authRole));
-
-                if (role !== authRole)
+                if (role !== authRole )
                     return navigate(URLs.ACCESS_DENIED);
-
             } catch (error: any) {
                 const authResponse: AuthResponse = error.response.data;
                 const logged = authResponse.authenticated;
@@ -45,9 +43,10 @@ const ProtectedRoute = ({ children, role }: ProtectedRoteProps) => {
         checkAuth();
 
     }, [])
-    
-    return userLoggedStatus.userLoggedIn && role === userLoggedStatus.role
-        ? children : navigate(URLs.ACCESS_DENIED);
+
+    if(userLoggedStatus.userLoggedIn && role === userLoggedStatus.role) {
+        return children
+    } 
 };
 
 export default ProtectedRoute;

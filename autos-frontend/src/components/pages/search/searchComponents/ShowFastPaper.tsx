@@ -19,11 +19,14 @@ export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = (
     return (
         <>
             <CardContent>
+                
                 <Box display={'flex'} width={'100%'}>
-                <Typography sx={{ fontFamily: fontBold, width:'50%' }} variant='h6' component='h1'>{detailSearchValues.brand} {detailSearchValues.model}</Typography>
-                <Typography variant='h6' component='h2' sx={{ alignContent:'end', fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
-                  
+                <Typography sx={{ whiteSpace:'nowrap', fontFamily: fontBold, width:'50%' }} variant='h6' component='h1'>{`${detailSearchValues.brand} ${detailSearchValues.model}`}</Typography>
                 </Box>
+                
+                <Box display={'flex'}>
+                <   Typography variant='h6' component='h2' sx={{ alignContent:'end', fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
+                </Box>    
                     <ListTDescriptionComponent detailSearchValues={axiosPaper} />
                     <Grid container >
 

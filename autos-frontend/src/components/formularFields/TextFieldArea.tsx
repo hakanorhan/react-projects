@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseFormTextArea } from '../../interfaces/IUseForm';
-import { FormControl, OutlinedInput } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput } from '@mui/material';
+import { Label } from '@mui/icons-material';
 
 const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, onChange, placeholder, minRows, maxRows, refresh, disbled, areaText }) => {
 
@@ -18,17 +19,19 @@ const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, onChange, plac
   }
 
   return (
-    <FormControl sx={{ padding: padding }} fullWidth variant="standard" >
+    <FormControl sx={{ padding: padding }} fullWidth variant="standard">
+      
       <OutlinedInput fullWidth
         disabled={disbled}
+        name={id}
+        autoComplete='off'
         multiline
         minRows={minRows}
         maxRows={maxRows}
         value={areaText ? areaText : value}
         placeholder={placeholder}
-        id={id}
         onChange={handleOnChange}
-        inputProps={{ sx: { '::placeholder': {color:'text.primary', opacity: 1 }} }}
+        inputProps={{ sx: { '::placeholder': { color:'text.primary', opacity: 1 }}}}
       />
     </FormControl>
   )

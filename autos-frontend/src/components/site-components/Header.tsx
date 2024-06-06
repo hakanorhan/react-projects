@@ -157,6 +157,7 @@ export default function Header() {
       <Box p={2} sx={{ height: '100%', backgroundColor: 'secondary.main', width: { xs: '100vw', sm: '500px' } }} role='presentation'>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', paddingTop: '20px' }}>
           <IconButton onClick={() => { setDrawerOpen(false) }} sx={{
+            cursor:'pointer',
             backgroundColor: 'transparent', "&.MuiButtonBase-root:hover": {
               backgroundColor: "transparent"
             }

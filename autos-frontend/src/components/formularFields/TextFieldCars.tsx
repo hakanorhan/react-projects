@@ -27,8 +27,9 @@ const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refres
 
   return (
     <FormControl sx={{ paddingBottom: COMPONENT_DISTANCE }} onClick={(e) => e.stopPropagation()} required fullWidth variant="standard" >
-    <InputLabel htmlFor="outlined-adornment-password">{label}</InputLabel>
+    <InputLabel id={ label } htmlFor={ id }>{label}</InputLabel>
     <Input
+    autoComplete='on'
       id= {id}
       onChange= { handleOnChange }
       value={value}

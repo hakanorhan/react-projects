@@ -199,7 +199,7 @@ const Search: React.FC = () => {
 
         <Typography variant={isXS ? 'h3' : isSM ? 'h5' : isMD ? 'h4' : 'h2'} component='h1' sx={headerSize}>Neues Auto.</Typography>
         <SearchContainer onClick={(e) => e.stopPropagation()} sx={{ padding: '1.5rem', cursor: 'default', backgroundColor: 'background.default' }}>
-
+          
           <Grid container sx={{}} justifyContent="center" columnSpacing={1}>
             <Grid item xs={6} md={4}>
               {/* Brand */}

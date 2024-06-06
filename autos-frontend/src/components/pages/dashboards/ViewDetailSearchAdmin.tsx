@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { notifyError } from '../../../helper/toastHelper';
 
-const ViewDetailSearch: React.FC<CarImagesProps> = ({ id }) => {
+const ViewDetailSearchAdmin: React.FC<CarImagesProps> = ({ id }) => {
   const navigate = useNavigate();
 
   const handlePublish = (canPublish: boolean) => {
@@ -32,7 +32,7 @@ const ViewDetailSearch: React.FC<CarImagesProps> = ({ id }) => {
 
   return <>
     <Toaster />
-    <ViewDetailGeneral id={id} multiple={true} />
+    <ViewDetailGeneral id={id} isUser={ false }/>
     <Grid container xs={12} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
       <Grid item xs={6}><Button sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'secondary.main', color: 'secondary.contrastText' } }} onClick={() => { handlePublish(true); }} endIcon={<Publish />}>Freigeben</Button></Grid>
       <Grid item xs={6}><Button sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText', '&:hover': { backgroundColor: 'primary.main', color: 'primary.contrastText' } }} onClick={() => { handlePublish(false) }} endIcon={<CloseIcon />}>Zurückziehen</Button></Grid>
@@ -40,4 +40,4 @@ const ViewDetailSearch: React.FC<CarImagesProps> = ({ id }) => {
   </>
 }
 
-export default ViewDetailSearch;
+export default ViewDetailSearchAdmin;

@@ -36,12 +36,14 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChang
 
   return (
     <FormControl required fullWidth variant="standard" >
-    <InputLabel htmlFor="outlined-adornment-password">{ label }</InputLabel>
+    <InputLabel htmlFor={ label }>{ label }</InputLabel>
     <Input
-      id= {id}
       onChange= { handleOnChange }
       type={showPassword ? 'text' : 'password'}
-      
+      name={ label }
+      inputProps={{ 
+        id: label
+       }}
       endAdornment={
         <InputAdornment position="end">
           <IconButton disabled

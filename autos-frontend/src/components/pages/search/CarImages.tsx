@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../enums/URLs';
-import { Box, CardMedia, Dialog, IconButton, Typography, useMediaQuery, } from '@mui/material';
+import { Box, CardMedia, CircularProgress, Dialog, IconButton, Typography, useMediaQuery, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { AxiosDataImagesNames } from '../../../interfaces/IAxiosData';
@@ -9,7 +9,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 export interface CarImagesProps {
   id: number | null | string | undefined,
   multiple: boolean,
-  isDetail?: boolean,
+  isDetail?: boolean
 }
 
 enum ArrowDirection {
@@ -94,11 +94,11 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
           })
         );
         setImageSrc(fetchedImages);
-        setSuccessFullDownloaded(true);
       } catch (error) {
         console.error('Fehler beim Herunterladen der Bilder:', error);
       } finally {
         setFetchImageNamesDone(false);
+        setSuccessFullDownloaded(true);
       }
     };
     if (fetchImageNamesDone)
@@ -142,11 +142,13 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
         component='img'
         image={imageSrc[sliderIndex - 1]}
         alt={"Bild"}
-        sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16/9, height: 'auto', '&:hover': { cursor:'pointer' } }}>
+        sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16/9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor:'pointer' } }}>
       </CardMedia>
 
-      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: isDetail ? 'block' : 'none' }, color:'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
-        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0 }}><Typography>{`${sliderIndex} / ${imageSrc.length}`}</Typography></Box>
+      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: { xs: 'none', lg: isDetail ? 'flex' : 'none' } }, color:'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
+        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0 }}>
+          <Typography>{`${sliderIndex} / ${imageSrc.length}`}</Typography></Box>
+          
       {imageSrc.length > 1 && <>
         <IconButton sx={iconButtonSX(0)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
         <IconButton sx={iconButtonSX(1)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
@@ -160,14 +162,26 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
   return (<>
     {
-    <Box sx={{ height: '100%' }}>
-      { succesFullDownloaded && imageSrc.length > 0 ? (
-        <CarouselComponent />
-      ) : (
+
+    <Box sx={{ width:'100%', height: 'calc(100% * 9 / 16)' }}>
+      {
+        !succesFullDownloaded &&
         <Box sx={{ backgroundColor: 'background.paper', display: 'flex', width: '100%', aspectRatio: 16 / 9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <CameraAltIcon sx={{ color:'background.paper', fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
+          <CircularProgress sx={{ color:'primary.main', fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
         </Box>
-      )}
+      }
+      
+      { succesFullDownloaded && imageSrc.length > 0 &&
+        <CarouselComponent />
+      }
+
+      {
+        succesFullDownloaded && imageSrc.length === 0 &&
+        <Box sx={{ backgroundColor: 'background.paper', display: 'flex', width: '100%', aspectRatio: 16 / 9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+          <CameraAltIcon sx={{ color:'primary.main', fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
+        </Box>
+      }
+
     </Box>
 }
     <BigImage />

@@ -31,6 +31,7 @@ const blink = keyframes`
 `;
 
 const MAX_FILES = (6);
+const MAX_IMAGE_SIZE = 1024 * 1024 * 5;
 
 const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
 
@@ -46,7 +47,10 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
     const { getRootProps, getInputProps, isDragActive } = useDropzone(
         {
             disabled: files.length >= MAX_FILES,
-            onDrop, maxFiles: MAX_FILES, accept: { 'image/*': [] }
+            onDrop,
+            maxFiles: MAX_FILES, 
+            maxSize: MAX_IMAGE_SIZE,
+            accept: { 'image/*': [] }
         });
 
     useEffect(() => {
@@ -56,7 +60,7 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
     const uploadImage = async (acceptedFiles: File[]) => {
 
         if (files.length + acceptedFiles.length > MAX_FILES) return notifyError("maxSize error", "Sie dürfen maximal " + MAX_FILES + " Bilder hochladen");
-        if (!acceptedFiles.length) { return notifyError("image", "Sie haben kein Bild ausgewählt") }
+        if (!acceptedFiles.length) { return notifyError("image", `Die maximale Größe pro Bild beträgt ${MAX_IMAGE_SIZE} MB`) }
         
         if (carId)
             try {
@@ -98,7 +102,6 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
     }
 
     const removeFile = (imagename: string) => {
-
         const inserateid = carId;
         async function deleteImage() {
             try {

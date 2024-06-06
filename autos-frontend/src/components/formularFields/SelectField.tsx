@@ -16,7 +16,7 @@ const SelectField: React.FC<{
       values.length === 0 ? (
         <Tooltip title={`Kein ${label} vorhanden`}>
           <FormControl variant="standard">
-            <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+            <InputLabel htmlFor={objectName}>{label}</InputLabel>
             <Select sx={{
               borderRadius: 0, '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none',
@@ -26,12 +26,13 @@ const SelectField: React.FC<{
               }
             }}
               disabled={values.length === 0}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
               value={selectedValue ?? ''}
               label={label}
               name={objectName}
               onChange={handleChange}
+              inputProps={{
+                id: objectName
+              }}
             >
               {
                 (allOption) ? <MenuItem sx={FIELD_STYLE} key={SelectFieldEnums.ITEM_KEY} value={SelectFieldEnums.ALL_VALUE}> {SelectFieldEnums.DE_ALL_LABEL} </MenuItem> : []
@@ -48,7 +49,7 @@ const SelectField: React.FC<{
         </Tooltip>
       ) : (
         <FormControl variant="standard">
-          <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+          <InputLabel htmlFor={objectName}>{label}</InputLabel>
           <Select sx={{
             borderRadius: 0, '& .MuiOutlinedInput-notchedOutline': {
               border: 'none',
@@ -57,12 +58,13 @@ const SelectField: React.FC<{
             },
           }}
             disabled={values.length === 0}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
             value={selectedValue ?? ''}
             label={label}
             name={objectName}
             onChange={handleChange}
+            inputProps={{
+              id: objectName
+            }}
           >
             {
               (allOption) ? <MenuItem sx={FIELD_STYLE} key={SelectFieldEnums.ITEM_KEY} value={SelectFieldEnums.ALL_VALUE}> {SelectFieldEnums.DE_ALL_LABEL} </MenuItem> : []

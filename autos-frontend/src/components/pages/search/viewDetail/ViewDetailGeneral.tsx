@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Grid, Rating, Typography, colors } from '@mui/material';
+import { Box, Button, Grid, Rating, Typography} from '@mui/material';
 import {
   Boxprint,
-  COMPONENT_DISTANCE, GreyHorizontalHR, GreyHorizontalTechBoldHR, ICON_FONT_SIZE, LINE_HEIGHT,
-  fontBold, fontLight, fontRegular, paperViewDetailSearchTextArea, SX_ICON, fontSemiBold, GreyVerticalHR
+  COMPONENT_DISTANCE, GreyHorizontalHR, ICON_FONT_SIZE, LINE_HEIGHT,
+  fontBold, fontLight, fontRegular, paperViewDetailSearchTextArea, SX_ICON, fontSemiBold
 } from '../../../../themes/Theme';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import Check from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import CarImages, { CarImagesProps } from '../CarImages';
+import CarImages from '../CarImages';
 import { seperateThousand } from '../../../../helper/helper';
 import { TDescriptionComponent } from '../searchComponents/TDescriptionComponent';
 import TextFieldArea from '../../../formularFields/TextFieldArea';
@@ -36,6 +36,21 @@ import ShareComponent from '../../ShareComponent';
 import Logo from '../../../Logo';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 
+const buttonSecondarySX = {
+  fontSize: '1.2rem',
+                borderRadius: '0px',
+                border: 'none',
+                width: '100%',
+                backgroundColor: 'secondary.main',
+                color: 'secondary.contrastText',
+                '&:hover': {
+                    backgroundColor: 'primary.main',
+                    color: 'primary.contrastText',
+                }, textTransform: 'none',
+                '& .MuiButton-label': {
+                    textTransform: 'capitalize',
+                },
+}
 
 const XS = 11.3;
 
@@ -50,7 +65,12 @@ interface GridComponentProps {
   value: any
 }
 
-const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
+export interface ViewDetailProps {
+  id: number | null | string | undefined,
+  isUser: boolean
+}
+
+const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
 
   const [open, setOpen] = React.useState(false);
 
@@ -107,7 +127,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
       width: '100%',
       position: 'fixed',
       bottom: 0,
-      display: { xs: contactIsVisible ? 'flex' : 'none', lg: 'none' },
+      display: { xs: isUser ? contactIsVisible ? 'flex' : 'none' : 'none', lg: 'none' },
       justifyContent: 'center',
       alignItems: 'center',
       paddingTop: COMPONENT_DISTANCE,
@@ -116,10 +136,10 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
       backgroundColor: 'whitesmoke'
     }} >
       <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', padding: '10px', paddingRight: '5px', textAlign: 'center' }}>
-        <Button sx={{ height: '55px' }} variant='contained' endIcon={<CallIcon />}>Anrufen</Button>
+        <Button variant='contained' endIcon={<CallIcon />}>Anrufen</Button>
       </Box>
       <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', padding: '10px', paddingLeft: '5px', textAlign: 'center' }}>
-        <Button onClick={() => { handleClickOpen() }} sx={{ height: '55px', backgroundColor: 'secondary.main', color: 'primary.main' }} variant='contained' endIcon={<EmailIcon />}>Email</Button>
+        <Button onClick={() => { handleClickOpen() }} sx={ buttonSecondarySX } variant='contained' endIcon={<EmailIcon />}>Email</Button>
       </Box>
     </Box>
   }
@@ -174,7 +194,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
         {/*  Container */}
         <Grid item xs={12} lg={7}>
           <Box sx={{ padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
-            <CarImages id={id} multiple={true} isDetail={true} />
+            <CarImages id={id} multiple={true} isDetail={ true }/>
           </Box>
 
           <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'flex' : 'none' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
@@ -218,7 +238,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
           <>
 
             {/* Short Detail */}
-            <Grid sx={{ width: { xs: '95%', lg: '100%', margin: 'auto', marginTop: 0 }, paddingLeft: COMPONENT_DISTANCE, paddingRight: COMPONENT_DISTANCE, paddingTop: { xs: COMPONENT_DISTANCE } }} item xs={XS} lg={5}>
+            <Grid sx={{ width: { xs: '95%', lg: '100%', margin: 'auto', marginTop: 0 }, paddingLeft: { xs: 0, lg: COMPONENT_DISTANCE }, paddingRight: { xs: 0, lg: COMPONENT_DISTANCE }, paddingTop: { xs: COMPONENT_DISTANCE } }} item xs={XS} lg={5}>
               <Boxprint>
                 <Grid container>
                   <Grid sx={{ display: 'flex' }} item xs={4}>
@@ -290,7 +310,7 @@ const ViewDetailGeneral: React.FC<CarImagesProps> = ({ id }) => {
                 </Box>
                 <Box sx={{ width: '2%' }}></Box>
                 <Box sx={{ width: '49%', textAlign: 'center' }}>
-                  <Button onClick={() => { handleClickOpen() }} sx={{ backgroundColor: 'secondary.main', color: 'primary.main' }} variant='contained' endIcon={<EmailIcon />}>Email</Button>
+                  <Button onClick={() => { handleClickOpen() }} sx={ buttonSecondarySX } variant='contained' endIcon={<EmailIcon />}>Email</Button>
                 </Box>
               </Grid>
 
