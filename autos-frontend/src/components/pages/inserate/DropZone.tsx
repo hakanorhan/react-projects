@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { FileRejection, useDropzone } from 'react-dropzone';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper';
 import { Box, Button, Grid, Tooltip, Typography } from '@mui/material';
@@ -30,16 +30,26 @@ const blink = keyframes`
   }
 `;
 
-const MAX_FILES = (6);
-const MAX_IMAGE_SIZE = 1024 * 1024 * 5;
+const MAX_FILES = (7);
+const MAX_IMAGE_SIZE = 1024 * 1024 * 3;
 
 const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
 
     // all uploaded files
     const [files, setFiles] = useState<FileWithPreview[]>([]);
 
-    const onDrop = useCallback((acceptedFiles: File[]) => {
-
+    const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+        if(rejectedFiles.length > 0) {
+            rejectedFiles.map(({ errors }) => (
+                errors.map(e => {
+                    if(e.code === 'file-too-large') {
+                        notifyError(e.code, `Die maximale Größe pro Bild beträgt ${MAX_IMAGE_SIZE / 1024 / 1024} MB`)
+                    } else if('too-many-files') {
+                        notifyError(e.code, "Sie dürfen maximal " + (MAX_FILES) + " Bilder hochladen")
+                    }
+                })
+            )) 
+        }
         uploadImage(acceptedFiles);
 
     }, []);
@@ -58,9 +68,8 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
     }, [files])
 
     const uploadImage = async (acceptedFiles: File[]) => {
-
-        if (files.length + acceptedFiles.length > MAX_FILES) return notifyError("maxSize error", "Sie dürfen maximal " + MAX_FILES + " Bilder hochladen");
-        if (!acceptedFiles.length) { return notifyError("image", `Die maximale Größe pro Bild beträgt ${MAX_IMAGE_SIZE} MB`) }
+        
+        if (!acceptedFiles.length) { return  }
         
         if (carId)
             try {

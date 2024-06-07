@@ -29,7 +29,7 @@ const ListSearchedCars = () => {
 
   // sort
   const [selectedSort, setSelectedSort] = useState<string>(SortEnums.PRICE_DOWN);
-
+  const [foundNoCars, setFoundNoCars] =useState<boolean>(false);
 
   const LIMIT = LimitMediaQuery();
 
@@ -59,6 +59,7 @@ const ListSearchedCars = () => {
 
       } catch (error) {
         console.log(error)
+        setFoundNoCars(true);
       }
     }
     fetch();
@@ -85,10 +86,14 @@ const ListSearchedCars = () => {
       if (data && data.length > 0) {
         setCars(prevCars => [...prevCars, ...data]);
         setOffset(offset + data.length)
+        setFoundNoCars(false);
+      } else {
+        setFoundNoCars(true);
       }
 
     } catch (error) {
       console.log(error)
+      setFoundNoCars(true)
     }
 
   }
@@ -123,14 +128,14 @@ const ListSearchedCars = () => {
         ZOOM_HOVER
       }
         onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
-        <CardActionArea>
+        <Box>
 
           <CarImages id={axiosPaper.inseratId} multiple={false} isDetail={ false }/>
 
           {/* technical description */}
           <ShowFastPaper detailSearchValues={axiosPaper} />
 
-        </CardActionArea>
+        </Box>
       </Card>}</Box>
     }
   }, [])
@@ -181,10 +186,27 @@ const ListSearchedCars = () => {
     </Grid>
   }
 
+ const CarsNotfoundComponent = () => {
+    return ( foundNoCars &&
+      <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} width={'100%'}>
+        <Box width={'100%'} marginTop={'4rem'}>
+          <Typography variant='h4' textAlign={'center'} component={'h3'}>{"Keine Fahrzeuge gefunden"}</Typography>
+        </Box>
+        <Box width={'100%'} marginTop={'2rem'} display={'flex'} justifyContent={'center'}>
+          <Button onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width:'190px' }} variant='contained'>{"Neue Suche"}</Button>
+        </Box>
+      </Box>
+    )
+  }
+
   return (
+    <> 
     <Box sx={{ width: '95%', margin: 'auto' , paddingTop: '2rem' }}>
       <TopComponent />
-      <Box sx={{ width:'100%', minHeight:{xs: 'calc(100vh - 50px)', sm: 'calc(70vh)' } }}>
+
+      <CarsNotfoundComponent />
+
+      <Box sx={{ display: cars ? 'flex' : 'none', width:'100%', minHeight:{xs: 'calc(100vh - 50px)', sm: 'calc(70vh)' } }}>
       <Grid container spacing={4}>
         {
           cars && cars.map((axiosPaper, index) => (
@@ -200,7 +222,7 @@ const ListSearchedCars = () => {
       </Box> 
 
     </Box>
-
+</>
   )
 }
 

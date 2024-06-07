@@ -35,6 +35,8 @@ import GroupIcon from '@mui/icons-material/Group';
 import ShareComponent from '../../ShareComponent';
 import Logo from '../../../Logo';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
+import { useNavigate } from 'react-router-dom';
+import { URLs } from '../../../../enums/URLs';
 
 const buttonSecondarySX = {
   fontSize: '1.2rem',
@@ -75,7 +77,9 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
   const [open, setOpen] = React.useState(false);
 
   const detailSearchValues = useSelector((state: RootState) => state.detailSearch.detailState);
+  const carsNotFound = useSelector((state: RootState) => state.detailSearch.carsNotFound);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -185,8 +189,30 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
     );
   }
 
+  const CarsNotfoundComponent = () => {
+    return ( !detailSearchValues &&
+      <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} width={'100%'}>
+        <Box width={'100%'} marginTop={'4rem'}>
+          <Typography variant='h4' textAlign={'center'} component={'h3'}>{"Keine Fahrzeuge gefunden"}</Typography>
+        </Box>
+        <Box width={'100%'} marginTop={'2rem'} display={'flex'} justifyContent={'center'}>
+          <Button onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width:'190px' }} variant='contained'>{"Neue Suche"}</Button>
+        </Box>
+      </Box>
+    )
+  }
+
+
   return (
+
     <Box>
+
+      { carsNotFound &&
+        <CarsNotfoundComponent />
+
+      }
+
+      { detailSearchValues &&
       <Grid container sx={{ backgroundColor: 'background.paper', width: { xs: '100%', lg: '1050px' }, margin: 'auto', marginTop: { xs: 0, lg: '4rem' }, marginBottom: { xs: 0, lg: '4rem' } }}>
 
         <ContactFixed />
@@ -234,8 +260,6 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
           </Box>
 
         </Grid>
-        {detailSearchValues ?
-          <>
 
             {/* Short Detail */}
             <Grid sx={{ width: { xs: '95%', lg: '100%', margin: 'auto', marginTop: 0 }, paddingLeft: { xs: 0, lg: COMPONENT_DISTANCE }, paddingRight: { xs: 0, lg: COMPONENT_DISTANCE }, paddingTop: { xs: COMPONENT_DISTANCE } }} item xs={XS} lg={5}>
@@ -245,7 +269,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
                     <ShareComponent />
                   </Grid>
                   <Grid sx={{ display: 'flex', justifyContent: 'center' }} item xs={4}>
-                    <FavoriteBorderIcon sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Merken"}</Typography>
+                    <FavoriteBorderIcon sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography  sx={{ cursor: 'pointer' }} variant='body1' component='p'>{"Merken"}</Typography>
                   </Grid>
                   <Grid onClick={() => { window.print() }} item sx={{ cursor: 'pointer', justifyContent: 'end', display: 'flex' }} xs={4}>
                     <PrintIcon sx={{ marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Drucken"}</Typography>
@@ -423,10 +447,8 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
             </Box>
             <DialogEmail />
 
-          </>
-          : <Box><p>Keine Fahrzeuge. Bitte versuchen Sie es zu einem späteren Zeitpunkt nochmal.</p></Box>
-        }
       </Grid>
+}
     </Box>
   )
 }

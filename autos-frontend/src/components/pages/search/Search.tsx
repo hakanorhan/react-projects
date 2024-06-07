@@ -91,8 +91,8 @@ const Search: React.FC = () => {
           setListCarTypes(tableValues.resultCarTypes);
           setListPrices(tableValues.resultPrices);
         }
-      } catch (error) {
-        console.log(error)
+      } catch (error: any) {
+        notifyError(error.response.data.messageId, error.response.data.message);
       }
     }
 
@@ -106,11 +106,10 @@ const Search: React.FC = () => {
       await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand }, { withCredentials: true })
 
         .then(response => {
-          console.log(response.data.tableValues);
 
           setListModel(response.data.tableValues);
         })
-        .catch(error => console.log(error))
+        .catch(error => notifyError(error.response.messageId, error.response.data.message))
     }
     if (selectedBrand) fetchData();
     return () => { }
@@ -141,8 +140,8 @@ const Search: React.FC = () => {
         params: searchParams
       })
       setCountCars(response.data);
-    } catch (error) {
-      console.error('Error searching', error);
+    } catch (error: any) {
+      notifyError(error.response.data.messageId, error.response.data.message);
     }
   }
 

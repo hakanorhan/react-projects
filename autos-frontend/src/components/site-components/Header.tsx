@@ -68,7 +68,6 @@ export default function Header() {
         dispatch(setUserLoggedIn(logged));
         const authRole = authResponse.role;
         dispatch(setRole(authRole));
-        //alert("Login status: " + logged + " Rolle: " + authRole);
 
       } catch (error: any) {
         const authResponse: AuthResponse = error.response.data;
@@ -123,7 +122,7 @@ export default function Header() {
       aria-controls="panel1-content"
       id="panel1-header"
     >
-      { icon } <ParagraphSideMenu><Typography variant='h5' component='h3' sx={{ color: 'secondary.contrastText' }}>{ title }</Typography></ParagraphSideMenu>
+      { icon } <Typography variant='h5' component='h3' sx={{ marginLeft: '0.5rem',color: 'secondary.contrastText' }}>{ title }</Typography>
     </AccordionSummary>
     <AccordionDetails>
       <Box >
@@ -131,6 +130,7 @@ export default function Header() {
           // URLs.POST_INSERT_BRAND
           setDrawerOpen(false); navigate( urlBrand )
         }} > Marke </Button>
+        
         <Button sx={headlineStyle} onClick={() => {
           // URLs.POST_INSERT_MODEL
           setDrawerOpen(false); navigate( urlModel )
@@ -166,10 +166,10 @@ export default function Header() {
           </IconButton>
         </Box>
           <List>
-
+            <div>{}</div>
             <ListItemLink title='Suchen' url={URLs.HOME_ALL_SEARCH_COUNT} />
             { role === Roles.USER || role === Roles.NULL ?
-            <ListItemLink title='Inserieren' url={URLs.POST_INSERATE_CAR} />
+            <ListItemLink title='Inserieren' url={ role === Roles.USER ? URLs.POST_INSERATE_CAR : URLs.POST_SIGNIN } />
             : null
             }
           </List>

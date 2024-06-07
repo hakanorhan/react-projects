@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, Dispatch, SetStateAction } from "react"
 import { URLs } from "../enums/URLs"
+import { notifyError } from "./toastHelper"
 
 export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>) => {
     useEffect(() => {
@@ -10,9 +11,8 @@ export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAct
       try {
 
         setListValues(response.data.tableValues);  
-      } catch (error) {
-        
-        console.log(error)
+      } catch (error: any) {
+        notifyError(error.response.data.messageId, error.response.data.message);
       }
       }
 
@@ -27,12 +27,11 @@ export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAct
     await axios.post(`${URLs.ORIGIN_SERVER}` + url, { selectedBrand } , { withCredentials: true })
           
     .then(response => { 
-      console.log(response.data.tableValues);
 
             //toast.success(response.data.message);
           setListValues(response.data.tableValues);
            })
-           .catch(error => console.log(error))
+           .catch(error => notifyError(error.response.data.messageId, error.response.data.message))
   }
   if(selectedBrand) fetchData();
   }, [selectedBrand])

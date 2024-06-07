@@ -13,12 +13,14 @@ export const fetchDetailSearch = createAsyncThunk(
 
 interface DetailSearchState {
     loading: boolean,
-    detailState: AxiosDetailsearch | null
+    detailState: AxiosDetailsearch | null | undefined,
+    carsNotFound: boolean | undefined
 }
 
 const initialState: DetailSearchState = {
     loading: false,
-    detailState: null
+    detailState: null,
+    carsNotFound: undefined
 }
 const dataSlice = createSlice({
     name: 'data',
@@ -30,8 +32,11 @@ const dataSlice = createSlice({
                 state.loading = true;
             })
             .addCase(fetchDetailSearch.fulfilled, (state, action: PayloadAction<AxiosDetailsearch>) => {
-                state.detailState = action.payload;
+                if(action.payload) {
+                    state.detailState = action.payload;
                 state.loading = false;
+                state.carsNotFound = false;    
+                } else state.carsNotFound = true;
             })
             .addCase(fetchDetailSearch.rejected,(state) => {
                 state.loading = false;

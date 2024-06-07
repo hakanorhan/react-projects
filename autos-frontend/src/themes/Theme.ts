@@ -439,18 +439,6 @@ export const ImgImageUpload = styled('img')(({ }) => ({
     height: '100%'
 }))
 
-export const ParagraphSideMenu = styled('p')(({ theme }) => ({
-    marginLeft: '0.5rem',
-    [theme.breakpoints.up("xs")]: {
-    },
-    [theme.breakpoints.up("sm")]: {
-    },
-    [theme.breakpoints.up("md")]: {
-    },
-    [theme.breakpoints.up("lg")]: {
-    }
-}))
-
 export const SpanSideMenu = styled('span')(({ theme }) => ({
 
     [theme.breakpoints.up("xs")]: {
