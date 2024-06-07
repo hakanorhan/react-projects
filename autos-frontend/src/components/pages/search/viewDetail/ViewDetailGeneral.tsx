@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Box, Button, Grid, Rating, Typography} from '@mui/material';
 import {
   Boxprint,
@@ -37,6 +37,7 @@ import Logo from '../../../Logo';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { useNavigate } from 'react-router-dom';
 import { URLs } from '../../../../enums/URLs';
+import { scrollToTop } from '../../../../helper/PagerHelper';
 
 const buttonSecondarySX = {
   fontSize: '1.2rem',
@@ -80,6 +81,8 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
   const carsNotFound = useSelector((state: RootState) => state.detailSearch.carsNotFound);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+scrollToTop();
 
   const handleClickOpen = () => {
     setOpen(true);

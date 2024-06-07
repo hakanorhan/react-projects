@@ -22,12 +22,15 @@ import { useNavigate } from 'react-router-dom';
 import DropZone from './DropZone';
 import { Toaster } from 'react-hot-toast';
 import * as ValidHelper from '../../../helper/validHelper.js';
+import { scrollToTop } from '../../../helper/PagerHelper.js';
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 
 export default function InserateCar() {
 
   const navigate = useNavigate();
+
+  scrollToTop();
 
   const initialSelect: InserateSelect = {
     brand: "",

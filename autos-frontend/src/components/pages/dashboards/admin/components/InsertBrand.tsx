@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../redux/store";
 import { formularNameValid } from "../../../../../helper/validHelper";
 import { notifyError } from "../../../../../helper/toastHelper";
+import { scrollToTop } from "../../../../../helper/PagerHelper";
 
 interface IFormBrand {
   brand: string
@@ -26,6 +27,8 @@ const InsertBrand = () => {
   const [form, setForm] = useState(formBrand);
   const values = useSelector((state: RootState) => state.carBrandSlice.brands);
   const dispatch = useDispatch<AppDispatch>();
+
+  scrollToTop();
 
   useEffect(() => {
     dispatch(fetchBrand());

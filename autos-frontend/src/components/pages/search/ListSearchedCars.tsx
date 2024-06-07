@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Button, Box, Card, CardActionArea, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../interfaces/IAxiosData';
@@ -14,6 +14,7 @@ import { COMPONENT_DISTANCE, LinkNewSearch, ZOOM_HOVER } from '../../../themes/T
 import SearchIcon from '@mui/icons-material/Search';
 import ShareComponent from '../ShareComponent';
 import LimitMediaQuery from '../../../helper/LimitMediaQuery';
+import { scrollToTop } from '../../../helper/PagerHelper';
 
 const ListSearchedCars = () => {
 
@@ -32,6 +33,8 @@ const ListSearchedCars = () => {
   const [foundNoCars, setFoundNoCars] =useState<boolean>(false);
 
   const LIMIT = LimitMediaQuery();
+  
+scrollToTop();
 
   // count
   useEffect(() => {

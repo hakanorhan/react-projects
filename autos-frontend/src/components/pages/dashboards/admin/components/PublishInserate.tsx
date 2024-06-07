@@ -5,9 +5,12 @@ import { useEffect, useState } from "react";
 import { URLs } from "../../../../../enums/URLs";
 import { Toaster } from "react-hot-toast";
 import { notifyError } from "../../../../../helper/toastHelper";
+import { scrollToTop } from "../../../../../helper/PagerHelper";
 
 export default function PublishInserate() {
   const [listItems, setListItems] = useState<any[] | null>(null);
+
+  scrollToTop();
 
   useEffect(() => {
     const fetch = async () => {

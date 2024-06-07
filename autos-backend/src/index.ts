@@ -171,7 +171,7 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
       connection.beginTransaction();
 
       const processedFiles = await Promise.all(files.map(async (file) => {
-        const imageName = 'resized_' + file.filename;
+        const imageName = 'resized' + file.filename;
         const outputFilePath = path.join(file.destination, imageName);
   
         // Resize the image using sharp
@@ -200,13 +200,15 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
   };
 
   processUpload();
+
 });
 
 // send image 
 app.get('/uploads/:id/:imageName', (req, res) => {
   const imageName = req.params.imageName;
+  const encodedFileName = encodeURI(imageName);
   const id = req.params.id;
-  res.sendFile(imageName, { root: `./uploads/${id}` });
+  res.sendFile(encodedFileName, { root: `./uploads/${id}` });
 }); 
 
 async function deleteImageDBAndFile(inserateId: string, imageName: string, res: Response) {
@@ -223,16 +225,16 @@ async function deleteImageDBAndFile(inserateId: string, imageName: string, res: 
     await connection.execute(deleteQuery, [inserateId, encodedFileName]);
 
     // delete from folder
-    fs.unlink(filePath, (error) => {
-    if(error) {
-      message = 'Fehler beim Löschen.';
-      status = 500;
-      connection.rollback();
-    } else {
-      connection.commit();
-    }
-  })
+  try {
+    fs.unlinkSync(filePath);
+    connection.commit();
+  } catch(error) {
+    message = 'Fehler beim Löschen.';
+    status = 500;
+    connection.rollback();
+  }
   
+
   } catch(error: any) {
     connection.rollback();
     message = 'Fehler beim Löschen.';
@@ -246,7 +248,7 @@ async function deleteImageDBAndFile(inserateId: string, imageName: string, res: 
 // delete image
 app.delete(URLs.DELETE_IMAGE+"/:inserateid/:imagename", authMiddelware, (req, res) => {
   const inserateId = req.params.inserateid;
-  const imageName = 'resized_' + req.params.imagename;
+  const imageName = 'resized' + req.params.imagename;
   
   deleteImageDBAndFile(inserateId, imageName, res);
 })

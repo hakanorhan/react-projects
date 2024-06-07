@@ -19,6 +19,7 @@ import { SignInForm } from '../../../interfaces/types.js';
 import { notifyError } from '../../../helper/toastHelper.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthResponse } from '../../../interfaces/types.js';
+import { scrollToTop } from '../../../helper/PagerHelper.js';
 
 const SignIn: React.FC = () => {
 
@@ -28,6 +29,8 @@ const SignIn: React.FC = () => {
     email: "",
     password: ""
   }
+
+  scrollToTop();
 
   const [form, setForm] = useState<SignInForm>(
     signInForm

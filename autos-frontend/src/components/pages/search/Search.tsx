@@ -22,6 +22,7 @@ import { useMediaQuery } from '@mui/material';
 import ClickedCars from './ClickedCars';
 import { DisplayTypes } from '../../../enums/DisplayTypes';
 import { notifyError } from '../../../helper/toastHelper';
+import { scrollToTop } from '../../../helper/PagerHelper';
 
 const searchButtonText = " Treffer";
 
@@ -75,6 +76,8 @@ const Search: React.FC = () => {
   const [selectedDateFrom, setSelectedDateFrom] = React.useState<Dayjs | null>();
   const [selectedDateTo, setSelectedDateTo] = React.useState(selectedDateFrom);
   const maxDate = dayjs();
+
+scrollToTop();
 
   // Fetch static data
   React.useEffect(() => {

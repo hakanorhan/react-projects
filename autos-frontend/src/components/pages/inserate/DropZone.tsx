@@ -9,6 +9,7 @@ import { COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { keyframes } from '@mui/material';
 
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { scrollToTop } from '../../../helper/PagerHelper';
 
 interface UploadImagesProp {
     carId?: number
@@ -37,6 +38,8 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
 
     // all uploaded files
     const [files, setFiles] = useState<FileWithPreview[]>([]);
+
+    scrollToTop();
 
     const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
         if(rejectedFiles.length > 0) {

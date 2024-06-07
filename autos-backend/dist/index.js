@@ -126,7 +126,7 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
         try {
             connection.beginTransaction();
             const processedFiles = await Promise.all(files.map(async (file) => {
-                const imageName = 'resized_' + file.filename;
+                const imageName = 'resized' + file.filename;
                 const outputFilePath = path.join(file.destination, imageName);
                 await sharp(file.path)
                     .resize(1920, 1080, { fit: 'cover' })
@@ -153,8 +153,9 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
 });
 app.get('/uploads/:id/:imageName', (req, res) => {
     const imageName = req.params.imageName;
+    const encodedFileName = encodeURI(imageName);
     const id = req.params.id;
-    res.sendFile(imageName, { root: `./uploads/${id}` });
+    res.sendFile(encodedFileName, { root: `./uploads/${id}` });
 });
 async function deleteImageDBAndFile(inserateId, imageName, res) {
     const deleteQuery = "DELETE FROM imagename WHERE inserate_id = ? AND imagename = ?";
@@ -165,14 +166,15 @@ async function deleteImageDBAndFile(inserateId, imageName, res) {
     const connection = await connectToDatabase();
     try {
         await connection.execute(deleteQuery, [inserateId, encodedFileName]);
-        fs.unlink(filePath, (error) => {
-            if (error) {
-                message = 'Fehler beim Löschen.';
-                status = 500;
-                throw error;
-            }
-        });
-        connection.commit();
+        try {
+            fs.unlinkSync(filePath);
+            connection.commit();
+        }
+        catch (error) {
+            message = 'Fehler beim Löschen.';
+            status = 500;
+            connection.rollback();
+        }
     }
     catch (error) {
         connection.rollback();
@@ -186,7 +188,7 @@ async function deleteImageDBAndFile(inserateId, imageName, res) {
 }
 app.delete(URLs.DELETE_IMAGE + "/:inserateid/:imagename", authMiddelware, (req, res) => {
     const inserateId = req.params.inserateid;
-    const imageName = 'resized_' + req.params.imagename;
+    const imageName = 'resized' + req.params.imagename;
     deleteImageDBAndFile(inserateId, imageName, res);
 });
 app.listen(3001, () => {

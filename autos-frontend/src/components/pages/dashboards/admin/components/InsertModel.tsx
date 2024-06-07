@@ -13,6 +13,7 @@ import { formularModelIsValid } from "../../../../../helper/validHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../redux/store";
 import { fetchBrandModel, insertModel } from "../../../../../redux/features/CarModelSlice";
+import { scrollToTop } from "../../../../../helper/PagerHelper";
 
 interface IFormModel {
   model: string
@@ -31,6 +32,8 @@ const InsertModel = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [selectedBrand, setSelectedBrand] = useState<string>("");
+
+  scrollToTop();
 
   useEffect(() => {
     // valid brand

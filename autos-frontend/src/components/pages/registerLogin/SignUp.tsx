@@ -30,12 +30,15 @@ import { useEffectFetch } from '../../../helper/DataLoading.js';
 import { URLs } from '../../../../../autos-backend/src/enums/URLs.js';
 import * as ValidHelper from '../../../helper/validHelper.js';
 import { useNavigate } from 'react-router-dom';
+import { scrollToTop } from '../../../helper/PagerHelper.js';
 
 const steps = ['Konto', 'Details', 'Adresse', 'Kontakt'];
 
 const SignUpUser: React.FC = () => {
 
   const navigate = useNavigate();
+
+  scrollToTop();
 
   const [activeStep, setActiveStep] = useState<number>(0);
 
