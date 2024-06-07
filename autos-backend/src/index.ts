@@ -25,7 +25,6 @@ import { fetchListCars } from "./routes/fetchListCars.js";
 import { fileURLToPath } from 'url';
 import passport, { authMiddelware } from "./routes/middleware/passport.middleware.js";
 import authenticationUser from "./routes/middleware/authenticationUser.js";
-
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import session from 'express-session'
@@ -201,8 +200,6 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
   };
 
   processUpload();
-  
-  //res.status(200).send('Files uploaded successfully.');
 });
 
 // send image 
@@ -215,24 +212,27 @@ app.get('/uploads/:id/:imageName', (req, res) => {
 async function deleteImageDBAndFile(inserateId: string, imageName: string, res: Response) {
   
   const deleteQuery: string = "DELETE FROM imagename WHERE inserate_id = ? AND imagename = ?";
-  const filePath = path.join(__dirname, `../uploads/${inserateId}`, imageName);
+  const encodedFileName = encodeURI(imageName);
+  const filePath = path.join(__dirname, `../uploads/${inserateId}`, encodedFileName);
+  
   let message = 'Erfolgreich gelöscht';
   let status: number = 200;
   const connection = await connectToDatabase();
   try {
     // delete from database
-    await connection.execute(deleteQuery, [inserateId, imageName]);
+    await connection.execute(deleteQuery, [inserateId, encodedFileName]);
 
     // delete from folder
     fs.unlink(filePath, (error) => {
     if(error) {
       message = 'Fehler beim Löschen.';
       status = 500;
-      throw error;
+      connection.rollback();
+    } else {
+      connection.commit();
     }
   })
-  connection.commit();
-
+  
   } catch(error: any) {
     connection.rollback();
     message = 'Fehler beim Löschen.';

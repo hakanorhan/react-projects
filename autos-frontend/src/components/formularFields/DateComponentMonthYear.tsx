@@ -1,4 +1,4 @@
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { DatePicker, DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs from 'dayjs';
@@ -39,7 +39,7 @@ export const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, 
           ]}
         >
           <DemoItem>
-            <DatePicker sx={{ paddingTop: '1rem', width: isLGDown ? '100%' : '416px' }}
+            <DesktopDatePicker sx={{ paddingTop: '1rem', width: isLGDown ? '100%' : '416px' }}
               views={['month', 'year']}
               maxDate={dayjs()}
               onChange={handleOnChange}

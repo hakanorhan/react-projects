@@ -158,12 +158,13 @@ app.get('/uploads/:id/:imageName', (req, res) => {
 });
 async function deleteImageDBAndFile(inserateId, imageName, res) {
     const deleteQuery = "DELETE FROM imagename WHERE inserate_id = ? AND imagename = ?";
-    const filePath = path.join(__dirname, `../uploads/${inserateId}`, imageName);
+    const encodedFileName = encodeURI(imageName);
+    const filePath = path.join(__dirname, `../uploads/${inserateId}`, encodedFileName);
     let message = 'Erfolgreich gelöscht';
     let status = 200;
     const connection = await connectToDatabase();
     try {
-        await connection.execute(deleteQuery, [inserateId, imageName]);
+        await connection.execute(deleteQuery, [inserateId, encodedFileName]);
         fs.unlink(filePath, (error) => {
             if (error) {
                 message = 'Fehler beim Löschen.';

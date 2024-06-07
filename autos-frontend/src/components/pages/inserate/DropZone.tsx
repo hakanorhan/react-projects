@@ -31,7 +31,7 @@ const blink = keyframes`
 `;
 
 const MAX_FILES = (7);
-const MAX_IMAGE_SIZE = 1024 * 1024 * 3;
+const MAX_IMAGE_SIZE = 1024 * 1024 * 10;
 
 const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
 
@@ -49,7 +49,7 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
                     }
                 })
             )) 
-        }
+        } else 
         uploadImage(acceptedFiles);
 
     }, []);
@@ -70,6 +70,12 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
     const uploadImage = async (acceptedFiles: File[]) => {
         
         if (!acceptedFiles.length) { return  }
+
+        const renamedFiles = acceptedFiles.map((file) => {
+            const encodedFileName = encodeURI(file.name);
+            return new File([file], encodedFileName, { type: file.type });
+        });
+
         
         if (carId)
             try {
@@ -78,7 +84,7 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
                 const stringId: string = carId?.toString();
 
                 formData.append('carId', stringId);
-                acceptedFiles.forEach(file => {
+                renamedFiles.forEach(file => {
                     formData.append('images', file)
                 });
 
@@ -96,7 +102,7 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
                 if (acceptedFiles?.length) {
                     setFiles((previousFiles) => [
                         ...previousFiles,
-                        ...acceptedFiles.map((file) =>
+                        ...renamedFiles.map((file) =>
                             Object.assign(file, { preview: URL.createObjectURL(file) })
                         ),
                     ]);

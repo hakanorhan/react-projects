@@ -6,7 +6,7 @@ import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Button, Checkbox, FormControlLabel, Box, Typography, Stepper, StepLabel, Step, Grid, Paper, SelectChangeEvent } from '@mui/material';
 import { MainComponentWidth, HeaderIcon, textFieldSMWitdh, buttonHeight, COMPONENT_DISTANCE } from '../../../themes/Theme.js';
 
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs, { Dayjs } from 'dayjs';
@@ -292,7 +292,7 @@ const SignUpUser: React.FC = () => {
                       ]}
                     >
                       <DemoItem>
-                        <DatePicker sx={{ width: { xs: '100%', md: textFieldSMWitdh } }}
+                        <DesktopDatePicker sx={{ width: { xs: '100%', md: textFieldSMWitdh } }}
                           slotProps={{ textField: { variant: 'standard', size: 'medium', fullWidth: true } }}
                           label="Geburtsdatum"
                           //views={['month', 'year']}
