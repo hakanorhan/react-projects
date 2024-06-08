@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../enums/URLs';
-import { Box, CardMedia, CircularProgress, Dialog, IconButton, Typography, useMediaQuery, } from '@mui/material';
+import { Box, CardMedia, Dialog, IconButton, Typography, useMediaQuery, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { AxiosDataImagesNames } from '../../../interfaces/IAxiosData';
@@ -30,7 +30,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    if(lgQuery)
+    if (lgQuery)
       setOpen(true);
   };
 
@@ -38,48 +38,42 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
     setOpen(false);
   };
 
+  const fetchImageNames = async () => {
+    try {
+      const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAMES + '/' + id, { withCredentials: true })
+      setFetchedImageInformations(response.data);
+      setFetchImageNamesDone(true);
+
+    } catch (error) {
+      console.log(error)
+      setFetchImageNamesDone(false);
+    }
+  }
+
+  const fetchImageName = async () => {
+    try {
+      const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAME + '/' + id, { withCredentials: true })
+      setFetchedImageInformations(response.data);
+      setFetchImageNamesDone(true);
+
+    } catch (error) {
+      console.log(error)
+      setFetchImageNamesDone(false);
+    }
+  }
+
   const BigImage = () => {
-    return <Dialog sx={{ '& .MuiDialog-paper': {
-      width: '950px',
-      maxWidth: 'none', 
-    }, }}
-    open={open}
-    onClose={handleClose}>
+    return <Dialog sx={{
+      '& .MuiDialog-paper': {
+        width: '950px',
+        maxWidth: 'none',
+      },
+    }}
+      open={open}
+      onClose={handleClose}>
       <CarouselComponent />
     </Dialog>
   }
-
-  useEffect(() => {
-    setSuccessFullDownloaded(false);
-    const fetchImageNames = async () => {
-      try {
-        const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAMES + '/' + id, { withCredentials: true })
-        setFetchedImageInformations(response.data);
-        setFetchImageNamesDone(true);
-
-      } catch (error) {
-        console.log(error)
-        setFetchImageNamesDone(false);
-      }
-    }
-
-    const fetchImageName = async () => {
-      try {
-        const response = await axios.get<AxiosDataImagesNames[]>(URLs.ORIGIN_SERVER + URLs.FETCH_IMAGENAME + '/' + id, { withCredentials: true })
-        setFetchedImageInformations(response.data);
-        setFetchImageNamesDone(true);
-
-      } catch (error) {
-        console.log(error)
-        setFetchImageNamesDone(false);
-      }
-    }
-
-    if (multiple)
-      fetchImageNames();
-    else
-      fetchImageName();
-  }, [id])
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -135,57 +129,93 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
           setSliderIndex(sliderIndex + 1);
       }
     }
-    
-    return (<Box sx={{ position: 'relative' }} onClick={() => { handleClickOpen()}}>
+
+    return (<Box sx={{ position: 'relative' }} onClick={() => { handleClickOpen() }}>
 
       <CardMedia
+        loading='lazy'
         component='img'
         image={imageSrc[sliderIndex - 1]}
         alt={"Bild"}
-        sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16/9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor:'pointer' } }}>
+        sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor: 'pointer' } }}>
       </CardMedia>
 
-      <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: { xs: 'none', lg: isDetail ? 'flex' : 'none' } }, color:'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
-        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0 }}>
-          <Typography>{`${sliderIndex} / ${imageSrc.length}`}</Typography></Box>
-          
+      <Box sx={{
+        '@media print': { display: 'none' }, '@media screen': { display: { xs: 'none', lg: isDetail ? 'flex' : 'none' } }, color: 'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
+        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0
+      }}>
+        <Typography>{`${sliderIndex} / ${imageSrc.length}`}</Typography></Box>
+
       {imageSrc.length > 1 && <>
         <IconButton sx={iconButtonSX(0)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
         <IconButton sx={iconButtonSX(1)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
-      </> 
+      </>
       }
     </Box>
     )
   }
 
-  
+
+
+
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+
+
+          setSuccessFullDownloaded(false);
+
+
+          if (multiple)
+            fetchImageNames();
+          else
+            fetchImageName();
+
+          observer.disconnect();
+        }
+      });
+    }, options);
+
+    if (imageRef.current) {
+      observer.observe(imageRef.current);
+    }
+
+    return () => {
+      if (imageRef.current) {
+        observer.unobserve(imageRef.current);
+      }
+    };
+  }, []);
 
   return (<>
-    {
 
-    <Box sx={{ width:'100%', height: 'calc(100% * 9 / 16)' }}>
-      {
-        !succesFullDownloaded &&
-        <Box sx={{ backgroundColor: 'background.paper', display: 'flex', width: '100%', aspectRatio: 16 / 9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <CircularProgress sx={{ color:'primary.main', fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
-        </Box>
-      }
-      
-      { succesFullDownloaded && imageSrc.length > 0 &&
+
+    <Box ref={imageRef} sx={{ width: '100%', height: 'calc(100% * 9 / 16)' }}>
+
+      {succesFullDownloaded && imageSrc.length > 0 &&
         <CarouselComponent />
       }
 
       {
         succesFullDownloaded && imageSrc.length === 0 &&
         <Box sx={{ backgroundColor: 'background.paper', display: 'flex', width: '100%', aspectRatio: 16 / 9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <CameraAltIcon sx={{ color:'primary.main', fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
+          <CameraAltIcon sx={{ color: 'primary.main', fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
         </Box>
       }
 
     </Box>
-}
+
     <BigImage />
-    </>
+  </>
   );
 };
 

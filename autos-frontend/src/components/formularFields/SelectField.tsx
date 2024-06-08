@@ -1,6 +1,6 @@
 import { FormControl, InputLabel, Select, MenuItem, Tooltip, Box } from "@mui/material"
 import { SelectChangeEvent } from "@mui/material";
-import React from "react";
+import React, { memo, useMemo } from "react";
 import { SelectFieldEnums } from "../../enums/SelectFieldEnums";
 
 // Components
@@ -9,11 +9,19 @@ const SelectField: React.FC<{
   handleChange: (event: SelectChangeEvent<string>) => void, label: string, allOption?: boolean
 }> = ({ values, objectName, idOfSelect, selectedValue, handleChange, label, allOption }) => {
 
+  const memozidValues = useMemo(() => {
+    return values
+  }, [values]);
+
+  const memozidSelectedValues = useMemo(() => {
+    return selectedValue
+  }, [selectedValue])
+
   const FIELD_STYLE = { color: 'text' };
 
   return <Box>
     {
-      values.length === 0 ? (
+      memozidValues.length === 0 ? (
         <Tooltip title={`Kein ${label} vorhanden`}>
           <FormControl variant="standard">
             <InputLabel htmlFor={objectName}>{label}</InputLabel>
@@ -25,8 +33,8 @@ const SelectField: React.FC<{
                 border: 'none',
               }
             }}
-              disabled={values.length === 0}
-              value={selectedValue ?? ''}
+              disabled={memozidValues.length === 0}
+              value={memozidSelectedValues ?? ''}
               label={label}
               name={objectName}
               onChange={handleChange}
@@ -38,8 +46,8 @@ const SelectField: React.FC<{
                 (allOption) ? <MenuItem sx={FIELD_STYLE} key={SelectFieldEnums.ITEM_KEY} value={SelectFieldEnums.ALL_VALUE}> {SelectFieldEnums.DE_ALL_LABEL} </MenuItem> : []
               }
               {
-                (values) ?
-                  values.map((item, index) => (
+                (memozidValues) ?
+                  memozidValues.map((item, index) => (
                     <MenuItem sx={FIELD_STYLE} key={index} value={item[idOfSelect]}> {item[objectName]} </MenuItem>
                   )) : null
               }
@@ -57,8 +65,8 @@ const SelectField: React.FC<{
               color: 'black'
             },
           }}
-            disabled={values.length === 0}
-            value={selectedValue ?? ''}
+            disabled={memozidValues.length === 0}
+            value={memozidSelectedValues ?? ''}
             label={label}
             name={objectName}
             onChange={handleChange}
@@ -70,8 +78,8 @@ const SelectField: React.FC<{
               (allOption) ? <MenuItem sx={FIELD_STYLE} key={SelectFieldEnums.ITEM_KEY} value={SelectFieldEnums.ALL_VALUE}> {SelectFieldEnums.DE_ALL_LABEL} </MenuItem> : []
             }
             {
-              (values) ? (
-                values.map((item, index) => (
+              (memozidValues) ? (
+                memozidValues.map((item, index) => (
                   <MenuItem sx={FIELD_STYLE} key={index} value={item[idOfSelect]}> {item[objectName]} </MenuItem>
                 ))) : null
             }
@@ -83,4 +91,4 @@ const SelectField: React.FC<{
   </Box>
 };
 
-export default SelectField;
+export default memo(SelectField);

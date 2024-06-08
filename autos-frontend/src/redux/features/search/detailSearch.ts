@@ -26,19 +26,20 @@ const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {},
-    extraReducers: (builder) =>{
+    extraReducers: (builder) => {
         builder
             .addCase(fetchDetailSearch.pending, (state) => {
                 state.loading = true;
             })
             .addCase(fetchDetailSearch.fulfilled, (state, action: PayloadAction<AxiosDetailsearch>) => {
-                if(action.payload) {
+                // TODO: fix
+                if (action.payload) {
                     state.detailState = action.payload;
-                state.loading = false;
-                state.carsNotFound = false;    
+                    state.loading = false;
+                    state.carsNotFound = false;
                 } else state.carsNotFound = true;
             })
-            .addCase(fetchDetailSearch.rejected,(state) => {
+            .addCase(fetchDetailSearch.rejected, (state) => {
                 state.loading = false;
             });
     }

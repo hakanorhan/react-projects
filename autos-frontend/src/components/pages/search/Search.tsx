@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { lazy, useCallback, useMemo } from 'react'
 import { Box, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import { 
@@ -19,10 +19,11 @@ import { AxiosSearch } from '../../../interfaces/IAxiosData';
 import { SelectFieldEnums } from '../../../enums/SelectFieldEnums';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
-import ClickedCars from './ClickedCars';
 import { DisplayTypes } from '../../../enums/DisplayTypes';
 import { notifyError } from '../../../helper/toastHelper';
 import { scrollToTop } from '../../../helper/PagerHelper';
+
+const ClickedCars = lazy(() => import ('./ClickedCars'))
 
 const searchButtonText = " Treffer";
 
@@ -148,6 +149,7 @@ scrollToTop();
     }
   }
 
+
   const handleChangeSelect = (event: SelectChangeEvent<string>) => {
     setFormSelect(prevState => ({
       ...prevState,
@@ -195,11 +197,9 @@ scrollToTop();
 
   }
 
-  return (
-    <Box>
-      <Box sx={{ backgroundImage: 'url("pexels-shkrabaanthony-7144243.jpg")', backgroundSize: 'cover', backgroundPosition: 'center', paddingTop: '4rem', paddingBottom: '4rem' }}>
-
-        <Typography variant={isXS ? 'h3' : isSM ? 'h5' : isMD ? 'h4' : 'h2'} component='h1' sx={headerSize}>Neues Auto.</Typography>
+  const SearchContent = () => {
+    return <>
+              <Typography variant={isXS ? 'h3' : isSM ? 'h5' : isMD ? 'h4' : 'h2'} component='h1' sx={headerSize}>Neues Auto.</Typography>
         <SearchContainer onClick={(e) => e.stopPropagation()} sx={{ padding: '1.5rem', cursor: 'default', backgroundColor: 'background.default' }}>
           
           <Grid container sx={{}} justifyContent="center" columnSpacing={1}>
@@ -252,9 +252,23 @@ scrollToTop();
           <a style={{ paddingRight: '1rem' }} href='https://www.pexels.com/de-de/foto/mann-frau-auto-fahrzeug-7144243/' target='_blank'>
             <Typography sx={{ color: 'white' }}>pexels - Foto von Antoni Shkraba:</Typography> </a>
         </Box>
+    </>
+  }
 
+  const SearchBox = () => {
+    const styles = useMemo(() => ({
+      backgroundImage: 'url("pexels-shkrabaanthony-7144243.jpg")', backgroundSize: 'cover', backgroundPosition: 'center', paddingTop: '4rem', paddingBottom: '4rem'
+    }), [])
+    return <Box sx={ styles }>
+      <SearchContent />
+    </Box>
+  } 
 
-      </Box>
+  
+
+  return (
+    <Box>
+      <SearchBox />
       
       <Box sx={{ minHeight: {xs: '600px', sm: '680px', md: '600px'} }}>
       <ClickedCars type={DisplayTypes.MOST_CLICKED} />

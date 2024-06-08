@@ -72,6 +72,7 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   const handleShowDetail = ({ id }: ({ id: number })) => {
     navigate(URLs.FETCH_DETAIL_SEARCH + `/${id}`);
   }
+  
   const MemoizedContainer = useMemo(() => {
     return ({ axiosPaper }: { axiosPaper : AxiosPaperList}) => {
     

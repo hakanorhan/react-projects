@@ -1,31 +1,30 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import './App.css';
+
+import { Box, CircularProgress } from '@mui/material';
+import type { RootState } from './redux/store';
+import { useSelector } from 'react-redux';
+import { Roles } from '../../autos-backend/src/enums/Roles';
+import { URLs } from './enums/URLs';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+
 import Header from './components/site-components/Header';
 import { ThemeProvider } from '@emotion/react';
 import { themeDark, themeLight } from './themes/Theme';
-import Footer from './components/site-components/Footer';
-import SignIn from './components/pages/registerLogin/SignIn';
-import SignUpUser from './components/pages/registerLogin/SignUp';
-import InserateCar from './components/pages/inserate/InserateCar';
-
+const Footer = lazy(() => import ('./components/site-components/Footer'));
 import Search from './components/pages/search/Search';
-import { Box } from '@mui/material';
-import './App.css'
-
-import type { RootState } from './redux/store';
-import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/protectedRoutes/ProtectedRoute';
-import { Roles } from '../../autos-backend/src/enums/Roles';
-import InsertBrand from './components/pages/dashboards/admin/components/InsertBrand';
-import { URLs } from './enums/URLs';
-import InsertModel from './components/pages/dashboards/admin/components/InsertModel';
-import PublishInserate from './components/pages/dashboards/admin/components/PublishInserate';
+const PublishInserate = lazy(() => import('./components/pages/dashboards/admin/components/PublishInserate'));
+const Notfound = lazy(() => import('./components/pages/Notfound'));
 
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import Notfound from './components/pages/Notfound';
-import ListSearchedCars from './components/pages/search/ListSearchedCars';
-import ViewDetailSearch from './components/pages/search/viewDetail/ViewDetailSearch';
-import AccessDenied from './components/protectedRoutes/AccessDenied';
+const ViewDetailSearch = lazy(() => import('./components/pages/search/viewDetail/ViewDetailSearch'));
+const AccessDenied = lazy(() => import('./components/protectedRoutes/AccessDenied'));
+const SignIn = lazy(() => import('./components/pages/registerLogin/SignIn'));
+const SignUpUser = lazy(() => import('./components/pages/registerLogin/SignUp'));
+const InserateCar = lazy(() => import('./components/pages/inserate/InserateCar'));
+const InsertBrand = lazy(() => import('./components/pages/dashboards/admin/components/InsertBrand'));
+const InsertModel = lazy(() => import('./components/pages/dashboards/admin/components/InsertModel'));
+const ListSearchedCars = lazy(() => import('./components/pages/search/ListSearchedCars'));
 
 const App: React.FC = () => {
 
@@ -33,7 +32,9 @@ const App: React.FC = () => {
     <Box sx={{ width: '100%' }}>
       <Header />
       <Box sx={{ minHeight: 'calc(100vh - 50px)' }}>
-        <Outlet />
+        <Suspense fallback={<Box display={'flex'} justifyContent={'center'} width={'100%'} height={'100vh'}><CircularProgress /></Box>}>
+          <Outlet />
+        </Suspense>
       </Box>
       <Footer />
     </Box>
