@@ -5,7 +5,6 @@ import { Box, CardMedia, Dialog, IconButton, Typography, useMediaQuery, } from '
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { AxiosDataImagesNames } from '../../../interfaces/IAxiosData';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
 export interface CarImagesProps {
   id: number | null | string | undefined,
   multiple: boolean,
@@ -16,6 +15,8 @@ enum ArrowDirection {
   ARROW_DIRECTION_LEFT = 'left', ARROW_DIRECTION_RIGHT = 'right'
 }
 
+import FALLBACK_IMAGE from '/Screenshot 2024-06-08 at 13.58.08.png';
+
 const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
   const lgQuery = useMediaQuery('(min-width:1101px)');
@@ -24,8 +25,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
   const [fetchedImageInformations, setFetchedImageInformations] = useState<AxiosDataImagesNames[]>([]);
 
   const [imageSrc, setImageSrc] = useState<string[]>([]);
-
-  const [succesFullDownloaded, setSuccessFullDownloaded] = useState(false);
 
   const [open, setOpen] = useState(false);
 
@@ -92,7 +91,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
         console.error('Fehler beim Herunterladen der Bilder:', error);
       } finally {
         setFetchImageNamesDone(false);
-        setSuccessFullDownloaded(true);
       }
     };
     if (fetchImageNamesDone)
@@ -132,10 +130,10 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
     return (<Box sx={{ position: 'relative' }} onClick={() => { handleClickOpen() }}>
 
-      <CardMedia
+      <CardMedia 
         loading='lazy'
         component='img'
-        image={imageSrc[sliderIndex - 1]}
+        image={imageSrc[sliderIndex - 1] || FALLBACK_IMAGE}
         alt={"Bild"}
         sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor: 'pointer' } }}>
       </CardMedia>
@@ -172,9 +170,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
         if (entry.isIntersecting) {
 
 
-          setSuccessFullDownloaded(false);
-
-
           if (multiple)
             fetchImageNames();
           else
@@ -201,16 +196,8 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
     <Box ref={imageRef} sx={{ width: '100%', height: 'calc(100% * 9 / 16)' }}>
 
-      {succesFullDownloaded && imageSrc.length > 0 &&
         <CarouselComponent />
-      }
-
-      {
-        succesFullDownloaded && imageSrc.length === 0 &&
-        <Box sx={{ backgroundColor: 'background.paper', display: 'flex', width: '100%', aspectRatio: 16 / 9, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <CameraAltIcon sx={{ color: 'primary.main', fontSize: '8rem', height: '100%', aspectRatio: 16 / 9, }} />
-        </Box>
-      }
+      
 
     </Box>
 

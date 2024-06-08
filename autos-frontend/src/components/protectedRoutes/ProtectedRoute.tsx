@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
 import { RootState } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
 
 interface ProtectedRoteProps {
     children: ReactNode,

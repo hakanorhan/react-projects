@@ -1,9 +1,11 @@
-import React, { lazy, useCallback, useMemo } from 'react'
+import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react'
 import { Box, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import { 
+  COMPONENT_DISTANCE,
   SearchContainer,
   buttonHeight,
+  fontSemiBold,
   headerSize 
 } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
@@ -23,7 +25,8 @@ import { DisplayTypes } from '../../../enums/DisplayTypes';
 import { notifyError } from '../../../helper/toastHelper';
 import { scrollToTop } from '../../../helper/PagerHelper';
 
-const ClickedCars = lazy(() => import ('./ClickedCars'))
+
+const LazyClickedCars = lazy(() => import('./ClickedCars'));
 
 const searchButtonText = " Treffer";
 
@@ -149,7 +152,6 @@ scrollToTop();
     }
   }
 
-
   const handleChangeSelect = (event: SelectChangeEvent<string>) => {
     setFormSelect(prevState => ({
       ...prevState,
@@ -198,9 +200,8 @@ scrollToTop();
   }
 
   const SearchContent = () => {
-    return <>
-              <Typography variant={isXS ? 'h3' : isSM ? 'h5' : isMD ? 'h4' : 'h2'} component='h1' sx={headerSize}>Neues Auto.</Typography>
-        <SearchContainer onClick={(e) => e.stopPropagation()} sx={{ padding: '1.5rem', cursor: 'default', backgroundColor: 'background.default' }}>
+    return <Box sx={{ marginTop:'-30vh' }}>
+        <SearchContainer  sx={{ marginTop:'8rem', padding: '1.5rem', cursor: 'default', backgroundColor: 'background.paper' }}>
           
           <Grid container sx={{}} justifyContent="center" columnSpacing={1}>
             <Grid item xs={6} md={4}>
@@ -248,31 +249,64 @@ scrollToTop();
             </Grid>
           </Grid>
         </SearchContainer>
-        <Box sx={{ display: 'flex', justifyContent: 'end', marginTop: '2rem' }}>
-          <a style={{ paddingRight: '1rem' }} href='https://www.pexels.com/de-de/foto/mann-frau-auto-fahrzeug-7144243/' target='_blank'>
-            <Typography sx={{ color: 'white' }}>pexels - Foto von Antoni Shkraba:</Typography> </a>
-        </Box>
-    </>
+
+    </Box>
   }
 
   const SearchBox = () => {
     const styles = useMemo(() => ({
-      backgroundImage: 'url("pexels-shkrabaanthony-7144243.jpg")', backgroundSize: 'cover', backgroundPosition: 'center', paddingTop: '4rem', paddingBottom: '4rem'
+      backgroundImage: 'url("pexels-shkrabaanthony-7144243.jpg")', height:'68vh', backgroundSize: 'cover', backgroundPosition: 'center', paddingTop: '4rem', paddingBottom: '4rem'
     }), [])
     return <Box sx={ styles }>
-      <SearchContent />
+                   <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+          <a style={{ paddingRight: '1rem' }} href='https://www.pexels.com/de-de/foto/mann-frau-auto-fahrzeug-7144243/' target='_blank'>
+            <Typography sx={{ color: 'black' }}>pexels - Foto von Antoni Shkraba:</Typography> </a>
+        </Box>
+            <Typography marginTop={'15vh'} variant={isXS ? 'h3' : isSM ? 'h5' : isMD ? 'h4' : 'h2'} component='h1' sx={headerSize}>Neues Auto.</Typography>
+        
     </Box>
   } 
 
-  
+
+  const [isClickedCarsVisible, setIsClickedCarsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsClickedCarsVisible(true);
+        observer.unobserve(entry.target);
+      }
+    });
+
+    const boxElement = document.getElementById('box');
+    if (boxElement) observer.observe(boxElement);
+
+    return () => {
+      if (boxElement) observer.unobserve(boxElement);
+    };
+  }, []);
 
   return (
     <Box>
       <SearchBox />
-      
-      <Box sx={{ minHeight: {xs: '600px', sm: '680px', md: '600px'} }}>
-      <ClickedCars type={DisplayTypes.MOST_CLICKED} />
-      <ClickedCars type={DisplayTypes.ELECTRIC} />
+      <SearchContent />
+
+      <Typography variant='h6' component='h1' sx={{ margin:'auto', width:'95%', fontFamily: fontSemiBold, marginTop: `calc(${COMPONENT_DISTANCE})`, marginBottom: '3rem' }}>
+      {
+        "Am meisten gesucht"
+      }
+    </Typography>
+
+      <Box
+        id="box"
+        sx={{ minHeight: { xs: '600px', sm: '680px', md: '600px' } }}
+      >
+        {isClickedCarsVisible && (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyClickedCars type={DisplayTypes.MOST_CLICKED} />
+            <LazyClickedCars type={DisplayTypes.ELECTRIC} />
+          </Suspense>
+        )}
       </Box>
 
     </Box>

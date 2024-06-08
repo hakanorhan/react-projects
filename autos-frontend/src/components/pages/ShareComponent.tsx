@@ -5,7 +5,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { COMPONENT_DISTANCE } from '../../themes/Theme';
-import { Box, Button, ListItemIcon, Menu, MenuItem, MenuList, Typography } from '@mui/material';
+import { Box, Menu, MenuItem, MenuList, Typography } from '@mui/material';
 
 interface ShareComponentProps {
     showText?: boolean

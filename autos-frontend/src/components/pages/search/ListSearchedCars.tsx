@@ -1,5 +1,5 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
-import { Button, Box, Card, CardActionArea, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { useEffect, useMemo, useState } from 'react'
+import { Button, Box, Card, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../enums/URLs';

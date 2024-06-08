@@ -13,7 +13,7 @@ import LimitMediaQuery from '../../../helper/LimitMediaQuery';
 import { notifyError } from '../../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
 
-const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
+const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
 
   const LIMIT = LimitMediaQuery();
 
@@ -95,11 +95,6 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
     { cars && cars?.length > 0 &&
     <Box sx={{ display:'block', width: '95%', margin: 'auto', paddingTop: '20px', marginBottom: COMPONENT_DISTANCE }}>
 
-    <Typography variant='h6' component='h1' sx={{ fontFamily: fontSemiBold, marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
-      {
-        type === DisplayTypes.ELECTRIC ? "Elektroautos" : "Am meisten gesucht"
-      }
-    </Typography>
 
       <Grid container spacing={4}>
         {
@@ -120,4 +115,4 @@ const SearchedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   )
 }
 
-export default SearchedCars;
+export default ClickedCars;
