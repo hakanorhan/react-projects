@@ -3,7 +3,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 //import { pool } from "../../dbConnect.js";
 import { connectToDatabase } from "../../dbConnect1.js";
 import { RowDataPacket } from "mysql2";
-import { Roles } from "../../enums/Roles.js";
+import { Roles } from "../../constants/values.js";
 import bcrypt from 'bcrypt';
 import { Request, Response, NextFunction } from "express";
 import * as ValidHelper from '../../helper/validHelper.js';

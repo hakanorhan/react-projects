@@ -1,18 +1,25 @@
 import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { formularIsNumber } from '../helper/validHelper.js';
-import { Roles } from '../enums/Roles.js';
-const updateClick = "UPDATE inserate SET clicks = clicks+ 1  WHERE inserate_id = ?";
+import { Roles } from '../constants/values.js';
+const updateClick = "UPDATE inserate i "
+    + " JOIN inserate_check ic ON i.inserate_id = ic.inserate_id"
+    + " JOIN inserate_info ii ON i.inserate_info_id = ii.inserate_info_id"
+    + " SET clicks = clicks+ 1"
+    + " WHERE i.inserate_id = ? AND ic.inserate_public = 1 AND ii.is_active = 1";
+;
 export default async (req, res) => {
     const inserateId = req.params.id;
-    let condistionRole;
+    let conditionRole;
     let role = Roles.NULL;
     if (req.user) {
         role = req.user.role;
-        condistionRole = (role === Roles.ADMIN ? "AND ic.inserate_public = 0" : "AND ic.inserate_public = 1");
+        conditionRole = (role === Roles.ADMIN
+            ? "AND ic.inserate_public = 0"
+            : "AND ic.inserate_public = 1");
     }
     else {
-        condistionRole = "AND ic.inserate_public = 1";
+        conditionRole = "AND ic.inserate_public = 1";
     }
     let selectQueryDetail = `SELECT *, YEAR(ac.created_date) AS since`
         + ` FROM inserate i `
@@ -36,7 +43,7 @@ export default async (req, res) => {
         + ` LEFT JOIN transmission tr ON tr.transmission_id = td.transmission_id`
         + ` LEFT JOIN clima c ON c.clima_id = td.clima_id`
         + ` LEFT JOIN tuev t ON t.tuev_id = td.tuev_id`
-        + ` WHERE i.inserate_id = ? AND i.entwurf = 0 ${condistionRole}`;
+        + ` WHERE i.inserate_id = ? AND i.entwurf = 0 ${conditionRole}`;
     if (!formularIsNumber(inserateId)) {
         selectMysqlErrorMessages("error id", res);
     }
@@ -55,7 +62,11 @@ export default async (req, res) => {
                     headupdisplay, totwinkelassistent, color, city, federalState: federal_state, zipcode, companyName: companyname, impressum, foreName: forename, sureName: surename,
                     telNr: tel_nr, streetNr: is_car_dealer ? street_nr : null, since, contactPerson: is_car_dealer ? name : null, contactPersonSurname: is_car_dealer ? familyname : null
                 };
-                console.log(axiosData.brand);
+                if (req.user) {
+                    if (req.user.role !== Roles.ADMIN) {
+                        connection.execute(updateClick, [inserateId]);
+                    }
+                }
                 connection.end();
                 return res.status(200).json(axiosData);
             }

@@ -10,26 +10,19 @@ import { Drawer, Button, List, ListItem, ListItemButton, ListItemIcon, ListItemT
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { Roles } from '../../enums/Roles';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Roles, URLs } from '../../constants/values';
 import { LinkDrawer, LinkHome, fontBold } from '../../themes/Theme';
 import type { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import AddIcon from '@mui/icons-material/Add';
-import PublishIcon from '@mui/icons-material/Publish';
-import { URLs } from '../../enums/URLs';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
+import { setRole, setUserLoggedIn } from '../../redux/features/slices';
 import { AuthResponse } from '../../interfaces/types';
 import { notifyError } from '../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
+import muiLazyLoader from '../../helper/lazyLoading/MuiLazyLoader';
 
 const headlineStyle = { color: 'secondary.contrastText', paddingLeft: '20px', justifyContent: 'flex-start' };
-
 const drawerFontSize = '28px';
 
 const drawerSizes = { color: 'secondary.contrastText', fontSize: drawerFontSize, fontFamily: fontBold, paddingLeft: '25px' };
@@ -113,10 +106,46 @@ export default function Header() {
     }
   }
 
+  const AccordionLazy = muiLazyLoader(() =>
+  import('@mui/material/Accordion').then(module => {
+    return { default: module.default };
+  }),
+);
+
+const AccordionSummary = muiLazyLoader(() =>
+import('@mui/material/AccordionSummary').then(module => {
+  return { default: module.default };
+}),
+);
+
+const AccordionDetails = muiLazyLoader(() =>
+import('@mui/material/AccordionDetails').then(module => {
+  return { default: module.default };
+}),
+);
+
+'@mui/icons-material/ExpandMore'
+const ExpandMoreIcon = muiLazyLoader(() =>
+import('@mui/icons-material/ExpandMore').then(module => {
+  return { default: module.default };
+}),
+);
+
+const PublishIcon = muiLazyLoader(() =>
+import('@mui/icons-material/Publish').then(module => {
+  return { default: module.default };
+}),
+);
+
+const AddIcon = muiLazyLoader(() =>
+import('@mui/icons-material/Add').then(module => {
+  return { default: module.default };
+}),
+)
   // -------------------------------------- ADMIN ----------------------------------------------------------
 
   const AccordionComponent: React.FC<AccordionProps> = ({icon, title, urlBrand, urlModel}) => {
-    return <Accordion elevation={0} sx={accordionStyle}>
+    return <AccordionLazy elevation={0} sx={accordionStyle}>
     <AccordionSummary
       expandIcon={ <ExpandMoreIcon sx={{ color: 'secondary.contrastText' }}/> }
       aria-controls="panel1-content"
@@ -137,7 +166,7 @@ export default function Header() {
         }}> Modell </Button>
       </Box>
     </AccordionDetails>
-  </Accordion>
+  </AccordionLazy>
   }
 
   const ListItemLink: React.FC<ListItemLinkProps> = ({ title, url }) => {

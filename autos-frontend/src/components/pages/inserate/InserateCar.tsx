@@ -1,28 +1,25 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import React, { ChangeEvent, FormEvent, Suspense, lazy, useEffect, useState } from 'react';
+import { ToggleButton, ToggleButtonGroup, Box, Button, FormControlLabel, Checkbox, Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typography } from '@mui/material';
 import axios from 'axios';
-import { Button, FormControlLabel, Checkbox } from '@mui/material';
 import { REGEX_HUBRAUM, REGEX_MILEAGE, REGEX_NAMES, REGEX_OWNER, REGEX_POWER, REGEX_PRICE } from '../../../regex/REGEX';
 import {  HeaderIcon, COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../interfaces/IAxiosData';
-import { URLs } from '../../../enums/URLs';
+import { URLs } from '../../../constants/values.js';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper';
 import TextFieldCars from '../../formularFields/TextFieldCars';
 import TextFieldArea from '../../formularFields/TextFieldArea';
-import { Box } from '@mui/material';
 import SelectField from '../../formularFields/SelectField';
 import { useEffectModel } from '../../../helper/DataLoading';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Zoom from '@mui/material/Zoom';
 import dayjs from 'dayjs';
 import { DateComponentMonthYear } from '../../formularFields/DateComponentMonthYear';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useNavigate } from 'react-router-dom';
-import DropZone from './DropZone';
+const DropZone = lazy(() => import("./DropZone.js"));
 import { Toaster } from 'react-hot-toast';
-import * as ValidHelper from '../../../helper/validHelper.js';
-import { scrollToTop } from '../../../helper/PagerHelper.js';
+import * as ValidHelper from '../../../regex/validHelper.js';
+import { scrollToTop } from '../../../helper/helper.js';
+import LoadingComponent from '../../LoadingComponent.js';
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 
@@ -215,6 +212,7 @@ export default function InserateCar() {
     finishInserate();
   }
 
+
   return (<>
   <Toaster />
     <Box sx={{ display: 'flex',
@@ -296,7 +294,9 @@ export default function InserateCar() {
 
           {activeStep === 1 && !loading
             ?
-            <DropZone carId={carId} />
+            <Suspense fallback={<LoadingComponent />}>
+              <DropZone carId={carId} />
+            </Suspense>
             : <></>
           }
         </Box>

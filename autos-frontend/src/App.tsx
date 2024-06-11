@@ -1,21 +1,21 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
 import './App.css';
 
-import { Box, CircularProgress } from '@mui/material';
+import { Box } from '@mui/material';
 import type { RootState } from './redux/store';
 import { useSelector } from 'react-redux';
-import { Roles } from '../../autos-backend/src/enums/Roles';
-import { URLs } from './enums/URLs';
+import { Roles, URLs } from './constants/values';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 
 import Header from './components/site-components/Header';
+import Footer from './components/site-components/Footer';
 import { ThemeProvider } from '@emotion/react';
 import { themeDark, themeLight } from './themes/Theme';
-import Search from './components/pages/search/Search';
 import ProtectedRoute from './components/protectedRoutes/ProtectedRoute';
+import LoadingComponent from './components/LoadingComponent';
 const PublishInserate = lazy(() => import('./components/pages/dashboards/admin/components/PublishInserate'));
 const Notfound = lazy(() => import('./components/pages/Notfound'));
-
+const Search = lazy(() => import ('./components/pages/search/Search'));
 const ViewDetailSearch = lazy(() => import('./components/pages/search/viewDetail/ViewDetailSearch'));
 const AccessDenied = lazy(() => import('./components/protectedRoutes/AccessDenied'));
 const SignIn = lazy(() => import('./components/pages/registerLogin/SignIn'));
@@ -24,49 +24,20 @@ const InserateCar = lazy(() => import('./components/pages/inserate/InserateCar')
 const InsertBrand = lazy(() => import('./components/pages/dashboards/admin/components/InsertBrand'));
 const InsertModel = lazy(() => import('./components/pages/dashboards/admin/components/InsertModel'));
 const ListSearchedCars = lazy(() => import('./components/pages/search/ListSearchedCars'));
-const Footer = lazy(() => import ('./components/site-components/Footer'));
 
 const App: React.FC = () => {
 
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // IntersectionObserver to detect visibility of the footer
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsVisible(true);
-        observer.unobserve(entry.target);
-      }
-    });
-
-    // Observe the footer element
-    const footerElement = document.getElementById('footer');
-    if (footerElement) observer.observe(footerElement);
-
-    // Cleanup observer on component unmount
-    return () => {
-      if (footerElement) observer.unobserve(footerElement);
-    };
-  }, []);
 
   const AppLayout = () => (
     <Box sx={{ width: '100%' }}>
       <Header />
-      <Box sx={{ minHeight: 'calc(100vh - 50px)' }}>
-        <Suspense fallback={<Box display={'flex'} justifyContent={'center'} width={'100%'} height={'100vh'}><CircularProgress /></Box>}>
-          <Outlet />
-        </Suspense>
-      </Box>
-
-      <div>
       
-      <Suspense fallback={<div>Loading...</div>}>
-        {isVisible && <Footer />}
+      <Box sx={{ minHeight: 'calc(100vh - 50px)' }}>
+      <Suspense fallback={<LoadingComponent />}>
+          <Outlet />
       </Suspense>
-
-      <div id="footer" style={{ height: '1px' }} />
-    </div>
-
+      </Box>
+      <Footer />
     </Box>
   )
 

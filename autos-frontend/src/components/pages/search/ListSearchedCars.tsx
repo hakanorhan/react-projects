@@ -2,19 +2,18 @@ import { useEffect, useMemo, useState } from 'react'
 import { Button, Box, Card, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../interfaces/IAxiosData';
-import { URLs } from '../../../enums/URLs';
+import { URLs, SortEnums } from '../../../constants/values';
 import axios from 'axios';
 import CarImages from './CarImages';
 import { ShowFastPaper } from './../search/searchComponents/ShowFastPaper';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { SortEnums } from '../../../enums/SortEnums';
-import { COMPONENT_DISTANCE, LinkNewSearch, ZOOM_HOVER } from '../../../themes/Theme';
+import { COMPONENT_DISTANCE, LinkNewSearch, PAPER_ELEVATION_VALUE, ZOOM_HOVER } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
 import ShareComponent from '../ShareComponent';
-import LimitMediaQuery from '../../../helper/LimitMediaQuery';
-import { scrollToTop } from '../../../helper/PagerHelper';
+import { LimitMediaQuery } from '../../../helper/helper';
+import { scrollToTop } from '../../../helper/helper';
 
 const ListSearchedCars = () => {
 
@@ -59,6 +58,7 @@ scrollToTop();
         })
         const anzahl = response.data;
         setCount(anzahl);
+        setFoundNoCars(false);
 
       } catch (error) {
         console.log(error)
@@ -127,7 +127,7 @@ scrollToTop();
 
     return ({ axiosPaper }: { axiosPaper: AxiosPaperList }) => {
 
-      return <Box>{<Card elevation={1} sx={
+      return <Box>{<Card elevation={ PAPER_ELEVATION_VALUE } sx={
         ZOOM_HOVER
       }
         onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
@@ -142,6 +142,7 @@ scrollToTop();
       </Card>}</Box>
     }
   }, [])
+  
   const TopComponent = () => {
     const label = "sortieren";
     return <Grid container>

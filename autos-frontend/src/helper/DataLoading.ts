@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, Dispatch, SetStateAction } from "react"
-import { URLs } from "../enums/URLs"
+import { URLs } from "../constants/values"
 import { notifyError } from "./toastHelper"
 
 export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>) => {

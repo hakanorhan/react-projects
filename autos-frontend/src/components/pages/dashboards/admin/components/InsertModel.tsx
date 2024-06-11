@@ -9,11 +9,11 @@ import TextFieldCars from "../../../../formularFields/TextFieldCars";
 import { REGEX_MODEL } from "../../../../../regex/REGEX";
 import { RequestAxiosDataModel } from "../../../../../interfaces/types";
 import TableNormal from "../../../../tables/TableNormal";
-import { formularModelIsValid } from "../../../../../helper/validHelper";
+import { formularModelIsValid } from "../../../../../regex/validHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../redux/store";
-import { fetchBrandModel, insertModel } from "../../../../../redux/features/CarModelSlice";
-import { scrollToTop } from "../../../../../helper/PagerHelper";
+import { fetchBrandModel, insertModel } from "../../../../../redux/features/slices";
+import { scrollToTop } from "../../../../../helper/helper";
 
 interface IFormModel {
   model: string

@@ -57,7 +57,7 @@ CREATE TABLE user_dealer(
     user_dealer_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     user_id INT NOT NULL,
     companyname VARCHAR(50) NOT NULL,
-    impressum VARCHAR(255) NOT NULL,
+    impressum TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
@@ -141,7 +141,7 @@ CREATE TABLE technical_description(
     registration_year INT NOT NULL,
     registration_month INT NOT NULL,
     transmission_id INT NOT NULL,
-    description_car VARCHAR(255) NULL,
+    description_car TEXT NULL,
     fuel_id INT NOT NULL,
     cubic_capacity INT NOT NULL,
     door_id INT NOT NULL,

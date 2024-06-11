@@ -30,14 +30,14 @@ import TextFieldCars from '../../../formularFields/TextFieldCars';
 import { REGEX_EMAIL } from '../../../../regex/REGEX';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../redux/store';
-import { fetchDetailSearch } from '../../../../redux/features/search/detailSearch';
+import { fetchDetailSearch } from '../../../../redux/features/slices';
 import GroupIcon from '@mui/icons-material/Group';
 import ShareComponent from '../../ShareComponent';
 import Logo from '../../../Logo';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { useNavigate } from 'react-router-dom';
-import { URLs } from '../../../../enums/URLs';
-import { scrollToTop } from '../../../../helper/PagerHelper';
+import { URLs, Roles } from '../../../../constants/values';
+import { scrollToTop } from '../../../../helper/helper';
 
 const buttonSecondarySX = {
   fontSize: '1.2rem',
@@ -74,7 +74,6 @@ export interface ViewDetailProps {
 }
 
 const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
-
   const [open, setOpen] = React.useState(false);
 
   const detailSearchValues = useSelector((state: RootState) => state.detailSearch.detailState);
@@ -82,6 +81,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  const userLogged = useSelector((state: RootState) => state.userLoggedIn);
 scrollToTop();
 
   const handleClickOpen = () => {
@@ -196,9 +196,9 @@ scrollToTop();
     return ( !detailSearchValues &&
       <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} width={'100%'}>
         <Box width={'100%'} marginTop={'4rem'}>
-          <Typography variant='h4' textAlign={'center'} component={'h3'}>{"Keine Fahrzeuge gefunden"}</Typography>
+          <Typography variant='h4' textAlign={'center'} component={'h3'}>{ userLogged.role === Roles.ADMIN && userLogged.userLoggedIn ? "Sie sind als Admin angemeldet. Keine Fahrzeuge" : "Keine Fahrzeuge gefunden" }</Typography>
         </Box>
-        <Box width={'100%'} marginTop={'2rem'} display={'flex'} justifyContent={'center'}>
+        <Box width={'100%'} marginTop={'2rem'} display={ userLogged.role === Roles.ADMIN && userLogged.userLoggedIn ? 'none' : 'flex'} justifyContent={'center'}>
           <Button onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width:'190px' }} variant='contained'>{"Neue Suche"}</Button>
         </Box>
       </Box>
@@ -216,13 +216,14 @@ scrollToTop();
       }
 
       { detailSearchValues &&
-      <Grid container sx={{ backgroundColor: 'background.paper', width: { xs: '100%', lg: '1050px' }, margin: 'auto', marginTop: { xs: 0, lg: '4rem' }, marginBottom: { xs: 0, lg: '4rem' } }}>
+      <Grid container sx={{ backgroundColor: 'background.paper', width: { xs: '100%', lg: '1050px' }, margin: 'auto', marginBottom: { xs: 0, lg: '4rem' } }}>
 
         <ContactFixed />
 
         {/*  Container */}
         <Grid item xs={12} lg={7}>
           <Box sx={{ padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
+            
             <CarImages id={id} multiple={true} isDetail={ true }/>
           </Box>
 

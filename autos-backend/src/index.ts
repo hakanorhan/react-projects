@@ -8,7 +8,7 @@ import writeBrand from "./routes/dashboard/insertBrand.js";
 import writeModel from "./routes/dashboard/insertModel.js";
 import fetchBrand from "./routes/dashboard/fetchBrand.js";
 import fetchModel from "./routes/dashboard/fetchModel.js";
-import { URLs } from './enums/URLs.js';
+import { URLs } from './constants/URLs.js';
 import multer from "multer";
 import path, { dirname } from "path";
 import fetchStaticData from "./routes/fetchStaticData.js";

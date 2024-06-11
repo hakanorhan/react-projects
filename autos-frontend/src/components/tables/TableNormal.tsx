@@ -1,5 +1,5 @@
 import React from 'react'
-import { TableContainer, Table, Paper, TableHead, TableCell, TableRow, Tooltip } from '@mui/material'
+import { TableContainer, Table, Paper, TableHead, TableCell, TableRow } from '@mui/material'
 
   interface TableNormalValues {
     listValues: any[]
@@ -34,9 +34,8 @@ const TableNormal: React.FC<TableNormalValues> = ({listValues}) => {
           <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             { /* Table cell */}
             { Object.values(tableRow).map((value: any, index1) => (
-              <Tooltip title="Anzeigen" key={ index1 }>
               <TableCell onClick={() => {  }} sx={{ fontSize:'1.2rem' }} component='th' scope='row' key={index1} > {value} </TableCell>
-              </Tooltip>
+              
             )) }
           </TableRow>
         )) }

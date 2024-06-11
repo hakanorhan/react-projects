@@ -1,18 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userlogged from "./features/userlogged";
-import userDarkLightMode from "./features/darkLightMode";
 
-import carBrandSlice from './features/carBrandSlice';
-import CarModelSlice from "./features/CarModelSlice";
-import detailSearch from "./features/search/detailSearch";
+import { userLoggedReducer} from "./features/slices";
+import { carBrandReducer } from "./features/slices";
+import { dataSliceModelReducer } from "./features/slices";
+import { detailSearchReducer } from "./features/slices";
+import { darkLightReducer } from "./features/slices";
 
 export const store = configureStore({
     reducer: {
-       userLoggedIn: userlogged,
-       mode: userDarkLightMode,
-       carBrandSlice: carBrandSlice,
-       CarModelSlice,
-       detailSearch
+       userLoggedIn: userLoggedReducer,
+       mode: darkLightReducer,
+       carBrandSlice: carBrandReducer,
+       CarModelSlice: dataSliceModelReducer,
+       detailSearch: detailSearchReducer
     }
 })
 

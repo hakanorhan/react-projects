@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { URLs } from '../../../../../autos-backend/src/enums/URLs';
+import { URLs } from '../../../constants/values';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper';
 import { Box, Button, Grid, Tooltip, Typography } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -9,7 +9,7 @@ import { COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { keyframes } from '@mui/material';
 
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import { scrollToTop } from '../../../helper/PagerHelper';
+import { scrollToTop } from '../../../helper/helper';
 
 interface UploadImagesProp {
     carId?: number
@@ -136,9 +136,7 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
     }
 
     return (
-        <>
-
-            <Box sx={{ width: '100%' }}>
+            <>
                 <Box
 
                     {...getRootProps()}
@@ -174,7 +172,6 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
                 </Box>
 
 
-                <Box>
                     <Grid container columnGap ={0.5} sx={{ width: '100%', paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
                         {files.map((file) => (
                             <Grid item xs={12} lg={3.95} key={file.name} sx={{ position: 'relative' }}>
@@ -190,10 +187,7 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
                             </Grid>
                         ))}
                     </Grid>
-                </Box>
-
-            </Box>
-        </>
+            </>
     );
 }
 

@@ -1,7 +1,6 @@
 import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
-import { SelectFieldEnums } from '../enums/SelectFieldEnums.js';
-import { SortEnums } from '../enums/SortEnums.js';
+import { SelectFieldEnums, SortEnums } from '../constants/values.js';
 export async function fetchListCars(req, res) {
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo, offset, LIMIT, sorttype } = req.query;
     console.log("Sort type: " + sorttype);

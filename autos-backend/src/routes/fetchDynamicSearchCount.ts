@@ -1,7 +1,7 @@
 import express from "express";
 import { connectToDatabase } from "../dbConnect1.js";
 import { RowDataPacket } from "mysql2";
-import { SelectFieldEnums } from "../enums/SelectFieldEnums.js";
+import { SelectFieldEnums } from "../constants/values.js";
 import { selectMysqlErrorMessages } from "../helper/messages.js";
 
 // disable autocommit and perform transaction

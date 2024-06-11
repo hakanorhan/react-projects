@@ -3,7 +3,7 @@ import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { AxiosPaperList } from '../interfaces/IAxiosData.js';
-import { DisplayTypes } from '../enums/DisplayTypes.js';
+import { DisplayTypes } from '../constants/values.js';
 
 export async function fetchClickedCars(req: express.Request, res: express.Response) {
 

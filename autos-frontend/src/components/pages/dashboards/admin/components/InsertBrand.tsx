@@ -5,14 +5,14 @@ import { Button, Typography } from '@mui/material';
 import { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
 import { MainComponentWidth } from "../../../../../themes/Theme";
-import { fetchBrand, insertBrand } from "../../../../../redux/features/carBrandSlice";
+import { fetchBrand, insertBrand } from "../../../../../redux/features/slices";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
 import { REGEX_NAMES } from "../../../../../regex/REGEX";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../redux/store";
-import { formularNameValid } from "../../../../../helper/validHelper";
+import { formularNameValid } from "../../../../../regex/validHelper";
 import { notifyError } from "../../../../../helper/toastHelper";
-import { scrollToTop } from "../../../../../helper/PagerHelper";
+import { scrollToTop } from "../../../../../helper/helper";
 
 interface IFormBrand {
   brand: string

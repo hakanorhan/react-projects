@@ -1,5 +1,5 @@
 import { connectToDatabase } from "../dbConnect1.js";
-import { SelectFieldEnums } from "../enums/SelectFieldEnums.js";
+import { SelectFieldEnums } from "../constants/values.js";
 import { selectMysqlErrorMessages } from "../helper/messages.js";
 export async function performQueryGet(req, res) {
     const { brandid, modelid, price, cartypeid, blandid, dateFrom, dateTo } = req.query;

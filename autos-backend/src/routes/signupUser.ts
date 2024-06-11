@@ -2,7 +2,7 @@ import express from "express";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 
 import { genSaltSync, hashSync } from 'bcrypt';
-import { Roles } from "../enums/Roles.js";
+import { Roles } from "../constants/values.js";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import { AxiosDataSignup } from "../interfaces/types.js";
 import { connectToDatabase } from "../dbConnect1.js";

@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
-import { FormControl, InputLabel, InputAdornment, IconButton, Box, Typography, Input } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, Typography, Input } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check'
 import { colorDanger } from '../../themes/Theme';
-import * as ValidHelper from '../../helper/validHelper';
+import * as ValidHelper from '../../regex/validHelper';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
@@ -35,12 +35,12 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
 
   const ValidationMessages = () => {
     return passwordValue 
-        ? ValidHelper.passwordSpecificValid(passwordValue).map(item =>  <Typography variant='body1' component='p' key={item.message} sx={{ color: item.isValid ? 'primary.main' : 'secondary.red' }}> {item.message} </Typography>)
+        ? ValidHelper.passwordSpecificValid(passwordValue).map(item =>  <Typography variant='body1' component='p' key={item.message} sx={{ color: item.isValid ? 'primary.main' : 'red' }}> {item.message} </Typography>)
         : ValidHelper.passwordSpecificValid("").map(item => <Typography variant='body1' component='p' key={item.message} sx={{ color: item.isValid ? 'primary.main' : 'red' }}> {item.message} </Typography>)
 }
 
   return (
-    <Box>
+    <>
     <FormControl required variant="standard">
     <InputLabel htmlFor={label}>{ label }</InputLabel>
     <Input
@@ -69,7 +69,7 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
     />
   </FormControl>
   <ValidationMessages />
-  </Box>
+ </>
   )
 }
 

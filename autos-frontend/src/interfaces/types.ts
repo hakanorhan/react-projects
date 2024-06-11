@@ -1,5 +1,4 @@
-import { Roles } from "../enums/Roles.js"
-import { SelectFieldEnums } from "../enums/SelectFieldEnums.js"
+import { Roles, SelectFieldEnums } from "../constants/values.js"
 
 export interface Brand {
     brandId: number,

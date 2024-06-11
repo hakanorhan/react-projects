@@ -1,15 +1,12 @@
-import { Box, Typography, Grid } from "@mui/material";
-
-import FacebookIcon from "@mui/icons-material/Facebook";
-import XIcon from '@mui/icons-material/X';
-import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import PinterestIcon from "@mui/icons-material/Pinterest";
+import { Box, Typography, Grid, colors, Switch } from "@mui/material";
+import { Facebook, X, Instagram, LinkedIn, YouTube, Pinterest } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { COMPONENT_DISTANCE, LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/Theme";
-import DarkMode from "../DarkMode";
-import { URLs } from "../../enums/URLs";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { setModeDarkLight } from "../../redux/features/slices";
+import { URLs } from "../../constants/values";
 
 const gridItemStyle = { marginBottom: { xs: '3rem' } };
 const iconStyle = { marginRight: '0.5rem', '@media screen': { fill: LIGHT_PRIMARY_CONTRAST_TEXT }, '@media print': { fill: 'black' } };
@@ -41,6 +38,59 @@ export default function Footer() {
 
   const createHeaderForLinks = (header: string) => {
     return <Typography paddingBottom={COMPONENT_DISTANCE} key={header} variant="h5" component='h1' sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
+  }
+
+  const DarkMode = () => {
+    const dispatch = useDispatch();
+    const mode = useSelector((state: RootState) => state.mode.mode);
+  
+    useEffect(() => {
+      if (localStorage.getItem('cars.de.mode')) {
+        const localStorageMode = localStorage.getItem('cars.de.mode');
+        const valueLocalStorage = localStorageMode === 'dark';
+        dispatch(setModeDarkLight(valueLocalStorage));
+      } else {
+        localStorage.setItem('cars.de.mode', "light");
+      }
+    }, [])
+  
+    const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const checked = event.target.checked;
+      const localStorageMode = checked ? "dark" : "light";
+      localStorage.setItem('cars.de.mode', localStorageMode);
+      dispatch(setModeDarkLight(checked));
+    }
+
+    return         <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'flex' }, color: 'whitesmoke' }}>
+
+    {<Switch 
+    id={"darkLightMode"}
+    sx={{
+      width: '60px',
+      '& .MuiSwitch-switchBase': {
+        '&.Mui-checked': {
+          '& + .MuiSwitch-track': {
+            backgroundColor: colors.yellow[600],
+            opacity: 1,
+          },
+        },
+      },
+      '& .MuiSwitch-thumb': {
+        color: 'primary.contrastText',
+        opacity: 1
+      },
+      '& .MuiSwitch-track': {
+        backgroundColor: 'primary.conrastText',
+        opacity: 1,
+      },
+    }}
+    
+      checked={mode}
+      onChange={handleChangeSwitch}
+    />}
+    <Typography sx={{ alignContent: 'center', color: 'primary.contrastText' }} variant="body1" component='p'> {mode ? "Dunkler Modus" : "Heller Modus"} </Typography>
+    </Box>
+
   }
 
   return (
@@ -83,16 +133,19 @@ export default function Footer() {
           {
             createHeaderForLinks("Soziale Medien")
           }
-          <FacebookIcon sx={iconStyle} />
-          <XIcon sx={iconStyle} />
-          <InstagramIcon sx={iconStyle} />
-          <LinkedInIcon sx={iconStyle} />
-          <YouTubeIcon sx={iconStyle} />
-          <PinterestIcon sx={iconStyle} />
+          <Facebook sx={iconStyle} />
+          <X sx={iconStyle} />
+          <Instagram sx={iconStyle} />
+          <LinkedIn sx={iconStyle} />
+          <YouTube sx={iconStyle} />
+          <Pinterest sx={iconStyle} />
         </Grid>
 
         <Grid>
+          
           <DarkMode />
+
+
         </Grid>
       </Grid>
     </Box>

@@ -11,8 +11,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs, { Dayjs } from 'dayjs';
 
-import * as EnumCheck from '../../../enums/CheckBoxID';
-import * as EnumTextField from '../../../enums/TextFieldID';
+import * as EnumCheck from '../../../constants/values.js';
+import { TextFieldID, URLs } from '../../../constants/values.js';
 
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
@@ -27,10 +27,9 @@ import SelectField from '../../formularFields/SelectField.js';
 import { MuiTelInput } from 'mui-tel-input'
 import TextFieldArea from '../../formularFields/TextFieldArea.js';
 import { useEffectFetch } from '../../../helper/DataLoading.js';
-import { URLs } from '../../../../../autos-backend/src/enums/URLs.js';
-import * as ValidHelper from '../../../helper/validHelper.js';
+import * as ValidHelper from '../../../regex/validHelper.js';
 import { useNavigate } from 'react-router-dom';
-import { scrollToTop } from '../../../helper/PagerHelper.js';
+import { scrollToTop } from '../../../helper/helper.js';
 
 const steps = ['Konto', 'Details', 'Adresse', 'Kontakt'];
 
@@ -252,13 +251,13 @@ const SignUpUser: React.FC = () => {
             ? <> {/* -------------------- Konto -------------------- */}
               {/* Email */}
               <Box>
-                <TextFieldCars id={EnumTextField.TextFieldID.EMAIL} label='Email' onChange={value => handleOnChange(EnumTextField.TextFieldID.EMAIL, value,)} regex={REGEX_EMAIL} checkEmail={emailNotUsed} />
+                <TextFieldCars id={TextFieldID.EMAIL} label='Email' onChange={value => handleOnChange(TextFieldID.EMAIL, value,)} regex={REGEX_EMAIL} checkEmail={emailNotUsed} />
                 <Typography sx={{ marginBottom: COMPONENT_DISTANCE, color: 'text.primary' }}>{ValidHelper.formularEmailValid(form.email) ? emailUsedMessage : '\u00A0'}</Typography>
               </Box>
               <Box sx={{ marginBottom: COMPONENT_DISTANCE }}>
-                <PasswordSignUp id={EnumTextField.TextFieldID.PASSWORD1} label='Password' onChange={value => handleOnChange(EnumTextField.TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />
+                <PasswordSignUp id={TextFieldID.PASSWORD1} label='Password' onChange={value => handleOnChange(TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />
               </Box>
-              <PasswordConfirm id={EnumTextField.TextFieldID.PASSWORD2} label='Confirm Password' onChange={value => handleOnChange(EnumTextField.TextFieldID.PASSWORD2, value)} password1={form.password1} regex={REGEX_PASSWORD} />
+              <PasswordConfirm id={TextFieldID.PASSWORD2} label='Confirm Password' onChange={value => handleOnChange(TextFieldID.PASSWORD2, value)} password1={form.password1} regex={REGEX_PASSWORD} />
 
 
               {/* Cardealer */}
@@ -268,22 +267,22 @@ const SignUpUser: React.FC = () => {
               ? <> {/* -------------------- Details -------------------- */}
                 {/* Autohaus Companyname, not cardealer*/}
                 {isCheckedDealer &&
-                  <TextFieldCars id={EnumTextField.TextFieldID.COMPANYNAME} label='Autohaus' onChange={value => handleOnChange(EnumTextField.TextFieldID.COMPANYNAME, value)} regex={REGEX_NAMES} />
+                  <TextFieldCars id={TextFieldID.COMPANYNAME} label='Autohaus' onChange={value => handleOnChange(TextFieldID.COMPANYNAME, value)} regex={REGEX_NAMES} />
                 }
                 {/* Name */}
-                <TextFieldCars id={EnumTextField.TextFieldID.NAME} label={isCheckedDealer ? 'Ansprechpartner:in Name' : 'Name'} onChange={value => handleOnChange(EnumTextField.TextFieldID.NAME, value)} regex={REGEX_NAMES} />
+                <TextFieldCars id={TextFieldID.NAME} label={isCheckedDealer ? 'Ansprechpartner:in Name' : 'Name'} onChange={value => handleOnChange(TextFieldID.NAME, value)} regex={REGEX_NAMES} />
 
                 {/* Name */}
-                <TextFieldCars id={EnumTextField.TextFieldID.FAMILYNAME} label={isCheckedDealer ? 'Ansprechpartner:in Nachname' : 'Nachname'} onChange={value => handleOnChange(EnumTextField.TextFieldID.FAMILYNAME, value)} regex={REGEX_NAMES} />
+                <TextFieldCars id={TextFieldID.FAMILYNAME} label={isCheckedDealer ? 'Ansprechpartner:in Nachname' : 'Nachname'} onChange={value => handleOnChange(TextFieldID.FAMILYNAME, value)} regex={REGEX_NAMES} />
 
-                <MuiTelInput required variant='standard' id={EnumTextField.TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={telefonNr} onChange={(value) => { setTelefonNr(value); }} />
+                <MuiTelInput required variant='standard' id={TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={telefonNr} onChange={(value) => { setTelefonNr(value); }} />
 
                 {isCheckedDealer && <>
                   <Paper sx={{ padding: '0.7rem', marginBottom: COMPONENT_DISTANCE }} elevation={10}>
                     <Typography sx={{ fontWeight: '700' }} variant='subtitle1' component='h4'>Als Händler:in sind Sie verpflichtet bestimmte Angaben zu machen, welche beispielweise Folgendes enthalten sollten:</Typography>
                     <Typography variant='body2' component='p'>Name, Anschrift, Kontaktdaten, Handelsregisternummer, Steuernummer</Typography>
                   </Paper>
-                  <TextFieldArea id={EnumTextField.TextFieldID.IMPRESSUMDATEN} disbled={false} onChange={(value) => handleOnChange(EnumTextField.TextFieldID.IMPRESSUMDATEN, value)} placeholder='Impressumdaten' minRows={8} maxRows={10} />
+                  <TextFieldArea id={TextFieldID.IMPRESSUMDATEN} disbled={false} onChange={(value) => handleOnChange(TextFieldID.IMPRESSUMDATEN, value)} placeholder='Impressumdaten' minRows={8} maxRows={10} />
                 </>
                 }
                 {/* Date */}
@@ -317,16 +316,16 @@ const SignUpUser: React.FC = () => {
                     </Grid>
                   }
                   <Grid item xs={8} >
-                    <TextFieldCars id={EnumTextField.TextFieldID.STREET} label='Straße' onChange={value => handleOnChange(EnumTextField.TextFieldID.STREET, value)} regex={REGEX_STREET} />
+                    <TextFieldCars id={TextFieldID.STREET} label='Straße' onChange={value => handleOnChange(TextFieldID.STREET, value)} regex={REGEX_STREET} />
                   </Grid>
                   <Grid item xs={4} >
-                    <TextFieldCars id={EnumTextField.TextFieldID.NR} label='Nr' onChange={value => handleOnChange(EnumTextField.TextFieldID.NR, value)} regex={REGEX_STREET_NR} maxLength={5} />
+                    <TextFieldCars id={TextFieldID.NR} label='Nr' onChange={value => handleOnChange(TextFieldID.NR, value)} regex={REGEX_STREET_NR} maxLength={5} />
                   </Grid>
                   <Grid item xs={7.5} >
-                    <TextFieldCars id={EnumTextField.TextFieldID.CITY} label='Stadt' onChange={value => handleOnChange(EnumTextField.TextFieldID.CITY, value)} regex={REGEX_NAMES} />
+                    <TextFieldCars id={TextFieldID.CITY} label='Stadt' onChange={value => handleOnChange(TextFieldID.CITY, value)} regex={REGEX_NAMES} />
                   </Grid>
                   <Grid item xs={4.5} >
-                    <TextFieldCars id={EnumTextField.TextFieldID.ZIPCODE} label='PLZ' onChange={value => handleOnChange(EnumTextField.TextFieldID.ZIPCODE, value)} regex={REGEX_ZIPCODE} maxLength={5} />
+                    <TextFieldCars id={TextFieldID.ZIPCODE} label='PLZ' onChange={value => handleOnChange(TextFieldID.ZIPCODE, value)} regex={REGEX_ZIPCODE} maxLength={5} />
                   </Grid>
                   <Grid item xs={12} >
                     <SelectField idOfSelect='federal_state_id' values={federalState} objectName='federal_state' selectedValue={selectedBundesland} handleChange={handleChangeBundesland} label='Bundesland' />

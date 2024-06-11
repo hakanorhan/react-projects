@@ -1,5 +1,5 @@
 import { Box, CardContent, Grid, Typography } from '@mui/material'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { seperateThousand } from '../../../../helper/helper';
 import { AxiosPaper, AxiosPaperList } from '../../../../interfaces/IAxiosData';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -10,11 +10,14 @@ import ShareComponent from '../../ShareComponent';
 
 export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = ({ detailSearchValues }) => {
 
-    const axiosPaper: AxiosPaper = {
-        inseratId: detailSearchValues.inseratId, mileageKm: detailSearchValues.mileageKm, registrationMonth: detailSearchValues.registrationMonth,
+    const axiosPaper: AxiosPaper = useMemo(() => {
+        return {
+            inseratId: detailSearchValues.inseratId, mileageKm: detailSearchValues.mileageKm, registrationMonth: detailSearchValues.registrationMonth,
         registrationYear: detailSearchValues.registrationYear, psPower: detailSearchValues.psPower, fuel: detailSearchValues.fuel,
         accident: detailSearchValues.accident, vehicleOwners: detailSearchValues.vehicleOwners, city: detailSearchValues.city, isCarDealer: detailSearchValues.isCarDealer
-    };
+        }
+    }, [ detailSearchValues ])
+    
 
     return (
         <>

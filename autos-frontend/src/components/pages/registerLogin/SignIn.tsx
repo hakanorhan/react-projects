@@ -1,17 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Roles } from '../../../enums/Roles.js';
+import { Roles, URLs } from '../../../constants/values.js';
 
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Box, Button, Typography } from '@mui/material';
 import { MainComponentWidth, HeaderIcon, buttonHeight, mainComponentHeight } from '../../../themes/Theme.js';
 
-import * as validHelper from '../../../helper/validHelper.js';
+import * as validHelper from '../../../regex/validHelper.js';
 
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
-import { URLs } from '../../../../../autos-backend/src/enums/URLs.js';
 import TextFieldCars from '../../formularFields/TextFieldCars.js';
 import { REGEX_EMAIL } from '../../../regex/REGEX.js';
 import TextFieldCarsPassword1 from '../../formularFields/TextFieldCarsPassword.js';
@@ -19,7 +18,7 @@ import { SignInForm } from '../../../interfaces/types.js';
 import { notifyError } from '../../../helper/toastHelper.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthResponse } from '../../../interfaces/types.js';
-import { scrollToTop } from '../../../helper/PagerHelper.js';
+import { scrollToTop } from '../../../helper/helper.js';
 
 const SignIn: React.FC = () => {
 

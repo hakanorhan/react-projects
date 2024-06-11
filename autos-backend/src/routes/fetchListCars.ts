@@ -2,9 +2,8 @@ import express from 'express';
 import { connectToDatabase } from '../dbConnect1.js';
 import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
-import { SelectFieldEnums } from '../enums/SelectFieldEnums.js';
+import { SelectFieldEnums, SortEnums } from '../constants/values.js';
 import { AxiosPaper, AxiosPaperList } from '../interfaces/IAxiosData.js';
-import { SortEnums } from '../enums/SortEnums.js';
 import { release } from 'os';
 
 export async function fetchListCars(req: express.Request, res: express.Response) {

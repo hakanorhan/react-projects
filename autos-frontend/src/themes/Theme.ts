@@ -42,8 +42,8 @@ const DARK_PRIMARY_LIGHT = colors.grey[900];
 export const colorDanger: string = colors.red[700];
 export const buttonHeight = '55px';
 
-export const minHeightContent = '750px';
-export const mainComponentHeight = '750px';
+export const minHeightContent = '97vh';
+export const mainComponentHeight = '97vh';
 
 export const paperElevationValue = 10;
 export const paperMarginTopValue = '0.9rem';
@@ -61,6 +61,7 @@ export const TRANSITION = '1S';
 export const ZOOM_HOVER = { transition: TRANSITION, '&:hover': { transform: 'scale(1.01)' }, cursor: 'pointer', height: '100%' };
 
 export const SX_ICON = { fontSize: ICON_FONT_SIZE, color: 'text.primary' };
+export const PAPER_ELEVATION_VALUE = 9;
 
 const components = {
 

@@ -1,10 +1,9 @@
 import { useEffect, ReactNode } from 'react';
 import { AuthResponse } from '../../interfaces/types';
-import { Roles } from '../../enums/Roles';
+import { Roles, URLs } from '../../constants/values';
 import axios from 'axios';
-import { URLs } from '../../enums/URLs';
 import { useDispatch, useSelector } from 'react-redux';
-import { setRole, setUserLoggedIn } from '../../redux/features/userlogged';
+import { setRole, setUserLoggedIn } from '../../redux/features/slices';
 import { RootState } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
 

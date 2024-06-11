@@ -1,6 +1,6 @@
 import { connectToDatabase } from '../dbConnect1.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
-import { DisplayTypes } from '../enums/DisplayTypes.js';
+import { DisplayTypes } from '../constants/values.js';
 export async function fetchClickedCars(req, res) {
     const limit = parseInt(req.body.limit);
     const offset = parseInt(req.body.offset);

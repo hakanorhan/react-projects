@@ -1,15 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Box, Button, Card, CardActionArea, Grid, Typography } from '@mui/material'
+import React, { memo, useEffect, useMemo, useState } from 'react'
+import { Box, Button, Card, CardActionArea, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { AxiosPaperList, AxiosRejectPackage } from '../../../interfaces/IAxiosData';
-import { URLs } from '../../../enums/URLs';
+import { URLs } from '../../../constants/values';
 import axios from 'axios';
 import CarImages from './CarImages';
+
 import { ShowFastPaper } from './searchComponents/ShowFastPaper';
-import { COMPONENT_DISTANCE, ZOOM_HOVER, fontSemiBold } from '../../../themes/Theme';
-import { DisplayTypes } from '../../../enums/DisplayTypes';
+import { COMPONENT_DISTANCE, PAPER_ELEVATION_VALUE, ZOOM_HOVER } from '../../../themes/Theme';
+import { DisplayTypes } from '../../../constants/values';
 import AddIcon from '@mui/icons-material/Add';
-import LimitMediaQuery from '../../../helper/LimitMediaQuery';
+import { LimitMediaQuery  } from '../../../helper/helper';
 import { notifyError } from '../../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
 
@@ -76,13 +77,13 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   const MemoizedContainer = useMemo(() => {
     return ({ axiosPaper }: { axiosPaper : AxiosPaperList}) => {
     
-      return <>{<Card elevation={1} sx={ ZOOM_HOVER }
+      return <>{<Card elevation={ PAPER_ELEVATION_VALUE } sx={ ZOOM_HOVER }
         onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
         <CardActionArea>
   
           <CarImages id={axiosPaper.inseratId} multiple={false} isDetail={ false }/>
   
-          {/* technical description */}
+          {/* technical deiption */}
           <ShowFastPaper detailSearchValues={axiosPaper} />
   
         </CardActionArea>
@@ -93,8 +94,7 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   return (<>
   <Toaster />
     { cars && cars?.length > 0 &&
-    <Box sx={{ display:'block', width: '95%', margin: 'auto', paddingTop: '20px', marginBottom: COMPONENT_DISTANCE }}>
-
+    <Box sx={{ display:'block', minHeight: '', width: '95%', margin: 'auto', paddingTop: '20px', marginBottom: COMPONENT_DISTANCE }}>
 
       <Grid container spacing={4}>
         {
@@ -115,4 +115,4 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   )
 }
 
-export default ClickedCars;
+export default memo (ClickedCars);

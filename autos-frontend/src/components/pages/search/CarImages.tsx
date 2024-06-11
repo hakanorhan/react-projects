@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
-import { URLs } from '../../../enums/URLs';
+import { URLs } from '../../../constants/values';
 import { Box, CardMedia, Dialog, IconButton, Typography, useMediaQuery, } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -14,8 +14,6 @@ export interface CarImagesProps {
 enum ArrowDirection {
   ARROW_DIRECTION_LEFT = 'left', ARROW_DIRECTION_RIGHT = 'right'
 }
-
-import FALLBACK_IMAGE from '/Screenshot 2024-06-08 at 13.58.08.png';
 
 const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
 
@@ -129,21 +127,21 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
     }
 
     return (<Box sx={{ position: 'relative' }} onClick={() => { handleClickOpen() }}>
-
+      
       <CardMedia 
         loading='lazy'
         component='img'
-        image={imageSrc[sliderIndex - 1] || FALLBACK_IMAGE}
-        alt={"Bild"}
-        sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor: 'pointer' } }}>
+        image={imageSrc[sliderIndex - 1]}
+        sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor: { xs: 'default', lg: open ? 'default' :'zoom-in' } } }}>
       </CardMedia>
 
       <Box sx={{
-        '@media print': { display: 'none' }, '@media screen': { display: { xs: 'none', lg: isDetail ? 'flex' : 'none' } }, color: 'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
-        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0
+        '@media print': { display: 'none' }, '@media screen': { display: { xs: isDetail ? 'flex' : 'none' } }, color: 'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
+        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0, cursor: {xs: 'default', lg: open ? 'default' :'zoom-in'}
       }}>
-        <Typography>{`${sliderIndex} / ${imageSrc.length}`}</Typography></Box>
-
+        <Typography>{`Bild ${sliderIndex} von ${imageSrc.length}`}</Typography>
+        </Box>
+        
       {imageSrc.length > 1 && <>
         <IconButton sx={iconButtonSX(0)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
         <IconButton sx={iconButtonSX(1)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
@@ -152,9 +150,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
     </Box>
     )
   }
-
-
-
 
   const imageRef = useRef(null);
 
@@ -189,7 +184,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
         observer.unobserve(imageRef.current);
       }
     };
-  }, []);
+  }, [ id ]);
 
   return (<>
 

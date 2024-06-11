@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { URLs } from '../../enums/URLs'
-import { scrollToTop } from '../../helper/PagerHelper'
+import { URLs } from '../../constants/values'
+import { scrollToTop } from '../../helper/helper'
 
 export default function AccessDenied() {
   

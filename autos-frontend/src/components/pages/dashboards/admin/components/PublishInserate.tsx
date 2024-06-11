@@ -2,10 +2,10 @@ import axios from "axios"
 import { DivViewDetail } from "../../../../../themes/Theme";
 import { PublishList } from "./PublishList";
 import { useEffect, useState } from "react";
-import { URLs } from "../../../../../enums/URLs";
+import { URLs } from "../../../../../constants/values";
 import { Toaster } from "react-hot-toast";
 import { notifyError } from "../../../../../helper/toastHelper";
-import { scrollToTop } from "../../../../../helper/PagerHelper";
+import { scrollToTop } from "../../../../../helper/helper";
 
 export default function PublishInserate() {
   const [listItems, setListItems] = useState<any[] | null>(null);

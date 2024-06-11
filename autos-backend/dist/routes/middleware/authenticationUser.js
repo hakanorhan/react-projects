@@ -1,4 +1,4 @@
-import { Roles } from "../../enums/Roles.js";
+import { Roles } from "../../constants/values.js";
 export default function (req, res) {
     if (req.isAuthenticated()) {
         const id = req.user.id;

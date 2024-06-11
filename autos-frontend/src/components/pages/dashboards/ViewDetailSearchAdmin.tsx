@@ -1,5 +1,5 @@
 import React from 'react'
-import { URLs } from '../../../enums/URLs';
+import { URLs } from '../../../constants/values';
 import axios from 'axios';
 import { AxiosDataPublish } from '../../../interfaces/IAxiosData';
 import { CarImagesProps } from '../search/CarImages';
@@ -12,6 +12,7 @@ import { Toaster } from 'react-hot-toast';
 import { notifyError } from '../../../helper/toastHelper';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
+import { COMPONENT_DISTANCE } from '../../../themes/Theme';
 
 const ViewDetailSearchAdmin: React.FC<CarImagesProps> = ({ id }) => {
   const navigate = useNavigate();
@@ -37,9 +38,9 @@ const ViewDetailSearchAdmin: React.FC<CarImagesProps> = ({ id }) => {
     <Toaster />
     <ViewDetailGeneral id={id} isUser={ false } />
     { carsNotFound === false &&
-    <Grid container sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
-      <Grid item xs={6}><Button sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'secondary.main', color: 'secondary.contrastText' } }} onClick={() => { handlePublish(true); }} endIcon={<Publish />}>Freigeben</Button></Grid>
-      <Grid item xs={6}><Button sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText', '&:hover': { backgroundColor: 'primary.main', color: 'primary.contrastText' } }} onClick={() => { handlePublish(false) }} endIcon={<CloseIcon />}>Zurückziehen</Button></Grid>
+    <Grid container sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
+      <Grid item xs={6}><Button sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'secondary.main', color: 'secondary.contrastText' } }} onClick={() => { handlePublish(true);  }} endIcon={<Publish />}>Freigeben</Button></Grid>
+      <Grid item xs={6}><Button sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText', '&:hover': { backgroundColor: 'primary.main', color: 'primary.contrastText' } }} onClick={() => { handlePublish(false); }} endIcon={<CloseIcon />}>Zurückziehen</Button></Grid>
     </Grid>
   }
   </>
