@@ -1,12 +1,13 @@
 import { Box, Typography, Grid, colors, Switch } from "@mui/material";
-import { Facebook, X, Instagram, LinkedIn, YouTube, Pinterest } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { COMPONENT_DISTANCE, LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/Theme";
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { setModeDarkLight } from "../../redux/features/slices";
 import { URLs } from "../../constants/values";
+import afterComponentViewed from "../../helper/lazyLoading/afterComponentViewed";
+import IconsComponent from "./IconsComponent";
 
 const gridItemStyle = { marginBottom: { xs: '3rem' } };
 const iconStyle = { marginRight: '0.5rem', '@media screen': { fill: LIGHT_PRIMARY_CONTRAST_TEXT }, '@media print': { fill: 'black' } };
@@ -31,6 +32,13 @@ const SERVICE = [
 ];
 
 export default function Footer() {
+
+  const [isVisible, setIsVisible] = useState(false);
+  const LazyIconsComponent = lazy(() => import('./IconsComponent'));
+
+  useEffect(() => {
+    afterComponentViewed(setIsVisible, 'iconsDivId')
+  }, [])
 
   const CreateLink = (linkname: string, index: number, url: URLs = URLs.HOME_ALL_SEARCH_COUNT) => {
     return <Link key={index} style={LinkDrawer} to={url}> <Typography sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > {linkname} </Typography> </Link>
@@ -94,7 +102,9 @@ export default function Footer() {
   }
 
   return (
-    <Box sx={{ backgroundColor: 'primary.main', '@media print': { breakBefore: 'page' } }}>
+    
+    <Box  sx={{ backgroundColor: 'primary.main', '@media print': { breakBefore: 'page' } }}>
+      <div id="iconsDivId">
       <Grid sx={{ margin: 'auto', padding: '2rem', paddingTop: '3rem' }} container item xs={12} md={11}>
         <Grid item xs={gridXS} sm={gridSM} md={gridMD} lg={gridLG} sx={gridItemStyle}>
           {
@@ -129,18 +139,11 @@ export default function Footer() {
           }
         </Grid>
 
-        <Grid item xs={gridXS} sm={gridSM} md={12} lg={gridLG} sx={gridItemStyle}>
-          {
-            createHeaderForLinks("Soziale Medien")
-          }
-          <Facebook sx={iconStyle} />
-          <X sx={iconStyle} />
-          <Instagram sx={iconStyle} />
-          <LinkedIn sx={iconStyle} />
-          <YouTube sx={iconStyle} />
-          <Pinterest sx={iconStyle} />
-        </Grid>
-
+        { isVisible &&
+        <Suspense fallback={<div>..loading</div>}>
+            <LazyIconsComponent />
+          </Suspense>
+        }
         <Grid>
           
           <DarkMode />
@@ -148,6 +151,7 @@ export default function Footer() {
 
         </Grid>
       </Grid>
+      </div>
     </Box>
   )
 }

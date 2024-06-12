@@ -1,8 +1,19 @@
 import React, { ChangeEvent, FormEvent, Suspense, lazy, useEffect, useState } from 'react';
-import { ToggleButton, ToggleButtonGroup, Box, Button, FormControlLabel, Checkbox, Grid, SelectChangeEvent, Step, StepLabel, Stepper, Typography } from '@mui/material';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import { SelectChangeEvent } from '@mui/material';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Stepper from '@mui/material/Stepper';
+import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { REGEX_HUBRAUM, REGEX_MILEAGE, REGEX_NAMES, REGEX_OWNER, REGEX_POWER, REGEX_PRICE } from '../../../regex/REGEX';
-import {  HeaderIcon, COMPONENT_DISTANCE } from '../../../themes/Theme';
+import { HeaderIcon, COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../constants/values.js';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper';
@@ -142,57 +153,58 @@ export default function InserateCar() {
         inserateCheckbox: formCheckbox,
         klima: klimaValue
       }
-      if(!axiosData.inserateSelect.brand || axiosData.inserateSelect.brand === "") {
+      if (!axiosData.inserateSelect.brand || axiosData.inserateSelect.brand === "") {
         notifyError("error brand", "Bitte prüfen Sie das Marke-Feld");
-      } else if(!axiosData.inserateSelect.model || axiosData.inserateSelect.model === "") {
+      } else if (!axiosData.inserateSelect.model || axiosData.inserateSelect.model === "") {
         notifyError("error model", "Bitte prüfen Sie das Modell-Feld");
-      } else if(!axiosData.inserateSelect.cartype || axiosData.inserateSelect.cartype === "") {
+      } else if (!axiosData.inserateSelect.cartype || axiosData.inserateSelect.cartype === "") {
         notifyError("error cartype", "Bitte prüfen Sie das Typ-Feld");
-      } else if(!axiosData.inserateSelect.transmission || axiosData.inserateSelect.transmission === "") {
+      } else if (!axiosData.inserateSelect.transmission || axiosData.inserateSelect.transmission === "") {
         notifyError("error transmission", "Bitte prüfen Sie das Getriebe-Feld");
-      } else if(!axiosData.inserateSelect.fuel || axiosData.inserateSelect.fuel === "") {
+      } else if (!axiosData.inserateSelect.fuel || axiosData.inserateSelect.fuel === "") {
         notifyError("error fuel", "Bitte prüfen Sie das Kraftstoff-Feld");
-      } else if(!axiosData.inserateSelect.door || axiosData.inserateSelect.door === "") {
+      } else if (!axiosData.inserateSelect.door || axiosData.inserateSelect.door === "") {
         notifyError("error door", "Bitte prüfen Sie das Türen-Feld");
-      } else if( !ValidHelper.formularOwnerIsValid(axiosData.inserateData.previousOwner)) {
+      } else if (!ValidHelper.formularOwnerIsValid(axiosData.inserateData.previousOwner)) {
         notifyError("error owner", "Bitte prüfen Sie das Vorbersitzer:in-Feld");
-      } else if(!ValidHelper.formularMileageIsValid(axiosData.inserateData.km)) {
+      } else if (!ValidHelper.formularMileageIsValid(axiosData.inserateData.km)) {
         notifyError("error mileage", "Bitte prüfen Sie das Kilometerstand-Feld");
-      } else if(!ValidHelper.formularPowerIsValid(axiosData.inserateData.ps)) {
+      } else if (!ValidHelper.formularPowerIsValid(axiosData.inserateData.ps)) {
         notifyError("error power", "Bitte prüfen Sie das Leistung-Feld");
-      } else if(!ValidHelper.formularHubraumIsValid(axiosData.inserateData.hubraum)) {
+      } else if (!ValidHelper.formularHubraumIsValid(axiosData.inserateData.hubraum)) {
         notifyError("error hubraum", "Bitte prüfen Sie das Hubraum-Feld");
-      } else if(!ValidHelper.formularPriceIsValid(axiosData.inserateData.price)) {
+      } else if (!ValidHelper.formularPriceIsValid(axiosData.inserateData.price)) {
         notifyError("error price", "Bitte prüfen Sie das Preis-Feld");
-      } else if(!ValidHelper.formularNameValid(axiosData.inserateData.color)) {
+      } else if (!ValidHelper.formularNameValid(axiosData.inserateData.color)) {
         notifyError("error color", "Bitte prüfen Sie das Farbe-Feld");
       }
       else {
-      try {
-        const response = await axios.post<AxiosInserateResponse>(URLs.ORIGIN_SERVER + URLs.POST_INSERATE_CAR, axiosData, { withCredentials: true });
+        try {
+          const response = await axios.post<AxiosInserateResponse>(URLs.ORIGIN_SERVER + URLs.POST_INSERATE_CAR, axiosData, { withCredentials: true });
 
-        if (response.status === 200) {
-          setCarId(response.data.carId);
+          if (response.status === 200) {
+            setCarId(response.data.carId);
+            setLoading(false);
+            notifySuccess("success", response.data.message);
+            setActiveStep(activeStep + 1);
+          }
+        } catch (error: any) {
+          notifyError("1", error.response.data.message);
+        } finally {
           setLoading(false);
-          notifySuccess("success", response.data.message);
-          setActiveStep(activeStep + 1);
         }
-      } catch (error: any) {
-        notifyError("1", error.response.data.message);
-      } finally {
-        setLoading(false);
-      }}
+      }
     } else {
       notifyError("2", "Bitte beachten Sie alle Eingaben");
     }
   }
-/*
-  const handleNextStep = () => {
-    
-    if (activeStep === 0) { 
-      setActiveStep(activeStep + 1);
-     }
-  }*/
+  /*
+    const handleNextStep = () => {
+      
+      if (activeStep === 0) { 
+        setActiveStep(activeStep + 1);
+       }
+    }*/
 
   const handleLastStep = () => {
     async function finishInserate() {
@@ -214,14 +226,16 @@ export default function InserateCar() {
 
 
   return (<>
-  <Toaster />
-    <Box sx={{ display: 'flex',
-    paddingTop: '3rem',
-    paddingBottom: '3rem',
-    margin: 'auto',
-    flexDirection: 'column',
-   width: { xs: '95%', md:'750px' } }}>
-    
+    <Toaster />
+    <Box sx={{
+      display: 'flex',
+      paddingTop: '3rem',
+      paddingBottom: '3rem',
+      margin: 'auto',
+      flexDirection: 'column',
+      width: { xs: '95%', md: '750px' }
+    }}>
+
       <Typography variant='h4' component='h1'>Fahrzeug inserieren</Typography>
       <Stepper activeStep={activeStep} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
         {

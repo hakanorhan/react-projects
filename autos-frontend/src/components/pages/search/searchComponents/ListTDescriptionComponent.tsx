@@ -44,12 +44,7 @@ export const ListTDescriptionComponent: React.FC<{ detailSearchValues: AxiosPape
             <GridComponent icon={<DirectionsCarIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={seperateThousand(detailSearchValues?.mileageKm) + " KM"} />
           </Box>
         </Grid>
-        <Grid item xs={gridItemXS} sm={gridItemSM} md={ gridItemMD}>
-          <Box display='flex' justifyContent='left'>
-            <GridComponent icon={<CalendarTodayIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={(detailSearchValues?.registrationMonth < 10 ? '0' + detailSearchValues.registrationMonth : detailSearchValues?.registrationMonth) + " / " + detailSearchValues?.registrationYear} />
-          </Box>
-        </Grid>
-        <Grid item xs={detailSearchValues.city.length > 13 ? 12 : gridItemXS} sm={detailSearchValues.city.length > 13 ? 12 : gridItemSM} md={ detailSearchValues.city.length > 13 ? 12 : 6} lg={detailSearchValues.city.length > 13 ? 12 : 4} xl={detailSearchValues.city.length > 8 ? 12 : 4}>
+        <Grid item xs={4}>
           <Box display='flex' justifyContent='left' >
             <Grid item><Box sx={{ display: 'flex', marginBottom: LINE_HEIGHT }}> <LocationOnIcon sx={{ fontSize: ICON_FONT_SIZE }} />  <Typography sx={{ marginLeft: '.5rem', whiteSpace: 'nowrap' }} variant='body1' component='p'>{detailSearchValues.city}</Typography></Box></Grid>
           </Box>

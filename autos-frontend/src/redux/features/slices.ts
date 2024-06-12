@@ -1,8 +1,17 @@
-import { Roles, URLs } from "../../constants/values";
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Roles } from "../../constants/values";
+import { URLs } from "../../constants/values";
+import { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import axios from "axios";
-import { AxiosDataPacketBrand, Brand, RequestAxiosDataModel, AxiosDataPacketModel, Model, AxiosDetailsearch } from "../../interfaces/types";
-import { notifyError, notifySuccess } from "../../helper/toastHelper";
+import { AxiosDataPacketBrand } from "../../interfaces/types";
+import { Brand } from "../../interfaces/types";
+import { RequestAxiosDataModel } from "../../interfaces/types";
+import { AxiosDataPacketModel } from "../../interfaces/types";
+import { Model } from "../../interfaces/types";
+import { AxiosDetailsearch } from "../../interfaces/types";
+import { notifyError} from "../../helper/toastHelper";
+import { notifySuccess } from "../../helper/toastHelper";
 import { AxiosRejectPackage } from "../../interfaces/IAxiosData";
 
 // ------------- userLoggedIn --------------------------------------------------------------------------
@@ -264,3 +273,25 @@ export const userDarkLightModeSlice = createSlice({
 
 export const { setModeDarkLight } = userDarkLightModeSlice.actions;
 export const darkLightReducer =  userDarkLightModeSlice.reducer;
+
+// ----------------------- close ---------------------------------------------------------------------------
+export interface IOpenPublish {
+    open: boolean
+}
+
+const initialOpenPublish: IOpenPublish = {
+    open: false
+}
+
+export const openClosePublishSlice = createSlice({
+    name: 'openClosePublish',
+    initialState: initialOpenPublish,
+    reducers: {
+        handleDialog: (state, action: PayloadAction<boolean>) => {
+            state.open = action.payload;
+        }
+    }
+})
+
+export const { handleDialog } = openClosePublishSlice.actions;
+export const openClosePublishReducer = openClosePublishSlice.reducer;

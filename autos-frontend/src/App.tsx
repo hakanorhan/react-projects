@@ -27,7 +27,6 @@ const ListSearchedCars = lazy(() => import('./components/pages/search/ListSearch
 
 const App: React.FC = () => {
 
-
   const AppLayout = () => (
     <Box sx={{ width: '100%' }}>
       <Header />

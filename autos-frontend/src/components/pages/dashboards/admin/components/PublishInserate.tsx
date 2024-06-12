@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { URLs } from "../../../../../constants/values";
 import { Toaster } from "react-hot-toast";
 import { notifyError } from "../../../../../helper/toastHelper";
-import { scrollToTop } from "../../../../../helper/helper";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../redux/store";
 
 export default function PublishInserate() {
   const [listItems, setListItems] = useState<any[] | null>(null);
-
-  scrollToTop();
+  const openValue = useSelector((state: RootState) => state.openClosePublishReducer.open);
 
   useEffect(() => {
     const fetch = async () => {
@@ -20,7 +20,7 @@ export default function PublishInserate() {
     };
 
     fetch();
-  }, [])
+  }, [ openValue ])
 
   return (<>
   <Toaster />

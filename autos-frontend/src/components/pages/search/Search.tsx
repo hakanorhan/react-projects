@@ -1,9 +1,5 @@
 import React, { Suspense, lazy, memo, useEffect, useMemo, useState } from 'react'
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { SelectChangeEvent } from '@mui/material';
+import { Box, Button, Grid, Typography, SelectChangeEvent } from '@mui/material';
 import axios from 'axios';
 import {
   COMPONENT_DISTANCE,
@@ -25,8 +21,7 @@ import { DisplayTypes } from '../../../constants/values';
 import { notifyError } from '../../../helper/toastHelper';
 //import { scrollToTop } from '../../../helper/helper';
 
-import LoadingComponent from '../../LoadingComponent';
-import afterComponentViewed from '../../../helper/lazyLoading/LazyLoader';
+import afterComponentViewed from '../../../helper/lazyLoading/afterComponentViewed';
 
 const LazyClickedCars = lazy(() => import('./ClickedCars'));
 
@@ -279,7 +274,7 @@ const Search: React.FC = () => {
 
         <Box id="box">        
         {isClickedCarsVisible && (
-          <Suspense fallback={<div>..loading</div>}>
+          <Suspense fallback={<Box sx={{ display: 'flex', justifyContent:'center', color:'text.primary' }}>..loading</Box>}>
             <LazyClickedCars type={DisplayTypes.MOST_CLICKED} />
           </Suspense>
         
@@ -299,7 +294,7 @@ const Search: React.FC = () => {
         }
       </Typography>
       
-          <Suspense fallback={<LoadingComponent />}>
+          <Suspense fallback={<div>...loading</div>}>
             <LazyClickedCars type={DisplayTypes.ELECTRIC} />
           </Suspense>
           </>

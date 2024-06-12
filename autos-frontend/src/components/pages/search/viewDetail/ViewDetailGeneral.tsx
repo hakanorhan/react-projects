@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Grid, Rating, Typography} from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  Rating,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@mui/material';
 import {
   Boxprint,
   COMPONENT_DISTANCE, GreyHorizontalHR, ICON_FONT_SIZE, LINE_HEIGHT,
@@ -12,20 +23,17 @@ import CarImages from '../CarImages';
 import { seperateThousand } from '../../../../helper/helper';
 import { TDescriptionComponent } from '../searchComponents/TDescriptionComponent';
 import TextFieldArea from '../../../formularFields/TextFieldArea';
-import EmailIcon from '@mui/icons-material/Email';
-import CallIcon from '@mui/icons-material/Call';
-import PrintIcon from '@mui/icons-material/Print';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PersonIcon from '@mui/icons-material/Person';
-import StoreIcon from '@mui/icons-material/Store';
-import InfoIcon from '@mui/icons-material/Info';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import {
+  Email as EmailIcon,
+  Call as CallIcon,
+  Print as PrintIcon,
+  FavoriteBorder as FavoriteBorderIcon,
+  LocationOn as LocationOnIcon,
+  Person as PersonIcon,
+  Store as StoreIcon,
+  Info as InfoIcon,
+  AccessTime as AccessTimeIcon
+} from '@mui/icons-material';
 import TextFieldCars from '../../../formularFields/TextFieldCars';
 import { REGEX_EMAIL } from '../../../../regex/REGEX';
 import { useDispatch, useSelector } from 'react-redux';

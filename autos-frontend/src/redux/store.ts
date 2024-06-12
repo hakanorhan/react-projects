@@ -5,6 +5,7 @@ import { carBrandReducer } from "./features/slices";
 import { dataSliceModelReducer } from "./features/slices";
 import { detailSearchReducer } from "./features/slices";
 import { darkLightReducer } from "./features/slices";
+import { openClosePublishReducer } from "./features/slices";
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
        mode: darkLightReducer,
        carBrandSlice: carBrandReducer,
        CarModelSlice: dataSliceModelReducer,
-       detailSearch: detailSearchReducer
+       detailSearch: detailSearchReducer,
+       openClosePublishReducer
     }
 })
 
