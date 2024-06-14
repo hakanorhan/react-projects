@@ -148,6 +148,7 @@ const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
                         textAlign: 'center',
                         background: isDragActive ? 'secondary.main' : 'background.default',
                         width: { xs: '100%' },
+                        color:'primary.main'
                     }}
                 >
                     < FileUploadIcon

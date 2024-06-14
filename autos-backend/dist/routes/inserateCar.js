@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../dbConnect1.js";
+import { connectToDatabase } from "../dbConnect.js";
 import { insertMysqlErrorMessages } from "../helper/messages.js";
 const INSERT_INSERATE_INFO = "INSERT INTO inserate_info (user_id) VALUES(?)";
 const INSERT_INSERATE_CHECK = "INSERT INTO inserate_check (inserate_id) VALUES(?)";

@@ -5,7 +5,7 @@ import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../constants/values.js";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
 import { AxiosDataSignup } from "../interfaces/types.js";
-import { connectToDatabase } from "../dbConnect1.js";
+import { connectToDatabase } from "../dbConnect.js";
 
 export const insertAdress: string =
     `INSERT INTO address (street_nr, zipcode, city, federal_state_id) VALUES (?, ?, ?, ?)`;

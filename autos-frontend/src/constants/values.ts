@@ -91,7 +91,7 @@ export enum URLs {
     FETCH_BAUREIHE = '/fetchbaureihe',
     FETCH_CARS = '/fetch-cars',
     SEARCH_DATAS = '/fetch-staticdata',
-    FETCH_INSERATE_PUBLISH = '/fetch-inserate-publish',
+    FETCH_INSERATE_PUBLISH = '/admin/fetch-inserate-publish',
     FETCH_DETAIL_SEARCH = '/detailsuche',
     FETCH_DETAIL_VIEW_ADMIN = '/admin/detailview',
     HOME_ALL_SEARCH_COUNT = '/',

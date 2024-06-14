@@ -1,6 +1,6 @@
 import express from "express";
 import { ResultSetHeader } from "mysql2";
-import { connectToDatabase } from "../dbConnect1.js";
+import { connectToDatabase } from "../dbConnect.js";
 import { AxiosDataInserate as AxiosDataInserateRequest, AxiosInserateResponse } from "../interfaces/IAxiosData.js";
 import { insertMysqlErrorMessages } from "../helper/messages.js";
 

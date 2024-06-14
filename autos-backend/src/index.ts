@@ -8,7 +8,7 @@ import writeBrand from "./routes/dashboard/insertBrand.js";
 import writeModel from "./routes/dashboard/insertModel.js";
 import fetchBrand from "./routes/dashboard/fetchBrand.js";
 import fetchModel from "./routes/dashboard/fetchModel.js";
-import { URLs } from './constants/URLs.js';
+import { URLs } from './constants/values.js';
 import multer from "multer";
 import path, { dirname } from "path";
 import fetchStaticData from "./routes/fetchStaticData.js";
@@ -33,12 +33,12 @@ import fetchImageName from "./routes/fetchImageName.js";
 import inserateFinish from "./routes/inserateFinish.js";
 import sharp from "sharp";
 import { fetchClickedCars } from "./routes/fetchClickedCars.js";
-import { connectToDatabase } from "./dbConnect1.js";
+import { connectToDatabase } from "./dbConnect.js";
 const MySQLStore = require('express-mysql-session')(session);
 
 import dotenv from 'dotenv'
-import { fetchCountClickedCars } from "./routes/fetchCountClickedCars.js";
 dotenv.config();
+import { fetchCountClickedCars } from "./routes/fetchCountClickedCars.js";
 const sessionSecret = process.env.SESSION_SECRET || "default-secret";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -133,7 +133,6 @@ const storage = multer.diskStorage({
     
         fs.mkdir(newUploadPath, { recursive: true}, function(err) {
           if(err) {
-            // TODO: 
             //console.log("Error", err);
           } else {
             cb(null, newUploadPath);

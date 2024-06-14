@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 //import { pool } from "../../dbConnect.js";
-import { connectToDatabase } from "../../dbConnect1.js";
+import { connectToDatabase } from "../../dbConnect.js";
 import { RowDataPacket } from "mysql2";
 import { Roles } from "../../constants/values.js";
 import bcrypt from 'bcrypt';

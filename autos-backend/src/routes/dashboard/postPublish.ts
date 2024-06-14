@@ -1,5 +1,5 @@
 import express from "express";
-import { connectToDatabase } from "../../dbConnect1.js";
+import { connectToDatabase } from "../../dbConnect.js";
 import { AxiosDataPublish } from "../../interfaces/IAxiosData.js";
 import { insertMysqlErrorMessages } from "../../helper/messages.js";
 const UPDATE: string = "update inserate_check set inserate_public = ? WHERE inserate_id = ?";

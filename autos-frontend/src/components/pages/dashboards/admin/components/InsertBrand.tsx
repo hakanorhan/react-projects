@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Button, Typography } from '@mui/material';
-
+import Button from '@mui/material/Button';
+import Typography from "@mui/material/Typography";
 /* Hot Toast */
 import { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";

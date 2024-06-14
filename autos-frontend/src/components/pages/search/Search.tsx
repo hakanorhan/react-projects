@@ -1,5 +1,10 @@
 import React, { Suspense, lazy, memo, useEffect, useMemo, useState } from 'react'
-import { Box, Button, Grid, Typography, SelectChangeEvent } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { SelectChangeEvent } from '@mui/material/Select';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import axios from 'axios';
 import {
   COMPONENT_DISTANCE,
@@ -16,7 +21,6 @@ import SelectField from '../../formularFields/SelectField';
 import { URLs, SelectFieldEnums } from '../../../constants/values';
 import { AxiosSearch } from '../../../interfaces/IAxiosData';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { useMediaQuery } from '@mui/material';
 import { DisplayTypes } from '../../../constants/values';
 import { notifyError } from '../../../helper/toastHelper';
 //import { scrollToTop } from '../../../helper/helper';
@@ -288,7 +292,7 @@ const Search: React.FC = () => {
       >
       {
         isElectricCarVisible && (<>
-          <Typography variant='h6' component='h1' sx={{ margin: 'auto', width: '95%', fontFamily: fontSemiBold, marginTop: `calc(${COMPONENT_DISTANCE})`, marginBottom: '3rem' }}>
+          <Typography variant='h6' component='h1' sx={{ margin: 'auto', width: '95%', fontFamily: fontSemiBold, marginTop: `calc(${COMPONENT_DISTANCE})`, marginBottom: COMPONENT_DISTANCE }}>
         {
           "Elektroautos"
         }

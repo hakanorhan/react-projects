@@ -140,7 +140,7 @@ export default function Footer() {
         </Grid>
 
         { isVisible &&
-        <Suspense fallback={<div>..loading</div>}>
+        <Suspense fallback={<Box sx={{ display:'flex', color:'primary.contrastText',  }}>..loading</Box>}>
             <LazyIconsComponent />
           </Suspense>
         }

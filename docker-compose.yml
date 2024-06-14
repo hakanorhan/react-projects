@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./autos-backend
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./autos-backend/.env
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE}
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+
+
+  frontend:
+    build: ./autos-frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:3001
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend

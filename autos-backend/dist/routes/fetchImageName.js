@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../dbConnect1.js';
+import { connectToDatabase } from '../dbConnect.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 const selectQueryDetail = "SELECT * FROM imagename WHERE inserate_id = ?";
 export default async (req, res) => {

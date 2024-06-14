@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../../dbConnect1.js';
+import { connectToDatabase } from '../../dbConnect.js';
 import { selectMysqlErrorMessages } from '../../helper/messages.js';
 const selectQuery = "SELECT inserate.inserate_id, brand.brand, model.model, inserate.price, inserate_info.inserate_date"
     + " from inserate"

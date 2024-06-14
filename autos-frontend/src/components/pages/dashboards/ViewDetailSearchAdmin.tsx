@@ -25,7 +25,7 @@ const ViewDetailSearchAdmin: React.FC<{id: number | null}> = ({ id }) => {
         const axiosData: AxiosDataPublish = { inserateId: id, canPublish: publishValue };
 
         await axios.post(URLs.ORIGIN_SERVER + URLs.POST_PUBLISH, axiosData, { withCredentials: true });
-        notifySuccess("success publish","Erfolgreich veröffentlicht");
+        
       } catch (error: any) {
         notifyError(error.response.data.messageId, error.response.data.message);
       } finally {

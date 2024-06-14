@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../dbConnect1.js";
+import { connectToDatabase } from "../../dbConnect.js";
 import { insertMysqlErrorMessages } from "../../helper/messages.js";
 import { formularIsNumber, formularModelIsValid } from "../../helper/validHelper.js";
 const insertIntoModels = "insert into model(model, brand_id)VALUES(?, ?)";

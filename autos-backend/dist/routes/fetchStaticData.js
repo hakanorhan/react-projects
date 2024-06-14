@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../dbConnect1.js';
+import { connectToDatabase } from '../dbConnect.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 const selectQueryBrands = 'SELECT * FROM brand WHERE brand_id IN (SELECT brand_id FROM model)';
 const selectQueryCartypes = 'SELECT * FROM cartype';

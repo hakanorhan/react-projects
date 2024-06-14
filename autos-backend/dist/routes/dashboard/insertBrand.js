@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../dbConnect1.js";
+import { connectToDatabase } from "../../dbConnect.js";
 import { insertMysqlErrorMessages } from "../../helper/messages.js";
 const insertIntoBrand = "INSERT INTO brand (brand) VALUES (?)";
 const selectBrandQuery = "SELECT * FROM brand";

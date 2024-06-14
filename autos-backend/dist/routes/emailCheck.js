@@ -1,5 +1,5 @@
 import { REGEX_EMAIL } from "../regex/regex.js";
-import { connectToDatabase } from "../dbConnect1.js";
+import { connectToDatabase } from "../dbConnect.js";
 const selectQuery = 'SELECT email FROM account_data WHERE email = ?';
 async function performQuery(requestData, res) {
     let connection;

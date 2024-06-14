@@ -71,9 +71,9 @@ const SignIn: React.FC = () => {
             }
           }
         })
-        .catch((error) => {
+        .catch(() => {
 
-          notifyError("error401", error.response.data);
+          notifyError("error401", "E-Mail oder Passwort ist inkorrekt");
         });
     }
   }

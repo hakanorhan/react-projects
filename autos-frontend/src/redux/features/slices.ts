@@ -235,7 +235,6 @@ const dataSliceDetailSearch = createSlice({
                 state.loading = true;
             })
             .addCase(fetchDetailSearch.fulfilled, (state, action: PayloadAction<AxiosDetailsearch>) => {
-                // TODO: fix
                 if (action.payload) {
                     state.detailState = action.payload;
                     state.loading = false;

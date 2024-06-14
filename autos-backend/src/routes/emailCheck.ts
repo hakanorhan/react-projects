@@ -1,7 +1,7 @@
 import express from "express";
 import { RowDataPacket } from "mysql2";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-import { connectToDatabase } from "../dbConnect1.js";
+import { connectToDatabase } from "../dbConnect.js";
 const selectQuery: string = 'SELECT email FROM account_data WHERE email = ?';
 
 // disable autocommit and perform transaction

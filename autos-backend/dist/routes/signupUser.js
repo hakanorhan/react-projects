@@ -1,7 +1,7 @@
 import { genSaltSync, hashSync } from 'bcrypt';
 import { Roles } from "../constants/values.js";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
-import { connectToDatabase } from "../dbConnect1.js";
+import { connectToDatabase } from "../dbConnect.js";
 export const insertAdress = `INSERT INTO address (street_nr, zipcode, city, federal_state_id) VALUES (?, ?, ?, ?)`;
 export const insertPersonalData = "INSERT INTO personal_data (forename, surename, tel_nr, birthdate, address_id) VALUES (?, ?, ?, ?, ?)";
 export const insertAccountData = "INSERT INTO account_data (email, password_secret, account_role) VALUES (?, ?, ?)";

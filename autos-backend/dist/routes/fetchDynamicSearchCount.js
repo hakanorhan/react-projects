@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../dbConnect1.js";
+import { connectToDatabase } from "../dbConnect.js";
 import { SelectFieldEnums } from "../constants/values.js";
 import { selectMysqlErrorMessages } from "../helper/messages.js";
 export async function performQueryGet(req, res) {

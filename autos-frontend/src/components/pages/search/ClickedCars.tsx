@@ -1,5 +1,8 @@
 import React, { memo, useEffect, useMemo, useState } from 'react'
-import { Box, Button, Card, CardActionArea, Grid } from '@mui/material'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom'
 import { AxiosPaperList, AxiosRejectPackage } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../constants/values';
@@ -79,14 +82,14 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
     
       return <>{<Card elevation={ PAPER_ELEVATION_VALUE } sx={ ZOOM_HOVER }
         onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
-        <CardActionArea>
+        <Box>
   
           <CarImages id={axiosPaper.inseratId} multiple={false} isDetail={ false }/>
   
           {/* technical deiption */}
           <ShowFastPaper detailSearchValues={axiosPaper} />
   
-        </CardActionArea>
+        </Box>
       </Card>}</>
     }
   }, [])

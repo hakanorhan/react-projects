@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../dbConnect1.js";
+import { connectToDatabase } from "../../dbConnect.js";
 import { insertMysqlErrorMessages } from "../../helper/messages.js";
 const UPDATE = "update inserate_check set inserate_public = ? WHERE inserate_id = ?";
 const UPDATE_CANCELLED = " UPDATE inserate_check set inserate_public = 0, inserate_cancelled = 1 WHERE inserate_id = ?";

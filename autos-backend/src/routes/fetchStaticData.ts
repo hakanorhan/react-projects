@@ -1,5 +1,5 @@
 import express from 'express';
-import { connectToDatabase } from '../dbConnect1.js';
+import { connectToDatabase } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 

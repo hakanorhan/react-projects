@@ -57,8 +57,7 @@ export const LinkDrawer = { textDecoration: 'none' };
 export const paperFontSize = { xs: '1.1rem', sm: '1.3rem', md: '1rem', lg: '1.2rem' };
 export const ICON_FONT_SIZE = '1.4rem';
 
-export const TRANSITION = '1S';
-export const ZOOM_HOVER = { transition: TRANSITION, '&:hover': { transform: 'scale(1.01)' }, cursor: 'pointer', height: '100%' };
+export const ZOOM_HOVER = {  '&:hover': { transform: 'scale(1.01)' }, cursor: 'pointer', height: '100%' };
 
 export const SX_ICON = { fontSize: ICON_FONT_SIZE, color: 'text.primary' };
 export const PAPER_ELEVATION_VALUE = 9;
@@ -145,7 +144,6 @@ const componentsDark = {
                 '&:hover': {
                     backgroundColor: DARK_SECONDARY_COLOR_MAIN,
                     color: DARK_PRIMARY_COLOR_MAIN,
-                    transition: TRANSITION
                 },
                 textTransform: 'none',
                 '& .MuiButton-label': {

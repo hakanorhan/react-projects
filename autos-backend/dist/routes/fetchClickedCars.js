@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../dbConnect1.js';
+import { connectToDatabase } from '../dbConnect.js';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { DisplayTypes } from '../constants/values.js';
 export async function fetchClickedCars(req, res) {
