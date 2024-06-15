@@ -35,8 +35,8 @@ import { fetchClickedCars } from "./routes/fetchClickedCars.js";
 import { connectToDatabase } from "./dbConnect.js";
 const MySQLStore = require('express-mysql-session')(session);
 import dotenv from 'dotenv';
-import { fetchCountClickedCars } from "./routes/fetchCountClickedCars.js";
 dotenv.config();
+import { fetchCountClickedCars } from "./routes/fetchCountClickedCars.js";
 const sessionSecret = process.env.SESSION_SECRET || "default-secret";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -46,7 +46,7 @@ const options = {
     port: process.env.PORT,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
-    database: process.env.DATABASE,
+    database: process.env.MYSQL_DATABASE,
     clearExpired: true,
     checkExpirationInterval: 1000 * 60 * 10,
     expiration: 1000 * 60 * 60 * 4

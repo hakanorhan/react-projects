@@ -1,26 +1,30 @@
-version: '3.8'
-
 services:
-  backend:
-    build: ./autos-backend
-    ports:
-      - "3001:3001"
-    env_file:
-      - ./autos-backend/.env
-    depends_on:
-      - database
-
   database:
     image: mysql:8.0
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - ./database:/docker-entrypoint-initdb.d
-
+    networks:
+      - react-projects
+      
+  backend:
+    build: ./autos-backend
+    depends_on:
+      - database
+    environment:
+      DATABASE_HOST: ${HOST}
+      DATABASE_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3001:3001"
+    command: ["npm", "start"]
+    networks:
+      - react-projects
 
   frontend:
     build: ./autos-frontend
@@ -30,3 +34,12 @@ services:
       - "5173:5173"
     depends_on:
       - backend
+    networks:
+      - react-projects
+
+volumes:
+  mysql-data:
+
+networks:
+  react-projects:
+    driver: bridge

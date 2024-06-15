@@ -58,7 +58,7 @@ const options = {
   port: process.env.PORT,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
-  database: process.env.DATABASE,
+  database: process.env.MYSQL_DATABASE,
 
   clearExpired: true,
   checkExpirationInterval: 1_000 * 60 * 10, 
