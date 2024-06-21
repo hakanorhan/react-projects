@@ -2,6 +2,19 @@ import { Select, colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
+declare module '@mui/material/styles' {
+    interface Palette {
+      icon: {
+        main: string;
+      };
+    }
+    interface PaletteOptions {
+      icon?: {
+        main?: string;
+      };
+    }
+  }
+
 const breakpoints = {
     xs: 0,
     sm: 576,
@@ -62,67 +75,7 @@ export const ZOOM_HOVER = {  '&:hover': { transform: 'scale(1.01)' }, cursor: 'p
 export const SX_ICON = { fontSize: ICON_FONT_SIZE, color: 'text.primary' };
 export const PAPER_ELEVATION_VALUE = 9;
 
-const components = {
-
-    MuiPaper: {
-        styleOverrides: {
-            root: {
-                backgroundColor: 'whitesmoke',
-                
-            }
-        }
-    },
-
-    MuiFormControl: {
-        styleOverrides: {
-            root: {
-                paddingBottom: '1rem',
-                width: '100%'
-            }
-        }
-    },
-    MuiButton: {
-        styleOverrides: {
-            root: {
-                fontSize: '1.2rem',
-                borderRadius: '0px',
-                border: 'none',
-                width: '100%',
-                color: LIGHT_PRIMARY_CONTRAST_TEXT,
-                '&:hover': {
-                    backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
-                    color: LIGHT_PRIMARY_COLOR_MAIN,
-                }, textTransform: 'none',
-                '& .MuiButton-label': {
-                    textTransform: 'capitalize',
-                },
-            }
-        },
-
-    },
-    MuiFab: {
-        styleOverrides: {
-            root: {
-                backgroundColor: LIGHT_PRIMARY_COLOR_MAIN,
-                color: LIGHT_PRIMARY_CONTRAST_TEXT,
-                '&:hover': {
-                    backgroundColor: 'white'
-                }
-            }
-        }
-    },
-    MuiTypography: {
-        styleOverrides: {
-            root: {
-                lineHeight: 1.5,
-                letterSpacing: 0.12
-            }
-        }
-
-    }
-};
-
-const componentsDark = {
+export const componentsDark = {
 
     MuiFormControl: {
         styleOverrides: {
@@ -202,35 +155,6 @@ const componentsDark = {
 
 };
 
-export const fontRegular = 'TitilliumWeb-Regular';
-export const fontBold = 'TitilliumWeb-Bold';
-export const fontExtraLight = 'TitilliumWeb-Extra-Light';
-export const fontLight = 'TitilliumWeb-Light';
-export const fontSemiBold = 'TitilliumWeb-SemiBold';
-
-const fontFamilies = {
-    fontFamily: [
-        fontRegular,
-        fontLight,
-        fontExtraLight,
-        fontBold,
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        'Oxygen-Sans',
-        'Ubuntu',
-        'Cantarell',
-        '"Helvetica Neue"',
-        'sans-serif',
-        'Poppins-Extra-Light',
-        'Poppins-Bold',
-        'Poppins-Semi-Bold',
-        'Poppins-Medium',
-        'Poppins-Thin',
-    ].join(',')
-};
-
 export const themeLight = createTheme({
     palette: {
         mode: 'light',
@@ -247,11 +171,73 @@ export const themeLight = createTheme({
         }, background: {
             default: LIGHT_BACKGROUND_DEFAULT,
             paper: LIGHT_BACKGROUND_PAPER_DEFAULT
-        },
+        }, icon: {
+            main: LIGHT_PRIMARY_COLOR_MAIN
+        }
     }
     ,
-    components: components,
-    typography: fontFamilies,
+    components:  {MuiPaper: {
+        styleOverrides: {
+            root: {
+                backgroundColor: 'whitesmoke',
+                
+            }
+        }
+    },
+
+    MuiFormControl: {
+        styleOverrides: {
+            root: {
+                paddingBottom: '1rem',
+                width: '100%'
+            }
+        }
+    },
+    MuiButton: {
+        styleOverrides: {
+            root: {
+                fontSize: '1.2rem',
+                borderRadius: '0px',
+                border: 'none',
+                width: '100%',
+                color: LIGHT_PRIMARY_CONTRAST_TEXT,
+                marginBottom:'1rem',
+                '&:hover': {
+                    backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
+                    color: LIGHT_PRIMARY_COLOR_MAIN,
+                }, textTransform: 'none',
+                '& .MuiButton-label': {
+                    textTransform: 'capitalize',
+                },
+            }
+        },
+
+    },
+    MuiFab: {
+        styleOverrides: {
+            root: {
+                backgroundColor: LIGHT_PRIMARY_COLOR_MAIN,
+                color: LIGHT_PRIMARY_CONTRAST_TEXT,
+                '&:hover': {
+                    backgroundColor: 'white'
+                }
+            }
+        }
+    },
+    MuiTypography: {
+        styleOverrides: {
+            root: {
+                lineHeight: 1.5,
+                letterSpacing: 0.12
+            }
+        }
+    },     MuiSvgIcon: {
+        styleOverrides: {
+          root: {
+            color: LIGHT_PRIMARY_COLOR_MAIN
+          }
+        }
+        }},
     breakpoints: { values: breakpoints }
 });
 
@@ -274,12 +260,9 @@ export const themeDark = createTheme({
         },
     }
     ,
-    components: componentsDark,
-    typography: fontFamilies,
+    //components: componentsDark,
     breakpoints: { values: breakpoints }
 });
-
-export const headerSize = { color: 'black', textAlign: 'center', fontFamily: fontBold, backgroundColor: 'white', opacity: '70%', padding: '1.5rem', marginBottom: '2rem' };
 
 export const MainBox = styled('div')(({ theme }) => ({
     paddingTop: COMPONENT_DISTANCE,
@@ -382,7 +365,7 @@ export const Boxprint = styled('div')(({ }) => ({
 export const HeaderIcon = styled('div')(({ theme }) => ({
     margin: 'auto',
     textAlign: 'center',
-    color: theme.palette.primary.main,
+    
     paddingBottom: '1rem',
     [theme.breakpoints.up("xs")]: {
 

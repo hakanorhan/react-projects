@@ -5,7 +5,6 @@ export interface IUseForm {
   }
 
   export interface IUseForm2 {
-    id: string,
     label: string,
     onChange: (value: string) => void; // callback,
     regex?: RegExp,
@@ -28,7 +27,6 @@ export interface IUseForm {
   }
 
   export interface IUseFormPasswordConfirm {
-    id: string,
     label: string,
     onChange: (value: string) => void; // callback,
     password1: string,

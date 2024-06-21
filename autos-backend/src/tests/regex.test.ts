@@ -12,7 +12,8 @@ const VALID_EMAILS = [
     "___h@w.derww",
     "h@w.derww",
     "hal~lo@test.de",
-    "34567890123456789012345678901234567890123456789012345678901234+x@example.com"
+    "34567890123456789012345678901234567890123456789012345678901234+x@example.com",
+    "Hallo@test.de"
 ];
 
 const INVALID_EMAILS = [
@@ -20,7 +21,9 @@ const INVALID_EMAILS = [
     "h",
     "##∆@de,lm",
     "email@example..com",
-    "Abc..123@example.com"
+    "Abc..123@example.com",
+    "hallo@test.d"
+    
 ];
 
     //https://en.wikipedia.org/wiki/Email_address#Valid_email_addresses

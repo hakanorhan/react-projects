@@ -251,13 +251,13 @@ const SignUpUser: React.FC = () => {
             ? <> {/* -------------------- Konto -------------------- */}
               {/* Email */}
               <Box>
-                <TextFieldCars id={TextFieldID.EMAIL} label='Email' onChange={value => handleOnChange(TextFieldID.EMAIL, value,)} regex={REGEX_EMAIL} checkEmail={emailNotUsed} />
+                <TextFieldCars label='Email' onChange={value => handleOnChange(TextFieldID.EMAIL, value,)} regex={REGEX_EMAIL} checkEmail={emailNotUsed} />
                 <Typography sx={{ marginBottom: COMPONENT_DISTANCE, color: 'text.primary' }}>{ValidHelper.formularEmailValid(form.email) ? emailUsedMessage : '\u00A0'}</Typography>
               </Box>
               <Box sx={{ marginBottom: COMPONENT_DISTANCE }}>
-                <PasswordSignUp id={TextFieldID.PASSWORD1} label='Password' onChange={value => handleOnChange(TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />
+                <PasswordSignUp label='Password' onChange={value => handleOnChange(TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />
               </Box>
-              <PasswordConfirm id={TextFieldID.PASSWORD2} label='Confirm Password' onChange={value => handleOnChange(TextFieldID.PASSWORD2, value)} password1={form.password1} regex={REGEX_PASSWORD} />
+              <PasswordConfirm label='Confirm Password' onChange={value => handleOnChange(TextFieldID.PASSWORD2, value)} password1={form.password1} regex={REGEX_PASSWORD} />
 
 
               {/* Cardealer */}
@@ -267,13 +267,13 @@ const SignUpUser: React.FC = () => {
               ? <> {/* -------------------- Details -------------------- */}
                 {/* Autohaus Companyname, not cardealer*/}
                 {isCheckedDealer &&
-                  <TextFieldCars id={TextFieldID.COMPANYNAME} label='Autohaus' onChange={value => handleOnChange(TextFieldID.COMPANYNAME, value)} regex={REGEX_NAMES} />
+                  <TextFieldCars label='Autohaus' onChange={value => handleOnChange(TextFieldID.COMPANYNAME, value)} regex={REGEX_NAMES} />
                 }
                 {/* Name */}
-                <TextFieldCars id={TextFieldID.NAME} label={isCheckedDealer ? 'Ansprechpartner:in Name' : 'Name'} onChange={value => handleOnChange(TextFieldID.NAME, value)} regex={REGEX_NAMES} />
+                <TextFieldCars label={isCheckedDealer ? 'Ansprechpartner:in Name' : 'Name'} onChange={value => handleOnChange(TextFieldID.NAME, value)} regex={REGEX_NAMES} />
 
                 {/* Name */}
-                <TextFieldCars id={TextFieldID.FAMILYNAME} label={isCheckedDealer ? 'Ansprechpartner:in Nachname' : 'Nachname'} onChange={value => handleOnChange(TextFieldID.FAMILYNAME, value)} regex={REGEX_NAMES} />
+                <TextFieldCars label={isCheckedDealer ? 'Ansprechpartner:in Nachname' : 'Nachname'} onChange={value => handleOnChange(TextFieldID.FAMILYNAME, value)} regex={REGEX_NAMES} />
 
                 <MuiTelInput required variant='standard' id={TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={telefonNr} onChange={(value) => { setTelefonNr(value); }} />
 
@@ -316,16 +316,16 @@ const SignUpUser: React.FC = () => {
                     </Grid>
                   }
                   <Grid item xs={8} >
-                    <TextFieldCars id={TextFieldID.STREET} label='Straße' onChange={value => handleOnChange(TextFieldID.STREET, value)} regex={REGEX_STREET} />
+                    <TextFieldCars  label='Straße' onChange={value => handleOnChange(TextFieldID.STREET, value)} regex={REGEX_STREET} />
                   </Grid>
                   <Grid item xs={4} >
-                    <TextFieldCars id={TextFieldID.NR} label='Nr' onChange={value => handleOnChange(TextFieldID.NR, value)} regex={REGEX_STREET_NR} maxLength={5} />
+                    <TextFieldCars  label='Nr' onChange={value => handleOnChange(TextFieldID.NR, value)} regex={REGEX_STREET_NR} maxLength={5} />
                   </Grid>
                   <Grid item xs={7.5} >
-                    <TextFieldCars id={TextFieldID.CITY} label='Stadt' onChange={value => handleOnChange(TextFieldID.CITY, value)} regex={REGEX_NAMES} />
+                    <TextFieldCars  label='Stadt' onChange={value => handleOnChange(TextFieldID.CITY, value)} regex={REGEX_NAMES} />
                   </Grid>
                   <Grid item xs={4.5} >
-                    <TextFieldCars id={TextFieldID.ZIPCODE} label='PLZ' onChange={value => handleOnChange(TextFieldID.ZIPCODE, value)} regex={REGEX_ZIPCODE} maxLength={5} />
+                    <TextFieldCars label='PLZ' onChange={value => handleOnChange(TextFieldID.ZIPCODE, value)} regex={REGEX_ZIPCODE} maxLength={5} />
                   </Grid>
                   <Grid item xs={12} >
                     <SelectField idOfSelect='federal_state_id' values={federalState} objectName='federal_state' selectedValue={selectedBundesland} handleChange={handleChangeBundesland} label='Bundesland' />

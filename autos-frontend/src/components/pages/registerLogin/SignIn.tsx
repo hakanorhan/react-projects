@@ -1,24 +1,24 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import { ChangeEvent, FC, ReactNode, lazy, memo, useCallback, useMemo, useState } from 'react';
 import { Roles, URLs } from '../../../constants/values.js';
-
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
-import { Box, Button, Typography } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, buttonHeight, mainComponentHeight } from '../../../themes/Theme.js';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Check from '@mui/icons-material/Check';
 
-import * as validHelper from '../../../regex/validHelper.js';
-
-/* Hot Toast */
-import { Toaster } from 'react-hot-toast';
-import TextFieldCars from '../../formularFields/TextFieldCars.js';
-import { REGEX_EMAIL } from '../../../regex/REGEX.js';
-import TextFieldCarsPassword1 from '../../formularFields/TextFieldCarsPassword.js';
+import { formularEmailValid, formularPasswordValid } from '../../../regex/validHelper.js';
 import { SignInForm } from '../../../interfaces/types.js';
 import { notifyError } from '../../../helper/toastHelper.js';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 import { AuthResponse } from '../../../interfaces/types.js';
 import { scrollToTop } from '../../../helper/helper.js';
+import InputAdornment from '@mui/material/InputAdornment';
+const LazyLinkComponent = lazy(() => import('./LazyLinkComponent.js'))
+interface HeaderIconProps {
+  children: ReactNode
+}
 
 const SignIn: React.FC = () => {
 
@@ -35,20 +35,18 @@ const SignIn: React.FC = () => {
     signInForm
   );
 
-  const handleOnChange = (fieldName: string, fieldValue: string) => {
-    setForm({ ...form, [fieldName]: fieldValue })
-  }
+  const [isEmailValid, setEmailIsValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
 
   const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const email = form.email;
     const password = form.password;
 
     // if email and password is valid
-    if (!validHelper.formularEmailValid(email)) {
+    if (!isEmailValid) {
       notifyError("email-signin", "Bitte prüfen Sie das Email-Feld.")
-    } else if (!validHelper.formularPasswordValid(password)) {
+    } else if (!isPasswordValid) {
       notifyError("password-signin", "Bitte prüfen Sie das Passwort-Feld.")
     } else {
 
@@ -78,36 +76,65 @@ const SignIn: React.FC = () => {
     }
   }
 
+  const handleEmailChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setForm({...form, ['email']: value })
+    const isValid = formularEmailValid(value)
+    setEmailIsValid(isValid)
+  }, [form.email])
+
+  const HeaderIconComponent: FC<HeaderIconProps> = memo(({ children }) => {
+    return (
+      <div className='headericon-style'>
+      { children }
+    </div> 
+    )
+  })
+
+  const formElement = useMemo(() => (<div>
+    <form onSubmit={handleSubmit} noValidate>
+          
+    <TextField autoComplete='on'  error={false} id='email' label="Email" variant='standard' 
+    InputProps={{
+      endAdornment: <InputAdornment position='end'><Check /></InputAdornment>
+    }}
+    onChange={ handleEmailChange } />
+
+    <TextField autoComplete='on' type='password' error={false} id='password' label="Passwort" variant='standard' 
+    InputProps={{
+      endAdornment: <InputAdornment position='end'><Check /></InputAdornment>
+    }}
+    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value
+      setForm({...form, ['password']: value })
+      const isValid = formularPasswordValid(value)
+      setIsPasswordValid(isValid)
+    }} />
+    
+    {/*
+    <TextFieldCars id='email' label='Email' onChange={value => handleOnChange('email', value)} regex={REGEX_EMAIL} />
+    <TextFieldCarsPassword1 id='password' label='Password' onChange={value => handleOnChange('password', value)} />
+*/}
+    <Button fullWidth type='submit' variant="contained">Sign in</Button>
+  </form>
+
+  <LazyLinkComponent />
+  
+</div>
+  ), [])
+
   return (
-    <Box>
-      <Toaster />
-      <MainComponentWidth sx={{ height: mainComponentHeight }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', margin: 'auto', marginTop: '7rem', marginBottom: '7rem' }}>
-          <HeaderIcon><LockPersonIcon fontSize='large' /></HeaderIcon>
-          <Typography variant='h4' component="h1" sx={{ margin: 'auto', color: 'primary.main' }}>Anmelden</Typography>
-        </Box>
+  
+      <div className='login-register-content'>
+  
+      <HeaderIconComponent>
+        <LockPersonIcon fontSize='large'/>
+      </HeaderIconComponent>
 
-        <form onSubmit={handleSubmit} noValidate>
+      {formElement}
 
-          <TextFieldCars id='email' label='Email' onChange={value => handleOnChange('email', value)} regex={REGEX_EMAIL} />
-          <TextFieldCarsPassword1 id='password' label='Password' onChange={value => handleOnChange('password', value)} />
-
-          <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Sign in</Button>
-          <div style={{ display: 'flex', marginBottom: '4rem' }}>
-            <Box style={{ width: '40%', color: 'primary.main' }}>
-              <Typography sx={{ color: 'primary.main' }} variant='body1' component='p'>Passwort vergessen</Typography>
-            </Box>
-            <div style={{ width: '60%', display: 'flex', justifyContent: 'flex-end' }}>
-              <Link to={URLs.POST_SIGINUP} style={{ textDecoration: 'none' }}><Typography variant='body1' component='p' sx={{ color: 'primary.main' }}>Haben Sie kein Konto? Registrieren</Typography> </Link>
-            </div>
-          </div>
-        </form>
-        <Box>
-
-        </Box>
-      </MainComponentWidth>
-    </Box>
+      </div>
   )
 }
 
-export default SignIn;
+export default memo(SignIn);

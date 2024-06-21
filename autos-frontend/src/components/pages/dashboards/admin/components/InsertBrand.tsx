@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
 import { MainComponentWidth } from "../../../../../themes/Theme";
-import { fetchBrand, insertBrand } from "../../../../../redux/features/slices";
+import { fetchBrand, insertBrand } from "../../../../../redux/features/carBrandSlice";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
 import { REGEX_NAMES } from "../../../../../regex/REGEX";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,7 +50,7 @@ const InsertBrand = () => {
   return <><Toaster />
     <MainComponentWidth>
       <form onSubmit={handleSubmit} noValidate>
-        <TextFieldCars id="brand" label="Marke" onChange={value => handleOnChange('brand', value)} regex={REGEX_NAMES} refresh={false} />
+        <TextFieldCars label="Marke" onChange={value => handleOnChange('brand', value)} regex={REGEX_NAMES} refresh={false} />
 
         <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
       </form>

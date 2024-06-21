@@ -12,7 +12,7 @@ import TableNormal from "../../../../tables/TableNormal";
 import { formularModelIsValid } from "../../../../../regex/validHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../../redux/store";
-import { fetchBrandModel, insertModel } from "../../../../../redux/features/slices";
+import { fetchBrandModel, insertModel } from "../../../../../redux/features/carModelSlice";
 import { scrollToTop } from "../../../../../helper/helper";
 
 interface IFormModel {
@@ -76,7 +76,7 @@ const InsertModel = () => {
     <MainComponentWidth sx={{ height: modelValues.length > 0 ? 'auto' : mainComponentHeight }}>
       <form onSubmit={handleSubmit} noValidate>
         <SelectField values={brandValues} objectName="brand" idOfSelect="brandId" selectedValue={selectedBrand} handleChange={handleChangeBrand} label="Marke" />
-        <TextFieldCars id="model" label="Modell" onChange={value => handleChange('model', value)} regex={REGEX_MODEL} refresh={refresh} />
+        <TextFieldCars label="Modell" onChange={value => handleChange('model', value)} regex={REGEX_MODEL} refresh={refresh} />
         <Button fullWidth type='submit' variant="contained" sx={{ marginBottom: '1rem' }}>Hinzufügen</Button>
         {
           modelValues.length > 0 ? <Typography sx={{ textAlign: 'center', marginBottom: '1.5rem' }} variant='h3' component='h1'> {"Alle Modelle zu " + brandName} </Typography> : ""

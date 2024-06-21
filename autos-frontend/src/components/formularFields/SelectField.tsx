@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, Select, MenuItem, Tooltip } from "@mui/material"
 import { SelectChangeEvent } from "@mui/material";
 import React, { memo } from "react";
-import { SelectFieldEnums } from "../../constants/values";
+import { SelectFieldEnums } from "../../constants/values.ts";
 
 // Components
 const SelectField: React.FC<{

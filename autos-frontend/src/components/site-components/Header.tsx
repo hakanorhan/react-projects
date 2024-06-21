@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,22 +17,23 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Roles, URLs } from '../../constants/values';
-import { LinkDrawer, LinkHome, fontBold } from '../../themes/Theme';
+import { LinkDrawer} from '../../themes/Theme';
 import type { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { setRole, setUserLoggedIn } from '../../redux/features/slices';
+import { setRole, setUserLoggedIn } from '../../redux/features/userLoggedInSlice';
 import { AuthResponse } from '../../interfaces/types';
 import { notifyError } from '../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
 import muiLazyLoader from '../../helper/lazyLoading/MuiLazyLoader';
+import { FC, SyntheticEvent, useEffect, useState } from 'react';
 
 
 const headlineStyle = { color: 'secondary.contrastText', paddingLeft: '20px', justifyContent: 'flex-start' };
 const drawerFontSize = '28px';
 
-const drawerSizes = { color: 'secondary.contrastText', fontSize: drawerFontSize, fontFamily: fontBold, paddingLeft: '25px' };
+const drawerSizes = { color: 'secondary.contrastText', fontSize: drawerFontSize, paddingLeft: '25px' };
 const accordionIconStyle = { fontSize: drawerFontSize, color:'secondary.contrastText' };
 const accordionStyle = { backgroundColor:'secondary.main', paddingLeft: '35px', marginBottom: '0.8rem' };
 
@@ -51,15 +52,15 @@ interface ListItemLinkProps {
 export default function Header() {
   const navigate = useNavigate();
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const dispatch = useDispatch();
   const loggedIn = useSelector((state: RootState) => state.userLoggedIn.userLoggedIn);
   const role = useSelector((state: RootState) => state.userLoggedIn.role)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const checkAuth = async () => {
       try {
         const response = await axios.get<AuthResponse>(URLs.ORIGIN_SERVER + URLs.AUTHENTICATION_USER, { withCredentials: true });
@@ -89,7 +90,7 @@ export default function Header() {
     setDrawerOpen(false);
   }
 
-  const handleMenu = (event: React.SyntheticEvent<HTMLElement>) => {
+  const handleMenu = (event: SyntheticEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -151,7 +152,7 @@ import('@mui/icons-material/Add').then(module => {
 )
   // -------------------------------------- ADMIN ----------------------------------------------------------
 
-  const AccordionComponent: React.FC<AccordionProps> = ({icon, title, urlBrand, urlModel}) => {
+  const AccordionComponent: FC<AccordionProps> = ({icon, title, urlBrand, urlModel}) => {
     return <AccordionLazy elevation={0} sx={accordionStyle}>
     <AccordionSummary
       expandIcon={ <ExpandMoreIcon sx={{ color: 'secondary.contrastText' }}/> }
@@ -176,7 +177,7 @@ import('@mui/icons-material/Add').then(module => {
   </AccordionLazy>
   }
 
-  const ListItemLink: React.FC<ListItemLinkProps> = ({ title, url }) => {
+  const ListItemLink: FC<ListItemLinkProps> = ({ title, url }) => {
    return  <ListItem>
     <ListItemButton>
       <ListItemIcon>
@@ -240,10 +241,7 @@ import('@mui/icons-material/Add').then(module => {
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ width: '100%' }}>
-            <LinkHome to={URLs.HOME_ALL_SEARCH_COUNT}>  <Typography variant="h6" component="div" sx={{ flexGrow: 1, }}> {"cars"} </Typography> </LinkHome>
-          </Box>
-
+          <Typography sx={{ color: 'primary.contrastText', textDecoration: 'none' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"cars"} </Typography>
           <div>
             <IconButton
               sx={{ color: 'primary.contrastText' }}

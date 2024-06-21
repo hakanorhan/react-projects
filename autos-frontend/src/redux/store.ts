@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-
-import { userLoggedReducer} from "./features/slices";
-import { carBrandReducer } from "./features/slices";
-import { dataSliceModelReducer } from "./features/slices";
-import { detailSearchReducer } from "./features/slices";
-import { darkLightReducer } from "./features/slices";
-import { openClosePublishReducer } from "./features/slices";
+import { userLoggedReducer } from "./features/userLoggedInSlice";
+import { carBrandReducer } from "./features/carBrandSlice";
+import { dataSliceModelReducer } from "./features/carModelSlice";
+import { detailSearchReducer } from "./features/detailSearchSlice";
+import { darkLightReducer } from "./features/darkLightReducer";
+import { openClosePublishReducer } from "./features/iOpenPublishSlice";
 
 export const store = configureStore({
     reducer: {
@@ -14,7 +13,7 @@ export const store = configureStore({
        carBrandSlice: carBrandReducer,
        CarModelSlice: dataSliceModelReducer,
        detailSearch: detailSearchReducer,
-       openClosePublishReducer
+       openClosePublishReducer 
     }
 })
 

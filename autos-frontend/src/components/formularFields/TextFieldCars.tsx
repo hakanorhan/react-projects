@@ -3,8 +3,8 @@ import { IUseForm2 } from '../../interfaces/IUseForm';
 import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { COMPONENT_DISTANCE, colorDanger } from '../../themes/Theme';
-const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refresh, maxLength, checkEmail}) => {
+import { COMPONENT_DISTANCE, colorDanger } from '../../themes/Theme.ts';
+const TextFieldCars: React.FC<IUseForm2> = ({ label, onChange, regex, refresh, maxLength, checkEmail}) => {
     
     const [valueMatch, setValueMatch] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
@@ -27,10 +27,10 @@ const TextFieldCars: React.FC<IUseForm2> = ({ id, label, onChange, regex, refres
 
   return (
     <FormControl sx={{ paddingBottom: COMPONENT_DISTANCE }} onClick={(e) => e.stopPropagation()} required fullWidth variant="standard" >
-    <InputLabel id={ label } htmlFor={ id }>{label}</InputLabel>
+    <InputLabel id={ label } htmlFor={ label}>{label}</InputLabel>
     <Input
     autoComplete='on'
-      id= {id}
+      id= {label}
       onChange= { handleOnChange }
       value={value}
       inputProps={{ maxLength: (maxLength !== undefined) ? maxLength : 55 }}

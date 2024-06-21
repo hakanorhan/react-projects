@@ -1,4 +1,4 @@
-import { Roles } from "../../constants/values";
+/*import { Roles } from "../../constants/values";
 import { URLs } from "../../constants/values";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk } from '@reduxjs/toolkit'
@@ -18,6 +18,7 @@ import { AxiosRejectPackage } from "../../interfaces/IAxiosData";
 /**
  * Used only for display admin menus in drawer after login.
  */
+/*
 export interface IUserState {
     userLoggedIn: boolean,
     role: Roles,
@@ -47,11 +48,11 @@ export const userLoggedSlice = createSlice({
 })
 
 export const { setUserLoggedIn, setRole, setMode } = userLoggedSlice.actions;
-export const userLoggedReducer = userLoggedSlice.reducer;
+export const userLoggedReducer = userLoggedSlice.reducer; */
 // --------------------------------------------------------------------------------------------------------
 
 // ------------- carBrandSlice ----------------------------------------------------------------------------
-export const fetchBrand = createAsyncThunk<
+/*export const fetchBrand = createAsyncThunk<
     AxiosDataPacketBrand,
     void,
     { rejectValue: AxiosRejectPackage }>(
@@ -128,11 +129,12 @@ const dataSlice = createSlice({
     }
 })
 
-export const carBrandReducer =  dataSlice.reducer;
+export const carBrandReducer =  dataSlice.reducer; */
 // --------------------------------------------------------------------------------------------------------
 
 
 // ------------- carModelSlice ----------------------------------------------------------------------------
+/*
 export const fetchBrandModel = createAsyncThunk(
     'data/fetchBrandModel',
     async () => {
@@ -201,11 +203,11 @@ const dataSliceModel = createSlice({
     }
 })
 
-export const dataSliceModelReducer =  dataSliceModel.reducer;
+export const dataSliceModelReducer =  dataSliceModel.reducer; */
 // -------------------------------------------------------------------------------------------------------
 
 // ------------------------------ detailSearch -----------------------------------------------------------
-
+/*
 export const fetchDetailSearch = createAsyncThunk(
     'data/fetchDetailSearch',
     async (id: number | string) => {
@@ -247,11 +249,12 @@ const dataSliceDetailSearch = createSlice({
     }
 })
 
-export const detailSearchReducer = dataSliceDetailSearch.reducer;
+export const detailSearchReducer = dataSliceDetailSearch.reducer; */
 // -------------------------------------------------------------------------------------------------------
 
 // ----------------------- darkLightMode -----------------------------------------------------------------
 /* Used only for display admin menus in drawer after login. */
+/*
 export interface IModeState {
    mode: boolean
 }
@@ -271,9 +274,10 @@ export const userDarkLightModeSlice = createSlice({
 })
 
 export const { setModeDarkLight } = userDarkLightModeSlice.actions;
-export const darkLightReducer =  userDarkLightModeSlice.reducer;
+export const darkLightReducer =  userDarkLightModeSlice.reducer; */
 
 // ----------------------- close ---------------------------------------------------------------------------
+/*
 export interface IOpenPublish {
     open: boolean
 }
@@ -293,4 +297,4 @@ export const openClosePublishSlice = createSlice({
 })
 
 export const { handleDialog } = openClosePublishSlice.actions;
-export const openClosePublishReducer = openClosePublishSlice.reducer;
+export const openClosePublishReducer = openClosePublishSlice.reducer;*/

@@ -11,14 +11,16 @@ const VALID_EMAILS = [
     "___h@w.derww",
     "h@w.derww",
     "hal~lo@test.de",
-    "34567890123456789012345678901234567890123456789012345678901234+x@example.com"
+    "34567890123456789012345678901234567890123456789012345678901234+x@example.com",
+    "Hallo@test.de"
 ];
 const INVALID_EMAILS = [
     "ha@he@test.de",
     "h",
     "##∆@de,lm",
     "email@example..com",
-    "Abc..123@example.com"
+    "Abc..123@example.com",
+    "hallo@test.d"
 ];
 VALID_EMAILS.push("user%example.com@example.org");
 VALID_EMAILS.push("\"john..doe\"@example.org");

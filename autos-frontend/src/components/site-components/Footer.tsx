@@ -4,13 +4,11 @@ import { COMPONENT_DISTANCE, LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../
 import { Suspense, lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { setModeDarkLight } from "../../redux/features/slices";
+import { setModeDarkLight } from "../../redux/features/darkLightReducer";
 import { URLs } from "../../constants/values";
 import afterComponentViewed from "../../helper/lazyLoading/afterComponentViewed";
-import IconsComponent from "./IconsComponent";
 
 const gridItemStyle = { marginBottom: { xs: '3rem' } };
-const iconStyle = { marginRight: '0.5rem', '@media screen': { fill: LIGHT_PRIMARY_CONTRAST_TEXT }, '@media print': { fill: 'black' } };
 
 const gridXS = 12;
 const gridSM = 6;
@@ -140,7 +138,7 @@ export default function Footer() {
         </Grid>
 
         { isVisible &&
-        <Suspense fallback={<Box sx={{ display:'flex', color:'primary.contrastText',  }}>..loading</Box>}>
+        <Suspense fallback={ <div className="loading-component-style">...loading</div> }>
             <LazyIconsComponent />
           </Suspense>
         }

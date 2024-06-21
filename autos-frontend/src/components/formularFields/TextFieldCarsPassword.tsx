@@ -4,7 +4,7 @@ import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ id, label, onChange }) => {
+const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ label, onChange }) => {
 
   // Show password
   const [showPassword, setShowPassword] = useState(false);

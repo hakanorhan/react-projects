@@ -14,7 +14,7 @@ import {
 import {
   Boxprint,
   COMPONENT_DISTANCE, GreyHorizontalHR, ICON_FONT_SIZE, LINE_HEIGHT,
-  fontBold, fontLight, fontRegular, paperViewDetailSearchTextArea, SX_ICON, fontSemiBold
+   paperViewDetailSearchTextArea, SX_ICON
 } from '../../../../themes/Theme';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import Check from '@mui/icons-material/Check';
@@ -38,7 +38,7 @@ import TextFieldCars from '../../../formularFields/TextFieldCars';
 import { REGEX_EMAIL } from '../../../../regex/REGEX';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../redux/store';
-import { fetchDetailSearch } from '../../../../redux/features/slices';
+import { fetchDetailSearch } from '../../../../redux/features/detailSearchSlice';
 import GroupIcon from '@mui/icons-material/Group';
 import ShareComponent from '../../ShareComponent';
 import Logo from '../../../Logo';
@@ -107,8 +107,8 @@ scrollToTop();
 
   const GridTechnicalComponent: React.FC<GridTechnicalDetails> = ({ title, value, icon }) => {
     return <Grid sx={{ display: 'flex', padding: '0.7rem' }} item xs={12}>
-      <Grid item xs={6}><Typography sx={{ fontFamily: fontSemiBold }} variant='body1' component='p'>{`${title}:`}</Typography></Grid>
-      <Grid item xs={6}> <Typography sx={{ fontFamily: fontSemiBold }} variant='body1' component='p'>{value}</Typography>{icon}</Grid>
+      <Grid item xs={6}><Typography  variant='body1' component='p'>{`${title}:`}</Typography></Grid>
+      <Grid item xs={6}> <Typography variant='body1' component='p'>{value}</Typography>{icon}</Grid>
     </Grid>
   }
 
@@ -117,7 +117,7 @@ scrollToTop();
   };
 
   const GridComponent: React.FC<GridComponentProps> = ({ icon, value }) => {
-    return <Grid item><Box sx={{ display: 'flex', justifyContent: 'left', marginBottom: LINE_HEIGHT }}> {icon}  <Typography sx={{ fontFamily: fontRegular, marginLeft: '.5rem', whiteSpace: 'nowrap' }} variant='body1' component='p'>{value}</Typography></Box></Grid>
+    return <Grid item><Box sx={{ display: 'flex', justifyContent: 'left', marginBottom: LINE_HEIGHT }}> {icon}  <Typography sx={{ marginLeft: '.5rem', whiteSpace: 'nowrap' }} variant='body1' component='p'>{value}</Typography></Box></Grid>
   }
 
   const ContactFixed = () => {
@@ -189,7 +189,7 @@ scrollToTop();
             value={"Guten Tag," + "\n\n" + "ich habe Interesse an Ihrem Fahrzeug." + "\n\n" + "Mit freundlichen Grüßen."}
           />
 
-          <TextFieldCars id='email' label='Email' onChange={() => { }} regex={REGEX_EMAIL} />
+          <TextFieldCars label='Email' onChange={() => { }} regex={REGEX_EMAIL} />
 
         </DialogContent>
         <DialogActions>
@@ -291,12 +291,12 @@ scrollToTop();
 
               <Grid sx={{ height: '100%', marginTop: '1rem' }} container>
                 {/* Marke Modell */}
-                <Grid item xs={12}> <Typography sx={{ fontFamily: fontBold }} variant='h5' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
+                <Grid item xs={12}> <Typography variant='h5' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
 
                 <Grid container  sx={{ marginTop: COMPONENT_DISTANCE }}>
                   <Grid item xs={6}>
                     <Box sx={{ backgroundColor: 'secondary.main', padding: '16px' }}>
-                      <Typography variant="h6" component="h2" sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>
+                      <Typography variant="h6" component="h2" sx={{ display: 'flex', justifyContent: 'center' }}>
                         {seperateThousand(detailSearchValues.price)} {" €"}
                       </Typography>
                       <Typography variant="body2" component="p" sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -312,7 +312,7 @@ scrollToTop();
                       <Typography sx={{ textAlign: 'center', '@media screen': { display: 'none' } }}>
                         {'Finanzierung'}
                       </Typography>
-                      <Typography variant="h6" component="h2" sx={{ fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>
+                      <Typography variant="h6" component="h2" sx={{ display: 'flex', justifyContent: 'center' }}>
                         {seperateThousand(550)} {" €"}
                       </Typography>
                     </Box>
@@ -325,7 +325,7 @@ scrollToTop();
                 <Box sx={{ display: 'flex', marginTop: '1rem' }}>
                 <HealthAndSafetyIcon sx={{ color: 'text.primary', fontSize:'3rem', marginRight:'10px' }}/>
                 <Box>
-                  <Typography variant='h6' sx={{ fontFamily: fontSemiBold }}>{"Ab 12,89€ monatlich"}</Typography>
+                  <Typography variant='h6'>{"Ab 12,89€ monatlich"}</Typography>
                   <Typography variant='body2'>{"KFZ-Versicherung vergleichen"}</Typography>
                 </Box>
                 </Box>
@@ -358,7 +358,7 @@ scrollToTop();
               </Grid>
               <Grid container>
                 <Grid item xs={12} lg={4}>
-                  <Typography variant='h6' component='h4' sx={{ fontFamily: fontBold, paddingTop: COMPONENT_DISTANCE }}> Technische Daten </Typography>
+                  <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}> Technische Daten </Typography>
                 </Grid>
                 <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
                   <GridTechnicalComponent title='Marke' value={detailSearchValues?.brand} />
@@ -378,7 +378,7 @@ scrollToTop();
               <GreyHorizontalHR />
               <Grid container>
                 <Grid item xs={12} lg={4}>
-                  <Typography variant='h6' component='h4' sx={{ fontFamily: fontBold, paddingTop: COMPONENT_DISTANCE }}> Ausstattung </Typography>
+                  <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}> Ausstattung </Typography>
                 </Grid>
 
                 <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
@@ -398,14 +398,14 @@ scrollToTop();
 
               <Box sx={paperViewDetailSearchTextArea}>
                 <GreyHorizontalHR />
-                <Typography variant='h6' component='h4' sx={{ fontFamily: fontBold, paddingTop: COMPONENT_DISTANCE }}>Fahrzeugbeschreibung</Typography>
+                <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}>Fahrzeugbeschreibung</Typography>
                 <Grid sx={{ paddingTop: COMPONENT_DISTANCE }} item xs={12}> <TextFieldArea minRows={8} maxRows={10} disbled={true} areaText={detailSearchValues.description} /> </Grid>
               </Box>
 
             </Grid>
 
             <Box sx={{ width: '94%', margin: 'auto' }}>
-              <Typography sx={{ fontFamily: fontBold }} variant='h6' component='h4'>Informationen zum/zur Verkäufer:in</Typography>
+              <Typography variant='h6' component='h4'>Informationen zum/zur Verkäufer:in</Typography>
               <Typography sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>Anbieter:in seit  {detailSearchValues.since}</Typography>
 
               <Box width='100%'>
@@ -420,7 +420,7 @@ scrollToTop();
                 }
 
                 <Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
-                <Typography sx={{ fontFamily: fontLight }}>45 Bewertungen</Typography>
+                <Typography>45 Bewertungen</Typography>
 
                 <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>
                   <Box sx={{ marginRight: COMPONENT_DISTANCE }}><AccessTimeIcon sx={SX_ICON} /></Box>

@@ -1,17 +1,10 @@
-import React, { Suspense, lazy, memo, useEffect, useMemo, useState } from 'react'
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { SelectChangeEvent } from '@mui/material/Select';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { FC, Suspense, lazy, useEffect, useState } from 'react'
+import { Box, Button, Grid, SelectChangeEvent, Typography } from '@mui/material';
 import axios from 'axios';
 import {
   COMPONENT_DISTANCE,
   SearchContainer,
-  buttonHeight,
-  fontSemiBold,
-  headerSize
+  buttonHeight
 } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -27,6 +20,8 @@ import { notifyError } from '../../../helper/toastHelper';
 
 import afterComponentViewed from '../../../helper/lazyLoading/afterComponentViewed';
 
+import './styleSearch.css';
+
 const LazyClickedCars = lazy(() => import('./ClickedCars'));
 
 const searchButtonText = " Treffer";
@@ -35,10 +30,8 @@ const Search: React.FC = () => {
 
   const navigate = useNavigate();
 
-
-
   // available cars 
-  const [countCars, setCountCars] = React.useState<number>(0);
+  const [countCars, setCountCars] = useState<number>(0);
 
   const initalValue: AxiosSearch = {
     yearFrom: 0,
@@ -50,45 +43,27 @@ const Search: React.FC = () => {
     price: SelectFieldEnums.ALL_VALUE
   }
 
-  const isXS = useMediaQuery('(max-width:570px)');
-  const isSM = useMediaQuery('(max-width:768px)');
-  const isMD = useMediaQuery('(max-width:1100px)');
-
-  const SearchBox = () => {
-    const styles = useMemo(() => ({
-      backgroundImage: 'url("pexels-shkrabaanthony-7144243.jpg")', height: '68vh', backgroundSize: 'cover', backgroundPosition: 'center', paddingTop: '4rem', paddingBottom: '4rem'
-    }), [])
-    return <Box sx={styles}>
-      <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-        <a style={{ paddingRight: '1rem' }} href='https://www.pexels.com/de-de/foto/mann-frau-auto-fahrzeug-7144243/' target='_blank'>
-          <Typography sx={{ color: 'black' }}>pexels - Foto von Antoni Shkraba:</Typography> </a>
-      </Box>
-      <Typography marginTop={'15vh'} variant={isXS ? 'h3' : isSM ? 'h5' : isMD ? 'h4' : 'h2'} component='h1' sx={headerSize}>Neues Auto.</Typography>
-
-    </Box>
-  }
-
-  const [formSelect, setFormSelect] = React.useState<AxiosSearch>(initalValue);
+  const [formSelect, setFormSelect] = useState<AxiosSearch>(initalValue);
   const [isClickedCarsVisible, setIsClickedCarsVisible] = useState(false);
   const [isElectricCarVisible, setIsElectricCarVisible] = useState(false);
 
-  const [listBrands, setListBrands] = React.useState<string[]>([])
-  const [listModel, setListModel] = React.useState<string[]>([]);
-  const [listCarTypes, setListCarTypes] = React.useState<string[]>([]);
-  const [listFederalState, setListFederalState] = React.useState<string[]>([]);
-  const [listPrices, setListPrices] = React.useState<string[]>([]);
-  
+  const [listBrands, setListBrands] = useState<string[]>([])
+  const [listModel, setListModel] = useState<string[]>([]);
+  const [listCarTypes, setListCarTypes] = useState<string[]>([]);
+  const [listFederalState, setListFederalState] = useState<string[]>([]);
+  const [listPrices, setListPrices] = useState<string[]>([]);
+
 
   const minDateConst = dayjs('1900');
   const maxDateConst = dayjs();
 
   // Date
-  const [selectedDateFrom, setSelectedDateFrom] = React.useState<Dayjs | null>();
-  const [selectedDateTo, setSelectedDateTo] = React.useState(selectedDateFrom);
+  const [selectedDateFrom, setSelectedDateFrom] = useState<Dayjs | null>();
+  const [selectedDateTo, setSelectedDateTo] = useState(selectedDateFrom);
   const maxDate = dayjs();
 
   // Fetch static data
-  React.useEffect(() => {
+  useEffect(() => {
 
     async function fetchData() {
 
@@ -111,7 +86,7 @@ const Search: React.FC = () => {
     return () => { }
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const selectedBrand = formSelect.brand;
     const fetchData = async () => {
       await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand }, { withCredentials: true })
@@ -127,7 +102,7 @@ const Search: React.FC = () => {
   }, [formSelect.brand])
 
   // fetch data on every select field changes, count cars
-  React.useEffect(() => {
+  useEffect(() => {
     handleDynamicSearch();
     return () => { }
   }, [formSelect, selectedDateFrom, selectedDateTo])
@@ -171,7 +146,7 @@ const Search: React.FC = () => {
 
   }
 
-  const YearFromComponent: React.FC = () => {
+  const YearFromComponent: FC = () => {
     return <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker slotProps={{ textField: { variant: 'standard', } }} label={'Baujahr von'} value={selectedDateFrom} views={['year']} minDate={minDateConst} maxDate={maxDateConst} onChange={(newDate) => { setSelectedDateFrom(newDate), setSelectedDateTo(newDate) }} />
 
@@ -180,7 +155,7 @@ const Search: React.FC = () => {
 
   const YearToComponent = () => {
     return <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker slotProps={{ textField: { variant: 'standard', } }} label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={selectedDateFrom} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
+      <DatePicker slotProps={{ textField: { variant: 'standard', } }} label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={dayjs()} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
     </LocalizationProvider>
   }
 
@@ -205,8 +180,8 @@ const Search: React.FC = () => {
 
   const SearchContent = () => {
 
-     return (
-        <SearchContainer sx={{ marginTop: '-15vh', padding: '1.5rem', cursor: 'default', backgroundColor: 'background.paper' }}>
+    return (
+      <SearchContainer sx={{ marginTop: '-15vh', padding: '1.5rem', cursor: 'default', backgroundColor: 'background.paper' }}>
 
         <Grid container sx={{}} justifyContent="center" columnSpacing={1}>
           <Grid item xs={6} md={4}>
@@ -250,7 +225,7 @@ const Search: React.FC = () => {
                 else
                   notifyError("no cars", "Zurzeit keine Inserate");
               }}
-              sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained" startIcon={<SearchIcon />}>  { countCars } &nbsp;{` ${searchButtonText}`}</Button>
+              sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained" startIcon={<SearchIcon />}>  {countCars} &nbsp;{` ${searchButtonText}`}</Button>
           </Grid>
         </Grid>
       </SearchContainer>)
@@ -260,30 +235,34 @@ const Search: React.FC = () => {
   useEffect(() => {
     afterComponentViewed(setIsClickedCarsVisible, 'box');
     afterComponentViewed(setIsElectricCarVisible, 'boxElectric');
-  }, []);
+  }, []); 
 
   return (<>
-    <Box>
-      <SearchBox />
+
+    <div className='search-box'>
+      <h1 className='header-size'>Neues Auto.</h1>
+    </div>
+    
+    
       <SearchContent />
 
       <Box sx={{ minHeight: { xs: '600px', sm: '680px', md: '600px' } }} >
 
-      <Typography variant='h6' component='h1' sx={{ margin: 'auto', width: '95%', fontFamily: fontSemiBold, marginTop: '10vh', marginBottom: COMPONENT_DISTANCE }}>
+      <Typography variant='h6' component='h1' sx={{ margin: 'auto', width: '95%', marginTop: '10vh', marginBottom: COMPONENT_DISTANCE }}>
         {
           "Am meisten gesucht"
         }
       </Typography>
 
 
-        <Box id="box">        
+        <div id="box">        
         {isClickedCarsVisible && (
-          <Suspense fallback={<Box sx={{ display: 'flex', justifyContent:'center', color:'text.primary' }}>..loading</Box>}>
+          <Suspense fallback={ <div className='loading-component-style'>...loading</div> }>
             <LazyClickedCars type={DisplayTypes.MOST_CLICKED} />
           </Suspense>
         
         )}
-        </Box>
+        </div>
       </Box>
 
       <Box
@@ -292,23 +271,21 @@ const Search: React.FC = () => {
       >
       {
         isElectricCarVisible && (<>
-          <Typography variant='h6' component='h1' sx={{ margin: 'auto', width: '95%', fontFamily: fontSemiBold, marginTop: `calc(${COMPONENT_DISTANCE})`, marginBottom: COMPONENT_DISTANCE }}>
+          <Typography variant='h6' component='h1' sx={{ margin: 'auto', width: '95%', marginTop: `calc(${COMPONENT_DISTANCE})`, marginBottom: COMPONENT_DISTANCE }}>
         {
           "Elektroautos"
         }
       </Typography>
       
-          <Suspense fallback={<div>...loading</div>}>
+          <Suspense fallback={ <div className='loading-component-style'>...loading</div> }>
             <LazyClickedCars type={DisplayTypes.ELECTRIC} />
           </Suspense>
           </>
         )
       }
-      </Box>
-
-    </Box>
-    </>
+    </Box> 
+  </>
   )
 }
 
-export default memo(Search);
+export default Search;

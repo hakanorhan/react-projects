@@ -3,7 +3,7 @@ import { AuthResponse } from '../../interfaces/types';
 import { Roles, URLs } from '../../constants/values';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setRole, setUserLoggedIn } from '../../redux/features/slices';
+import { setRole, setUserLoggedIn } from '../../redux/features/userLoggedInSlice';
 import { RootState } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
 

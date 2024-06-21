@@ -1,7 +1,6 @@
 import { Box, Grid, Rating, Typography } from '@mui/material'
 import React from 'react'
 import { LINE_HEIGHT, ICON_FONT_SIZE } from '../../../../themes/Theme'
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import SpeedIcon from '@mui/icons-material/Speed';
 import PersonIcon from '@mui/icons-material/Person';

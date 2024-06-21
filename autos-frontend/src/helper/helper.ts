@@ -1,6 +1,7 @@
-import { useMediaQuery, useTheme } from '@mui/material';
-import { useLayoutEffect } from "react";
 
+import { useLayoutEffect } from "react";
+import { useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material";
 export function LimitMediaQuery() {
   
     const theme = useTheme();
@@ -10,7 +11,7 @@ export function LimitMediaQuery() {
     const isLg = useMediaQuery(theme.breakpoints.only('lg'));
     const isXl = useMediaQuery(theme.breakpoints.up('xl'));
       if (isXs) return 2;
-      if (isSm) return 2; // Assuming the same limit for sm as xs
+      if (isSm) return 2;
       if (isMd) return 2;
       if (isLg) return 3;
       if (isXl) return 4;

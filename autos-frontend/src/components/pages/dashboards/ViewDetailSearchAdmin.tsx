@@ -2,17 +2,16 @@ import React from 'react'
 import { URLs } from '../../../constants/values';
 import axios from 'axios';
 import { AxiosDataPublish } from '../../../interfaces/IAxiosData';
-import { CarImagesProps } from '../search/CarImages';
 import { Button, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Publish } from '@mui/icons-material';
 import ViewDetailGeneral from '../search/viewDetail/ViewDetailGeneral';
 import { Toaster } from 'react-hot-toast';
-import { notifyError, notifySuccess } from '../../../helper/toastHelper';
+import { notifyError } from '../../../helper/toastHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { COMPONENT_DISTANCE } from '../../../themes/Theme';
-import { handleDialog } from '../../../redux/features/slices';
+import { handleDialog } from '../../../redux/features/iOpenPublishSlice';
 
 const ViewDetailSearchAdmin: React.FC<{id: number | null}> = ({ id }) => {
   const carsNotFound = useSelector((state: RootState) => state.detailSearch.carsNotFound);

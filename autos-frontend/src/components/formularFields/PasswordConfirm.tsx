@@ -1,14 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseFormPasswordConfirm } from '../../interfaces/IUseForm';
 import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-import { colorDanger } from '../../themes/Theme';
-
-const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChange, password1, regex }) => {
+const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ label, onChange, password1, regex }) => {
     
     const [valueMatch, setValueMatch] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
@@ -49,8 +45,8 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ id, label, onChang
           <IconButton disabled
             aria-label="check visibility"
           >
-            {valueMatch ? <CheckIcon /> :
-               isEmpty ? "" : <ErrorOutlineIcon sx={{ color: colorDanger }} /> }
+            {valueMatch ? "" :
+               isEmpty ? "" : "" }
           </IconButton>
           <IconButton
             aria-label="toggle password visibility"

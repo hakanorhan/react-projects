@@ -13,7 +13,7 @@ import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { REGEX_HUBRAUM, REGEX_MILEAGE, REGEX_NAMES, REGEX_OWNER, REGEX_POWER, REGEX_PRICE } from '../../../regex/REGEX';
-import { HeaderIcon, COMPONENT_DISTANCE } from '../../../themes/Theme';
+import { HeaderIcon, COMPONENT_DISTANCE } from '../../../themes/Theme.js';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../constants/values.js';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper';
@@ -30,7 +30,7 @@ const DropZone = lazy(() => import("./DropZone.js"));
 import { Toaster } from 'react-hot-toast';
 import * as ValidHelper from '../../../regex/validHelper.js';
 import { scrollToTop } from '../../../helper/helper.js';
-import LoadingComponent from '../../LoadingComponent.js';
+import LoadingComponentCircular from '../../LoadingComponentCircular.js';
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 
@@ -260,18 +260,17 @@ export default function InserateCar() {
             <Grid item xs={6}> <SelectField values={listFuels} objectName='fuel' idOfSelect='fuel_id' selectedValue={formSelect.fuel} handleChange={handleChangeSelect} label='Kraftstoff' /> </Grid>
             <Grid item xs={6}> <SelectField values={listDoors} objectName='door' idOfSelect='door_id' selectedValue={formSelect.door} handleChange={handleChangeSelect} label='Anzahl Türen' /> </Grid>
 
-            <Grid item xs={6}> <TextFieldCars id='previousOwner' onChange={value => handleOnChange('previousOwner', value)} label='Anzahl Vorbesitzer:in' regex={REGEX_OWNER} refresh={refresh} /> </Grid>
+            <Grid item xs={6}> <TextFieldCars onChange={value => handleOnChange('previousOwner', value)} label='Anzahl Vorbesitzer:in' regex={REGEX_OWNER} refresh={refresh} /> </Grid>
 
-            <Grid item xs={6}> <TextFieldCars id='km' label='Kilometerstand in KM' onChange={value => handleOnChange('km', value)} regex={REGEX_MILEAGE} refresh={refresh} /> </Grid>
-            <Grid item xs={6}> <TextFieldCars id='ps' label='Leistung in PS' onChange={value => handleOnChange('ps', value)} regex={REGEX_POWER} refresh={refresh} /> </Grid>
+            <Grid item xs={6}> <TextFieldCars  label='Kilometerstand in KM' onChange={value => handleOnChange('km', value)} regex={REGEX_MILEAGE} refresh={refresh} /> </Grid>
+            <Grid item xs={6}> <TextFieldCars  label='Leistung in PS' onChange={value => handleOnChange('ps', value)} regex={REGEX_POWER} refresh={refresh} /> </Grid>
 
-            <Grid item xs={6}> <TextFieldCars id='hubraum' label='Hubraum in ccm³' onChange={value => handleOnChange('hubraum', value)} regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
+            <Grid item xs={6}> <TextFieldCars  label='Hubraum in ccm³' onChange={value => handleOnChange('hubraum', value)} regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
 
             <Grid item xs={6}> <DateComponentMonthYear setYear={setYear} setMonth={setMonth} newInserate={refresh} /> </Grid>
-            <Grid item xs={6}> <TextFieldCars id='price' onChange={value => handleOnChange('price', value)} label='Preis in €' regex={REGEX_PRICE} refresh={refresh} /></Grid>
-            <Grid item xs={6}> <TextFieldCars id='color' onChange={value => handleOnChange('color', value)} label='Farbe' regex={REGEX_NAMES} refresh={refresh} /> </Grid>
+            <Grid item xs={6}> <TextFieldCars  onChange={value => handleOnChange('price', value)} label='Preis in €' regex={REGEX_PRICE} refresh={refresh} /></Grid>
+            <Grid item xs={6}> <TextFieldCars  onChange={value => handleOnChange('color', value)} label='Farbe' regex={REGEX_NAMES} refresh={refresh} /> </Grid>
 
-            <Grid item xs={12}> <hr /> </Grid>
 
             <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.abstandstempomat} id='abstandstempomat' onChange={handleOnChangeCheckbox} />} label="Abstandstempomat" /></Grid>
             <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.ambientbeleuchtung} id='ambientbeleuchtung' onChange={handleOnChangeCheckbox} />} label="Ambientbeleuchtung" /></Grid>
@@ -290,7 +289,7 @@ export default function InserateCar() {
               <ToggleButton value="3">Klimaautomatik</ToggleButton>
             </ToggleButtonGroup>  </Grid>
 
-            <Grid item xs={12}><hr /></Grid>
+            <Grid item xs={12} style={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}><hr /></Grid>
 
             <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.auNew} id='auNew' onChange={handleOnChangeCheckbox} />} label="AU neu" /></Grid>
             <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.huNew} id='huNew' onChange={handleOnChangeCheckbox} />} label="HU neu" /> </Grid>
@@ -308,7 +307,7 @@ export default function InserateCar() {
 
           {activeStep === 1 && !loading
             ?
-            <Suspense fallback={<LoadingComponent />}>
+            <Suspense fallback={<LoadingComponentCircular />}>
               <DropZone carId={carId} />
             </Suspense>
             : <></>

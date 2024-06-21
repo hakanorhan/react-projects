@@ -1,13 +1,10 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
 import { FormControl, InputLabel, InputAdornment, IconButton, Typography, Input } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check'
-import { colorDanger } from '../../themes/Theme';
-import * as ValidHelper from '../../regex/validHelper';
+import * as ValidHelper from '../../regex/validHelper.ts';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => {
+const PasswordSignUp: React.FC<IUseForm2> = ({ label, onChange, regex }) => {
 
      // Check icon
   const [passwordMatch, setPasswordMatch] = useState(false);
@@ -53,8 +50,8 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ id, label, onChange, regex }) => 
           <IconButton disabled
             aria-label="check visibility"
           >
-            {passwordMatch ? <CheckIcon /> : 
-              isEmpty ? "" : <ErrorOutlineIcon sx={{ color: colorDanger }} />}
+            {passwordMatch ? "" : 
+              isEmpty ? "" : ""}
           </IconButton>
           <IconButton
             aria-label="toggle password visibility"

@@ -6,7 +6,7 @@ import ViewDetailSearchAdmin from "../../ViewDetailSearchAdmin";
 import dayjs from "dayjs";
 import { COMPONENT_DISTANCE } from "../../../../../themes/Theme";
 import { useDispatch, useSelector } from "react-redux";
-import { handleDialog } from "../../../../../redux/features/slices";
+import { handleDialog } from "../../../../../redux/features/iOpenPublishSlice";
 import { RootState } from "../../../../../redux/store";
 
 interface PublishListProps {

@@ -34,6 +34,7 @@ import sharp from "sharp";
 import { fetchClickedCars } from "./routes/fetchClickedCars.js";
 import { connectToDatabase } from "./dbConnect.js";
 const MySQLStore = require('express-mysql-session')(session);
+const compression = require('compression');
 import dotenv from 'dotenv';
 dotenv.config();
 import { fetchCountClickedCars } from "./routes/fetchCountClickedCars.js";
@@ -41,6 +42,7 @@ const sessionSecret = process.env.SESSION_SECRET || "default-secret";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
+app.use(compression());
 const options = {
     host: process.env.HOST,
     port: process.env.PORT,

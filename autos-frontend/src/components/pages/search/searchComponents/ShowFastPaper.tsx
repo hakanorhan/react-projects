@@ -4,7 +4,7 @@ import { seperateThousand } from '../../../../helper/helper';
 import { AxiosPaper, AxiosPaperList } from '../../../../interfaces/IAxiosData';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-import { COMPONENT_DISTANCE, GreyHorizontalHR, fontBold } from '../../../../themes/Theme';
+import { COMPONENT_DISTANCE, GreyHorizontalHR } from '../../../../themes/Theme';
 import { ListTDescriptionComponent } from './ListTDescriptionComponent';
 import ShareComponent from '../../ShareComponent';
 
@@ -24,11 +24,11 @@ export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = (
             <CardContent>
                 
                 <Box display={'flex'} width={'100%'}>
-                <Typography sx={{ whiteSpace:'nowrap', fontFamily: fontBold, width:'50%' }} variant='h6' component='h1'>{`${detailSearchValues.brand} ${detailSearchValues.model}`}</Typography>
+                <Typography sx={{ whiteSpace:'nowrap', width:'50%' }} variant='h6' component='h1'>{`${detailSearchValues.brand} ${detailSearchValues.model}`}</Typography>
                 </Box>
                 
                 <Box display={'flex'}>
-                <   Typography variant='h6' component='h2' sx={{ alignContent:'end', fontFamily: fontBold, display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
+                <   Typography variant='h6' component='h2' sx={{ alignContent:'end', display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
                 </Box>    
                     <ListTDescriptionComponent detailSearchValues={axiosPaper} />
                     <Grid container >
