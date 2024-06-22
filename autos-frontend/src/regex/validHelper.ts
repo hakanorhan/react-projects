@@ -1,4 +1,4 @@
-import * as REGEX from './REGEX.ts';
+import * as REGEX from './REGEX';
 
 export interface IAtLeastMessage {
     message: string,

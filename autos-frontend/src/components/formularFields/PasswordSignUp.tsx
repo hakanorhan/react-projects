@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
 import { FormControl, InputLabel, InputAdornment, IconButton, Typography, Input } from '@mui/material';
-import * as ValidHelper from '../../regex/validHelper.ts';
+import * as ValidHelper from '../../regex/validHelper';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const PasswordSignUp: React.FC<IUseForm2> = ({ label, onChange, regex }) => {

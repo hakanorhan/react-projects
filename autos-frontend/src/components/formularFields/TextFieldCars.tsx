@@ -3,7 +3,7 @@ import { IUseForm2 } from '../../interfaces/IUseForm';
 import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { COMPONENT_DISTANCE, colorDanger } from '../../themes/Theme.ts';
+import { COMPONENT_DISTANCE, colorDanger } from '../../themes/Theme';
 const TextFieldCars: React.FC<IUseForm2> = ({ label, onChange, regex, refresh, maxLength, checkEmail}) => {
     
     const [valueMatch, setValueMatch] = useState(false);

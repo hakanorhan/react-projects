@@ -1,15 +1,15 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { URLs } from '../../../constants/values.ts';
-import { notifyError, notifySuccess } from '../../../helper/toastHelper.ts';
+import { URLs } from '../../../constants/values';
+import { notifyError, notifySuccess } from '../../../helper/toastHelper';
 import { Box, Button, Grid, Tooltip, Typography } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { COMPONENT_DISTANCE } from '../../../themes/Theme.ts';
+import { COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { keyframes } from '@mui/material';
 
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import { scrollToTop } from '../../../helper/helper.ts';
+import { scrollToTop } from '../../../helper/helper';
 
 interface UploadImagesProp {
     carId?: number
