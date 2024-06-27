@@ -5,12 +5,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { SelectChangeEvent, createTheme } from '@mui/material';
 import axios from 'axios';
-import {
-  COMPONENT_DISTANCE,
-  H1PrimaryMain,
-  SearchContainer,
-  buttonHeight
-} from '../../../themes/Theme';
+import { COMPONENT_DISTANCE, H1PrimaryMain, SearchContainer, buttonHeight } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
