@@ -1,5 +1,6 @@
-import { IconButton, Typography } from '@mui/material';
-import { AirportShuttle } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import AirportShuttle from '@mui/icons-material/AirportShuttle';
 const Logo = () => {
   return (
     <IconButton

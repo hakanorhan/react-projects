@@ -1,21 +1,25 @@
-import React from 'react'
 import EmailIcon from '@mui/icons-material/Email';
 import LinkIcon from '@mui/icons-material/Link';
 import ShareIcon from '@mui/icons-material/Share';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { COMPONENT_DISTANCE } from '../../themes/Theme';
-import { Box, Menu, MenuItem, MenuList, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Typography from '@mui/material/Typography';
+import { FC, SyntheticEvent, useState } from 'react';
 
 interface ShareComponentProps {
     showText?: boolean
 }
 
-const ShareComponent: React.FC<ShareComponentProps> = ({ showText: showNoText }) => {
+const ShareComponent: FC<ShareComponentProps> = ({ showText: showNoText }) => {
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    const handleMenu = (event: React.SyntheticEvent<HTMLElement>) => {
+    const handleMenu = (event: SyntheticEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 

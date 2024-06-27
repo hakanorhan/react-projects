@@ -1,19 +1,19 @@
-import { Select, colors, createTheme } from "@mui/material";
+import { Accordion, Select, colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
 declare module '@mui/material/styles' {
     interface Palette {
-      icon: {
-        main: string;
-      };
+        icon: {
+            main: string;
+        };
     }
     interface PaletteOptions {
-      icon?: {
-        main?: string;
-      };
+        icon?: {
+            main?: string;
+        };
     }
-  }
+}
 
 const breakpoints = {
     xs: 0,
@@ -42,8 +42,8 @@ export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 //const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
 export const LIGHT_SECONDARY_COLOR_MAIN = "#ebe8fc";
-const LIGHT_BACKGROUND_DEFAULT = 'white';
-const LIGHT_BACKGROUND_PAPER_DEFAULT = 'whitesmoke';
+const LIGHT_BACKGROUND_DEFAULT = 'whitesmoke';
+const LIGHT_BACKGROUND_PAPER_DEFAULT = 'white';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.cyan[600];
 const DARK_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
@@ -70,90 +70,10 @@ export const LinkDrawer = { textDecoration: 'none' };
 export const paperFontSize = { xs: '1.1rem', sm: '1.3rem', md: '1rem', lg: '1.2rem' };
 export const ICON_FONT_SIZE = '1.4rem';
 
-export const ZOOM_HOVER = {  '&:hover': { transform: 'scale(1.01)' }, cursor: 'pointer', height: '100%' };
+export const ZOOM_HOVER = { '&:hover': { transform: 'scale(1.01)' }, cursor: 'pointer', height: '100%' };
 
 export const SX_ICON = { fontSize: ICON_FONT_SIZE, color: 'text.primary' };
 export const PAPER_ELEVATION_VALUE = 9;
-
-export const componentsDark = {
-
-    MuiFormControl: {
-        styleOverrides: {
-            root: {
-                paddingBottom: '1rem',
-                width: '100%'
-            }
-        }
-    },
-
-    MuiButton: {
-        styleOverrides: {
-            root: {
-                fontSize: '1.2rem',
-                borderRadius: '0px',
-                border: 'none',
-                width: '100%',
-                color: DARK_PRIMARY_CONTRAST_TEXT,
-                '&:hover': {
-                    backgroundColor: DARK_SECONDARY_COLOR_MAIN,
-                    color: DARK_PRIMARY_COLOR_MAIN,
-                },
-                textTransform: 'none',
-                '& .MuiButton-label': {
-                    textTransform: 'capitalize',
-                },
-            }
-        },
-
-    },
-
-    MuiFab: {
-        styleOverrides: {
-            root: {
-                backgroundColor: DARK_PRIMARY_COLOR_MAIN,
-                color: DARK_PRIMARY_CONTRAST_TEXT,
-                '&:hover': {
-                    backgroundColor: DARK_PRIMARY_COLOR_MAIN
-                }
-            }
-        }
-    },
-
-    MuiTypography: {
-        styleOverrides: {
-            root: {
-                lineHeight: 1.5,
-                letterSpacing: 0.12,
-                color: 'white'
-            }
-        }
-
-    },
-    MuiInputBase: {
-        styleOverrides: {
-            input: {
-                '&:-webkit-autofill': {
-                    WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
-                    WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
-                }
-                ,
-                '&:-webkit-autofill:focus': {
-                    WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
-                    WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
-                },
-                '&:-webkit-autofill:hover': {
-                    WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
-                    WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
-                },
-                '&:-webkit-autofill:active': {
-                    WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
-                    WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
-                },
-            }
-        }
-    }
-
-};
 
 export const themeLight = createTheme({
     palette: {
@@ -176,68 +96,70 @@ export const themeLight = createTheme({
         }
     }
     ,
-    components:  {MuiPaper: {
-        styleOverrides: {
-            root: {
-                backgroundColor: 'whitesmoke',
-                
-            }
-        }
-    },
+    components: {
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: 'whitesmoke',
 
-    MuiFormControl: {
-        styleOverrides: {
-            root: {
-                paddingBottom: '1rem',
-                width: '100%'
-            }
-        }
-    },
-    MuiButton: {
-        styleOverrides: {
-            root: {
-                fontSize: '1.2rem',
-                borderRadius: '0px',
-                border: 'none',
-                width: '100%',
-                color: LIGHT_PRIMARY_CONTRAST_TEXT,
-                marginBottom:'1rem',
-                '&:hover': {
-                    backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
-                    color: LIGHT_PRIMARY_COLOR_MAIN,
-                }, textTransform: 'none',
-                '& .MuiButton-label': {
-                    textTransform: 'capitalize',
-                },
+                }
             }
         },
 
-    },
-    MuiFab: {
-        styleOverrides: {
-            root: {
-                backgroundColor: LIGHT_PRIMARY_COLOR_MAIN,
-                color: LIGHT_PRIMARY_CONTRAST_TEXT,
-                '&:hover': {
-                    backgroundColor: 'white'
+        MuiFormControl: {
+            styleOverrides: {
+                root: {
+                    paddingBottom: '1rem',
+                    width: '100%'
+                }
+            }
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    fontSize: '1.2rem',
+                    borderRadius: '0px',
+                    border: 'none',
+                    width: '100%',
+                    color: LIGHT_PRIMARY_CONTRAST_TEXT,
+                    marginBottom: '1rem',
+                    '&:hover': {
+                        backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
+                        color: LIGHT_PRIMARY_COLOR_MAIN,
+                    }, textTransform: 'none',
+                    '& .MuiButton-label': {
+                        textTransform: 'capitalize',
+                    },
+                }
+            },
+
+        },
+        MuiFab: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: LIGHT_PRIMARY_COLOR_MAIN,
+                    color: LIGHT_PRIMARY_CONTRAST_TEXT,
+                    '&:hover': {
+                        backgroundColor: 'white'
+                    }
+                }
+            }
+        },
+        MuiTypography: {
+            styleOverrides: {
+                root: {
+                    lineHeight: 1.5,
+                    letterSpacing: 0.12
+                }
+            }
+        }, MuiSvgIcon: {
+            styleOverrides: {
+                root: {
+                    color: LIGHT_PRIMARY_COLOR_MAIN
                 }
             }
         }
     },
-    MuiTypography: {
-        styleOverrides: {
-            root: {
-                lineHeight: 1.5,
-                letterSpacing: 0.12
-            }
-        }
-    },     MuiSvgIcon: {
-        styleOverrides: {
-          root: {
-            color: LIGHT_PRIMARY_COLOR_MAIN
-          }
-        }
-        }},
     breakpoints: { values: breakpoints }
 });
 
@@ -258,9 +180,84 @@ export const themeDark = createTheme({
             default: 'black',
             paper: colors.grey[900]
         },
-    }
-    ,
-    //components: componentsDark,
+    },
+    components: {
+        MuiFormControl: {
+            styleOverrides: {
+                root: {
+                    paddingBottom: '1rem',
+                    width: '100%'
+                }
+            }
+        },
+    
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    fontSize: '1.2rem',
+                    borderRadius: '0px',
+                    border: 'none',
+                    width: '100%',
+                    color: DARK_PRIMARY_CONTRAST_TEXT,
+                    '&:hover': {
+                        backgroundColor: DARK_SECONDARY_COLOR_MAIN,
+                        color: DARK_PRIMARY_COLOR_MAIN,
+                    },
+                    textTransform: 'none',
+                    '& .MuiButton-label': {
+                        textTransform: 'capitalize',
+                    },
+                }
+            },
+    
+        },
+    
+        MuiFab: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: DARK_PRIMARY_COLOR_MAIN,
+                    color: DARK_PRIMARY_CONTRAST_TEXT,
+                    '&:hover': {
+                        backgroundColor: DARK_PRIMARY_COLOR_MAIN
+                    }
+                }
+            }
+        },
+    
+        MuiTypography: {
+            styleOverrides: {
+                root: {
+                    lineHeight: 1.5,
+                    letterSpacing: 0.12,
+                    color: 'white'
+                }
+            }
+    
+        },
+        MuiInputBase: {
+            styleOverrides: {
+                input: {
+                    '&:-webkit-autofill': {
+                        WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
+                        WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
+                    }
+                    ,
+                    '&:-webkit-autofill:focus': {
+                        WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
+                        WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
+                    },
+                    '&:-webkit-autofill:hover': {
+                        WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
+                        WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
+                    },
+                    '&:-webkit-autofill:active': {
+                        WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
+                        WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
+                    },
+                }
+            }
+        }
+    },
     breakpoints: { values: breakpoints }
 });
 
@@ -275,7 +272,7 @@ export const MainBox = styled('div')(({ theme }) => ({
  * Responsive.
  * Width for Formular.
  */
- export const MainComponentWidth = styled('div')(({ theme }) => ({
+export const MainComponentWidth = styled('div')(({ theme }) => ({
     display: 'flex',
     paddingTop: '1rem',
     paddingBottom: '3rem',
@@ -365,7 +362,7 @@ export const Boxprint = styled('div')(({ }) => ({
 export const HeaderIcon = styled('div')(({ theme }) => ({
     margin: 'auto',
     textAlign: 'center',
-    
+
     paddingBottom: '1rem',
     [theme.breakpoints.up("xs")]: {
 
@@ -541,3 +538,22 @@ export const CustomSelect = styled(Select)(({ }) => ({
 }));
 
 export const ViewDetailIconStyle = { color: 'primary.main', fontSize: '3rem' };
+
+export const H1PrimaryMain = styled('h1') ({
+    
+    color: 'white',
+    margin: 'auto',
+    textAlign: 'center',
+    paddingTop: '4rem',
+    paddingBottom: '4rem',
+    transition: 'opacity 0.5s ease-in-out',
+    fontSize: '36px'
+});
+
+
+export const AccordionLazy = styled(Accordion)(() => ({
+    backgroundColor:'secondary.main',
+    paddingLeft: '35px',
+    marginBottom: '0.8rem' ,
+    elevation: 0
+}))

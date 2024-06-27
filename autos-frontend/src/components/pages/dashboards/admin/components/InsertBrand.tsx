@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 import Typography from "@mui/material/Typography";
 /* Hot Toast */
-import { Toaster } from 'react-hot-toast';
 import TableNormal from "../../../../tables/TableNormal";
 import { MainComponentWidth } from "../../../../../themes/Theme";
 import { fetchBrand, insertBrand } from "../../../../../redux/features/carBrandSlice";
@@ -47,7 +46,7 @@ const InsertBrand = () => {
     setForm({ ...form, [fieldName]: fieldValue })
   }
 
-  return <><Toaster />
+  return <>
     <MainComponentWidth>
       <form onSubmit={handleSubmit} noValidate>
         <TextFieldCars label="Marke" onChange={value => handleOnChange('brand', value)} regex={REGEX_NAMES} refresh={false} />

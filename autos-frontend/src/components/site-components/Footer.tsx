@@ -1,12 +1,17 @@
-import { Box, Typography, Grid, colors, Switch } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import { colors } from "@mui/material";
+import Switch from "@mui/material/Switch";
+
 import { Link } from "react-router-dom";
 import { COMPONENT_DISTANCE, LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/Theme";
-import { Suspense, lazy, useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { setModeDarkLight } from "../../redux/features/darkLightReducer";
 import { URLs } from "../../constants/values";
-import afterComponentViewed from "../../helper/lazyLoading/afterComponentViewed";
+import IconsComponent from "./IconsComponent";
 
 const gridItemStyle = { marginBottom: { xs: '3rem' } };
 
@@ -30,13 +35,6 @@ const SERVICE = [
 ];
 
 export default function Footer() {
-
-  const [isVisible, setIsVisible] = useState(false);
-  const LazyIconsComponent = lazy(() => import('./IconsComponent'));
-
-  useEffect(() => {
-    afterComponentViewed(setIsVisible, 'iconsDivId')
-  }, [])
 
   const CreateLink = (linkname: string, index: number, url: URLs = URLs.HOME_ALL_SEARCH_COUNT) => {
     return <Link key={index} style={LinkDrawer} to={url}> <Typography sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > {linkname} </Typography> </Link>
@@ -67,7 +65,7 @@ export default function Footer() {
       dispatch(setModeDarkLight(checked));
     }
 
-    return         <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'flex' }, color: 'whitesmoke' }}>
+    return  <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'flex' }, color: 'whitesmoke' }}>
 
     {<Switch 
     id={"darkLightMode"}
@@ -102,7 +100,6 @@ export default function Footer() {
   return (
     
     <Box  sx={{ backgroundColor: 'primary.main', '@media print': { breakBefore: 'page' } }}>
-      <div id="iconsDivId">
       <Grid sx={{ margin: 'auto', padding: '2rem', paddingTop: '3rem' }} container item xs={12} md={11}>
         <Grid item xs={gridXS} sm={gridSM} md={gridMD} lg={gridLG} sx={gridItemStyle}>
           {
@@ -137,11 +134,8 @@ export default function Footer() {
           }
         </Grid>
 
-        { isVisible &&
-        <Suspense fallback={ <div className="loading-component-style">...loading</div> }>
-            <LazyIconsComponent />
-          </Suspense>
-        }
+            <IconsComponent />
+
         <Grid>
           
           <DarkMode />
@@ -149,7 +143,6 @@ export default function Footer() {
 
         </Grid>
       </Grid>
-      </div>
     </Box>
   )
 }

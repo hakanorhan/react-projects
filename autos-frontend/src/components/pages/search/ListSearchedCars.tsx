@@ -1,17 +1,17 @@
-import { useEffect, useMemo, useState } from 'react'
+import { lazy, useEffect, useMemo, useState } from 'react'
 import { Button, Box, Card, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../interfaces/IAxiosData';
 import { URLs, SortEnums } from '../../../constants/values';
 import axios from 'axios';
-import CarImages from './CarImages';
-import { ShowFastPaper } from './../search/searchComponents/ShowFastPaper';
+const CarImages = lazy(() => import('./CarImages'));
+const ShowFastPaper = lazy(() => import('./../search/searchComponents/ShowFastPaper'));
 import AddIcon from '@mui/icons-material/Add';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { COMPONENT_DISTANCE, LinkNewSearch, PAPER_ELEVATION_VALUE, ZOOM_HOVER } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
-import ShareComponent from '../ShareComponent';
+const ShareComponent = lazy(() => import('../ShareComponent'));
 import { LimitMediaQuery } from '../../../helper/helper';
 import { scrollToTop } from '../../../helper/helper';
 
@@ -221,7 +221,7 @@ scrollToTop();
         }
       </Grid>
         </Box>
-      <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
+      <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
         <Button disabled={ offset >= count } onClick={handleShowNewCars} sx={{ width: '250px', color: 'text.primary', '&:hover': { backgroundColor: 'transparent' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
       </Box> 
 

@@ -2,11 +2,11 @@ import React from 'react'
 import { URLs } from '../../../constants/values';
 import axios from 'axios';
 import { AxiosDataPublish } from '../../../interfaces/IAxiosData';
-import { Button, Grid } from '@mui/material';
+import  Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import CloseIcon from '@mui/icons-material/Close';
 import { Publish } from '@mui/icons-material';
 import ViewDetailGeneral from '../search/viewDetail/ViewDetailGeneral';
-import { Toaster } from 'react-hot-toast';
 import { notifyError } from '../../../helper/toastHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
@@ -35,7 +35,6 @@ const ViewDetailSearchAdmin: React.FC<{id: number | null}> = ({ id }) => {
   }
 
   return <>
-    <Toaster />
     <ViewDetailGeneral id={id} isUser={ false } />
     { carsNotFound === false &&
     <Grid container spacing={2} sx={{ paddingLeft:'1rem', paddingRight:'1rem', marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>

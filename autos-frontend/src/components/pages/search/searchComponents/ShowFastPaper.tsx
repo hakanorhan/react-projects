@@ -1,4 +1,7 @@
-import { Box, CardContent, Grid, Typography } from '@mui/material'
+import Box from '@mui/material/Box';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import React, { useMemo } from 'react'
 import { seperateThousand } from '../../../../helper/helper';
 import { AxiosPaper, AxiosPaperList } from '../../../../interfaces/IAxiosData';
@@ -8,7 +11,7 @@ import { COMPONENT_DISTANCE, GreyHorizontalHR } from '../../../../themes/Theme';
 import { ListTDescriptionComponent } from './ListTDescriptionComponent';
 import ShareComponent from '../../ShareComponent';
 
-export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = ({ detailSearchValues }) => {
+const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = ({ detailSearchValues }) => {
 
     const axiosPaper: AxiosPaper = useMemo(() => {
         return {
@@ -46,3 +49,5 @@ export const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = (
         </>
     )
 }
+
+export default ShowFastPaper;

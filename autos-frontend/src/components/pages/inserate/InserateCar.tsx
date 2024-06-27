@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, Suspense, lazy, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, Suspense, SyntheticEvent, lazy, useEffect, useState } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Box from '@mui/material/Box';
@@ -13,9 +13,9 @@ import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { REGEX_HUBRAUM, REGEX_MILEAGE, REGEX_NAMES, REGEX_OWNER, REGEX_POWER, REGEX_PRICE } from '../../../regex/REGEX';
-import { HeaderIcon, COMPONENT_DISTANCE } from '../../../themes/Theme.js';
+import { HeaderIcon, COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../interfaces/IAxiosData';
-import { URLs } from '../../../constants/values.js';
+import { URLs } from '../../../constants/values';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper';
 import TextFieldCars from '../../formularFields/TextFieldCars';
 import TextFieldArea from '../../formularFields/TextFieldArea';
@@ -24,13 +24,12 @@ import { useEffectModel } from '../../../helper/DataLoading';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Zoom from '@mui/material/Zoom';
 import dayjs from 'dayjs';
-import { DateComponentMonthYear } from '../../formularFields/DateComponentMonthYear';
+const DateComponentMonthYear = lazy(() => import('../../formularFields/DateComponentMonthYear'));
 import { useNavigate } from 'react-router-dom';
-const DropZone = lazy(() => import("./DropZone.js"));
-import { Toaster } from 'react-hot-toast';
-import * as ValidHelper from '../../../regex/validHelper.js';
-import { scrollToTop } from '../../../helper/helper.js';
-import LoadingComponentCircular from '../../LoadingComponentCircular.js';
+const DropZone = lazy(() => import("./DropZone"));
+import * as ValidHelper from '../../../regex/validHelper';
+import { scrollToTop } from '../../../helper/helper';
+const LoadingComponent = lazy(() => import('../../LoadingComponent'));
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 
@@ -99,7 +98,7 @@ export default function InserateCar() {
   const [carId, setCarId] = useState<number>(-1);
 
   const handleChange = (
-    _: React.SyntheticEvent<HTMLElement>, value: string,
+    _: SyntheticEvent<HTMLElement>, value: string,
   ) => {
     setKlimaValue(value);
   };
@@ -226,7 +225,6 @@ export default function InserateCar() {
 
 
   return (<>
-    <Toaster />
     <Box sx={{
       display: 'flex',
       paddingTop: '3rem',
@@ -307,7 +305,7 @@ export default function InserateCar() {
 
           {activeStep === 1 && !loading
             ?
-            <Suspense fallback={<LoadingComponentCircular />}>
+            <Suspense fallback={<LoadingComponent />}>
               <DropZone carId={carId} />
             </Suspense>
             : <></>

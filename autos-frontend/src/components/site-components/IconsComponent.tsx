@@ -1,5 +1,11 @@
-import { Grid, Typography } from '@mui/material'
-import { Facebook, X, Instagram, LinkedIn, YouTube, Pinterest } from "@mui/icons-material";
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Facebook from '@mui/icons-material/Facebook';
+import X from '@mui/icons-material/X';
+import Instagram from '@mui/icons-material/Instagram';
+import LinkedIn from '@mui/icons-material/LinkedIn';
+import YouTube from '@mui/icons-material/YouTube';
+import Pinterest from '@mui/icons-material/Pinterest';
 import { COMPONENT_DISTANCE, LIGHT_PRIMARY_CONTRAST_TEXT } from '../../themes/Theme';
 const gridXS = 12;
 const gridSM = 6;

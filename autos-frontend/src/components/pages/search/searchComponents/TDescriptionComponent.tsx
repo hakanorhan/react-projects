@@ -1,4 +1,6 @@
-import { Box, Grid, Typography } from '@mui/material'
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import React from 'react'
 import { COMPONENT_DISTANCE, SX_ICON } from '../../../../themes/Theme'
 import Person3Icon from '@mui/icons-material/Person3';

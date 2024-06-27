@@ -3,33 +3,42 @@ import axios from 'axios';
 import 'dayjs/locale/de';
 import { Link } from 'react-router-dom';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
-import { Button, Checkbox, FormControlLabel, Box, Typography, Stepper, StepLabel, Step, Grid, Paper, SelectChangeEvent } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, textFieldSMWitdh, buttonHeight, COMPONENT_DISTANCE } from '../../../themes/Theme.js';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Stepper from '@mui/material/Stepper';
+import StepLabel from '@mui/material/StepLabel';
+import Step from '@mui/material/Step';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import { SelectChangeEvent } from '@mui/material';
+import { MainComponentWidth, HeaderIcon, textFieldSMWitdh, buttonHeight, COMPONENT_DISTANCE } from '../../../themes/Theme';
 
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import dayjs, { Dayjs } from 'dayjs';
 
-import * as EnumCheck from '../../../constants/values.js';
-import { TextFieldID, URLs } from '../../../constants/values.js';
+import * as EnumCheck from '../../../constants/values';
+import { TextFieldID, URLs } from '../../../constants/values';
 
 /* Hot Toast */
-import { Toaster } from 'react-hot-toast';
-import { AxiosDataSignup, SignUpForm } from '../../../interfaces/types.js';
-import TextFieldCars from '../../formularFields/TextFieldCars.js';
-import { REGEX_EMAIL, REGEX_NAMES, REGEX_PASSWORD, REGEX_STREET, REGEX_STREET_NR, REGEX_ZIPCODE } from '../../../regex/REGEX.js';
-import PasswordSignUp from '../../formularFields/PasswordSignUp.js';
-import PasswordConfirm from '../../formularFields/PasswordConfirm.js';
+import { AxiosDataSignup, SignUpForm } from '../../../interfaces/types';
+import TextFieldCars from '../../formularFields/TextFieldCars';
+import { REGEX_EMAIL, REGEX_NAMES, REGEX_PASSWORD, REGEX_STREET, REGEX_STREET_NR, REGEX_ZIPCODE } from '../../../regex/REGEX';
+import PasswordSignUp from '../../formularFields/PasswordSignUp';
+import PasswordConfirm from '../../formularFields/PasswordConfirm';
 
-import { notifyError } from '../../../helper/toastHelper.js';
-import SelectField from '../../formularFields/SelectField.js';
+import { notifyError } from '../../../helper/toastHelper';
+import SelectField from '../../formularFields/SelectField';
 import { MuiTelInput } from 'mui-tel-input'
-import TextFieldArea from '../../formularFields/TextFieldArea.js';
-import { useEffectFetch } from '../../../helper/DataLoading.js';
-import * as ValidHelper from '../../../regex/validHelper.js';
+import TextFieldArea from '../../formularFields/TextFieldArea';
+import { useEffectFetch } from '../../../helper/DataLoading';
+import * as ValidHelper from '../../../regex/validHelper';
 import { useNavigate } from 'react-router-dom';
-import { scrollToTop } from '../../../helper/helper.js';
+import { scrollToTop } from '../../../helper/helper';
 
 const steps = ['Konto', 'Details', 'Adresse', 'Kontakt'];
 
@@ -227,7 +236,6 @@ const SignUpUser: React.FC = () => {
   }
 
   return (<>
-    < Toaster />
     <MainComponentWidth>
       <Box sx={{ display: 'flex', flexDirection: 'column', margin: 'auto', marginTop: '7rem', marginBottom: '7rem' }}>
         <HeaderIcon><LockPersonIcon fontSize='large' /></HeaderIcon>

@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-  Rating,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle
-} from '@mui/material';
+import { useEffect, useState } from 'react'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Rating from '@mui/material/Rating';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import {
   Boxprint,
   COMPONENT_DISTANCE, GreyHorizontalHR, ICON_FONT_SIZE, LINE_HEIGHT,
@@ -23,17 +21,17 @@ import CarImages from '../CarImages';
 import { seperateThousand } from '../../../../helper/helper';
 import { TDescriptionComponent } from '../searchComponents/TDescriptionComponent';
 import TextFieldArea from '../../../formularFields/TextFieldArea';
-import {
-  Email as EmailIcon,
-  Call as CallIcon,
-  Print as PrintIcon,
-  FavoriteBorder as FavoriteBorderIcon,
-  LocationOn as LocationOnIcon,
-  Person as PersonIcon,
-  Store as StoreIcon,
-  Info as InfoIcon,
-  AccessTime as AccessTimeIcon
-} from '@mui/icons-material';
+
+import Email from '@mui/icons-material/Email';
+import Call from '@mui/icons-material/Call';
+import Print from '@mui/icons-material/Print';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import LocationOn from '@mui/icons-material/LocationOn';
+import Person from '@mui/icons-material/Person';
+import Store from '@mui/icons-material/Store';
+import Info from '@mui/icons-material/Info';
+import AccessTime from '@mui/icons-material/AccessTime';
+
 import TextFieldCars from '../../../formularFields/TextFieldCars';
 import { REGEX_EMAIL } from '../../../../regex/REGEX';
 import { useDispatch, useSelector } from 'react-redux';
@@ -82,7 +80,7 @@ export interface ViewDetailProps {
 }
 
 const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const detailSearchValues = useSelector((state: RootState) => state.detailSearch.detailState);
   const carsNotFound = useSelector((state: RootState) => state.detailSearch.carsNotFound);
@@ -151,10 +149,10 @@ scrollToTop();
       backgroundColor: 'whitesmoke'
     }} >
       <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', padding: '10px', paddingRight: '5px', textAlign: 'center' }}>
-        <Button variant='contained' endIcon={<CallIcon />}>Anrufen</Button>
+        <Button variant='contained' endIcon={<Call />}>Anrufen</Button>
       </Box>
       <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', padding: '10px', paddingLeft: '5px', textAlign: 'center' }}>
-        <Button onClick={() => { handleClickOpen() }} sx={ buttonSecondarySX } variant='contained' endIcon={<EmailIcon />}>Email</Button>
+        <Button onClick={() => { handleClickOpen() }} sx={ buttonSecondarySX } variant='contained' endIcon={<Email />}>Email</Button>
       </Box>
     </Box>
   }
@@ -238,7 +236,7 @@ scrollToTop();
           <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'flex' : 'none' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
             <Logo />
             <Box sx={{ marginLeft:'30px', marginRight: '10px' }}>
-              <LocationOnIcon sx={ SX_ICON }/>
+              <LocationOn sx={ SX_ICON }/>
             </Box>
             <Box sx={{ color:'text.primary' }}>
             <Typography variant='body1'>{detailSearchValues?.companyName}</Typography>
@@ -247,7 +245,7 @@ scrollToTop();
             </Box>
 
             <Box sx={{ marginLeft: '30px', color:'text.primary' }}>
-            {detailSearchValues?.isCardealer ? <GridComponent icon={<StoreIcon sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={SX_ICON} />} value={"Privat"} />}
+            {detailSearchValues?.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
             <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
             <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize:'1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography  sx={{ marginLeft:'7px' }} variant='body2'>45 Bewertungen</Typography></Box>
             </Box>
@@ -255,7 +253,7 @@ scrollToTop();
 
           <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'none' : 'flex' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
           <Box sx={{ marginRight: '10px' }}>
-              <LocationOnIcon sx={ SX_ICON }/>
+              <LocationOn sx={ SX_ICON }/>
             </Box>
             <Box sx={{ color:'text.primary' }}>
             <Typography variant='body1'>{`${detailSearchValues?.zipcode} ${detailSearchValues?.city}`}</Typography>
@@ -263,7 +261,7 @@ scrollToTop();
 
             <Box sx={{ marginLeft: '50px', color:'text.primary' }}>
               <Box>
-            {detailSearchValues?.isCardealer ? <GridComponent icon={<StoreIcon sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={SX_ICON} />} value={"Privat"} />}
+            {detailSearchValues?.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
               </Box>
             <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
             <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize:'1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography  sx={{ marginLeft:'7px' }} variant='body2'>45 Bewertungen</Typography></Box>
@@ -281,10 +279,10 @@ scrollToTop();
                     <ShareComponent />
                   </Grid>
                   <Grid sx={{ display: 'flex', justifyContent: 'center' }} item xs={4}>
-                    <FavoriteBorderIcon sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography  sx={{ cursor: 'pointer' }} variant='body1' component='p'>{"Merken"}</Typography>
+                    <FavoriteBorder sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography  sx={{ cursor: 'pointer' }} variant='body1' component='p'>{"Merken"}</Typography>
                   </Grid>
                   <Grid onClick={() => { window.print() }} item sx={{ cursor: 'pointer', justifyContent: 'end', display: 'flex' }} xs={4}>
-                    <PrintIcon sx={{ marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Drucken"}</Typography>
+                    <Print sx={{ marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Drucken"}</Typography>
                   </Grid>
                 </Grid>
               </Boxprint>
@@ -342,11 +340,11 @@ scrollToTop();
 
               <Grid item xs={12} sx={{ display: { xs: 'none', lg: 'flex' }, paddingTop: COMPONENT_DISTANCE }}>
                 <Box sx={{ width: '49%', textAlign: 'center' }}>
-                  <Button sx={{}} variant='contained' endIcon={<CallIcon />}>Anrufen</Button>
+                  <Button sx={{}} variant='contained' endIcon={<Call />}>Anrufen</Button>
                 </Box>
                 <Box sx={{ width: '2%' }}></Box>
                 <Box sx={{ width: '49%', textAlign: 'center' }}>
-                  <Button onClick={() => { handleClickOpen() }} sx={ buttonSecondarySX } variant='contained' endIcon={<EmailIcon />}>Email</Button>
+                  <Button onClick={() => { handleClickOpen() }} sx={ buttonSecondarySX } variant='contained' endIcon={<Email />}>Email</Button>
                 </Box>
               </Grid>
 
@@ -409,7 +407,7 @@ scrollToTop();
               <Typography sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>Anbieter:in seit  {detailSearchValues.since}</Typography>
 
               <Box width='100%'>
-                {detailSearchValues.isCardealer ? <GridComponent icon={<StoreIcon sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={SX_ICON} />} value={"Privat"} />}
+                {detailSearchValues.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
 
                 {
                   detailSearchValues.isCardealer
@@ -423,7 +421,7 @@ scrollToTop();
                 <Typography>45 Bewertungen</Typography>
 
                 <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><AccessTimeIcon sx={SX_ICON} /></Box>
+                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><AccessTime sx={SX_ICON} /></Box>
                   <Box>
                     <Typography>{"Geöffnet"}</Typography>
                     <Typography>{"Beispiel. Schließt um 19:00 Uhr"}</Typography>
@@ -440,7 +438,7 @@ scrollToTop();
                 </Box>
 
                 <Box sx={{ display: 'flex', marginTop: COMPONENT_DISTANCE, paddingBottom: detailSearchValues.isCardealer ? 0 : "2rem" }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><LocationOnIcon sx={SX_ICON} /></Box>
+                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><LocationOn sx={SX_ICON} /></Box>
                   <Box>
                     <Typography>{detailSearchValues.streetNr}</Typography>
                     <Typography>{detailSearchValues.zipcode} {detailSearchValues.city}</Typography>
@@ -449,7 +447,7 @@ scrollToTop();
                 </Box>
 
                 <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE, paddingBottom: "2rem" }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><InfoIcon sx={SX_ICON} /></Box>
+                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><Info sx={SX_ICON} /></Box>
                   <Box>
                     <Typography>{detailSearchValues.impressum}</Typography>
                   </Box>

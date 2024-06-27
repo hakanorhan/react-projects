@@ -13,7 +13,7 @@ interface DateMonthYearProps {
   newInserate: boolean
 }
 
-export const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, setMonth, newInserate }) => {
+const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, setMonth, newInserate }) => {
 
   const theme = useTheme();
   const isLGDown = useMediaQuery(theme.breakpoints.down('lg'));
@@ -56,3 +56,5 @@ export const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, 
     </div>
   );
 }
+
+export default DateComponentMonthYear;

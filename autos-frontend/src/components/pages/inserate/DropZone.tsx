@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { URLs } from '../../../constants/values';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper';
@@ -34,7 +34,7 @@ const blink = keyframes`
 const MAX_FILES = (7);
 const MAX_IMAGE_SIZE = 1024 * 1024 * 10;
 
-const DropZone: React.FC<UploadImagesProp> = ({ carId }) => {
+const DropZone: FC<UploadImagesProp> = ({ carId }) => {
 
     // all uploaded files
     const [files, setFiles] = useState<FileWithPreview[]>([]);

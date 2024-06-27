@@ -1,6 +1,12 @@
-import { Box, Dialog, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material"
+import Box from "@mui/material/Box";
+import Dialog from "@mui/material/Dialog";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
 import ViewListIcon from '@mui/icons-material/ViewList';
-import React, { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { seperateThousand } from "../../../../../helper/helper";
 import ViewDetailSearchAdmin from "../../ViewDetailSearchAdmin";
 import dayjs from "dayjs";
@@ -13,7 +19,7 @@ interface PublishListProps {
     listItems: any[] | null
 }
 
-export const PublishList:React.FC<PublishListProps> = ({ listItems }) => {
+export const PublishList:FC<PublishListProps> = ({ listItems }) => {
     const [viewCarComponent, setViewCarComponent] = useState(false)
     const [inserateId, setInserateId] = useState<number | null>(null);
 

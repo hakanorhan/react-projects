@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { SelectChangeEvent, Button, Typography } from '@mui/material';
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { SelectChangeEvent } from '@mui/material';
 import { notifyError } from "../../../../../helper/toastHelper";
 /* Hot Toast */
-import { Toaster } from 'react-hot-toast';
 import { MainComponentWidth, mainComponentHeight } from "../../../../../themes/Theme";
 import SelectField from "../../../../formularFields/SelectField";
 import TextFieldCars from "../../../../formularFields/TextFieldCars";
@@ -72,7 +73,7 @@ const InsertModel = () => {
     }
   }
 
-  return <><Toaster />
+  return <>
     <MainComponentWidth sx={{ height: modelValues.length > 0 ? 'auto' : mainComponentHeight }}>
       <form onSubmit={handleSubmit} noValidate>
         <SelectField values={brandValues} objectName="brand" idOfSelect="brandId" selectedValue={selectedBrand} handleChange={handleChangeBrand} label="Marke" />

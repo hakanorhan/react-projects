@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+
 import { Roles, URLs } from '../../constants/values';
 import { LinkDrawer} from '../../themes/Theme';
 import type { RootState } from '../../redux/store';
@@ -25,7 +26,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { setRole, setUserLoggedIn } from '../../redux/features/userLoggedInSlice';
 import { AuthResponse } from '../../interfaces/types';
 import { notifyError } from '../../helper/toastHelper';
-import { Toaster } from 'react-hot-toast';
 import muiLazyLoader from '../../helper/lazyLoading/MuiLazyLoader';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 
@@ -64,11 +64,7 @@ export default function Header() {
     const checkAuth = async () => {
       try {
         const response = await axios.get<AuthResponse>(URLs.ORIGIN_SERVER + URLs.AUTHENTICATION_USER, { withCredentials: true });
-        const authResponse: AuthResponse = response.data;
-        const logged = authResponse.authenticated;
-        dispatch(setUserLoggedIn(logged));
-        const authRole = authResponse.role;
-        dispatch(setRole(authRole));
+        handleAuthResponse(response.data);
 
       } catch (error: any) {
         const authResponse: AuthResponse = error.response.data;
@@ -79,6 +75,13 @@ export default function Header() {
 
       }
     }
+
+    const handleAuthResponse = (authResponse: AuthResponse) => {
+      const { authenticated, role } = authResponse;
+      dispatch(setUserLoggedIn(authenticated));
+      dispatch(setRole(role));
+    }
+
     checkAuth();
   }, [])
 
@@ -203,7 +206,7 @@ import('@mui/icons-material/Add').then(module => {
           </IconButton>
         </Box>
           <List>
-            <div>{}</div>
+            
             <ListItemLink title='Suchen' url={URLs.HOME_ALL_SEARCH_COUNT} />
             { role === Roles.USER || role === Roles.NULL ?
             <ListItemLink title='Inserieren' url={ role === Roles.USER ? URLs.POST_INSERATE_CAR : URLs.POST_SIGNIN } />
@@ -227,33 +230,30 @@ import('@mui/icons-material/Add').then(module => {
   }
 
   return (<>
-    <Toaster />
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar sx={{ backgroundColor: 'primary.main' }} elevation={2} position="static" >
+      <AppBar sx={{ display: 'flex', backgroundColor: 'background.default'}} elevation={1} position="static" >
         <DrawerMenuComponent />
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             aria-label="menu"
-            sx={{ mr: 2, color: 'primary.contrastText' }}
+            sx={{ mr: 2, color: 'primary.main' }}
             onClick={handleHamburgerMenu}
           >
             <MenuIcon />
           </IconButton>
-          <Typography sx={{ color: 'primary.contrastText', textDecoration: 'none' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"cars"} </Typography>
-          <div>
+          <Typography sx={{ color: 'primary.main', textDecoration: 'none', width: '100%' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"cars"} </Typography>
+          <div style={{  }}>
             <IconButton
-              sx={{ color: 'primary.contrastText' }}
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleMenu}
             >
-              <AccountCircle sx={{ color: 'primary.contrastText' }} />
+              <AccountCircle sx={{ color: 'primary.main' }} />
             </IconButton>
-            <Menu sx={{ mt: '55px' }}
+            <Menu sx={{ mt: '35px' }}
               id="menu-appbar"
               anchorEl={anchorEl}
               anchorOrigin={{
@@ -273,7 +273,7 @@ import('@mui/icons-material/Add').then(module => {
           </div>
         </Toolbar>
       </AppBar>
-    </Box>
+    
   </>
   );
 }

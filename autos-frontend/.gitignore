@@ -16,3 +16,12 @@ Thumbs.db
 
 src/*
 !src/**/*.js
+
+**/*.js
+**/*.js.map
+
+/dist
+
+stats.json
+stats.html
+

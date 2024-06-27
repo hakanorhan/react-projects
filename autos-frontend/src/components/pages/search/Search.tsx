@@ -1,8 +1,13 @@
 import { FC, Suspense, lazy, useEffect, useState } from 'react'
-import { Box, Button, Grid, SelectChangeEvent, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { SelectChangeEvent, createTheme } from '@mui/material';
 import axios from 'axios';
 import {
   COMPONENT_DISTANCE,
+  H1PrimaryMain,
   SearchContainer,
   buttonHeight
 } from '../../../themes/Theme';
@@ -16,20 +21,17 @@ import { AxiosSearch } from '../../../interfaces/IAxiosData';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { DisplayTypes } from '../../../constants/values';
 import { notifyError } from '../../../helper/toastHelper';
-//import { scrollToTop } from '../../../helper/helper';
-
 import afterComponentViewed from '../../../helper/lazyLoading/afterComponentViewed';
 
-import './styleSearch.css';
-
-const LazyClickedCars = lazy(() => import('./ClickedCars'));
+const LazyClickedCarsMost = lazy(() => import('./ClickedCars'));
+const LazyClickedCarsElectric = lazy(() => import('./ClickedCars'));
 
 const searchButtonText = " Treffer";
 
 const Search: React.FC = () => {
 
   const navigate = useNavigate();
-
+  const theme = createTheme();
   // available cars 
   const [countCars, setCountCars] = useState<number>(0);
 
@@ -181,9 +183,9 @@ const Search: React.FC = () => {
   const SearchContent = () => {
 
     return (
-      <SearchContainer sx={{ marginTop: '-15vh', padding: '1.5rem', cursor: 'default', backgroundColor: 'background.paper' }}>
+      <SearchContainer sx={{ padding: '2.5rem', cursor: 'default', backgroundColor: 'background.paper' }}>
 
-        <Grid container sx={{}} justifyContent="center" columnSpacing={1}>
+        <Grid container sx={{}} justifyContent="center" columnSpacing={3}>
           <Grid item xs={6} md={4}>
             {/* Brand */}
             <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brand_id' handleChange={handleChangeSelect} label='Marke' allOption={true} />
@@ -238,27 +240,22 @@ const Search: React.FC = () => {
   }, []); 
 
   return (<>
-
-    <div className='search-box'>
-      <h1 className='header-size'>Neues Auto.</h1>
+  <Box sx={{ objectFit:'cover', width:'100%', objectPosition:'center', backgroundImage: `url("${URLs.ORIGIN_CLIENT}/pexels-pixabay-210182.jpg")` }} height={'81vh'} >
+    <div style={{ paddingLeft:'1rem', paddingRight:'1rem' }}>
+    <a style={{ fontSize:'0.8rem' }} target='_blank' href='https://www.pexels.com/de-de/foto/fahrzeug-auf-der-strasse-zur-goldenen-stunde-210182/'>Foto von Pixabay: https://www.pexels.com/de-de/foto/fahrzeug-auf-der-strasse-zur-goldenen-stunde-210182/</a>
     </div>
-    
-    
-      <SearchContent />
 
+      <H1PrimaryMain>Neues Auto.</H1PrimaryMain>
+      <SearchContent />
+    </Box>
       <Box sx={{ minHeight: { xs: '600px', sm: '680px', md: '600px' } }} >
 
-      <Typography variant='h6' component='h1' sx={{ margin: 'auto', width: '95%', marginTop: '10vh', marginBottom: COMPONENT_DISTANCE }}>
-        {
-          "Am meisten gesucht"
-        }
-      </Typography>
-
+      <h4 style={{ marginLeft:'2.5%', paddingTop:'7vh', color: theme.palette.primary.main }}>Am meisten gesucht</h4>
 
         <div id="box">        
         {isClickedCarsVisible && (
           <Suspense fallback={ <div className='loading-component-style'>...loading</div> }>
-            <LazyClickedCars type={DisplayTypes.MOST_CLICKED} />
+            <LazyClickedCarsMost type={DisplayTypes.MOST_CLICKED} />
           </Suspense>
         
         )}
@@ -271,14 +268,14 @@ const Search: React.FC = () => {
       >
       {
         isElectricCarVisible && (<>
-          <Typography variant='h6' component='h1' sx={{ margin: 'auto', width: '95%', marginTop: `calc(${COMPONENT_DISTANCE})`, marginBottom: COMPONENT_DISTANCE }}>
+          <Typography variant='h6' component='h1' sx={{ color:'primary.main', marginTop: `calc(${COMPONENT_DISTANCE})`, paddingBottom: COMPONENT_DISTANCE }}>
         {
           "Elektroautos"
         }
       </Typography>
       
           <Suspense fallback={ <div className='loading-component-style'>...loading</div> }>
-            <LazyClickedCars type={DisplayTypes.ELECTRIC} />
+            <LazyClickedCarsElectric type={DisplayTypes.ELECTRIC} />
           </Suspense>
           </>
         )

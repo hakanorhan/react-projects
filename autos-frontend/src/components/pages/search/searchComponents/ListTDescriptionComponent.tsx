@@ -1,4 +1,7 @@
-import { Box, Grid, Rating, Typography } from '@mui/material'
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
 import React from 'react'
 import { LINE_HEIGHT, ICON_FONT_SIZE } from '../../../../themes/Theme'
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';

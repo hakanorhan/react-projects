@@ -1,20 +1,23 @@
 import axios from 'axios';
-import { ChangeEvent, FC, ReactNode, lazy, memo, useCallback, useMemo, useState } from 'react';
+import { FC, ReactNode, lazy, memo, useState } from 'react';
 import { Roles, URLs } from '../../../constants/values.js';
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Check from '@mui/icons-material/Check';
+import Box from '@mui/material/Box';
 
-import { formularEmailValid, formularPasswordValid } from '../../../regex/validHelper.js';
-import { SignInForm } from '../../../interfaces/types.js';
-import { notifyError } from '../../../helper/toastHelper.js';
+import { SignInForm } from '../../../interfaces/types';
+import { notifyError } from '../../../helper/toastHelper';
 import { useNavigate } from 'react-router-dom';
 
-import { AuthResponse } from '../../../interfaces/types.js';
-import { scrollToTop } from '../../../helper/helper.js';
-import InputAdornment from '@mui/material/InputAdornment';
+import { AuthResponse } from '../../../interfaces/types';
+import { scrollToTop } from '../../../helper/helper';
+import { MainComponentWidth } from '../../../themes/Theme';
+import TextFieldCars from '../../formularFields/TextFieldCars';
+import TextFieldCarsPassword1 from '../../formularFields/TextFieldCarsPassword';
+import { REGEX_EMAIL, REGEX_PASSWORD } from '../../../regex/REGEX';
+import { formularEmailValid, formularPasswordValid } from '../../../regex/validHelper';
+
 const LazyLinkComponent = lazy(() => import('./LazyLinkComponent.js'))
 interface HeaderIconProps {
   children: ReactNode
@@ -35,18 +38,14 @@ const SignIn: React.FC = () => {
     signInForm
   );
 
-  const [isEmailValid, setEmailIsValid] = useState(false);
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-
   const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = form.email;
     const password = form.password;
-
     // if email and password is valid
-    if (!isEmailValid) {
+    if (!formularEmailValid(email)) {
       notifyError("email-signin", "Bitte prüfen Sie das Email-Feld.")
-    } else if (!isPasswordValid) {
+    } else if (!formularPasswordValid(password)) {
       notifyError("password-signin", "Bitte prüfen Sie das Passwort-Feld.")
     } else {
 
@@ -76,56 +75,41 @@ const SignIn: React.FC = () => {
     }
   }
 
-  const handleEmailChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setForm({...form, ['email']: value })
-    const isValid = formularEmailValid(value)
-    setEmailIsValid(isValid)
-  }, [form.email])
+  const handleOnChange = (fieldName: string, fieldValue: string) => {
+    setForm(prevForm => ({
+      ...prevForm,
+      [fieldName]: fieldValue
+    }));
+  };
+  
 
   const HeaderIconComponent: FC<HeaderIconProps> = memo(({ children }) => {
     return (
-      <div className='headericon-style'>
+      <Box sx={{ margin: 'auto',
+        marginTop: '7rem',
+        marginBottom: '1rem' }}>
       { children }
-    </div> 
+    </Box> 
     )
   })
 
-  const formElement = useMemo(() => (<div>
+  const formElement = <div>
     <form onSubmit={handleSubmit} noValidate>
-          
-    <TextField autoComplete='on'  error={false} id='email' label="Email" variant='standard' 
-    InputProps={{
-      endAdornment: <InputAdornment position='end'><Check /></InputAdornment>
-    }}
-    onChange={ handleEmailChange } />
-
-    <TextField autoComplete='on' type='password' error={false} id='password' label="Passwort" variant='standard' 
-    InputProps={{
-      endAdornment: <InputAdornment position='end'><Check /></InputAdornment>
-    }}
-    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value
-      setForm({...form, ['password']: value })
-      const isValid = formularPasswordValid(value)
-      setIsPasswordValid(isValid)
-    }} />
     
-    {/*
-    <TextFieldCars id='email' label='Email' onChange={value => handleOnChange('email', value)} regex={REGEX_EMAIL} />
-    <TextFieldCarsPassword1 id='password' label='Password' onChange={value => handleOnChange('password', value)} />
-*/}
+    <TextFieldCars label='Email' onChange={value => handleOnChange('email', value)} regex={REGEX_EMAIL} />
+    <TextFieldCarsPassword1 label='Password' onChange={value => handleOnChange('password', value)} regex={REGEX_PASSWORD}/>
+
     <Button fullWidth type='submit' variant="contained">Sign in</Button>
   </form>
 
   <LazyLinkComponent />
   
 </div>
-  ), [])
+ 
 
   return (
   
-      <div className='login-register-content'>
+      <MainComponentWidth>
   
       <HeaderIconComponent>
         <LockPersonIcon fontSize='large'/>
@@ -133,7 +117,7 @@ const SignIn: React.FC = () => {
 
       {formElement}
 
-      </div>
+      </MainComponentWidth>
   )
 }
 

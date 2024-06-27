@@ -171,15 +171,40 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
       connection.beginTransaction();
 
       const processedFiles = await Promise.all(files.map(async (file) => {
-        const imageName = 'resized' + file.filename;
+        const imageName = 'resized' + file.filename + ".webp";
         const outputFilePath = path.join(file.destination, imageName);
   
+        let image = sharp(file.path)
+          .resize(720, 405, { fit: 'cover', position:'center' })
+          .webp({
+            quality: 80
+          });
+/*
+        if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+          image = image.jpeg({
+            quality: 80,
+            chromaSubsampling:'4:4:4',
+            mozjpeg: true
+          });
+        } else if(file.mimetype === 'image/png') {
+          image = image.png({
+            compressionLevel: 9,
+            palette: true
+          });
+        } else if(file.mimetype === 'image/webp') {
+          image = image.webp({
+            quality: 80
+          })
+        }
+*/
+        await image.toFile(outputFilePath);
+/*
         // Resize the image using sharp
         await sharp(file.path)
         // width height
           .resize(1920, 1080, { fit: 'cover' })
           .toFile(outputFilePath);
-        
+ */       
         await connection.execute(insertInto, [imageName, insertId]);
         fs.unlinkSync(file.path);
         return outputFilePath;

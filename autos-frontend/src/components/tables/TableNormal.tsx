@@ -1,11 +1,16 @@
-import React from 'react'
-import { TableContainer, Table, Paper, TableHead, TableCell, TableRow } from '@mui/material'
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import Paper from '@mui/material/Paper';
+import TableHead from '@mui/material/TableHead';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import { FC } from 'react';
 
   interface TableNormalValues {
     listValues: any[]
   }
 
-const TableNormal: React.FC<TableNormalValues> = ({listValues}) => {
+const TableNormal: FC<TableNormalValues> = ({listValues}) => {
 
     /**
    * TableHeader
