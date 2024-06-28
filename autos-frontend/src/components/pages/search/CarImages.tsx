@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../constants/values';
-import { useMediaQuery } from '@mui/material';
+import { keyframes, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 import Dialog from '@mui/material/Dialog';
@@ -13,14 +13,15 @@ import { AxiosDataImagesNames } from '../../../interfaces/IAxiosData';
 export interface CarImagesProps {
   id: number | null | string | undefined,
   multiple: boolean,
-  isDetail?: boolean
+  isDetail?: boolean,
+  setImageIsLoaded: Dispatch<SetStateAction<boolean>>
 }
 
 enum ArrowDirection {
   ARROW_DIRECTION_LEFT = 'left', ARROW_DIRECTION_RIGHT = 'right'
 }
 
-const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
+const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageIsLoaded }) => {
 
   const lgQuery = useMediaQuery('(min-width:1101px)');
 
@@ -90,10 +91,12 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
           })
         );
         setImageSrc(fetchedImages);
+
       } catch (error) {
         console.error('Fehler beim Herunterladen der Bilder:', error);
       } finally {
         setFetchImageNamesDone(false);
+        setImageIsLoaded(true);
       }
     };
     if (fetchImageNamesDone)
@@ -132,21 +135,21 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
     }
 
     return (<Box sx={{ position: 'relative' }} onClick={() => { handleClickOpen() }}>
-      
-      <CardMedia 
+
+      <CardMedia
         loading='lazy'
         component='img'
         image={imageSrc[sliderIndex - 1]}
-        sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor: { xs: 'default', lg: open ? 'default' :'zoom-in' } } }}>
+        sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor: { xs: 'default', lg: open ? 'default' : 'zoom-in' } } }}>
       </CardMedia>
 
       <Box sx={{
         '@media print': { display: 'none' }, '@media screen': { display: { xs: isDetail ? 'flex' : 'none' } }, color: 'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
-        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0, cursor: {xs: 'default', lg: open ? 'default' :'zoom-in'}
+        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0, cursor: { xs: 'default', lg: open ? 'default' : 'zoom-in' }
       }}>
         <Typography>{`Bild ${sliderIndex} von ${imageSrc.length}`}</Typography>
-        </Box>
-        
+      </Box>
+
       {imageSrc.length > 1 && <>
         <IconButton sx={iconButtonSX(0)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
         <IconButton sx={iconButtonSX(1)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
@@ -189,16 +192,22 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail }) => {
         observer.unobserve(imageRef.current);
       }
     };
-  }, [ id ]);
+  }, [id]);
+
+  const skeletonLoading = keyframes`
+    0% {
+      background-color: hsl(200, 20%, 80%);
+    }
+    100% {
+      background-color: hsl(200, 20%, 95%);
+    }
+  `;
 
   return (<>
 
 
-    <Box ref={imageRef} sx={{ width: '100%', height: 'calc(100% * 9 / 16)' }}>
-
+    <Box ref={imageRef} sx={{ animation:`${skeletonLoading} 1s linear infinite alternate`, width: '100%', height: 'calc(100% * 9 / 16)' }}>
         <CarouselComponent />
-      
-
     </Box>
 
     <BigImage />

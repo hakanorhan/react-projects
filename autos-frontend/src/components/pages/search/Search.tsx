@@ -1,8 +1,8 @@
+// Bild von <a href="https://pixabay.com/de/users/chulmin1700-15022416/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4886294">철민 박</a> auf <a href="https://pixabay.com/de//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4886294">Pixabay</a>
 import { FC, Suspense, lazy, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import { SelectChangeEvent, createTheme } from '@mui/material';
 import axios from 'axios';
 import { COMPONENT_DISTANCE, H1PrimaryMain, SearchContainer, buttonHeight } from '../../../themes/Theme';
@@ -17,6 +17,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import { DisplayTypes } from '../../../constants/values';
 import { notifyError } from '../../../helper/toastHelper';
 import afterComponentViewed from '../../../helper/lazyLoading/afterComponentViewed';
+import LoadingComponent from '../../LoadingComponent';
 
 const LazyClickedCarsMost = lazy(() => import('./ClickedCars'));
 const LazyClickedCarsElectric = lazy(() => import('./ClickedCars'));
@@ -178,7 +179,7 @@ const Search: React.FC = () => {
   const SearchContent = () => {
 
     return (
-      <SearchContainer sx={{ padding: '2.5rem', cursor: 'default', backgroundColor: 'background.paper' }}>
+      <SearchContainer sx={{ padding: '1.5rem', cursor: 'default', backgroundColor: 'background.paper' }}>
 
         <Grid container sx={{}} justifyContent="center" columnSpacing={3}>
           <Grid item xs={6} md={4}>
@@ -235,41 +236,33 @@ const Search: React.FC = () => {
   }, []); 
 
   return (<>
-  <Box sx={{ objectFit:'cover', width:'100%', objectPosition:'center', backgroundImage: `url("${URLs.ORIGIN_CLIENT}/pexels-pixabay-210182.jpg")` }} height={'81vh'} >
+  <Box sx={{ backgroundImage: `url("${URLs.ORIGIN_CLIENT}/river-4886294_1280.jpg")` }} height={'59vh'} >
     <div style={{ paddingLeft:'1rem', paddingRight:'1rem' }}>
-    <a style={{ fontSize:'0.8rem' }} target='_blank' href='https://www.pexels.com/de-de/foto/fahrzeug-auf-der-strasse-zur-goldenen-stunde-210182/'>Foto von Pixabay: https://www.pexels.com/de-de/foto/fahrzeug-auf-der-strasse-zur-goldenen-stunde-210182/</a>
+    <a style={{ fontSize:'0.8rem', color:'whitesmoke' }} target='_blank' href='https://www.pexels.com/de-de/foto/fahrzeug-auf-der-strasse-zur-goldenen-stunde-210182/'>Foto von Pixabay: https://www.pexels.com/de-de/foto/fahrzeug-auf-der-strasse-zur-goldenen-stunde-210182/</a>
     </div>
 
       <H1PrimaryMain>Neues Auto.</H1PrimaryMain>
       <SearchContent />
     </Box>
-      <Box sx={{ minHeight: { xs: '600px', sm: '680px', md: '600px' } }} >
 
-      <h4 style={{ marginLeft:'2.5%', paddingTop:'7vh', color: theme.palette.primary.main }}>Am meisten gesucht</h4>
+      <Box sx={{ minHeight:'500px', marginTop: COMPONENT_DISTANCE }} >
 
-        <div id="box">        
-        {isClickedCarsVisible && (
-          <Suspense fallback={ <div className='loading-component-style'>...loading</div> }>
-            <LazyClickedCarsMost type={DisplayTypes.MOST_CLICKED} />
-          </Suspense>
-        
-        )}
-        </div>
+      <h4 style={{ marginLeft:'2.5%', color: theme.palette.primary.main }}>Am meisten gesucht</h4>
+            <Suspense fallback={<LoadingComponent />} >
+              <LazyClickedCarsMost type={DisplayTypes.MOST_CLICKED} />
+            </Suspense>
       </Box>
 
       <Box
         id="boxElectric"
-        sx={{ minHeight: { xs: '600px', sm: '680px', md: '600px' } }}
+        sx={{ marginTop: COMPONENT_DISTANCE, minHeight: { xs: '600px', sm: '680px', md: '600px' } }}
       >
       {
         isElectricCarVisible && (<>
-          <Typography variant='h6' component='h1' sx={{ color:'primary.main', marginTop: `calc(${COMPONENT_DISTANCE})`, paddingBottom: COMPONENT_DISTANCE }}>
-        {
-          "Elektroautos"
-        }
-      </Typography>
+          <h4 style={{ marginLeft:'2.5%', color: theme.palette.primary.main }}>Elektroautos</h4>
+
       
-          <Suspense fallback={ <div className='loading-component-style'>...loading</div> }>
+          <Suspense fallback={ <LoadingComponent /> }>
             <LazyClickedCarsElectric type={DisplayTypes.ELECTRIC} />
           </Suspense>
           </>

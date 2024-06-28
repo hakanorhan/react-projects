@@ -30,7 +30,7 @@ const ShareComponent: FC<ShareComponentProps> = ({ showText: showNoText }) => {
     return <div>
 
         <Box display={'flex'} onClick={handleMenu} sx={{ cursor: 'pointer', p: 0, color: 'text.primary', backgroundColor: 'transparent', "&.MuiButtonBase-root:hover": { backgroundColor: "transparent" } }}>
-            <ShareIcon sx={{   marginRight: !showNoText ? COMPONENT_DISTANCE : 0, color: 'text.primary' }} />
+            <ShareIcon sx={{  fontSize:'1.5rem', marginRight: !showNoText ? COMPONENT_DISTANCE : 0, color: 'text.primary' }} />
             <Typography  sx={{  display: showNoText ? 'none' : 'block' }} variant='body1' component='h4'>{"Teilen"}</Typography>
         </Box>
 

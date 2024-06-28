@@ -12,7 +12,7 @@ export enum Roles {
 
 export enum SelectFieldEnums {
     ALL_VALUE = "select-all-optional",
-    DE_ALL_LABEL = ' - Beliebig - ',
+    DE_ALL_LABEL = 'Beliebig',
     ITEM_KEY = "beliebig-option"
 }
 

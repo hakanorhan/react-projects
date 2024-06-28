@@ -16,7 +16,7 @@ const SelectField: React.FC<{
       values.length === 0 ? (
         <Tooltip title={`Kein ${label} vorhanden`}>
           <FormControl variant="standard">
-            <InputLabel htmlFor={objectName}>{label}</InputLabel>
+            <InputLabel sx={{ color: 'primary.main' }} htmlFor={objectName}>{label}</InputLabel>
             <Select sx={{
               borderRadius: 0, '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none',
@@ -49,7 +49,7 @@ const SelectField: React.FC<{
         </Tooltip>
       ) : (
         <FormControl variant="standard">
-          <InputLabel htmlFor={objectName}>{label}</InputLabel>
+          <InputLabel sx={{ color: 'primary.main' }} htmlFor={objectName}>{label}</InputLabel>
           <Select sx={{
             borderRadius: 0, '& .MuiOutlinedInput-notchedOutline': {
               border: 'none',

@@ -1,4 +1,4 @@
-import { Accordion, Select, colors, createTheme } from "@mui/material";
+import { Accordion, Select, Typography, colors, createTheme } from "@mui/material";
 import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -36,13 +36,13 @@ const searchContainerXLWidth = '1150px'
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
 
-const LIGHT_PRIMARY_COLOR_MAIN: string = "#7a63f1";
+const LIGHT_PRIMARY_COLOR_MAIN: string = "#D48166";
 export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 
 //const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
 export const LIGHT_SECONDARY_COLOR_MAIN = "#ebe8fc";
-const LIGHT_BACKGROUND_DEFAULT = 'whitesmoke';
+const LIGHT_BACKGROUND_DEFAULT = 'white';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = 'white';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.cyan[600];
@@ -75,6 +75,16 @@ export const ZOOM_HOVER = { '&:hover': { transform: 'scale(1.01)' }, cursor: 'po
 export const SX_ICON = { fontSize: ICON_FONT_SIZE, color: 'text.primary' };
 export const PAPER_ELEVATION_VALUE = 9;
 
+const typographySizes =  {
+    h1: {fontSize: '2.5rem'},
+    h2: {fontSize:'2rem'},
+    h3: {fontSize: '1.75rem'},
+    h4: {fontSize: '1.5rem'},
+    h5:{fontSize:'1.25rem'},
+    h6: {fontSize: '1rem'},
+    body1: {fontSize: '1rem'}
+};
+
 export const themeLight = createTheme({
     palette: {
         mode: 'light',
@@ -92,10 +102,10 @@ export const themeLight = createTheme({
             default: LIGHT_BACKGROUND_DEFAULT,
             paper: LIGHT_BACKGROUND_PAPER_DEFAULT
         }, icon: {
-            main: LIGHT_PRIMARY_COLOR_MAIN
+            main: LIGHT_PRIMARY_COLOR_MAIN,
         }
-    }
-    ,
+    },
+    typography: typographySizes,
     components: {
         MuiPaper: {
             styleOverrides: {
@@ -181,6 +191,7 @@ export const themeDark = createTheme({
             paper: colors.grey[900]
         },
     },
+    typography: typographySizes,
     components: {
         MuiFormControl: {
             styleOverrides: {
@@ -544,8 +555,8 @@ export const H1PrimaryMain = styled('h1') ({
     color: 'white',
     margin: 'auto',
     textAlign: 'center',
-    paddingTop: '4rem',
-    paddingBottom: '4rem',
+    paddingTop: '3rem',
+    paddingBottom: '3rem',
     transition: 'opacity 0.5s ease-in-out',
     fontSize: '36px'
 });

@@ -65,7 +65,7 @@ export default function Footer() {
       dispatch(setModeDarkLight(checked));
     }
 
-    return  <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'flex' }, color: 'whitesmoke' }}>
+    return  <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'flex' } }}>
 
     {<Switch 
     id={"darkLightMode"}
@@ -80,7 +80,7 @@ export default function Footer() {
         },
       },
       '& .MuiSwitch-thumb': {
-        color: 'primary.contrastText',
+        color: '',
         opacity: 1
       },
       '& .MuiSwitch-track': {

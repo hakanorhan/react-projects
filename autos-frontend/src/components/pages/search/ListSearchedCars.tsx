@@ -14,6 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const ShareComponent = lazy(() => import('../ShareComponent'));
 import { LimitMediaQuery } from '../../../helper/helper';
 import { scrollToTop } from '../../../helper/helper';
+import CardComponent from '../../CardComponent';
 
 const ListSearchedCars = () => {
 
@@ -112,10 +113,6 @@ scrollToTop();
     setOffset(0);
   };
 
-  const handleShowDetail = ({ id }: ({ id: number })) => {
-    navigate(URLs.FETCH_DETAIL_SEARCH + `/${id}`);
-  }
-
   const handleShowNewCars = (_event: any) => {
     if (offset <= count) {
       fetchFromServer();
@@ -127,19 +124,8 @@ scrollToTop();
 
     return ({ axiosPaper }: { axiosPaper: AxiosPaperList }) => {
 
-      return <Box>{<Card elevation={ PAPER_ELEVATION_VALUE } sx={
-        ZOOM_HOVER
-      }
-        onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
-        <Box>
+      return <CardComponent id={axiosPaper.inseratId} axiosPaper={axiosPaper}  />
 
-          <CarImages id={axiosPaper.inseratId} multiple={false} isDetail={ false }/>
-
-          {/* technical description */}
-          <ShowFastPaper detailSearchValues={axiosPaper} />
-
-        </Box>
-      </Card>}</Box>
     }
   }, [])
   
@@ -210,7 +196,7 @@ scrollToTop();
 
       <CarsNotfoundComponent />
 
-      <Box sx={{ display: cars ? 'flex' : 'none', width:'100%', minHeight:{xs: 'calc(100vh - 50px)', sm: 'calc(70vh)' } }}>
+      <Box sx={{ display: cars ? 'flex' : 'none', width:'100%', minHeight:{xs: 'calc(100vh - 50px)', sm: '420px' } }}>
       <Grid container spacing={4}>
         {
           cars && cars.map((axiosPaper, index) => (
@@ -231,11 +217,3 @@ scrollToTop();
 }
 
 export default ListSearchedCars;
-/*
- <Box sx={{ display:'column', backgroundColor:'background.default', height: '80vh', width:'100%' }}>
-      <Typography color={'text.primary'} paddingTop={'20%'} align="center" variant={'h4'} component={'p'}>{"Keine Fahrzeuge gefunden"}</Typography>
-      <Box sx={{ margin:'auto', width:'150px' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{ display: 'flex' }}><SearchIcon /><Typography sx={{ marginLeft: '0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box>
-      
-      
-    </Box>
-    */

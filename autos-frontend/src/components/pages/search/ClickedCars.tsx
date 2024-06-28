@@ -15,6 +15,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { LimitMediaQuery  } from '../../../helper/helper';
 import { notifyError } from '../../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
+import CardComponent from '../../CardComponent';
 
 const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
 
@@ -72,31 +73,19 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
     fetchFromServer();
   }, [])
 
-  const handleShowDetail = ({ id }: ({ id: number })) => {
-    navigate(URLs.FETCH_DETAIL_SEARCH + `/${id}`);
-  }
   
   const MemoizedContainer = useMemo(() => {
     return ({ axiosPaper }: { axiosPaper : AxiosPaperList}) => {
     
-      return <>{<Card elevation={ PAPER_ELEVATION_VALUE } sx={ ZOOM_HOVER }
-        onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
-        <Box>
-  
-          <CarImages id={axiosPaper.inseratId} multiple={false} isDetail={ false }/>
-  
-          {/* technical deiption */}
-          <ShowFastPaper detailSearchValues={axiosPaper} />
-  
-        </Box>
-      </Card>}</>
+      return <CardComponent id={axiosPaper.inseratId} axiosPaper={axiosPaper}  />
     }
   }, [])
+
 
   return (<>
   <Toaster />
     { cars && cars?.length > 0 &&
-    <Box sx={{ display:'block', minHeight: '', width: '95%', margin: 'auto', paddingTop: '20px', paddingBottom: COMPONENT_DISTANCE }}>
+    <Box sx={{ display:'block', minHeight: '300px', width: '95%', margin: 'auto', marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
 
       <Grid container spacing={4}>
         {
@@ -118,3 +107,16 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
 }
 
 export default memo (ClickedCars);
+
+/*
+  {<Card elevation={ PAPER_ELEVATION_VALUE } sx={ ZOOM_HOVER }
+        onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
+        <Box>
+  
+          <CarImages id={axiosPaper.inseratId} multiple={false} isDetail={ false }/>
+  
+          <ShowFastPaper detailSearchValues={axiosPaper} />
+  
+        </Box>
+      </Card>}
+*/

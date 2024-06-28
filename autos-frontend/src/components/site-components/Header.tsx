@@ -230,19 +230,19 @@ import('@mui/icons-material/Add').then(module => {
   }
 
   return (<>
-      <AppBar sx={{ display: 'flex', backgroundColor: 'background.default'}} elevation={1} position="static" >
+      <AppBar sx={{ display: 'flex', backgroundColor: 'primary.main'}} elevation={1} position="static" >
         <DrawerMenuComponent />
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             aria-label="menu"
-            sx={{ mr: 2, color: 'primary.main' }}
+            sx={{ mr: 2 }}
             onClick={handleHamburgerMenu}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ color:'primary.contrastText' }}/>
           </IconButton>
-          <Typography sx={{ color: 'primary.main', textDecoration: 'none', width: '100%' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"cars"} </Typography>
+          <Typography sx={{ color: 'primary.contrastText', textDecoration: 'none', width: '100%' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"cars"} </Typography>
           <div style={{  }}>
             <IconButton
               size="large"
@@ -251,7 +251,7 @@ import('@mui/icons-material/Add').then(module => {
               aria-haspopup="true"
               onClick={handleMenu}
             >
-              <AccountCircle sx={{ color: 'primary.main' }} />
+              <AccountCircle sx={{ color: 'primary.contrastText' }} />
             </IconButton>
             <Menu sx={{ mt: '35px' }}
               id="menu-appbar"
