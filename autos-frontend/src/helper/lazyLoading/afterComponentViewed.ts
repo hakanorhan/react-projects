@@ -7,8 +7,6 @@ export default function afterComponentViewed (setVisible: React.Dispatch<React.S
       }
     });
 
-    console.log("Wird immer ausgeführt!");
-
     const boxElement = document.getElementById(`${ elemendId }`);
     if (boxElement) observer.observe(boxElement);
 

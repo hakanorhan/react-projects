@@ -128,12 +128,12 @@ app.post('/upload', upload.array('images', 20), (req, res) => {
         try {
             connection.beginTransaction();
             const processedFiles = await Promise.all(files.map(async (file) => {
-                const imageName = 'resized' + file.filename + ".webp";
+                const imageName = 'resized' + file.filename;
                 const outputFilePath = path.join(file.destination, imageName);
                 let image = sharp(file.path)
                     .resize(720, 405, { fit: 'cover', position: 'center' })
                     .webp({
-                    quality: 80
+                    quality: 40
                 });
                 await image.toFile(outputFilePath);
                 await connection.execute(insertInto, [imageName, insertId]);

@@ -42,6 +42,8 @@ import { scrollToTop } from '../../../helper/helper';
 
 const steps = ['Konto', 'Details', 'Adresse', 'Kontakt'];
 
+import { themeLight } from '../../../themes/Theme';
+
 const SignUpUser: React.FC = () => {
 
   const navigate = useNavigate();
@@ -230,7 +232,9 @@ const SignUpUser: React.FC = () => {
   const ForwardComponent = () => {
     return <> <Button fullWidth onClick={() => { activeStepHandler() }} type='button' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Weiter</Button>
               <div style={{ display: 'flex', paddingBottom: '4rem' }}>
-        <Box sx={{ display: 'flex', width: '100%', justifyContent: 'end' }}><Link to="/signin" style={{ textDecoration: 'none' }}><Typography sx={{ color: 'primary.main' }}>Bereits registriert? Login</Typography></Link></Box>
+        <Box sx={{ display: 'flex', width: '100%', justifyContent: 'end' }}><Link to="/signin" style={{ color: themeLight.palette.primary.main, textDecoration: 'none' }}>
+          Bereits registriert? Login</Link></Box>
+
       </div>
       </>
   }

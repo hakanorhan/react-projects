@@ -1,15 +1,11 @@
-import React, { lazy, memo, useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import { useNavigate } from 'react-router-dom'
 import { AxiosPaperList, AxiosRejectPackage } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../constants/values';
 import axios from 'axios';
-const CarImages = lazy(() => import('./CarImages'));
-const ShowFastPaper = lazy(() => import('./searchComponents/ShowFastPaper'));
-import { COMPONENT_DISTANCE, PAPER_ELEVATION_VALUE, ZOOM_HOVER } from '../../../themes/Theme';
+import { COMPONENT_DISTANCE} from '../../../themes/Theme';
 import { DisplayTypes } from '../../../constants/values';
 import AddIcon from '@mui/icons-material/Add';
 import { LimitMediaQuery  } from '../../../helper/helper';
@@ -20,8 +16,6 @@ import CardComponent from '../../CardComponent';
 const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
 
   const LIMIT = LimitMediaQuery();
-
-  const navigate = useNavigate();
 
   const [cars, setCars] = useState<AxiosPaperList[]>([]);
 

@@ -1,11 +1,10 @@
-// Bild von <a href="https://pixabay.com/de/users/chulmin1700-15022416/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4886294">철민 박</a> auf <a href="https://pixabay.com/de//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4886294">Pixabay</a>
 import { FC, Suspense, lazy, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { SelectChangeEvent, createTheme } from '@mui/material';
+import { SelectChangeEvent, Typography } from '@mui/material';
 import axios from 'axios';
-import { COMPONENT_DISTANCE, H1PrimaryMain, SearchContainer, buttonHeight } from '../../../themes/Theme';
+import { COMPONENT_DISTANCE, SearchContainer, buttonHeight } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
@@ -18,6 +17,7 @@ import { DisplayTypes } from '../../../constants/values';
 import { notifyError } from '../../../helper/toastHelper';
 import afterComponentViewed from '../../../helper/lazyLoading/afterComponentViewed';
 import LoadingComponent from '../../LoadingComponent';
+import { useTheme } from '@emotion/react';
 
 const LazyClickedCarsMost = lazy(() => import('./ClickedCars'));
 const LazyClickedCarsElectric = lazy(() => import('./ClickedCars'));
@@ -27,7 +27,7 @@ const searchButtonText = " Treffer";
 const Search: React.FC = () => {
 
   const navigate = useNavigate();
-  const theme = createTheme();
+  const theme = useTheme();
   // available cars 
   const [countCars, setCountCars] = useState<number>(0);
 
@@ -42,7 +42,8 @@ const Search: React.FC = () => {
   }
 
   const [formSelect, setFormSelect] = useState<AxiosSearch>(initalValue);
-  const [isClickedCarsVisible, setIsClickedCarsVisible] = useState(false);
+
+  const [isMostCarVisible, setIsMostCarVisible] = useState(false);
   const [isElectricCarVisible, setIsElectricCarVisible] = useState(false);
 
   const [listBrands, setListBrands] = useState<string[]>([])
@@ -63,10 +64,13 @@ const Search: React.FC = () => {
   // Fetch static data
   useEffect(() => {
 
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     async function fetchData() {
 
       try {
-        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.SEARCH_DATAS, { withCredentials: true })
+        const response = await axios.get(URLs.ORIGIN_SERVER + URLs.SEARCH_DATAS, { withCredentials: true, signal })
         if (response.data) {
 
           const tableValues = response.data.tableValues;
@@ -81,13 +85,15 @@ const Search: React.FC = () => {
     }
 
     fetchData();
-    return () => { }
+    return () => { controller.abort(); }
   }, [])
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     const selectedBrand = formSelect.brand;
     const fetchData = async () => {
-      await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand }, { withCredentials: true })
+      await axios.post(URLs.ORIGIN_SERVER + URLs.FETCH_MODEL, { selectedBrand }, { withCredentials: true, signal })
 
         .then(response => {
 
@@ -96,17 +102,19 @@ const Search: React.FC = () => {
         .catch(error => notifyError(error.response.messageId, error.response.data.message))
     }
     if (selectedBrand) fetchData();
-    return () => { }
+    return () => { controller.abort(); }
   }, [formSelect.brand])
 
   // fetch data on every select field changes, count cars
   useEffect(() => {
-    handleDynamicSearch();
-    return () => { }
+    const controller = new AbortController();
+    handleDynamicSearch(controller);
+    return () => { controller.abort(); }
   }, [formSelect, selectedDateFrom, selectedDateTo])
 
   // dynamic search
-  const handleDynamicSearch = async () => {
+  const handleDynamicSearch = async (controller: any) => {
+    const signal = controller.signal;
 
     const brandid = formSelect.brand === "" ? SelectFieldEnums.ALL_VALUE : formSelect.brand;
     const modelid = formSelect.model === "" ? SelectFieldEnums.ALL_VALUE : formSelect.model;
@@ -121,7 +129,8 @@ const Search: React.FC = () => {
     try {
       const response = await axios.get(URLs.ORIGIN_SERVER + URLs.FETCH_COUNT, {
         withCredentials: true,
-        params: searchParams
+        params: searchParams,
+        signal
       })
       setCountCars(response.data);
     } catch (error: any) {
@@ -146,14 +155,14 @@ const Search: React.FC = () => {
 
   const YearFromComponent: FC = () => {
     return <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker slotProps={{ textField: { variant: 'standard', } }} label={'Baujahr von'} value={selectedDateFrom} views={['year']} minDate={minDateConst} maxDate={maxDateConst} onChange={(newDate) => { setSelectedDateFrom(newDate), setSelectedDateTo(newDate) }} />
+      <DatePicker slotProps={{ textField: { variant: 'outlined', } }} label={'Baujahr von'} value={selectedDateFrom} views={['year']} minDate={minDateConst} maxDate={maxDateConst} onChange={(newDate) => { setSelectedDateFrom(newDate); setSelectedDateTo(newDate) }} />
 
     </LocalizationProvider>
   }
 
-  const YearToComponent = () => {
+  const YearToComponent: FC = () => {
     return <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker slotProps={{ textField: { variant: 'standard', } }} label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={dayjs()} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
+      <DatePicker slotProps={{ textField: { variant: 'outlined', } }} label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={selectedDateFrom} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
     </LocalizationProvider>
   }
 
@@ -179,7 +188,7 @@ const Search: React.FC = () => {
   const SearchContent = () => {
 
     return (
-      <SearchContainer sx={{ padding: '1.5rem', cursor: 'default', backgroundColor: 'background.paper' }}>
+      <SearchContainer sx={{ padding: '1.5rem', marginTop:'-9rem', cursor: 'default', backgroundColor: 'background.paper', borderRadius:'1rem' }}>
 
         <Grid container sx={{}} justifyContent="center" columnSpacing={3}>
           <Grid item xs={6} md={4}>
@@ -223,7 +232,7 @@ const Search: React.FC = () => {
                 else
                   notifyError("no cars", "Zurzeit keine Inserate");
               }}
-              sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained" startIcon={<SearchIcon />}>  {countCars} &nbsp;{` ${searchButtonText}`}</Button>
+              sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained" startIcon={<SearchIcon sx={{color:'white'}}/>}>  {countCars} &nbsp;{` ${searchButtonText}`}</Button>
           </Grid>
         </Grid>
       </SearchContainer>)
@@ -231,26 +240,43 @@ const Search: React.FC = () => {
   }
 
   useEffect(() => {
-    afterComponentViewed(setIsClickedCarsVisible, 'box');
+    afterComponentViewed(setIsMostCarVisible, 'mostCar');
     afterComponentViewed(setIsElectricCarVisible, 'boxElectric');
+    return () => {}
   }, []); 
 
   return (<>
-  <Box sx={{ backgroundImage: `url("${URLs.ORIGIN_CLIENT}/river-4886294_1280.jpg")` }} height={'59vh'} >
-    <div style={{ paddingLeft:'1rem', paddingRight:'1rem' }}>
-    <a style={{ fontSize:'0.8rem', color:'whitesmoke' }} target='_blank' href='https://www.pexels.com/de-de/foto/fahrzeug-auf-der-strasse-zur-goldenen-stunde-210182/'>Foto von Pixabay: https://www.pexels.com/de-de/foto/fahrzeug-auf-der-strasse-zur-goldenen-stunde-210182/</a>
-    </div>
+  <Box sx={{ backgroundColor:'primary.main',
+    height: '550px' }} >
 
-      <H1PrimaryMain>Neues Auto.</H1PrimaryMain>
-      <SearchContent />
+      <Typography variant='h1' sx={{ color: 'white',
+    margin: 'auto',
+    textAlign: 'center',
+    paddingTop: '4rem',
+    paddingBottom: '3rem',
+    fontWeight: 'bold'
+    }}>Jetzt entdecken.</Typography>
+
+    <Typography variant='body1' sx={{ color: 'white',
+    width:{xs: '80%', lg: '800px'},
+    margin: 'auto',
+    textAlign: 'center',
+    paddingTop: '1rem',
+    paddingBottom: '3rem',}}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo</Typography>
     </Box>
+
+    <SearchContent />
 
       <Box sx={{ minHeight:'500px', marginTop: COMPONENT_DISTANCE }} >
 
-      <h4 style={{ marginLeft:'2.5%', color: theme.palette.primary.main }}>Am meisten gesucht</h4>
+      <h2 style={{ marginLeft:'2.5%', color: theme.palette.primary.main }}>Am meisten gesucht</h2>
+      <Box id="mostCar">
+        { isMostCarVisible &&
             <Suspense fallback={<LoadingComponent />} >
               <LazyClickedCarsMost type={DisplayTypes.MOST_CLICKED} />
             </Suspense>
+      }
+      </Box>
       </Box>
 
       <Box
@@ -259,7 +285,7 @@ const Search: React.FC = () => {
       >
       {
         isElectricCarVisible && (<>
-          <h4 style={{ marginLeft:'2.5%', color: theme.palette.primary.main }}>Elektroautos</h4>
+          <h2 style={{ marginLeft:'2.5%', color: theme.palette.primary.main }}>Elektroautos</h2>
 
       
           <Suspense fallback={ <LoadingComponent /> }>

@@ -1,4 +1,6 @@
-import { Accordion, Select, Typography, colors, createTheme } from "@mui/material";
+import { colors, createTheme } from "@mui/material";
+import Accordion from "@mui/material/Accordion";
+import Select from "@mui/material/Select";
 import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -20,8 +22,7 @@ const breakpoints = {
     sm: 576,
     md: 768,
     lg: 1100,
-    xl: 1200,
-    xxl: 1400
+    xl: 1300,
 };
 
 export const BREAKPOINT_MIN_LG = 1101;
@@ -36,13 +37,14 @@ const searchContainerXLWidth = '1150px'
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
 
-const LIGHT_PRIMARY_COLOR_MAIN: string = "#D48166";
+const LIGHT_PRIMARY_COLOR_MAIN: string = "#2B2B4D";
+const LIGHT_PRIMARY_COLOR_LIGHT: string = "#02c9ff";
 export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 
 //const LIGHT_PRIMARY_DARK = "#E4E4DE";
 
-export const LIGHT_SECONDARY_COLOR_MAIN = "#ebe8fc";
-const LIGHT_BACKGROUND_DEFAULT = 'white';
+export const LIGHT_SECONDARY_COLOR_MAIN = "#4740ed";
+const LIGHT_BACKGROUND_DEFAULT = 'whitesmoke';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = 'white';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.cyan[600];
@@ -94,13 +96,14 @@ export const themeLight = createTheme({
         },
         primary: {
             main: LIGHT_PRIMARY_COLOR_MAIN,
+            light: LIGHT_PRIMARY_COLOR_LIGHT,
             contrastText: LIGHT_PRIMARY_CONTRAST_TEXT,
         }, secondary: {
             main: LIGHT_SECONDARY_COLOR_MAIN,
             contrastText: LIGHT_PRIMARY_COLOR_MAIN,
         }, background: {
             default: LIGHT_BACKGROUND_DEFAULT,
-            paper: LIGHT_BACKGROUND_PAPER_DEFAULT
+            paper: LIGHT_BACKGROUND_PAPER_DEFAULT,
         }, icon: {
             main: LIGHT_PRIMARY_COLOR_MAIN,
         }
@@ -131,11 +134,12 @@ export const themeLight = createTheme({
                     borderRadius: '0px',
                     border: 'none',
                     width: '100%',
+                    backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
                     color: LIGHT_PRIMARY_CONTRAST_TEXT,
                     marginBottom: '1rem',
                     '&:hover': {
-                        backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
-                        color: LIGHT_PRIMARY_COLOR_MAIN,
+                        backgroundColor: LIGHT_PRIMARY_COLOR_LIGHT,
+                        color: LIGHT_PRIMARY_CONTRAST_TEXT,
                     }, textTransform: 'none',
                     '& .MuiButton-label': {
                         textTransform: 'capitalize',

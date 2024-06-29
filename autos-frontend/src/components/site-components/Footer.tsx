@@ -88,7 +88,7 @@ export default function Footer() {
         opacity: 1,
       },
     }}
-    
+      inputProps={{"aria-label":"Dark light mode"}}
       checked={mode}
       onChange={handleChangeSwitch}
     />}

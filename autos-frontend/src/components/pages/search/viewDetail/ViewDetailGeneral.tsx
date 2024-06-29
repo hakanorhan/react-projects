@@ -12,7 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {
   Boxprint,
   COMPONENT_DISTANCE, GreyHorizontalHR, ICON_FONT_SIZE, LINE_HEIGHT,
-   paperViewDetailSearchTextArea, SX_ICON
+  paperViewDetailSearchTextArea, SX_ICON
 } from '../../../../themes/Theme';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import Check from '@mui/icons-material/Check';
@@ -47,18 +47,18 @@ import { scrollToTop } from '../../../../helper/helper';
 
 const buttonSecondarySX = {
   fontSize: '1.2rem',
-                borderRadius: '0px',
-                border: 'none',
-                width: '100%',
-                backgroundColor: 'secondary.main',
-                color: 'secondary.contrastText',
-                '&:hover': {
-                    backgroundColor: 'primary.main',
-                    color: 'primary.contrastText',
-                }, textTransform: 'none',
-                '& .MuiButton-label': {
-                    textTransform: 'capitalize',
-                },
+  borderRadius: '0px',
+  border: 'none',
+  width: '100%',
+  backgroundColor: 'primary.light',
+  color: 'primary.contrastText',
+  '&:hover': {
+    backgroundColor: 'secondary.light',
+    color: 'primary.contrastText',
+  }, textTransform: 'none',
+  '& .MuiButton-label': {
+    textTransform: 'capitalize',
+  },
 }
 
 const XS = 11.3;
@@ -88,7 +88,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
   const navigate = useNavigate();
 
   const userLogged = useSelector((state: RootState) => state.userLoggedIn);
-scrollToTop();
+  scrollToTop();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -105,7 +105,7 @@ scrollToTop();
 
   const GridTechnicalComponent: React.FC<GridTechnicalDetails> = ({ title, value, icon }) => {
     return <Grid sx={{ display: 'flex', padding: '0.7rem' }} item xs={12}>
-      <Grid item xs={6}><Typography  variant='body1' component='p'>{`${title}:`}</Typography></Grid>
+      <Grid item xs={6}><Typography variant='body1' component='p'>{`${title}:`}</Typography></Grid>
       <Grid item xs={6}> <Typography variant='body1' component='p'>{value}</Typography>{icon}</Grid>
     </Grid>
   }
@@ -152,7 +152,7 @@ scrollToTop();
         <Button variant='contained' endIcon={<Call />}>Anrufen</Button>
       </Box>
       <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', padding: '10px', paddingLeft: '5px', textAlign: 'center' }}>
-        <Button onClick={() => { handleClickOpen() }} sx={ buttonSecondarySX } variant='contained' endIcon={<Email />}>Email</Button>
+        <Button onClick={() => { handleClickOpen() }} sx={buttonSecondarySX} variant='contained' endIcon={<Email  sx={{ color:'white' }}/>}>Email</Button>
       </Box>
     </Box>
   }
@@ -199,13 +199,13 @@ scrollToTop();
   }
 
   const CarsNotfoundComponent = () => {
-    return ( !detailSearchValues &&
+    return (!detailSearchValues &&
       <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} width={'100%'}>
         <Box width={'100%'} marginTop={'4rem'}>
-          <Typography variant='h4' textAlign={'center'} component={'h3'}>{ userLogged.role === Roles.ADMIN && userLogged.userLoggedIn ? "Sie sind als Admin angemeldet. Keine Fahrzeuge" : "Keine Fahrzeuge gefunden" }</Typography>
+          <Typography variant='h4' textAlign={'center'} component={'h3'}>{userLogged.role === Roles.ADMIN && userLogged.userLoggedIn ? "Sie sind als Admin angemeldet. Keine Fahrzeuge" : "Keine Fahrzeuge gefunden"}</Typography>
         </Box>
-        <Box width={'100%'} marginTop={'2rem'} display={ userLogged.role === Roles.ADMIN && userLogged.userLoggedIn ? 'none' : 'flex'} justifyContent={'center'}>
-          <Button onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width:'190px' }} variant='contained'>{"Neue Suche"}</Button>
+        <Box width={'100%'} marginTop={'2rem'} display={userLogged.role === Roles.ADMIN && userLogged.userLoggedIn ? 'none' : 'flex'} justifyContent={'center'}>
+          <Button onClick={() => { navigate(URLs.HOME_ALL_SEARCH_COUNT) }} sx={{ width: '190px' }} variant='contained'>{"Neue Suche"}</Button>
         </Box>
       </Box>
     )
@@ -214,251 +214,251 @@ scrollToTop();
 
   return (
 
-    <Box>
+    <Box sx={{ backgroundColor: 'background.default' }}>
+      <Box sx={{ display:{xs:'none', lg:'block'}, height:'4rem', backgroundColor:'background.default'}}></Box>
+      {carsNotFound && <CarsNotfoundComponent />}
 
-      { carsNotFound &&
-        <CarsNotfoundComponent />
+      {detailSearchValues &&
+        <Grid container sx={{ backgroundColor: 'background.paper', borderRadius: {xs: 0, lg:'40px'}, width: { xs: '100%', lg: '1070px' }, margin: 'auto', padding:{xs: 0, lg:'20px'} }}>
 
-      }
 
-      { detailSearchValues &&
-      <Grid container sx={{ backgroundColor: 'background.paper', width: { xs: '100%', lg: '1050px' }, margin: 'auto', marginBottom: { xs: 0, lg: '4rem' } }}>
 
-        <ContactFixed />
+          {/*  Container */}
+          <Grid item xs={12} lg={7}>
+            <Box sx={{ padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
 
-        {/*  Container */}
-        <Grid item xs={12} lg={7}>
-          <Box sx={{ padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
-            
-            <CarImages id={id} multiple={true} isDetail={ true }/>
-          </Box>
-
-          <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'flex' : 'none' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
-            <Logo />
-            <Box sx={{ marginLeft:'30px', marginRight: '10px' }}>
-              <LocationOn sx={ SX_ICON }/>
-            </Box>
-            <Box sx={{ color:'text.primary' }}>
-            <Typography variant='body1'>{detailSearchValues?.companyName}</Typography>
-            <Typography variant='body2'>{`${detailSearchValues?.streetNr}`}</Typography>
-            <Typography variant='body2'>{`${detailSearchValues?.zipcode} ${detailSearchValues?.city}`}</Typography>
+              <CarImages id={id} multiple={true} isDetail={true} />
             </Box>
 
-            <Box sx={{ marginLeft: '30px', color:'text.primary' }}>
-            {detailSearchValues?.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
-            <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
-            <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize:'1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography  sx={{ marginLeft:'7px' }} variant='body2'>45 Bewertungen</Typography></Box>
-            </Box>
-          </Box>
-
-          <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'none' : 'flex' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
-          <Box sx={{ marginRight: '10px' }}>
-              <LocationOn sx={ SX_ICON }/>
-            </Box>
-            <Box sx={{ color:'text.primary' }}>
-            <Typography variant='body1'>{`${detailSearchValues?.zipcode} ${detailSearchValues?.city}`}</Typography>
-            </Box>
-
-            <Box sx={{ marginLeft: '50px', color:'text.primary' }}>
-              <Box>
-            {detailSearchValues?.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
+            <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'flex' : 'none' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
+              <Logo />
+              <Box sx={{ marginLeft: '30px', marginRight: '10px' }}>
+                <LocationOn sx={SX_ICON} />
               </Box>
-            <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
-            <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize:'1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography  sx={{ marginLeft:'7px' }} variant='body2'>45 Bewertungen</Typography></Box>
-            
+              <Box sx={{ color: 'text.primary' }}>
+                <Typography variant='body1'>{detailSearchValues?.companyName}</Typography>
+                <Typography variant='body2'>{`${detailSearchValues?.streetNr}`}</Typography>
+                <Typography variant='body2'>{`${detailSearchValues?.zipcode} ${detailSearchValues?.city}`}</Typography>
+              </Box>
+
+              <Box sx={{ marginLeft: '30px', color: 'text.primary' }}>
+                {detailSearchValues?.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
+                <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
+                <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: '1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography sx={{ marginLeft: '7px' }} variant='body2'>45 Bewertungen</Typography></Box>
+              </Box>
             </Box>
-          </Box>
 
-        </Grid>
+            <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'none' : 'flex' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
+              <Box sx={{ marginRight: '10px' }}>
+                <LocationOn sx={SX_ICON} />
+              </Box>
+              <Box sx={{ color: 'text.primary' }}>
+                <Typography variant='body1'>{`${detailSearchValues?.zipcode} ${detailSearchValues?.city}`}</Typography>
+              </Box>
 
-            {/* Short Detail */}
-            <Grid sx={{ width: { xs: '95%', lg: '100%', margin: 'auto', marginTop: 0 }, paddingLeft: { xs: 0, lg: COMPONENT_DISTANCE }, paddingRight: { xs: 0, lg: COMPONENT_DISTANCE }, paddingTop: { xs: COMPONENT_DISTANCE } }} item xs={XS} lg={5}>
-              <Boxprint>
-                <Grid container>
-                  <Grid sx={{ display: 'flex' }} item xs={4}>
-                    <ShareComponent />
-                  </Grid>
-                  <Grid sx={{ display: 'flex', justifyContent: 'center' }} item xs={4}>
-                    <FavoriteBorder sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography  sx={{ cursor: 'pointer' }} variant='body1' component='p'>{"Merken"}</Typography>
-                  </Grid>
-                  <Grid onClick={() => { window.print() }} item sx={{ cursor: 'pointer', justifyContent: 'end', display: 'flex' }} xs={4}>
-                    <Print sx={{ marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Drucken"}</Typography>
-                  </Grid>
+              <Box sx={{ marginLeft: '50px', color: 'text.primary' }}>
+                <Box>
+                  {detailSearchValues?.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
+                </Box>
+                <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
+                <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: '1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography sx={{ marginLeft: '7px' }} variant='body2'>45 Bewertungen</Typography></Box>
+
+              </Box>
+            </Box>
+
+          </Grid>
+
+          {/* Short Detail */}
+          <Grid sx={{ width: { xs: '95%', lg: '100%', margin: 'auto', marginTop: 0 }, paddingLeft: { xs: 0, lg: COMPONENT_DISTANCE }, paddingRight: { xs: 0, lg: COMPONENT_DISTANCE }, paddingTop: { xs: COMPONENT_DISTANCE } }} item xs={XS} lg={5}>
+            <Boxprint>
+              <Grid container>
+                <Grid sx={{ display: 'flex' }} item xs={4}>
+                  <ShareComponent />
                 </Grid>
-              </Boxprint>
+                <Grid sx={{ display: 'flex', justifyContent: 'center' }} item xs={4}>
+                  <FavoriteBorder sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography sx={{ cursor: 'pointer' }} variant='body1' component='p'>{"Merken"}</Typography>
+                </Grid>
+                <Grid onClick={() => { window.print() }} item sx={{ cursor: 'pointer', justifyContent: 'end', display: 'flex' }} xs={4}>
+                  <Print sx={{ marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Drucken"}</Typography>
+                </Grid>
+              </Grid>
+            </Boxprint>
 
-              <Grid sx={{ height: '100%', marginTop: '1rem' }} container>
-                {/* Marke Modell */}
-                <Grid item xs={12}> <Typography variant='h5' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
+            <Grid sx={{ height: '100%', marginTop: '1rem' }} container>
+              {/* Marke Modell */}
+              <Grid item xs={12}> <Typography variant='h5' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
 
-                <Grid container  sx={{ marginTop: COMPONENT_DISTANCE }}>
-                  <Grid item xs={6}>
-                    <Box sx={{ backgroundColor: 'secondary.main', padding: '16px' }}>
-                      <Typography variant="h6" component="h2" sx={{ display: 'flex', justifyContent: 'center' }}>
-                        {seperateThousand(detailSearchValues.price)} {" €"}
-                      </Typography>
-                      <Typography variant="body2" component="p" sx={{ display: 'flex', justifyContent: 'center' }}>
-                        {"Preis"}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Box sx={{ backgroundColor: 'primary.main', padding: '16px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
-                      <Button sx={{ '@media print': { display: 'none' }, backgroundColor: 'secondary.main', color: 'primary.main' }} variant="contained" endIcon={<CalculateIcon />}>
-                        Finanzieren
-                      </Button>
-                      <Typography sx={{ textAlign: 'center', '@media screen': { display: 'none' } }}>
-                        {'Finanzierung'}
-                      </Typography>
-                      <Typography variant="h6" component="h2" sx={{ display: 'flex', justifyContent: 'center' }}>
-                        {seperateThousand(550)} {" €"}
-                      </Typography>
-                    </Box>
-                  </Grid>
+              <Grid spacing={2} container sx={{ marginTop: COMPONENT_DISTANCE }}>
+                <Grid item xs={6}>
+                  <Box sx={{ backgroundColor: 'secondary.main', padding: '16px' }}>
+                    <Typography variant="h4" component="h2" sx={{ color:'white', display: 'flex', justifyContent: 'center' }}>
+                      {seperateThousand(detailSearchValues.price)} {" €"}
+                    </Typography>
+                    <Typography variant="body2" component="p" sx={{ color:'white', display: 'flex', justifyContent: 'center' }}>
+                      {"Preis"}
+                    </Typography>
+                  </Box>
                 </Grid>
                 
-                <Grid sx={{ marginTop:COMPONENT_DISTANCE }} item xs={12}>
-                <GreyHorizontalHR />
+                <Grid item xs={6}>
+                  <Box sx={{ backgroundColor: 'primary.light', padding: '16px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
+                    <Button sx={{ '@media print': { display: 'none' }, backgroundColor: 'secondary.main', color: 'white' }} variant="contained" endIcon={<CalculateIcon sx={{ color:'white' }}/>}>
+                      Finanzieren
+                    </Button>
+                    <Typography sx={{ textAlign: 'center', '@media screen': { display: 'none' } }}>
+                      {'Finanzierung'}
+                    </Typography>
+                    <Typography variant="h6" component="h2" sx={{ color:'white', display: 'flex', justifyContent: 'center' }}>
+                      {seperateThousand(550)} {" €"}
+                    </Typography>
+                  </Box>
                 </Grid>
-                <Box sx={{ display: 'flex', marginTop: '1rem' }}>
-                <HealthAndSafetyIcon sx={{ color: 'text.primary', fontSize:'3rem', marginRight:'10px' }}/>
+              </Grid>
+
+              <Grid sx={{ marginTop: COMPONENT_DISTANCE }} item xs={12}>
+                <GreyHorizontalHR />
+              </Grid>
+              <Box sx={{ display: 'flex', marginTop: '1rem' }}>
+                <HealthAndSafetyIcon sx={{ color: 'text.primary', fontSize: '3rem', marginRight: '10px' }} />
                 <Box>
                   <Typography variant='h6'>{"Ab 12,89€ monatlich"}</Typography>
                   <Typography variant='body2'>{"KFZ-Versicherung vergleichen"}</Typography>
                 </Box>
-                </Box>
+              </Box>
 
-                <Grid sx={{ marginTop:COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }} item xs={12}>
+              <Grid sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }} item xs={12}>
                 <GreyHorizontalHR />
-                </Grid>
-
-                
-                <TDescriptionComponent />
-
-
               </Grid>
 
-              <Grid item xs={12} sx={{ display: { xs: 'none', lg: 'flex' }, paddingTop: COMPONENT_DISTANCE }}>
-                <Box sx={{ width: '49%', textAlign: 'center' }}>
-                  <Button sx={{}} variant='contained' endIcon={<Call />}>Anrufen</Button>
-                </Box>
-                <Box sx={{ width: '2%' }}></Box>
-                <Box sx={{ width: '49%', textAlign: 'center' }}>
-                  <Button onClick={() => { handleClickOpen() }} sx={ buttonSecondarySX } variant='contained' endIcon={<Email />}>Email</Button>
-                </Box>
-              </Grid>
+
+              <TDescriptionComponent />
+
 
             </Grid>
 
-            <Grid item sx={{ '@media print': { breakBefore: 'page' }, margin: 'auto' }} xs={XS}>
-              <Grid sx={{ marginTop: COMPONENT_DISTANCE }} item xs={12}>
-                <GreyHorizontalHR />
-              </Grid>
-              <Grid container>
-                <Grid item xs={12} lg={4}>
-                  <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}> Technische Daten </Typography>
-                </Grid>
-                <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
-                  <GridTechnicalComponent title='Marke' value={detailSearchValues?.brand} />
-                  <GridTechnicalComponent title='Modell' value={detailSearchValues?.model} />
-                  <GridTechnicalComponent title='Fahrzeugtyp' value={detailSearchValues.cartype} />
-                  <GridTechnicalComponent title='Farbe' value={detailSearchValues.color} />
-                  <GridTechnicalComponent title='Hubraum' value={`${detailSearchValues.cubicCapacity} ccm³`} />
-                  <GridTechnicalComponent title='Getriebeart' value={detailSearchValues.transmission} />
-                  <GridTechnicalComponent title='HU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.huNew} />} />
-                  <GridTechnicalComponent title='AU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.auNew} />} />
-                </Grid>
-              </Grid>
+            <Grid item xs={12} sx={{ display: { xs: 'none', lg: 'flex' }, paddingTop: COMPONENT_DISTANCE }}>
+              <Box sx={{ width: '49%', textAlign: 'center' }}>
+                <Button sx={{ color: 'white', backgroundColor:'secondary.main', ':hover&': {backgroundColor:'primary.light', color:'white'} }} variant='contained' endIcon={<Call sx={{ color:'white' }} />}>Anrufen</Button>
+              </Box>
+              <Box sx={{ width: '2%' }}></Box>
+              <Box sx={{ width: '49%', textAlign: 'center' }}>
+                <Button onClick={() => { handleClickOpen() }} sx={buttonSecondarySX} variant='contained' endIcon={<Email sx={{ color:'white' }}/>}>Email</Button>
+              </Box>
             </Grid>
 
-            <Grid item sx={{ margin: 'auto' }} xs={XS}>
+          </Grid>
 
+          <Grid item sx={{ '@media print': { breakBefore: 'page' }, margin: 'auto' }} xs={XS}>
+            <Grid sx={{ marginTop: COMPONENT_DISTANCE }} item xs={12}>
               <GreyHorizontalHR />
-              <Grid container>
-                <Grid item xs={12} lg={4}>
-                  <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}> Ausstattung </Typography>
-                </Grid>
-
-                <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
-                  <GridTechnicalComponent title='Scheckheftgepflegt' icon={<CheckOrFalseIcon checked={detailSearchValues.scheckheft} />} />
-                  <GridTechnicalComponent title='Fahrtüchtig' icon={<CheckOrFalseIcon checked={detailSearchValues.fittodrive} />} />
-                  <GridTechnicalComponent title='Abstandstempomat' icon={<CheckOrFalseIcon checked={detailSearchValues.abstandstempomat} />} />
-                  <GridTechnicalComponent title='Ambientbeleuchtung' icon={<CheckOrFalseIcon checked={detailSearchValues.ambientbeleuchtung} />} />
-                  <GridTechnicalComponent title='Klimatisierung' value={detailSearchValues.clima} />
-                  <GridTechnicalComponent title='Head-up Display' icon={<CheckOrFalseIcon checked={detailSearchValues.headupdisplay} />} />
-                  <GridTechnicalComponent title='Totwinkelassistent' icon={<CheckOrFalseIcon checked={detailSearchValues.totwinkelassistent} />} />
-                </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={12} lg={4}>
+                <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}> Technische Daten </Typography>
+              </Grid>
+              <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
+                <GridTechnicalComponent title='Marke' value={detailSearchValues?.brand} />
+                <GridTechnicalComponent title='Modell' value={detailSearchValues?.model} />
+                <GridTechnicalComponent title='Fahrzeugtyp' value={detailSearchValues.cartype} />
+                <GridTechnicalComponent title='Farbe' value={detailSearchValues.color} />
+                <GridTechnicalComponent title='Hubraum' value={`${detailSearchValues.cubicCapacity} ccm³`} />
+                <GridTechnicalComponent title='Getriebeart' value={detailSearchValues.transmission} />
+                <GridTechnicalComponent title='HU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.huNew} />} />
+                <GridTechnicalComponent title='AU neu' icon={<CheckOrFalseIcon checked={detailSearchValues.auNew} />} />
               </Grid>
             </Grid>
+          </Grid>
 
+          <Grid item sx={{ margin: 'auto' }} xs={XS}>
 
-            <Grid item sx={{ '@media print': { breakBefore: 'page' }, margin: 'auto' }} xs={XS}>
+            <GreyHorizontalHR />
+            <Grid container>
+              <Grid item xs={12} lg={4}>
+                <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}> Ausstattung </Typography>
+              </Grid>
 
-              <Box sx={paperViewDetailSearchTextArea}>
-                <GreyHorizontalHR />
-                <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}>Fahrzeugbeschreibung</Typography>
-                <Grid sx={{ paddingTop: COMPONENT_DISTANCE }} item xs={12}> <TextFieldArea minRows={8} maxRows={10} disbled={true} areaText={detailSearchValues.description} /> </Grid>
-              </Box>
-
+              <Grid container sx={{ paddingTop: COMPONENT_DISTANCE }}>
+                <GridTechnicalComponent title='Scheckheftgepflegt' icon={<CheckOrFalseIcon checked={detailSearchValues.scheckheft} />} />
+                <GridTechnicalComponent title='Fahrtüchtig' icon={<CheckOrFalseIcon checked={detailSearchValues.fittodrive} />} />
+                <GridTechnicalComponent title='Abstandstempomat' icon={<CheckOrFalseIcon checked={detailSearchValues.abstandstempomat} />} />
+                <GridTechnicalComponent title='Ambientbeleuchtung' icon={<CheckOrFalseIcon checked={detailSearchValues.ambientbeleuchtung} />} />
+                <GridTechnicalComponent title='Klimatisierung' value={detailSearchValues.clima} />
+                <GridTechnicalComponent title='Head-up Display' icon={<CheckOrFalseIcon checked={detailSearchValues.headupdisplay} />} />
+                <GridTechnicalComponent title='Totwinkelassistent' icon={<CheckOrFalseIcon checked={detailSearchValues.totwinkelassistent} />} />
+              </Grid>
             </Grid>
+          </Grid>
 
-            <Box sx={{ width: '94%', margin: 'auto' }}>
-              <Typography variant='h6' component='h4'>Informationen zum/zur Verkäufer:in</Typography>
-              <Typography sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>Anbieter:in seit  {detailSearchValues.since}</Typography>
 
-              <Box width='100%'>
-                {detailSearchValues.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
+          <Grid item sx={{ '@media print': { breakBefore: 'page' }, margin: 'auto' }} xs={XS}>
 
-                {
-                  detailSearchValues.isCardealer
-                    ? <Box>
-                      <Typography>{detailSearchValues.companyName}</Typography>
-                    </Box>
-                    : <></>
-                }
-
-                <Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
-                <Typography>45 Bewertungen</Typography>
-
-                <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><AccessTime sx={SX_ICON} /></Box>
-                  <Box>
-                    <Typography>{"Geöffnet"}</Typography>
-                    <Typography>{"Beispiel. Schließt um 19:00 Uhr"}</Typography>
-                  </Box>
-                </Box>
-
-                <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><GroupIcon sx={SX_ICON} /></Box>
-                  <Box>
-                    <Typography>{"Ansprechpatner:in"}</Typography>
-                    <Typography>{detailSearchValues.foreName} {detailSearchValues.sureName}</Typography>
-                    <Typography>{detailSearchValues.telNr}</Typography>
-                  </Box>
-                </Box>
-
-                <Box sx={{ display: 'flex', marginTop: COMPONENT_DISTANCE, paddingBottom: detailSearchValues.isCardealer ? 0 : "2rem" }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><LocationOn sx={SX_ICON} /></Box>
-                  <Box>
-                    <Typography>{detailSearchValues.streetNr}</Typography>
-                    <Typography>{detailSearchValues.zipcode} {detailSearchValues.city}</Typography>
-                    <Typography>{detailSearchValues.federalState}</Typography>
-                  </Box>
-                </Box>
-
-                <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE, paddingBottom: "2rem" }}>
-                  <Box sx={{ marginRight: COMPONENT_DISTANCE }}><Info sx={SX_ICON} /></Box>
-                  <Box>
-                    <Typography>{detailSearchValues.impressum}</Typography>
-                  </Box>
-                </Box>
-
-              </Box>
+            <Box sx={paperViewDetailSearchTextArea}>
+              <GreyHorizontalHR />
+              <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}>Fahrzeugbeschreibung</Typography>
+              <Grid sx={{ paddingTop: COMPONENT_DISTANCE }} item xs={12}> <TextFieldArea minRows={8} maxRows={10} disbled={true} areaText={detailSearchValues.description} /> </Grid>
             </Box>
-            <DialogEmail />
 
-      </Grid>
-}
+          </Grid>
+
+          <Box sx={{ width: '94%', margin: 'auto' }}>
+            <Typography variant='h6' component='h4'>Informationen zum/zur Verkäufer:in</Typography>
+            <Typography sx={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>Anbieter:in seit  {detailSearchValues.since}</Typography>
+
+            <Box width='100%'>
+              {detailSearchValues.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
+
+              {
+                detailSearchValues.isCardealer
+                  ? <Box>
+                    <Typography>{detailSearchValues.companyName}</Typography>
+                  </Box>
+                  : <></>
+              }
+
+              <Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
+              <Typography>45 Bewertungen</Typography>
+
+              <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>
+                <Box sx={{ marginRight: COMPONENT_DISTANCE }}><AccessTime sx={SX_ICON} /></Box>
+                <Box>
+                  <Typography>{"Geöffnet"}</Typography>
+                  <Typography>{"Beispiel. Schließt um 19:00 Uhr"}</Typography>
+                </Box>
+              </Box>
+
+              <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>
+                <Box sx={{ marginRight: COMPONENT_DISTANCE }}><GroupIcon sx={SX_ICON} /></Box>
+                <Box>
+                  <Typography>{"Ansprechpatner:in"}</Typography>
+                  <Typography>{detailSearchValues.foreName} {detailSearchValues.sureName}</Typography>
+                  <Typography>{detailSearchValues.telNr}</Typography>
+                </Box>
+              </Box>
+
+              <Box sx={{ display: 'flex', marginTop: COMPONENT_DISTANCE, paddingBottom: detailSearchValues.isCardealer ? 0 : "2rem" }}>
+                <Box sx={{ marginRight: COMPONENT_DISTANCE }}><LocationOn sx={SX_ICON} /></Box>
+                <Box>
+                  <Typography>{detailSearchValues.streetNr}</Typography>
+                  <Typography>{detailSearchValues.zipcode} {detailSearchValues.city}</Typography>
+                  <Typography>{detailSearchValues.federalState}</Typography>
+                </Box>
+              </Box>
+
+              <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE, paddingBottom: "2rem" }}>
+                <Box sx={{ marginRight: COMPONENT_DISTANCE }}><Info sx={SX_ICON} /></Box>
+                <Box>
+                  <Typography>{detailSearchValues.impressum}</Typography>
+                </Box>
+              </Box>
+
+            </Box>
+          </Box>
+          <DialogEmail />
+          <ContactFixed />
+
+        </Grid>
+      }
+      <Box sx={{height:'4rem', display:{xs:'none', lg:'block'}, backgroundColor:'background.default'}}></Box>
     </Box>
   )
 }

@@ -32,7 +32,7 @@ const App: React.FC = () => {
       <Toaster />
       <Header />
 
-      <Box sx={{ backgroundColor: 'background.default', minHeight: "calc(100vh - 50px)" }}>
+      <Box sx={{ backgroundColor: 'background.default', minHeight: (window.innerHeight > 1200 ? '1100px' : "calc(100vh - 50px)") }}>
         <Suspense fallback={<div>...loading</div>}>
           <Outlet />
         </Suspense>
@@ -69,10 +69,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      {/* Theme */}
-      {/* TODO: theme */}
       <ThemeProvider theme={mode ? themeDark : themeLight}>
-        {/* TODO: sx={{ backgroundColor:'background.default'  */}
         {/* Routes */}
         <RouterProvider router={router} />
       </ThemeProvider>

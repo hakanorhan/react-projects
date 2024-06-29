@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
-import { FormControl, InputLabel, InputAdornment, IconButton, Typography, Input } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, Input, useTheme } from '@mui/material';
 import * as ValidHelper from '../../regex/validHelper';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const PasswordSignUp: React.FC<IUseForm2> = ({ label, onChange, regex }) => {
-
+  const theme = useTheme();
      // Check icon
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -32,8 +32,8 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ label, onChange, regex }) => {
 
   const ValidationMessages = () => {
     return passwordValue 
-        ? ValidHelper.passwordSpecificValid(passwordValue).map(item =>  <Typography variant='body1' component='p' key={item.message} sx={{ color: item.isValid ? 'primary.main' : 'red' }}> {item.message} </Typography>)
-        : ValidHelper.passwordSpecificValid("").map(item => <Typography variant='body1' component='p' key={item.message} sx={{ color: item.isValid ? 'primary.main' : 'red' }}> {item.message} </Typography>)
+        ? ValidHelper.passwordSpecificValid(passwordValue).map(item =>  <p key={item.message} style={{ color: item.isValid ? theme.palette.primary.main : 'red' }}> {item.message} </p>)
+        : ValidHelper.passwordSpecificValid("").map(item => <p key={item.message} style={{ color: item.isValid ? theme.palette.primary.main : 'red' }}> {item.message} </p>)
 }
 
   return (

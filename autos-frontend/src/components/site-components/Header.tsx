@@ -1,4 +1,3 @@
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -242,8 +241,8 @@ import('@mui/icons-material/Add').then(module => {
           >
             <MenuIcon sx={{ color:'primary.contrastText' }}/>
           </IconButton>
-          <Typography sx={{ color: 'primary.contrastText', textDecoration: 'none', width: '100%' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"cars"} </Typography>
-          <div style={{  }}>
+          <Typography sx={{ color: 'primary.contrastText', textDecoration: 'none', width: '100%', fontSize:'1.5rem', fontWeight:'bold' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"cars"} </Typography>
+          <div>
             <IconButton
               size="large"
               aria-label="account of current user"

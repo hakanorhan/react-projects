@@ -1,15 +1,21 @@
 import { lazy, useEffect, useMemo, useState } from 'react'
-import { Button, Box, Card, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import { SelectChangeEvent } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AxiosPaperList } from '../../../interfaces/IAxiosData';
 import { URLs, SortEnums } from '../../../constants/values';
 import axios from 'axios';
-const CarImages = lazy(() => import('./CarImages'));
-const ShowFastPaper = lazy(() => import('./../search/searchComponents/ShowFastPaper'));
 import AddIcon from '@mui/icons-material/Add';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { COMPONENT_DISTANCE, LinkNewSearch, PAPER_ELEVATION_VALUE, ZOOM_HOVER } from '../../../themes/Theme';
+import { COMPONENT_DISTANCE, LinkNewSearch } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
 const ShareComponent = lazy(() => import('../ShareComponent'));
 import { LimitMediaQuery } from '../../../helper/helper';
@@ -196,7 +202,7 @@ scrollToTop();
 
       <CarsNotfoundComponent />
 
-      <Box sx={{ display: cars ? 'flex' : 'none', width:'100%', minHeight:{xs: 'calc(100vh - 50px)', sm: '420px' } }}>
+      <Box sx={{ display: cars ? 'flex' : 'none', width:'100%', minHeight:{xs: 'calc(100vh - 50px)', sm: '400px' } }}>
       <Grid container spacing={4}>
         {
           cars && cars.map((axiosPaper, index) => (

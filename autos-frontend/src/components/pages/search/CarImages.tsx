@@ -14,7 +14,7 @@ export interface CarImagesProps {
   id: number | null | string | undefined,
   multiple: boolean,
   isDetail?: boolean,
-  setImageIsLoaded: Dispatch<SetStateAction<boolean>>
+  setImageIsLoaded?: Dispatch<SetStateAction<boolean>>
 }
 
 enum ArrowDirection {
@@ -96,7 +96,8 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
         console.error('Fehler beim Herunterladen der Bilder:', error);
       } finally {
         setFetchImageNamesDone(false);
-        setImageIsLoaded(true);
+        if (setImageIsLoaded)
+          setImageIsLoaded(true);
       }
     };
     if (fetchImageNamesDone)
@@ -139,6 +140,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
       <CardMedia
         loading='lazy'
         component='img'
+        alt= "Bild"
         image={imageSrc[sliderIndex - 1]}
         sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor: { xs: 'default', lg: open ? 'default' : 'zoom-in' } } }}>
       </CardMedia>

@@ -15,23 +15,18 @@ const SelectField: React.FC<{
     {
       values.length === 0 ? (
         <Tooltip title={`Kein ${label} vorhanden`}>
-          <FormControl variant="standard">
-            <InputLabel sx={{ color: 'primary.main' }} htmlFor={objectName}>{label}</InputLabel>
-            <Select sx={{
-              borderRadius: 0, '& .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                border: 'none',
-              }
-            }}
+          <FormControl variant="outlined">
+            <InputLabel id={`${objectName}-id`}  sx={{ color: 'primary.main' }} htmlFor={objectName}>{label}</InputLabel>
+            <Select 
               disabled={values.length === 0}
               value={selectedValue ?? ''}
               label={label}
+              labelId={`${objectName}-label-id`}
               name={objectName}
               onChange={handleChange}
               inputProps={{
-                id: objectName
+                id: objectName,
+                "aria-labelledby": `${objectName}labelled-by`
               }}
             >
               {
@@ -48,22 +43,18 @@ const SelectField: React.FC<{
           </FormControl>
         </Tooltip>
       ) : (
-        <FormControl variant="standard">
-          <InputLabel sx={{ color: 'primary.main' }} htmlFor={objectName}>{label}</InputLabel>
-          <Select sx={{
-            borderRadius: 0, '& .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-              textDecoration: 'underline',
-              color: 'black'
-            },
-          }}
+        <FormControl variant="outlined">
+          <InputLabel sx={{ color: 'primary.main' }} id={`${objectName}-id`}  htmlFor={objectName}>{label}</InputLabel>
+          <Select
             disabled={values.length === 0}
             value={selectedValue ?? ''}
             label={label}
+            labelId={`${objectName}label-id`}
             name={objectName}
             onChange={handleChange}
             inputProps={{
-              id: objectName
+              id: objectName,
+              "aria-labelledby": `${objectName}labelled-by`
             }}
           >
             {

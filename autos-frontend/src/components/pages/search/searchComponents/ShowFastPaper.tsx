@@ -24,7 +24,7 @@ const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = ({ detai
 
     return (
         <>
-            <CardContent>
+            <CardContent sx={{ backgroundColor:'backgound.paper' }}>
                 
                 <Box display={'flex'} width={'100%'}>
                 <Typography sx={{ whiteSpace:'nowrap' }} variant='h5' component='h1'>{`${detailSearchValues.brand} ${detailSearchValues.model}`}</Typography>

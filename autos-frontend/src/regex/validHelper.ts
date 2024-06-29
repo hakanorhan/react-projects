@@ -8,12 +8,12 @@ export interface IAtLeastMessage {
 }
 
 const iAtLeastMessages: IAtLeastMessage[] = [
-    { message: "Atleast one lowercase character", pattern: REGEX.REGEX_LOWERCASE, isValid: false },
-    { message: "Atleast one Uppercase character", pattern: REGEX.REGEX_UPPERCASE, isValid: false },
-    { message: "Atleast one number", pattern: REGEX.REGEX_NUMBER, isValid: false },
-    { message: "Atleast one special symbol #?!@$ %^&*-", pattern: REGEX.REGEX_SPECIAL, isValid: false },
-    { message: "Should have atleast 8 characters", pattern: REGEX.REGEX_MIN_8, isValid: false },
-    { message: "Password is valid", pattern: REGEX.REGEX_PASSWORD, isValid: false }
+    { message: "Mindestens ein Kleinbuchstabe", pattern: REGEX.REGEX_LOWERCASE, isValid: false },
+    { message: "Mindestens ein Großbuchstabe", pattern: REGEX.REGEX_UPPERCASE, isValid: false },
+    { message: "Mindestens eine Ziffer", pattern: REGEX.REGEX_NUMBER, isValid: false },
+    { message: "Mindestens ein Sonderzeichen #?!@$ %^&*-", pattern: REGEX.REGEX_SPECIAL, isValid: false },
+    { message: "Mindestens 8 Zeichen lang", pattern: REGEX.REGEX_MIN_8, isValid: false },
+    { message: "Passwort ist gültig", pattern: REGEX.REGEX_PASSWORD, isValid: false }
 ];
 
 /**
