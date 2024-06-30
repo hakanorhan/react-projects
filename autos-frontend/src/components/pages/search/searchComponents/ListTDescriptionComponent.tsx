@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import React from 'react'
@@ -17,41 +16,21 @@ interface GridComponentProps {
   value: any
 }
 
-const gridItemXS = 4;
-const gridItemSM = 4;
-const gridItemMD = 6;
-
 export const ListTDescriptionComponent: React.FC<{ detailSearchValues: AxiosPaper }> = ({ detailSearchValues }) => {
   
   const GridComponent: React.FC<GridComponentProps> = ({ icon, value }) => {
-    return <Grid item><Box sx={{ display: 'flex', justifyContent:'left', marginBottom: LINE_HEIGHT }}> {icon}  <Typography sx={{ marginLeft: '.5rem', whiteSpace: 'nowrap' }} variant='body1' component='p'>{value}</Typography></Box></Grid>
+    return <Box sx={{ display: 'flex', justifyContent:'left', marginBottom: LINE_HEIGHT, marginRight:'0.8rem' }}> {icon}  <Typography sx={{ color:'text.primary', marginLeft: '.5rem', whiteSpace: 'nowrap' }} variant='body1' component='p'>{value}</Typography></Box>
   }
 
   return (
-    <Box>
-      <Grid container>
-        <Grid item xs={gridItemXS} sm={gridItemSM} md={ gridItemMD}>
-          <Rating sx={{ color:'primary.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
-        </Grid>
-        <Grid item xs={gridItemXS} sm={gridItemSM} md={ gridItemMD} lg={4.5}>
-          <Box display='flex' justifyContent='left' >
-            {detailSearchValues.isCarDealer ? <GridComponent icon={<StoreIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={"Privat"} />}
-          </Box>
-        </Grid>
-        <Grid item xs={gridItemXS} sm={gridItemSM} md={ gridItemMD}>
-          <GridComponent icon={<SpeedIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={seperateThousand(detailSearchValues.psPower) + " PS"} />
-        </Grid>
-        <Grid item xs={gridItemXS} sm={gridItemSM} md={4} lg={ detailSearchValues.mileageKm > 999_999 ? 6: 4.5}>
-          <Box display='flex' >
-            <GridComponent icon={<DirectionsCarIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={seperateThousand(detailSearchValues?.mileageKm) + " KM"} />
-          </Box>
-        </Grid>
-        <Grid item xs={4}>
-          <Box display='flex' justifyContent='left' >
-            <Grid item><Box sx={{ display: 'flex', marginBottom: LINE_HEIGHT }}> <LocationOnIcon sx={{ fontSize: ICON_FONT_SIZE }} />  <Typography sx={{ marginLeft: '.5rem', whiteSpace: 'nowrap' }} variant='body1' component='p'>{detailSearchValues.city}</Typography></Box></Grid>
-          </Box>
-        </Grid>
-      </Grid>
+    <Box display='flex' flexWrap='wrap'>
+      <GridComponent icon={<SpeedIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={seperateThousand(detailSearchValues.psPower) + " PS"} />
+      <GridComponent icon={<DirectionsCarIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={seperateThousand(detailSearchValues?.mileageKm) + " KM"} />
+      <GridComponent icon={<LocationOnIcon sx={{fontSize: ICON_FONT_SIZE}}/>} value={detailSearchValues.city} />
+      {detailSearchValues.isCarDealer ? <GridComponent icon={<StoreIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={"Privat"} />}
+      
+      <Rating sx={{ color: 'icon.main', marginRight:'0.8rem', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /> 22 Beweruntungen erhalten
+      
     </Box>
   )
 }

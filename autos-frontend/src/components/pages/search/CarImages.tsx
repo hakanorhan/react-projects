@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import React, { Dispatch, SetStateAction, memo, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { URLs } from '../../../constants/values';
 import { keyframes, useMediaQuery } from '@mui/material';
@@ -31,6 +31,14 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
   const [imageSrc, setImageSrc] = useState<string[]>([]);
 
   const [open, setOpen] = useState(false);
+
+  const handleImageLoading = () => {
+    if(setImageIsLoaded)
+      setTimeout(() => {
+        setImageIsLoaded(true); 
+        setFetchImageNamesDone(false);
+      }, 1500);
+  }
 
   const handleClickOpen = () => {
     if (lgQuery)
@@ -95,9 +103,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
       } catch (error) {
         console.error('Fehler beim Herunterladen der Bilder:', error);
       } finally {
-        setFetchImageNamesDone(false);
-        if (setImageIsLoaded)
-          setImageIsLoaded(true);
+        handleImageLoading();
       }
     };
     if (fetchImageNamesDone)
@@ -135,7 +141,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
       }
     }
 
-    return (<Box sx={{ position: 'relative' }} onClick={() => { handleClickOpen() }}>
+    return (<div style={{ position: 'relative' }} onClick={() => { handleClickOpen() }}>
 
       <CardMedia
         loading='lazy'
@@ -157,7 +163,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
         <IconButton sx={iconButtonSX(1)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
       </>
       }
-    </Box>
+    </div>
     )
   }
 
@@ -207,9 +213,11 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
 
   return (<>
 
-
-    <Box ref={imageRef} sx={{ animation:`${skeletonLoading} 1s linear infinite alternate`, width: '100%', height: 'calc(100% * 9 / 16)' }}>
+    <Box  ref={imageRef} sx={{ animation:`${skeletonLoading} 1s linear infinite alternate`, width: '100%', height: 'calc(100% * 9 / 16)' }}>
+        { !fetchImageNamesDone ?
         <CarouselComponent />
+        : <Box  sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)' }}></Box>
+}
     </Box>
 
     <BigImage />
@@ -217,4 +225,4 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
   );
 };
 
-export default CarImages;
+export default memo(CarImages);

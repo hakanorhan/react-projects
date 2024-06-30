@@ -5,10 +5,10 @@ import Grid from '@mui/material/Grid';
 import { AxiosPaperList, AxiosRejectPackage } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../constants/values';
 import axios from 'axios';
-import { COMPONENT_DISTANCE} from '../../../themes/Theme';
+import { COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { DisplayTypes } from '../../../constants/values';
 import AddIcon from '@mui/icons-material/Add';
-import { LimitMediaQuery  } from '../../../helper/helper';
+import { LimitMediaQuery } from '../../../helper/helper';
 import { notifyError } from '../../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
 import CardComponent from '../../CardComponent';
@@ -29,7 +29,7 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
         withCredentials: true,
       })
       const data: AxiosPaperList[] = response.data;
-      if(data.length > 0) {
+      if (data.length > 0) {
         setCars(prevCars => [...prevCars, ...data]);
         setOffset(offset + data.length);
       }
@@ -59,7 +59,6 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
     if (offset <= cars.length) {
       fetchFromServer();
     }
-      
   };
 
   useEffect(() => {
@@ -67,50 +66,37 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
     fetchFromServer();
   }, [])
 
-  
+
   const MemoizedContainer = useMemo(() => {
-    return ({ axiosPaper }: { axiosPaper : AxiosPaperList}) => {
-    
-      return <CardComponent id={axiosPaper.inseratId} axiosPaper={axiosPaper}  />
+    return ({ axiosPaper }: { axiosPaper: AxiosPaperList }) => {
+
+      return <CardComponent id={axiosPaper.inseratId} axiosPaper={axiosPaper} />
     }
   }, [])
 
 
   return (<>
-  <Toaster />
-    { cars && cars?.length > 0 &&
-    <Box sx={{ display:'block', minHeight: '300px', width: '95%', margin: 'auto', marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
+    <Toaster />
+    {cars && cars?.length > 0 &&
+      <Box sx={{ display: 'block', minHeight: '300px', width: '95%', margin: 'auto', marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
 
-      <Grid container spacing={4}>
-        {
-          cars && cars.map((axiosPaper, index) => (
-            <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={index}>
-              <MemoizedContainer key={index} axiosPaper={axiosPaper} />
-            </Grid>
-          )) 
-        }
-      </Grid>
+        <Grid container spacing={4}>
+          {
+            cars && cars.map((axiosPaper, index) => (
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={3} key={index}>
+                <MemoizedContainer key={index} axiosPaper={axiosPaper} />
+              </Grid>
+            ))
+          }
+        </Grid>
 
-      <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE }}>
-      <Button disabled={ offset >= count } onClick={  handleShowNewCars } sx={{ width:'250px', color: 'text.primary', '&:hover': { backgroundColor:'transparent' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
+        <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE }}>
+          <Button disabled={offset >= count} onClick={handleShowNewCars} sx={{ width: '250px', backgroundColor: 'transparent', color: 'secondary.main', '&:hover': { backgroundColor: 'transparent', color: 'primary.light' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
+        </Box>
       </Box>
-    </Box>
-}
-        </>
+    }
+  </>
   )
 }
 
-export default memo (ClickedCars);
-
-/*
-  {<Card elevation={ PAPER_ELEVATION_VALUE } sx={ ZOOM_HOVER }
-        onClick={() => { handleShowDetail({ id: axiosPaper.inseratId }) }}>
-        <Box>
-  
-          <CarImages id={axiosPaper.inseratId} multiple={false} isDetail={ false }/>
-  
-          <ShowFastPaper detailSearchValues={axiosPaper} />
-  
-        </Box>
-      </Card>}
-*/
+export default memo(ClickedCars);

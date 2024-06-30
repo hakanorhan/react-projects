@@ -26,25 +26,19 @@ const ShowFastPaper: React.FC<{ detailSearchValues: AxiosPaperList }> = ({ detai
         <>
             <CardContent sx={{ backgroundColor:'backgound.paper' }}>
                 
-                <Box display={'flex'} width={'100%'}>
-                <Typography sx={{ whiteSpace:'nowrap' }} variant='h5' component='h1'>{`${detailSearchValues.brand} ${detailSearchValues.model}`}</Typography>
-                </Box>
+                <Typography sx={{ whiteSpace:'nowrap', fontWeight: 'bold' }} variant='h5' component='h1'>{`${detailSearchValues.brand} ${detailSearchValues.model}`}</Typography>
                 
-                <Box display={'flex'}>
-                <   Typography variant='h5' component='h2' sx={{ alignContent:'end', display: 'flex', justifyContent: 'center' }}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
-                </Box>    
+                <Typography variant='h5' component='h2' sx={{ fontWeight:'bold', marginBottom: COMPONENT_DISTANCE}}>{seperateThousand(detailSearchValues.price)} {" €"}</Typography>
+                  
                     <ListTDescriptionComponent detailSearchValues={axiosPaper} />
-                    <Grid container >
-
-                     <Grid item xs={12}>
+                    <div style={{ marginTop: COMPONENT_DISTANCE }}>
                     <GreyHorizontalHR />
-                    </Grid>
-
+                    </div>
                     <Grid container sx={{ marginTop: COMPONENT_DISTANCE }}>
                         <Grid item xs={6}> <Box sx={{ display: 'flex' }}><FavoriteBorderIcon sx={{ fontSize:'1.5rem' }} /></Box> </Grid>
                         <Grid item xs={6}> <Box sx={{ display: 'flex', justifyContent: 'end' }}> <Box onClick={(e) => { e.stopPropagation() }}><ShareComponent showText={true} /> </Box></Box></Grid>
                     </Grid>
-                </Grid>
+                
             </CardContent>
         </>
     )

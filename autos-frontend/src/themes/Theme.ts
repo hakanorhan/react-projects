@@ -19,10 +19,11 @@ declare module '@mui/material/styles' {
 
 const breakpoints = {
     xs: 0,
-    sm: 576,
+    sm: 430,
     md: 768,
     lg: 1100,
-    xl: 1300,
+    xl: 1500,
+    
 };
 
 export const BREAKPOINT_MIN_LG = 1101;
@@ -91,7 +92,7 @@ export const themeLight = createTheme({
     palette: {
         mode: 'light',
         text: {
-            primary: '#434344',
+            primary: colors.grey[900],
             secondary: colors.grey[600]
         },
         primary: {
@@ -105,7 +106,7 @@ export const themeLight = createTheme({
             default: LIGHT_BACKGROUND_DEFAULT,
             paper: LIGHT_BACKGROUND_PAPER_DEFAULT,
         }, icon: {
-            main: LIGHT_PRIMARY_COLOR_MAIN,
+            main: LIGHT_PRIMARY_COLOR_LIGHT
         }
     },
     typography: typographySizes,

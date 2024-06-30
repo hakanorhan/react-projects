@@ -214,7 +214,8 @@ scrollToTop();
       </Grid>
         </Box>
       <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
-        <Button disabled={ offset >= count } onClick={handleShowNewCars} sx={{ width: '250px', color: 'text.primary', '&:hover': { backgroundColor: 'transparent' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
+        <Button disabled={ offset >= count } onClick={  handleShowNewCars } sx={{ width:'250px', backgroundColor:'transparent', color: 'secondary.main', '&:hover': { backgroundColor:'transparent', color: 'primary.light' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
+      
       </Box> 
 
     </Box>

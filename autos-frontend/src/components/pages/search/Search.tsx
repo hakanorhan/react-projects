@@ -2,7 +2,8 @@ import { FC, Suspense, lazy, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { SelectChangeEvent, Typography } from '@mui/material';
+import { SelectChangeEvent, useTheme } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { COMPONENT_DISTANCE, SearchContainer, buttonHeight } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
@@ -17,7 +18,6 @@ import { DisplayTypes } from '../../../constants/values';
 import { notifyError } from '../../../helper/toastHelper';
 import afterComponentViewed from '../../../helper/lazyLoading/afterComponentViewed';
 import LoadingComponent from '../../LoadingComponent';
-import { useTheme } from '@emotion/react';
 
 const LazyClickedCarsMost = lazy(() => import('./ClickedCars'));
 const LazyClickedCarsElectric = lazy(() => import('./ClickedCars'));
@@ -188,7 +188,7 @@ const Search: React.FC = () => {
   const SearchContent = () => {
 
     return (
-      <SearchContainer sx={{ padding: '1.5rem', marginTop:'-9rem', cursor: 'default', backgroundColor: 'background.paper', borderRadius:'1rem' }}>
+      <SearchContainer sx={{ padding: '1.5rem', marginTop: '-10rem', cursor: 'default', backgroundColor: 'background.paper', borderRadius: '1rem' }}>
 
         <Grid container sx={{}} justifyContent="center" columnSpacing={3}>
           <Grid item xs={6} md={4}>
@@ -220,11 +220,11 @@ const Search: React.FC = () => {
             <YearToComponent />
           </Grid>
 
-          <Grid item xs={6} md={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <SelectField idOfSelect='federal_state_id' objectName='federal_state' handleChange={handleChangeSelect} label='Bundesland' values={listFederalState} selectedValue={formSelect.federal_state} allOption={true} />
           </Grid>
 
-          <Grid item xs={6} md={8}>
+          <Grid item xs={12} sm={6} md={8}>
             <Button
               onClick={() => {
                 if (countCars > 0)
@@ -232,7 +232,7 @@ const Search: React.FC = () => {
                 else
                   notifyError("no cars", "Zurzeit keine Inserate");
               }}
-              sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained" startIcon={<SearchIcon sx={{color:'white'}}/>}>  {countCars} &nbsp;{` ${searchButtonText}`}</Button>
+              sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained" startIcon={<SearchIcon sx={{ color: 'white' }} />}>  {countCars} &nbsp;{` ${searchButtonText}`}</Button>
           </Grid>
         </Grid>
       </SearchContainer>)
@@ -242,59 +242,66 @@ const Search: React.FC = () => {
   useEffect(() => {
     afterComponentViewed(setIsMostCarVisible, 'mostCar');
     afterComponentViewed(setIsElectricCarVisible, 'boxElectric');
-    return () => {}
-  }, []); 
+    return () => { }
+  }, []);
 
   return (<>
-  <Box sx={{ backgroundColor:'primary.main',
-    height: '550px' }} >
+    <Box sx={{
+      backgroundColor: 'primary.main',
+      height: '500px'
+    }} >
 
-      <Typography variant='h1' sx={{ color: 'white',
-    margin: 'auto',
-    textAlign: 'center',
-    paddingTop: '4rem',
-    paddingBottom: '3rem',
-    fontWeight: 'bold'
-    }}>Jetzt entdecken.</Typography>
+      <Typography variant='h1' sx={{
+        fontSize: {xs: '20px', md: '30px', lg:'40px'},
+        color: 'white',
+        margin: 'auto',
+        textAlign: 'center',
+        paddingTop: '4rem',
+        paddingBottom: '3rem',
+        fontWeight: 'bold'
+      }}>Jetzt entdecken.</Typography>
 
-    <Typography variant='body1' sx={{ color: 'white',
-    width:{xs: '80%', lg: '800px'},
-    margin: 'auto',
-    textAlign: 'center',
-    paddingTop: '1rem',
-    paddingBottom: '3rem',}}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo</Typography>
+      <Typography sx={{
+        color: 'white',
+        width: { xs: '80%', lg:'600px' },
+        margin: 'auto',
+        textAlign: 'center',
+        paddingTop: '1rem',
+        paddingBottom: '3rem',
+      }}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+      </Typography>
     </Box>
 
     <SearchContent />
 
-      <Box sx={{ minHeight:'500px', marginTop: COMPONENT_DISTANCE }} >
+    <Box sx={{ minHeight: '500px', marginTop: COMPONENT_DISTANCE }} >
 
-      <h2 style={{ marginLeft:'2.5%', color: theme.palette.primary.main }}>Am meisten gesucht</h2>
+      <Typography variant='h5' sx={{ marginLeft: '2.5%', color: theme.palette.primary.main }}>Am meisten gesucht</Typography>
       <Box id="mostCar">
-        { isMostCarVisible &&
-            <Suspense fallback={<LoadingComponent />} >
-              <LazyClickedCarsMost type={DisplayTypes.MOST_CLICKED} />
-            </Suspense>
-      }
+        {isMostCarVisible &&
+          <Suspense fallback={<LoadingComponent />} >
+            <LazyClickedCarsMost type={DisplayTypes.MOST_CLICKED} />
+          </Suspense>
+        }
       </Box>
-      </Box>
+    </Box>
 
-      <Box
-        id="boxElectric"
-        sx={{ marginTop: COMPONENT_DISTANCE, minHeight: { xs: '600px', sm: '680px', md: '600px' } }}
-      >
+    <Box
+      id="boxElectric"
+      sx={{ marginTop: COMPONENT_DISTANCE, minHeight: { xs: '600px', sm: '680px', md: '600px' } }}
+    >
       {
         isElectricCarVisible && (<>
-          <h2 style={{ marginLeft:'2.5%', color: theme.palette.primary.main }}>Elektroautos</h2>
+          <Typography variant='h5' sx={{ marginLeft: '2.5%', color: theme.palette.primary.main }}>Elektroautos</Typography>
 
-      
-          <Suspense fallback={ <LoadingComponent /> }>
+
+          <Suspense fallback={<LoadingComponent />}>
             <LazyClickedCarsElectric type={DisplayTypes.ELECTRIC} />
           </Suspense>
-          </>
+        </>
         )
       }
-    </Box> 
+    </Box>
   </>
   )
 }
