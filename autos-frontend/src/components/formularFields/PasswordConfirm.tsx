@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseFormPasswordConfirm } from '../../interfaces/IUseForm';
-import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput } from '@mui/material';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -16,7 +16,7 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ label, onChange, p
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setPasswordConfirm(value);
-        onChange(value); // Passwortänderung an den Elternkomponenten übergeben
+        onChange(value);
         setIsEmpty(value.length === 0);
       }
 
@@ -26,14 +26,14 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ label, onChange, p
     };
 
     useEffect(() => {
-        // basierend auf gültigem Passwort: Passwort bestätigen
+        
         setValueMatch(regex.test(passwordConfirm) && password1 === passwordConfirm);
     }, [password1, passwordConfirm]);
 
   return (
-    <FormControl required fullWidth variant="standard" >
+    <FormControl required fullWidth variant="outlined" >
     <InputLabel htmlFor={ label }>{ label }</InputLabel>
-    <Input
+    <OutlinedInput
       onChange= { handleOnChange }
       type={showPassword ? 'text' : 'password'}
       name={ label }
@@ -58,6 +58,7 @@ const PasswordConfirm: React.FC<IUseFormPasswordConfirm> = ({ label, onChange, p
           </IconButton>
         </InputAdornment>
       }
+      label={label}
     />
   </FormControl>
   )

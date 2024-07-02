@@ -1,4 +1,4 @@
-import { colors, createTheme } from "@mui/material";
+import { Components, PaletteMode, Theme, colors, createTheme } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import Select from "@mui/material/Select";
 import { styled } from "@mui/material";
@@ -19,16 +19,14 @@ declare module '@mui/material/styles' {
 
 const breakpoints = {
     xs: 0,
-    sm: 430,
+    sm: 576,
     md: 768,
     lg: 1100,
     xl: 1500,
     
 };
 
-export const BREAKPOINT_MIN_LG = 1101;
-
-export const textFieldSMWitdh = '560px';
+export const XS_MAX_WIDTH_430 = '(max-width:429px)';
 
 const searchContainerXSWidth = '95%';
 const searchContainerMDWidth = '95%';
@@ -42,18 +40,17 @@ const LIGHT_PRIMARY_COLOR_MAIN: string = "#2B2B4D";
 const LIGHT_PRIMARY_COLOR_LIGHT: string = "#02c9ff";
 export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 
-//const LIGHT_PRIMARY_DARK = "#E4E4DE";
-
 export const LIGHT_SECONDARY_COLOR_MAIN = "#4740ed";
 const LIGHT_BACKGROUND_DEFAULT = 'whitesmoke';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = 'white';
 
 const DARK_PRIMARY_COLOR_MAIN = colors.cyan[600];
 const DARK_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
-
 const DARK_SECONDARY_COLOR_MAIN = colors.grey[900];
-const DARK_SECONDARY_CONTRAST_TEXT = '#FFFFFF';
 const DARK_PRIMARY_LIGHT = colors.grey[900];
+const DARK_BACKGROUND_DEFAULT = 'black';
+const DARK_BACKGROUND_PAPER_DEFAULT = 'red';
+
 
 export const colorDanger: string = colors.red[700];
 export const buttonHeight = '55px';
@@ -88,193 +85,120 @@ const typographySizes =  {
     body1: {fontSize: '1rem'}
 };
 
-export const themeLight = createTheme({
+const componentStyles= (primaryMain: string, primaryLight: string, secondaryMain: string, paperBackgroundColor: string, primaryContrastText: string): Components<Omit<Theme, 'components'>> => ({
+     MuiPaper: {
+        styleOverrides: {
+            root: {
+                backgroundColor: paperBackgroundColor,
+            }
+        }
+    },
+
+    MuiFormControl: {
+        styleOverrides: {
+            root: {
+                paddingBottom: '1rem',
+                width: '100%'
+            }
+        }
+    },
+    MuiButton: {
+        styleOverrides: {
+            root: {
+                fontSize: '1.2rem',
+                borderRadius: '0px',
+                border: 'none',
+                width: '100%',
+                backgroundColor: secondaryMain,
+                color: primaryContrastText,
+                marginBottom: '1rem',
+                '&:hover': {
+                    backgroundColor: primaryLight,
+                    color: primaryContrastText,
+                    cursor:'pointer',
+                }, textTransform: 'none',
+                '& .MuiButton-label': {
+                    textTransform: 'capitalize',
+                },
+            }
+        },
+
+    },
+    MuiFab: {
+        styleOverrides: {
+            root: {
+                backgroundColor: secondaryMain,
+                color: primaryContrastText,
+                '&:hover': {
+                    backgroundColor: primaryLight
+                }
+            }
+        }
+    },
+    MuiTypography: {
+        styleOverrides: {
+            root: {
+                lineHeight: 1.5,
+                letterSpacing: 0.12
+            }
+        }
+    }, MuiSvgIcon: {
+        styleOverrides: {
+            root: {
+                color: primaryMain
+            }
+        }
+    }
+});
+
+const themeStyles = (mode: PaletteMode, primaryMain: string, primaryLight: string, secondaryMain: string, backgroundDefaultColor: string, paperBackgroundColor: string, primaryContrastText: string ) => ({
     palette: {
-        mode: 'light',
+        mode: mode,
         text: {
             primary: colors.grey[900],
             secondary: colors.grey[600]
         },
         primary: {
-            main: LIGHT_PRIMARY_COLOR_MAIN,
-            light: LIGHT_PRIMARY_COLOR_LIGHT,
-            contrastText: LIGHT_PRIMARY_CONTRAST_TEXT,
+            main: primaryMain,
+            light: primaryLight,
+            contrastText: primaryContrastText,
         }, secondary: {
-            main: LIGHT_SECONDARY_COLOR_MAIN,
-            contrastText: LIGHT_PRIMARY_COLOR_MAIN,
+            main: secondaryMain,
+            contrastText: primaryContrastText,
         }, background: {
-            default: LIGHT_BACKGROUND_DEFAULT,
-            paper: LIGHT_BACKGROUND_PAPER_DEFAULT,
+            default: backgroundDefaultColor,
+            paper: paperBackgroundColor,
         }, icon: {
-            main: LIGHT_PRIMARY_COLOR_LIGHT
+            main: secondaryMain
         }
     },
     typography: typographySizes,
-    components: {
-        MuiPaper: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: 'whitesmoke',
-
-                }
-            }
-        },
-
-        MuiFormControl: {
-            styleOverrides: {
-                root: {
-                    paddingBottom: '1rem',
-                    width: '100%'
-                }
-            }
-        },
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    fontSize: '1.2rem',
-                    borderRadius: '0px',
-                    border: 'none',
-                    width: '100%',
-                    backgroundColor: LIGHT_SECONDARY_COLOR_MAIN,
-                    color: LIGHT_PRIMARY_CONTRAST_TEXT,
-                    marginBottom: '1rem',
-                    '&:hover': {
-                        backgroundColor: LIGHT_PRIMARY_COLOR_LIGHT,
-                        color: LIGHT_PRIMARY_CONTRAST_TEXT,
-                    }, textTransform: 'none',
-                    '& .MuiButton-label': {
-                        textTransform: 'capitalize',
-                    },
-                }
-            },
-
-        },
-        MuiFab: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: LIGHT_PRIMARY_COLOR_MAIN,
-                    color: LIGHT_PRIMARY_CONTRAST_TEXT,
-                    '&:hover': {
-                        backgroundColor: 'white'
-                    }
-                }
-            }
-        },
-        MuiTypography: {
-            styleOverrides: {
-                root: {
-                    lineHeight: 1.5,
-                    letterSpacing: 0.12
-                }
-            }
-        }, MuiSvgIcon: {
-            styleOverrides: {
-                root: {
-                    color: LIGHT_PRIMARY_COLOR_MAIN
-                }
-            }
-        }
-    },
+    components: componentStyles(primaryMain, primaryLight, secondaryMain, paperBackgroundColor, primaryContrastText),
     breakpoints: { values: breakpoints }
 });
 
+export const themeLight = createTheme({
+    ...themeStyles(
+        'light' as PaletteMode,
+        LIGHT_PRIMARY_COLOR_MAIN,
+        LIGHT_PRIMARY_COLOR_LIGHT,
+        LIGHT_SECONDARY_COLOR_MAIN,
+        LIGHT_BACKGROUND_DEFAULT,
+        LIGHT_BACKGROUND_PAPER_DEFAULT,
+        LIGHT_PRIMARY_CONTRAST_TEXT
+    )
+});
+
 export const themeDark = createTheme({
-    palette: {
-        mode: 'dark',
-        text: {
-            primary: '#FFFFFF'
-        },
-        primary: {
-            main: DARK_PRIMARY_COLOR_MAIN,
-            contrastText: DARK_PRIMARY_CONTRAST_TEXT
-        },
-        secondary: {
-            main: DARK_SECONDARY_COLOR_MAIN,
-            contrastText: DARK_SECONDARY_CONTRAST_TEXT
-        }, background: {
-            default: 'black',
-            paper: colors.grey[900]
-        },
-    },
-    typography: typographySizes,
-    components: {
-        MuiFormControl: {
-            styleOverrides: {
-                root: {
-                    paddingBottom: '1rem',
-                    width: '100%'
-                }
-            }
-        },
-    
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    fontSize: '1.2rem',
-                    borderRadius: '0px',
-                    border: 'none',
-                    width: '100%',
-                    color: DARK_PRIMARY_CONTRAST_TEXT,
-                    '&:hover': {
-                        backgroundColor: DARK_SECONDARY_COLOR_MAIN,
-                        color: DARK_PRIMARY_COLOR_MAIN,
-                    },
-                    textTransform: 'none',
-                    '& .MuiButton-label': {
-                        textTransform: 'capitalize',
-                    },
-                }
-            },
-    
-        },
-    
-        MuiFab: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: DARK_PRIMARY_COLOR_MAIN,
-                    color: DARK_PRIMARY_CONTRAST_TEXT,
-                    '&:hover': {
-                        backgroundColor: DARK_PRIMARY_COLOR_MAIN
-                    }
-                }
-            }
-        },
-    
-        MuiTypography: {
-            styleOverrides: {
-                root: {
-                    lineHeight: 1.5,
-                    letterSpacing: 0.12,
-                    color: 'white'
-                }
-            }
-    
-        },
-        MuiInputBase: {
-            styleOverrides: {
-                input: {
-                    '&:-webkit-autofill': {
-                        WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
-                        WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
-                    }
-                    ,
-                    '&:-webkit-autofill:focus': {
-                        WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
-                        WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
-                    },
-                    '&:-webkit-autofill:hover': {
-                        WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
-                        WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
-                    },
-                    '&:-webkit-autofill:active': {
-                        WebkitBoxShadow: `0 0 0 1000px ${DARK_PRIMARY_LIGHT} inset`,
-                        WebkitTextFillColor: DARK_PRIMARY_CONTRAST_TEXT,
-                    },
-                }
-            }
-        }
-    },
-    breakpoints: { values: breakpoints }
+    ...themeStyles(
+        'dark' as PaletteMode,
+        DARK_PRIMARY_COLOR_MAIN,
+        DARK_PRIMARY_LIGHT,
+        DARK_SECONDARY_COLOR_MAIN,
+        DARK_BACKGROUND_DEFAULT,
+        DARK_BACKGROUND_PAPER_DEFAULT,
+        DARK_PRIMARY_CONTRAST_TEXT
+    )
 });
 
 export const MainBox = styled('div')(({ theme }) => ({
@@ -294,13 +218,13 @@ export const MainComponentWidth = styled('div')(({ theme }) => ({
     paddingBottom: '3rem',
     margin: 'auto',
     flexDirection: 'column',
-    minHeight: '100vh',
+    minHeight: '300px',
     [theme.breakpoints.up("xs")]: {
         width: '90%',
 
     },
     [theme.breakpoints.up("md")]: {
-        width: '560px',
+        width: '690px'
 
     }
 

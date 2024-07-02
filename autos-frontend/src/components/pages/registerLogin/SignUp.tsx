@@ -1,8 +1,8 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent, FC, memo, ReactNode } from 'react';
 import axios from 'axios';
 import 'dayjs/locale/de';
 import { Link } from 'react-router-dom';
-import LockPersonIcon from '@mui/icons-material/LockPerson';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -13,8 +13,8 @@ import StepLabel from '@mui/material/StepLabel';
 import Step from '@mui/material/Step';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { SelectChangeEvent } from '@mui/material';
-import { MainComponentWidth, HeaderIcon, textFieldSMWitdh, buttonHeight, COMPONENT_DISTANCE } from '../../../themes/Theme';
+import { SelectChangeEvent, useMediaQuery } from '@mui/material';
+import { MainComponentWidth, buttonHeight, COMPONENT_DISTANCE, XS_MAX_WIDTH_430 } from '../../../themes/Theme';
 
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -38,15 +38,21 @@ import TextFieldArea from '../../formularFields/TextFieldArea';
 import { useEffectFetch } from '../../../helper/DataLoading';
 import * as ValidHelper from '../../../regex/validHelper';
 import { useNavigate } from 'react-router-dom';
-import { scrollToTop } from '../../../helper/helper';
+import { scrollToTop, scrollToTopSignUp } from '../../../helper/helper';
 
 const steps = ['Konto', 'Details', 'Adresse', 'Kontakt'];
 
 import { themeLight } from '../../../themes/Theme';
 
+interface HeaderIconProps {
+  children: ReactNode
+}
+
 const SignUpUser: React.FC = () => {
 
   const navigate = useNavigate();
+
+  const xsQuery = useMediaQuery(XS_MAX_WIDTH_430);
 
   scrollToTop();
 
@@ -134,6 +140,7 @@ const SignUpUser: React.FC = () => {
         notifyError("password-field", "Bitte prüfen Sie die Passwortfelder.")
       } else {
         setActiveStep(activeStep + 1);
+        scrollToTopSignUp();
       }
     }
     if (activeStep === 1) {
@@ -155,6 +162,7 @@ const SignUpUser: React.FC = () => {
         notifyError("birth-field", "Geburtsdatum ist kleiner 18.")
       } else  {
         setActiveStep(activeStep + 1);
+        scrollToTopSignUp();
       }
     } if (activeStep === 2) {
       const street = form.street;
@@ -174,6 +182,7 @@ const SignUpUser: React.FC = () => {
         notifyError("federalstate-field", "Bitte wählen Sie ein Bundesland");
       } else {
         setActiveStep(activeStep + 1);
+        scrollToTopSignUp();
       }
     }
   }
@@ -229,6 +238,16 @@ const SignUpUser: React.FC = () => {
     </>
   }
 
+  const HeaderIconComponent: FC<HeaderIconProps> = memo(({ children }) => {
+    return (
+      <Box sx={{ margin: 'auto',
+        marginTop: xsQuery ? '2rem': '7rem',
+        marginBottom: '1rem' }}>
+      { children }
+    </Box> 
+    )
+  })
+
   const ForwardComponent = () => {
     return <> <Button fullWidth onClick={() => { activeStepHandler() }} type='button' variant="contained" sx={{ marginBottom: '1rem', height: buttonHeight }}>Weiter</Button>
               <div style={{ display: 'flex', paddingBottom: '4rem' }}>
@@ -241,12 +260,13 @@ const SignUpUser: React.FC = () => {
 
   return (<>
     <MainComponentWidth>
-      <Box sx={{ display: 'flex', flexDirection: 'column', margin: 'auto', marginTop: '7rem', marginBottom: '7rem' }}>
-        <HeaderIcon><LockPersonIcon fontSize='large' /></HeaderIcon>
-
-        <Typography variant='h4' component="h1" sx={{ margin: 'auto', color: 'primary.main' }}>Registrieren</Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', margin: 'auto', }}>
+        <HeaderIconComponent>
+          <PersonAddIcon fontSize='large' />
+        </HeaderIconComponent>
+        <Typography variant='h1' component="h1" sx={{ color: 'primary.main' }}>Registrieren</Typography>
       </Box>
-      <Stepper activeStep={activeStep} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
+      <Stepper activeStep={activeStep} orientation={xsQuery ? "vertical" : "horizontal"} sx={{ marginTop: '1rem', fontSize:'10px', marginBottom: '1rem' }}>
         {
           steps.map((step, index) => (
             <Step completed={index < activeStep} key={index}>
@@ -287,7 +307,7 @@ const SignUpUser: React.FC = () => {
                 {/* Name */}
                 <TextFieldCars label={isCheckedDealer ? 'Ansprechpartner:in Nachname' : 'Nachname'} onChange={value => handleOnChange(TextFieldID.FAMILYNAME, value)} regex={REGEX_NAMES} />
 
-                <MuiTelInput required variant='standard' id={TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={telefonNr} onChange={(value) => { setTelefonNr(value); }} />
+                <MuiTelInput required  variant='outlined' id={TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={telefonNr} onChange={(value) => { setTelefonNr(value); }} />
 
                 {isCheckedDealer && <>
                   <Paper sx={{ padding: '0.7rem', marginBottom: COMPONENT_DISTANCE }} elevation={10}>
@@ -306,8 +326,9 @@ const SignUpUser: React.FC = () => {
                       ]}
                     >
                       <DemoItem>
-                        <DesktopDatePicker sx={{ width: { xs: '100%', md: textFieldSMWitdh } }}
-                          slotProps={{ textField: { variant: 'standard', size: 'medium', fullWidth: true } }}
+                        <DesktopDatePicker  sx={{ width: { xs: '100%', md: '690px' } }}
+                        
+                          slotProps={{ textField: { variant: 'outlined', fullWidth: true } }}
                           label="Geburtsdatum"
                           //views={['month', 'year']}
                           onChange={(date) => setDateValue(date)}
@@ -327,16 +348,16 @@ const SignUpUser: React.FC = () => {
                       <hr />
                     </Grid>
                   }
-                  <Grid item xs={8} >
+                  <Grid item xs={12} sm={8} >
                     <TextFieldCars  label='Straße' onChange={value => handleOnChange(TextFieldID.STREET, value)} regex={REGEX_STREET} />
                   </Grid>
-                  <Grid item xs={4} >
+                  <Grid item xs={12} sm={4} >
                     <TextFieldCars  label='Nr' onChange={value => handleOnChange(TextFieldID.NR, value)} regex={REGEX_STREET_NR} maxLength={5} />
                   </Grid>
-                  <Grid item xs={7.5} >
+                  <Grid item xs={12} sm={7.5} >
                     <TextFieldCars  label='Stadt' onChange={value => handleOnChange(TextFieldID.CITY, value)} regex={REGEX_NAMES} />
                   </Grid>
-                  <Grid item xs={4.5} >
+                  <Grid item xs={12} sm={4.5}>
                     <TextFieldCars label='PLZ' onChange={value => handleOnChange(TextFieldID.ZIPCODE, value)} regex={REGEX_ZIPCODE} maxLength={5} />
                   </Grid>
                   <Grid item xs={12} >

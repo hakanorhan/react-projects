@@ -38,13 +38,13 @@ const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, setMont
           ]}
         >
           <DemoItem>
-            <DesktopDatePicker sx={{ paddingTop: '1rem', width: isLGDown ? '100%' : '416px' }}
+            <DesktopDatePicker sx={{ width: isLGDown ? '100%' : '416px' }}
               views={['month', 'year']}
               maxDate={dayjs()}
               onChange={handleOnChange}
               value={value}
               slotProps={{ textField: { 
-                variant: 'standard', onClick: open ? () => setOpen(false) : () => setOpen(true), placeholder: 'Erstzulassung: MM/YYYY' } }}
+                variant: 'outlined', onClick: open ? () => setOpen(false) : () => setOpen(true), placeholder: 'Erstzulassung: MM/YYYY' } }}
               open={open}
               onOpen={() => setOpen(true)}
               onClose={() => setOpen(false)}

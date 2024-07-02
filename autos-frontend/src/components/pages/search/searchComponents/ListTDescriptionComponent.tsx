@@ -29,7 +29,7 @@ export const ListTDescriptionComponent: React.FC<{ detailSearchValues: AxiosPape
       <GridComponent icon={<LocationOnIcon sx={{fontSize: ICON_FONT_SIZE}}/>} value={detailSearchValues.city} />
       {detailSearchValues.isCarDealer ? <GridComponent icon={<StoreIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={"Privat"} />}
       
-      <Rating sx={{ color: 'icon.main', marginRight:'0.8rem', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /> 22 Beweruntungen erhalten
+      <Rating sx={{ color: 'icon.main', marginRight:'0.8rem', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /> {(22)}
       
     </Box>
   )

@@ -6,11 +6,9 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/store';
 import { themeDark, themeLight } from './themes/Theme';
-
 const Header = lazy(() => import('./components/site-components/Header'));
 const ProtectedRoute = lazy(() => import('./components/protectedRoutes/ProtectedRoute'));
 import Box from '@mui/material/Box';
-
 const PublishInserate = lazy(() => import('./components/pages/dashboards/admin/components/PublishInserate'));
 const Notfound = lazy(() => import('./components/pages/Notfound'));
 const Search = lazy(() => import('./components/pages/search/Search'));
@@ -33,7 +31,7 @@ const App: React.FC = () => {
       <Header />
 
       <Box sx={{ backgroundColor: 'background.default', minHeight: (window.innerHeight > 1200 ? '1100px' : "calc(100vh - 50px)") }}>
-        <Suspense fallback={<div>...loading</div>}>
+        <Suspense fallback={<></>}>
           <Outlet />
         </Suspense>
       </Box>

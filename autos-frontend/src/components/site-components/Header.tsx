@@ -32,7 +32,7 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 const headlineStyle = { color: 'secondary.contrastText', paddingLeft: '20px', justifyContent: 'flex-start' };
 const drawerFontSize = '28px';
 
-const drawerSizes = { color: 'secondary.contrastText', fontSize: drawerFontSize, paddingLeft: '25px' };
+const drawerSizes = { color: 'text.primary', fontSize: drawerFontSize, paddingLeft: '25px' };
 const accordionIconStyle = { fontSize: drawerFontSize, color:'secondary.contrastText' };
 const accordionStyle = { backgroundColor:'secondary.main', paddingLeft: '35px', marginBottom: '0.8rem' };
 
@@ -192,8 +192,8 @@ import('@mui/icons-material/Add').then(module => {
   // -------------------------------------- ADMIN ----------------------------------------------------------
 
   const DrawerMenuComponent = () => {
-    return <Drawer sx={{ height: '100%' }} anchor='right' open={drawerOpen} onClose={handleOnCloseDrawer}>
-      <Box p={2} sx={{ height: '100%', backgroundColor: 'secondary.main', width: { xs: '100vw', sm: '500px' } }} role='presentation'>
+    return <Drawer sx={{ minHeight: '100%' }} anchor='right' open={drawerOpen} onClose={handleOnCloseDrawer}>
+      <Box p={2} sx={{ minHeight: '100%', backgroundColor: 'background.default', width: { xs: '100vw', sm: '500px' } }} role='presentation'>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', paddingTop: '20px' }}>
           <IconButton onClick={() => { setDrawerOpen(false) }} sx={{
             cursor:'pointer',
@@ -241,7 +241,7 @@ import('@mui/icons-material/Add').then(module => {
           >
             <MenuIcon sx={{ color:'primary.contrastText' }}/>
           </IconButton>
-          <Typography sx={{ color: 'primary.contrastText', textDecoration: 'none', width: '100%', fontSize:'1.5rem', fontWeight:'bold' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"cars"} </Typography>
+          <Typography sx={{ color: 'primary.contrastText', textDecoration: 'none', width: '100%', fontSize:'1.5rem', fontWeight:'bold' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"CARS"} </Typography>
           <div>
             <IconButton
               size="large"

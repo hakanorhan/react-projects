@@ -6,14 +6,14 @@ import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
-import { SelectChangeEvent } from '@mui/material';
+import { SelectChangeEvent, useMediaQuery } from '@mui/material';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { REGEX_HUBRAUM, REGEX_MILEAGE, REGEX_NAMES, REGEX_OWNER, REGEX_POWER, REGEX_PRICE } from '../../../regex/REGEX';
-import { HeaderIcon, COMPONENT_DISTANCE } from '../../../themes/Theme';
+import { HeaderIcon, COMPONENT_DISTANCE, XS_MAX_WIDTH_430 } from '../../../themes/Theme';
 import { AxiosDataInserate, AxiosInserateResponse, InserateCheckbox, InserateData, InserateSelect } from '../../../interfaces/IAxiosData';
 import { URLs } from '../../../constants/values';
 import { notifyError, notifySuccess } from '../../../helper/toastHelper';
@@ -29,11 +29,14 @@ import { useNavigate } from 'react-router-dom';
 const DropZone = lazy(() => import("./DropZone"));
 import * as ValidHelper from '../../../regex/validHelper';
 import { scrollToTop } from '../../../helper/helper';
+
 const LoadingComponent = lazy(() => import('../../LoadingComponent'));
 
 const steps = ['Fahrzeugdaten', 'Bilder', 'Abgeschlossen'];
 
 export default function InserateCar() {
+
+  const xsQuery = useMediaQuery(XS_MAX_WIDTH_430);
 
   const navigate = useNavigate();
 
@@ -235,7 +238,7 @@ export default function InserateCar() {
     }}>
 
       <Typography variant='h4' component='h1'>Fahrzeug inserieren</Typography>
-      <Stepper activeStep={activeStep} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
+      <Stepper activeStep={activeStep} orientation={xsQuery ? 'vertical' : 'horizontal'} sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
         {
           steps.map((step, index) => (
             <Step key={index}>
@@ -248,32 +251,31 @@ export default function InserateCar() {
         <Box sx={{ display: activeStep === 0 ? 'block' : 'none' }}>
           <Grid container columnSpacing={2} rowSpacing={1}>
             { /* Brand */}
-            <Grid item xs={12}> <SelectField values={listBrands} objectName='brand' idOfSelect='brand_id' selectedValue={formSelect.brand} handleChange={handleChangeSelect} label='Marke' /> </Grid>
+            <Grid item xs={12} > <SelectField values={listBrands} objectName='brand' idOfSelect='brand_id' selectedValue={formSelect.brand} handleChange={handleChangeSelect} label='Marke' /> </Grid>
 
-            <Grid item xs={6}> <SelectField values={listModels} objectName='model' idOfSelect='model_id' selectedValue={formSelect.model} handleChange={handleChangeSelect} label='Modell' /> </Grid>
+            <Grid item xs={12} sm={6}> <SelectField values={listModels} objectName='model' idOfSelect='model_id' selectedValue={formSelect.model} handleChange={handleChangeSelect} label='Modell' /> </Grid>
 
-            <Grid item xs={6}>  <SelectField values={listCarTypes} objectName='cartype' idOfSelect='cartype_id' selectedValue={formSelect.cartype} handleChange={handleChangeSelect} label='Typ' /> </Grid>
-            <Grid item xs={6}> <SelectField values={listTransmission} objectName='transmission' idOfSelect='transmission_id' selectedValue={formSelect.transmission} handleChange={handleChangeSelect} label='Getriebe' /> </Grid>
+            <Grid item xs={12} sm={6}>  <SelectField values={listCarTypes} objectName='cartype' idOfSelect='cartype_id' selectedValue={formSelect.cartype} handleChange={handleChangeSelect} label='Typ' /> </Grid>
+            <Grid item xs={12} sm={6}> <SelectField values={listTransmission} objectName='transmission' idOfSelect='transmission_id' selectedValue={formSelect.transmission} handleChange={handleChangeSelect} label='Getriebe' /> </Grid>
 
-            <Grid item xs={6}> <SelectField values={listFuels} objectName='fuel' idOfSelect='fuel_id' selectedValue={formSelect.fuel} handleChange={handleChangeSelect} label='Kraftstoff' /> </Grid>
-            <Grid item xs={6}> <SelectField values={listDoors} objectName='door' idOfSelect='door_id' selectedValue={formSelect.door} handleChange={handleChangeSelect} label='Anzahl Türen' /> </Grid>
+            <Grid item xs={12} sm={6}> <SelectField values={listFuels} objectName='fuel' idOfSelect='fuel_id' selectedValue={formSelect.fuel} handleChange={handleChangeSelect} label='Kraftstoff' /> </Grid>
+            <Grid item xs={12} sm={6}> <SelectField values={listDoors} objectName='door' idOfSelect='door_id' selectedValue={formSelect.door} handleChange={handleChangeSelect} label='Anzahl Türen' /> </Grid>
 
-            <Grid item xs={6}> <TextFieldCars onChange={value => handleOnChange('previousOwner', value)} label='Anzahl Vorbesitzer:in' regex={REGEX_OWNER} refresh={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars onChange={value => handleOnChange('previousOwner', value)} label='Anzahl Vorbesitzer:in' regex={REGEX_OWNER} refresh={refresh} /> </Grid>
 
-            <Grid item xs={6}> <TextFieldCars  label='Kilometerstand in KM' onChange={value => handleOnChange('km', value)} regex={REGEX_MILEAGE} refresh={refresh} /> </Grid>
-            <Grid item xs={6}> <TextFieldCars  label='Leistung in PS' onChange={value => handleOnChange('ps', value)} regex={REGEX_POWER} refresh={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars  label='Kilometerstand in KM' onChange={value => handleOnChange('km', value)} regex={REGEX_MILEAGE} refresh={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars  label='Leistung in PS' onChange={value => handleOnChange('ps', value)} regex={REGEX_POWER} refresh={refresh} /> </Grid>
 
-            <Grid item xs={6}> <TextFieldCars  label='Hubraum in ccm³' onChange={value => handleOnChange('hubraum', value)} regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars  label='Hubraum in ccm³' onChange={value => handleOnChange('hubraum', value)} regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
 
-            <Grid item xs={6}> <DateComponentMonthYear setYear={setYear} setMonth={setMonth} newInserate={refresh} /> </Grid>
-            <Grid item xs={6}> <TextFieldCars  onChange={value => handleOnChange('price', value)} label='Preis in €' regex={REGEX_PRICE} refresh={refresh} /></Grid>
-            <Grid item xs={6}> <TextFieldCars  onChange={value => handleOnChange('color', value)} label='Farbe' regex={REGEX_NAMES} refresh={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <DateComponentMonthYear setYear={setYear} setMonth={setMonth} newInserate={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars  onChange={value => handleOnChange('price', value)} label='Preis in €' regex={REGEX_PRICE} refresh={refresh} /></Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars  onChange={value => handleOnChange('color', value)} label='Farbe' regex={REGEX_NAMES} refresh={refresh} /> </Grid>
 
-
-            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.abstandstempomat} id='abstandstempomat' onChange={handleOnChangeCheckbox} />} label="Abstandstempomat" /></Grid>
-            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.ambientbeleuchtung} id='ambientbeleuchtung' onChange={handleOnChangeCheckbox} />} label="Ambientbeleuchtung" /></Grid>
-            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.headupdisplay} id='headupdisplay' onChange={handleOnChangeCheckbox} />} label="Head-up Display" /></Grid>
-            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.totwinkelassistent} id='totwinkelassistent' onChange={handleOnChangeCheckbox} />} label="Totwinkelassistent" /></Grid>
+            <Grid item xs={12 } sm={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.abstandstempomat} id='abstandstempomat' onChange={handleOnChangeCheckbox} />} label="Abstandstempomat" /></Grid>
+            <Grid item xs={12} sm={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.ambientbeleuchtung} id='ambientbeleuchtung' onChange={handleOnChangeCheckbox} />} label="Ambientbeleuchtung" /></Grid>
+            <Grid item xs={12} sm={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.headupdisplay} id='headupdisplay' onChange={handleOnChangeCheckbox} />} label="Head-up Display" /></Grid>
+            <Grid item xs={12} sm={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.totwinkelassistent} id='totwinkelassistent' onChange={handleOnChangeCheckbox} />} label="Totwinkelassistent" /></Grid>
 
             <Grid item xs={12}>      <ToggleButtonGroup
               color="primary"
@@ -289,11 +291,11 @@ export default function InserateCar() {
 
             <Grid item xs={12} style={{ marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}><hr /></Grid>
 
-            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.auNew} id='auNew' onChange={handleOnChangeCheckbox} />} label="AU neu" /></Grid>
-            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.huNew} id='huNew' onChange={handleOnChangeCheckbox} />} label="HU neu" /> </Grid>
-            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.unfallFahrzeug} id='unfallFahrzeug' onChange={handleOnChangeCheckbox} />} label="Unfallfahrzeug" /></Grid>
-            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.fittodrive} id='fittodrive' onChange={handleOnChangeCheckbox} />} label="Fahrtuechtig" /></Grid>
-            <Grid item xs={4}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.scheckheft} id='scheckheft' onChange={handleOnChangeCheckbox} />} label="Scheckheftgepflegt" /></Grid>
+            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.auNew} id='auNew' onChange={handleOnChangeCheckbox} />} label="AU neu" /></Grid>
+            <Grid item xs={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.huNew} id='huNew' onChange={handleOnChangeCheckbox} />} label="HU neu" /> </Grid>
+            <Grid item xs={12}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.unfallFahrzeug} id='unfallFahrzeug' onChange={handleOnChangeCheckbox} />} label="Unfallfahrzeug" /></Grid>
+            <Grid item xs={12}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.fittodrive} id='fittodrive' onChange={handleOnChangeCheckbox} />} label="Fahrtuechtig" /></Grid>
+            <Grid item xs={12}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.scheckheft} id='scheckheft' onChange={handleOnChangeCheckbox} />} label="Scheckheftgepflegt" /></Grid>
 
 
           </Grid>
@@ -318,7 +320,7 @@ export default function InserateCar() {
               <CheckCircleOutlineIcon fontSize='large' sx={{ color: 'primary.main', marginTop: '3rem', transform: 'scale(1.5)' }} />
             </Zoom>
           </HeaderIcon>
-          <Typography variant='h5' component='h3' sx={{ textAlign: 'center', marginTop: '7rem', marginBottom: '3rem' }} >Das Inserat wird nach der Prüfung veröffentlicht.</Typography>
+          <Typography variant='h5' component='h3' sx={{ textAlign: 'center', marginTop: '3rem', marginBottom: '3rem' }} >Das Inserat wird nach der Prüfung veröffentlicht.</Typography>
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '200px', margin: 'auto' }}>

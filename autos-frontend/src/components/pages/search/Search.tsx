@@ -191,21 +191,21 @@ const Search: React.FC = () => {
       <SearchContainer sx={{ padding: '1.5rem', marginTop: '-10rem', cursor: 'default', backgroundColor: 'background.paper', borderRadius: '1rem' }}>
 
         <Grid container sx={{}} justifyContent="center" columnSpacing={3}>
-          <Grid item xs={6} md={4}>
+          <Grid item xs={12} sm={6} md={4}>
             {/* Brand */}
             <SelectField values={listBrands} selectedValue={formSelect.brand} objectName='brand' idOfSelect='brand_id' handleChange={handleChangeSelect} label='Marke' allOption={true} />
           </Grid>
-          <Grid item xs={6} md={4}>
+          <Grid item xs={12} sm={6} md={4}>
             {/* Model */}
             <SelectField values={listModel} selectedValue={formSelect.model} objectName='model' idOfSelect='model_id' handleChange={handleChangeSelect} label='Modell' allOption={true} />
           </Grid>
 
-          <Grid item xs={6} md={4}>
+          <Grid item xs={12} sm={6} md={4}>
             {/* Cartype */}
             <SelectField idOfSelect='cartype_id' objectName='cartype' handleChange={handleChangeSelect} label='Fahrzeugtyp' values={listCarTypes} selectedValue={formSelect.cartype} allOption={true} />
           </Grid>
 
-          <Grid item xs={6} md={4}>
+          <Grid item xs={12} sm={6} md={4}>
             {/* Preis */}
             <SelectField idOfSelect='price' objectName='price' handleChange={handleChangeSelect} label='Preis' values={listPrices} selectedValue={formSelect.price} allOption={true} />
           </Grid>
@@ -279,7 +279,7 @@ const Search: React.FC = () => {
       <Typography variant='h5' sx={{ marginLeft: '2.5%', color: theme.palette.primary.main }}>Am meisten gesucht</Typography>
       <Box id="mostCar">
         {isMostCarVisible &&
-          <Suspense fallback={<LoadingComponent />} >
+          <Suspense fallback={<></>} >
             <LazyClickedCarsMost type={DisplayTypes.MOST_CLICKED} />
           </Suspense>
         }
@@ -295,7 +295,7 @@ const Search: React.FC = () => {
           <Typography variant='h5' sx={{ marginLeft: '2.5%', color: theme.palette.primary.main }}>Elektroautos</Typography>
 
 
-          <Suspense fallback={<LoadingComponent />}>
+          <Suspense fallback={<></>}>
             <LazyClickedCarsElectric type={DisplayTypes.ELECTRIC} />
           </Suspense>
         </>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FC, ReactNode, lazy, memo, useState } from 'react';
+import { FC, ReactNode, memo, useState } from 'react';
 import { Roles, URLs } from '../../../constants/values.js';
 /* Material UI */
 import LockPersonIcon from '@mui/icons-material/LockPerson';
@@ -8,23 +8,24 @@ import Box from '@mui/material/Box';
 
 import { SignInForm } from '../../../interfaces/types';
 import { notifyError } from '../../../helper/toastHelper';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { AuthResponse } from '../../../interfaces/types';
 import { scrollToTop } from '../../../helper/helper';
-import { MainComponentWidth } from '../../../themes/Theme';
+import { MainComponentWidth, XS_MAX_WIDTH_430 } from '../../../themes/Theme';
 import TextFieldCars from '../../formularFields/TextFieldCars';
 import TextFieldCarsPassword1 from '../../formularFields/TextFieldCarsPassword';
 import { REGEX_EMAIL, REGEX_PASSWORD } from '../../../regex/REGEX';
 import { formularEmailValid, formularPasswordValid } from '../../../regex/validHelper';
+import { Typography, useMediaQuery } from '@mui/material';
 
-const LazyLinkComponent = lazy(() => import('./LazyLinkComponent.js'))
 interface HeaderIconProps {
   children: ReactNode
 }
 
 const SignIn: React.FC = () => {
 
+  const xsQuery = useMediaQuery(XS_MAX_WIDTH_430);
   const navigate = useNavigate();
 
   const signInForm: SignInForm = {
@@ -81,43 +82,45 @@ const SignIn: React.FC = () => {
       [fieldName]: fieldValue
     }));
   };
-  
+
 
   const HeaderIconComponent: FC<HeaderIconProps> = memo(({ children }) => {
     return (
-      <Box sx={{ margin: 'auto',
-        marginTop: '7rem',
-        marginBottom: '1rem' }}>
-      { children }
-    </Box> 
+      <Box sx={{
+        margin: 'auto',
+        marginTop: xsQuery ? '2rem' : '7rem',
+        marginBottom: '1rem'
+      }}>
+        {children}
+      </Box>
     )
   })
 
   const formElement = <div>
     <form onSubmit={handleSubmit} noValidate>
-    
-    <TextFieldCars label='Email' onChange={value => handleOnChange('email', value)} regex={REGEX_EMAIL} />
-    <TextFieldCarsPassword1 label='Password' onChange={value => handleOnChange('password', value)} regex={REGEX_PASSWORD}/>
 
-    <Button fullWidth type='submit' variant="contained">Sign in</Button>
-  </form>
+      <TextFieldCars label='Email' onChange={value => handleOnChange('email', value)} regex={REGEX_EMAIL} />
+      <TextFieldCarsPassword1 label='Password' onChange={value => handleOnChange('password', value)} regex={REGEX_PASSWORD} />
 
-  <LazyLinkComponent />
-  
-</div>
- 
+      <Button fullWidth type='submit' variant="contained">Sign in</Button>
+    </form>
+
+    <Typography variant='body1'>Passwort vergessen</Typography>
+    <Typography sx={{ textDecoration:'none', color:'text.primary' }} to={URLs.POST_SIGINUP} component={Link}>Haben Sie kein Konto? Registrieren</Typography>
+
+  </div>
+
 
   return (
-  
-      <MainComponentWidth>
-  
+    <MainComponentWidth>
       <HeaderIconComponent>
-        <LockPersonIcon fontSize='large'/>
+        <LockPersonIcon fontSize='large' sx={{ color: 'secondary.main' }} />
       </HeaderIconComponent>
-
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Typography variant='h2' component='h1'>Login</Typography>
+      </div>
       {formElement}
-
-      </MainComponentWidth>
+    </MainComponentWidth>
   )
 }
 

@@ -106,7 +106,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
   const GridTechnicalComponent: React.FC<GridTechnicalDetails> = ({ title, value, icon }) => {
     return <Grid sx={{ display: 'flex', padding: '0.7rem' }} item xs={12}>
       <Grid item xs={6}><Typography variant='body1' component='p'>{`${title}:`}</Typography></Grid>
-      <Grid item xs={6}> <Typography variant='body1' component='p'>{value}</Typography>{icon}</Grid>
+      <Grid sx={{ textAlign:{xs:'end', sm:'start'} }} item xs={6}> <Typography variant='body1' component='p'>{value}</Typography>{icon}</Grid>
     </Grid>
   }
 
@@ -149,7 +149,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
       backgroundColor: 'whitesmoke'
     }} >
       <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', padding: '10px', paddingRight: '5px', textAlign: 'center' }}>
-        <Button variant='contained' endIcon={<Call />}>Anrufen</Button>
+        <Button variant='contained' endIcon={<Call sx={{ color:'white' }}/>}>Anrufen</Button>
       </Box>
       <Box sx={{ '@media print': { display: 'none' }, '@media screen': { display: 'block' }, width: '50%', padding: '10px', paddingLeft: '5px', textAlign: 'center' }}>
         <Button onClick={() => { handleClickOpen() }} sx={buttonSecondarySX} variant='contained' endIcon={<Email  sx={{ color:'white' }}/>}>Email</Button>
@@ -272,13 +272,13 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
           <Grid sx={{ width: { xs: '95%', lg: '100%', margin: 'auto', marginTop: 0 }, paddingLeft: { xs: 0, lg: COMPONENT_DISTANCE }, paddingRight: { xs: 0, lg: COMPONENT_DISTANCE }, paddingTop: { xs: COMPONENT_DISTANCE } }} item xs={XS} lg={5}>
             <Boxprint>
               <Grid container>
-                <Grid sx={{ display: 'flex' }} item xs={4}>
+                <Grid sx={{ display: 'flex' }} item xs={6} sm={4}>
                   <ShareComponent />
                 </Grid>
-                <Grid sx={{ display: 'flex', justifyContent: 'center' }} item xs={4}>
+                <Grid sx={{ display: 'flex', justifyContent: 'center' }} item xs={6} sm={4}>
                   <FavoriteBorder sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography sx={{ cursor: 'pointer' }} variant='body1' component='p'>{"Merken"}</Typography>
                 </Grid>
-                <Grid onClick={() => { window.print() }} item sx={{ cursor: 'pointer', justifyContent: 'end', display: 'flex' }} xs={4}>
+                <Grid onClick={() => { window.print() }} item sx={{ cursor: 'pointer', justifyContent: {xs: 'start', sm: 'end'}, display: 'flex' }} xs={6} sm={4}>
                   <Print sx={{ marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Drucken"}</Typography>
                 </Grid>
               </Grid>
@@ -289,7 +289,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
               <Grid item xs={12}> <Typography variant='h5' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
 
               <Grid spacing={2} container sx={{ marginTop: COMPONENT_DISTANCE }}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Box sx={{ backgroundColor: 'secondary.main', padding: '16px' }}>
                     <Typography variant="h4" component="h2" sx={{ color:'white', display: 'flex', justifyContent: 'center' }}>
                       {seperateThousand(detailSearchValues.price)} {" €"}
@@ -300,7 +300,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
                   </Box>
                 </Grid>
                 
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Box sx={{ backgroundColor: 'primary.light', padding: '16px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
                     <Button sx={{ '@media print': { display: 'none' }, backgroundColor: 'secondary.main', color: 'white' }} variant="contained" endIcon={<CalculateIcon sx={{ color:'white' }}/>}>
                       Finanzieren

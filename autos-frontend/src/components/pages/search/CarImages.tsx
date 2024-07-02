@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import NoImage from '/noimage.png';
 import { AxiosDataImagesNames } from '../../../interfaces/IAxiosData';
 export interface CarImagesProps {
   id: number | null | string | undefined,
@@ -25,7 +26,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
 
   const lgQuery = useMediaQuery('(min-width:1101px)');
 
-  const [fetchImageNamesDone, setFetchImageNamesDone] = useState(false);
+  const [fetchImageNamesDone, setFetchImageNamesDone] = useState<null | Boolean>(null);
   const [fetchedImageInformations, setFetchedImageInformations] = useState<AxiosDataImagesNames[]>([]);
 
   const [imageSrc, setImageSrc] = useState<string[]>([]);
@@ -33,11 +34,12 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
   const [open, setOpen] = useState(false);
 
   const handleImageLoading = () => {
-    if(setImageIsLoaded)
-      setTimeout(() => {
-        setImageIsLoaded(true); 
-        setFetchImageNamesDone(false);
-      }, 1500);
+
+    setTimeout(() => {
+      if (setImageIsLoaded)
+        setImageIsLoaded(true);
+      setFetchImageNamesDone(false);
+    }, 500);
   }
 
   const handleClickOpen = () => {
@@ -68,8 +70,11 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
       setFetchImageNamesDone(true);
 
     } catch (error) {
-      console.log(error)
       setFetchImageNamesDone(false);
+      if (setImageIsLoaded)
+        setTimeout(() => {
+          setImageIsLoaded(true);
+        }, 500)
     }
   }
 
@@ -98,11 +103,14 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
             return URL.createObjectURL(response.data);
           })
         );
-        setImageSrc(fetchedImages);
-
+          if(fetchedImages[0] !== undefined) {
+            setImageSrc(fetchedImages);
+          }
+        
       } catch (error) {
         console.error('Fehler beim Herunterladen der Bilder:', error);
       } finally {
+        console.log("Inserat id: " + id);
         handleImageLoading();
       }
     };
@@ -146,22 +154,26 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
       <CardMedia
         loading='lazy'
         component='img'
-        alt= "Bild"
-        image={imageSrc[sliderIndex - 1]}
+        image={imageSrc.length == 0 ? NoImage : imageSrc[sliderIndex - 1]}
         sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)', '&:hover': { cursor: { xs: 'default', lg: open ? 'default' : 'zoom-in' } } }}>
       </CardMedia>
 
-      <Box sx={{
-        '@media print': { display: 'none' }, '@media screen': { display: { xs: isDetail ? 'flex' : 'none' } }, color: 'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
-        padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0, cursor: { xs: 'default', lg: open ? 'default' : 'zoom-in' }
-      }}>
-        <Typography>{`Bild ${sliderIndex} von ${imageSrc.length}`}</Typography>
-      </Box>
+      {!fetchImageNamesDone &&
+        <>
+          <Box sx={{
+            '@media print': { display: 'none' }, '@media screen': { display: { xs: isDetail ? imageSrc.length === 0 ? 'none' : 'block' : 'none' } }, color: 'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
+            padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0, cursor: { xs: 'default', lg: open ? 'default' : 'zoom-in' }
+          }}>
+            <Typography>{`Bild ${sliderIndex} von ${imageSrc.length}`}</Typography>
 
-      {imageSrc.length > 1 && <>
-        <IconButton sx={iconButtonSX(0)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
-        <IconButton sx={iconButtonSX(1)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
-      </>
+            </Box>
+
+          {imageSrc.length > 1 && <>
+            <IconButton sx={iconButtonSX(0)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_LEFT) }}><ArrowBackIosIcon /></IconButton>
+            <IconButton sx={iconButtonSX(1)} onClick={(e) => { e.stopPropagation(); handleSliderIndex(ArrowDirection.ARROW_DIRECTION_RIGHT) }}><ArrowForwardIosIcon /></IconButton>
+          </>
+          }
+        </>
       }
     </div>
     )
@@ -213,13 +225,13 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
 
   return (<>
 
-    <Box  ref={imageRef} sx={{ animation:`${skeletonLoading} 1s linear infinite alternate`, width: '100%', height: 'calc(100% * 9 / 16)' }}>
-        { !fetchImageNamesDone ?
+    <Box ref={imageRef} sx={{ backgroundColor:'#COCOCO', animation: fetchImageNamesDone ? `${skeletonLoading} 1s linear infinite alternate` : ``, width: '100%', height: 'calc(100% * 9 / 16)' }}>
+      {!fetchImageNamesDone ?
         <CarouselComponent />
-        : <Box  sx={{ objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)' }}></Box>
-}
+        : <Box sx={{ backgroundColor:'#COCOCO', objectFit: 'cover', width: '100%', aspectRatio: 16 / 9, height: 'calc(100% * 9 / 16)' }}>
+        </Box>
+      }
     </Box>
-
     <BigImage />
   </>
   );

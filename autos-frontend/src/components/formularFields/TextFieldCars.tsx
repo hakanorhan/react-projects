@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm';
-import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { COMPONENT_DISTANCE, colorDanger } from '../../themes/Theme';
@@ -11,7 +11,7 @@ const TextFieldCars: React.FC<IUseForm2> = ({ label, onChange, regex, refresh, m
     const [value, setValue] = useState("");
 
     useEffect(() => {
-      setValue('');
+      setValue("");
       setValueMatch(false);
       setIsEmpty(true);
     }, [refresh])
@@ -26,9 +26,9 @@ const TextFieldCars: React.FC<IUseForm2> = ({ label, onChange, regex, refresh, m
       }
 
   return (
-    <FormControl sx={{ paddingBottom: COMPONENT_DISTANCE }} onClick={(e) => e.stopPropagation()} required fullWidth variant="standard" >
+    <FormControl sx={{ paddingBottom: COMPONENT_DISTANCE }} onClick={(e) => e.stopPropagation()} required fullWidth variant="outlined" >
     <InputLabel id={ label } htmlFor={ label}>{label}</InputLabel>
-    <Input
+    <OutlinedInput
     autoComplete='on'
       id= {label}
       onChange= { handleOnChange }
@@ -45,6 +45,7 @@ const TextFieldCars: React.FC<IUseForm2> = ({ label, onChange, regex, refresh, m
           </IconButton>
         </InputAdornment>
       }
+      label={label}
     />
   </FormControl>
   )

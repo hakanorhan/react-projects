@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
-import { FormControl, InputLabel, InputAdornment, IconButton, Input, useTheme } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, useTheme, OutlinedInput } from '@mui/material';
 import * as ValidHelper from '../../regex/validHelper';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -38,9 +38,9 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ label, onChange, regex }) => {
 
   return (
     <>
-    <FormControl required variant="standard">
+    <FormControl required variant="outlined">
     <InputLabel htmlFor={label}>{ label }</InputLabel>
-    <Input
+    <OutlinedInput
     name={label}
     inputProps={{ id: label }}
       onChange={handleOnChange}
@@ -63,6 +63,7 @@ const PasswordSignUp: React.FC<IUseForm2> = ({ label, onChange, regex }) => {
           </IconButton>
         </InputAdornment>
       }
+      label={label}
     />
   </FormControl>
   <ValidationMessages />

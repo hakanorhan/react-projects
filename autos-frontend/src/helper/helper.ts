@@ -24,6 +24,11 @@ export function scrollToTop() {
   }, [])
 }
 
+export function scrollToTopSignUp() {
+   window.scrollTo(0, 100);
+
+}
+
 export const dateFormatter = (date: Date)=> {
     return date.toISOString().slice(0, 10);
 }

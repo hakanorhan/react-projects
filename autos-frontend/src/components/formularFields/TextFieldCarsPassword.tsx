@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
-import { FormControl, InputLabel, InputAdornment, IconButton, Input } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput } from '@mui/material';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -15,14 +15,14 @@ const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ label, onChange }) => {
   }
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleMouseDownPassword = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
   return (
-    <FormControl required variant="standard">
+    <FormControl required variant="outlined">
     <InputLabel htmlFor={ label }>{ label }</InputLabel>
-    <Input
+    <OutlinedInput
       name={ label }
       inputProps={{
         id: label
@@ -42,6 +42,7 @@ const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ label, onChange }) => {
           </IconButton>
         </InputAdornment>
       }
+      label={label}
     />
   </FormControl>
   )
