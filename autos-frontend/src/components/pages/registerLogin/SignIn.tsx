@@ -89,7 +89,7 @@ const SignIn: React.FC = () => {
       <Box sx={{
         margin: 'auto',
         marginTop: xsQuery ? '2rem' : '7rem',
-        marginBottom: '1rem'
+        marginBottom: '2rem'
       }}>
         {children}
       </Box>
@@ -114,10 +114,10 @@ const SignIn: React.FC = () => {
   return (
     <MainComponentWidth>
       <HeaderIconComponent>
-        <LockPersonIcon fontSize='large' sx={{ color: 'secondary.main' }} />
+        <LockPersonIcon fontSize='large' sx={{ color: 'icon.main' }} />
       </HeaderIconComponent>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Typography variant='h2' component='h1'>Login</Typography>
+        <Typography sx={{ marginBottom:'2rem' }} variant='h2' component='h1'>Login</Typography>
       </div>
       {formElement}
     </MainComponentWidth>

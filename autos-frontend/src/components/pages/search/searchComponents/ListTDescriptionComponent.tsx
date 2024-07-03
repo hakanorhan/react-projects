@@ -24,12 +24,12 @@ export const ListTDescriptionComponent: React.FC<{ detailSearchValues: AxiosPape
 
   return (
     <Box display='flex' flexWrap='wrap'>
-      <GridComponent icon={<SpeedIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={seperateThousand(detailSearchValues.psPower) + " PS"} />
-      <GridComponent icon={<DirectionsCarIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={seperateThousand(detailSearchValues?.mileageKm) + " KM"} />
-      <GridComponent icon={<LocationOnIcon sx={{fontSize: ICON_FONT_SIZE}}/>} value={detailSearchValues.city} />
-      {detailSearchValues.isCarDealer ? <GridComponent icon={<StoreIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={{ fontSize: ICON_FONT_SIZE }} />} value={"Privat"} />}
+      <GridComponent icon={<SpeedIcon sx={{ fontSize: ICON_FONT_SIZE, color:'icon.main' }} />} value={seperateThousand(detailSearchValues.psPower) + " PS"} />
+      <GridComponent icon={<DirectionsCarIcon sx={{ fontSize: ICON_FONT_SIZE, color:'icon.main' }} />} value={seperateThousand(detailSearchValues?.mileageKm) + " KM"} />
+      <GridComponent icon={<LocationOnIcon sx={{fontSize: ICON_FONT_SIZE, color:'icon.main'}}/>} value={detailSearchValues.city} />
+      {detailSearchValues.isCarDealer ? <GridComponent icon={<StoreIcon sx={{ fontSize: ICON_FONT_SIZE, color:'icon.main' }} />} value={"Händler"} /> : <GridComponent icon={<PersonIcon sx={{ fontSize: ICON_FONT_SIZE, color:'icon.main' }} />} value={"Privat"} />}
       
-      <Rating sx={{ color: 'icon.main', marginRight:'0.8rem', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /> {(22)}
+      <Rating sx={{  color: 'icon.main', marginRight:'0.8rem', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4} precision={0.5} readOnly /> {(22)}
       
     </Box>
   )

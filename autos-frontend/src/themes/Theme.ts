@@ -36,20 +36,22 @@ const searchContainerXLWidth = '1150px'
 export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
 
-const LIGHT_PRIMARY_COLOR_MAIN: string = "#2B2B4D";
-const LIGHT_PRIMARY_COLOR_LIGHT: string = "#02c9ff";
+const LIGHT_PRIMARY_COLOR_MAIN: string = "#D48166";
 export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 
-export const LIGHT_SECONDARY_COLOR_MAIN = "#4740ed";
+export const LIGHT_SECONDARY_COLOR_MAIN = "#373A36";
 const LIGHT_BACKGROUND_DEFAULT = 'whitesmoke';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = 'white';
 
-const DARK_PRIMARY_COLOR_MAIN = colors.cyan[600];
+const DARK_PRIMARY_COLOR_MAIN = '#008080'
 const DARK_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
-const DARK_SECONDARY_COLOR_MAIN = colors.grey[900];
-const DARK_PRIMARY_LIGHT = colors.grey[900];
-const DARK_BACKGROUND_DEFAULT = 'black';
-const DARK_BACKGROUND_PAPER_DEFAULT = 'red';
+const DARK_SECONDARY_COLOR_MAIN = '#00A8C9';
+const DARK_BACKGROUND_DEFAULT = '#36454F';
+const DARK_BACKGROUND_PAPER_DEFAULT = colors.grey[700];
+// text on default background
+const LIGHT_TEXT_PRIMARY = colors.grey[900];
+
+const DARK_TEXT_PRIMARY = '#ffffff';
 
 
 export const colorDanger: string = colors.red[700];
@@ -75,17 +77,18 @@ export const ZOOM_HOVER = { '&:hover': { transform: 'scale(1.01)' }, cursor: 'po
 export const SX_ICON = { fontSize: ICON_FONT_SIZE, color: 'text.primary' };
 export const PAPER_ELEVATION_VALUE = 9;
 
-const typographySizes =  {
-    h1: {fontSize: '2.5rem'},
-    h2: {fontSize:'2rem'},
-    h3: {fontSize: '1.75rem'},
-    h4: {fontSize: '1.5rem'},
-    h5:{fontSize:'1.25rem'},
-    h6: {fontSize: '1rem'},
-    body1: {fontSize: '1rem'}
-};
+const typographySizes = (textPrimary: string) => ( {
+    h1: {fontSize: '2.5rem', color: textPrimary},
+    h2: {fontSize:'2rem', color: textPrimary},
+    h3: {fontSize: '1.75rem', color: textPrimary},
+    h4: {fontSize: '1.5rem', color: textPrimary},
+    h5:{fontSize:'1.25rem', color: textPrimary},
+    h6: {fontSize: '1rem', color: textPrimary},
+    body1: { fontSize: '1rem', color: textPrimary},
+    body2: { fontSize: '0.9rem', color: textPrimary}
+});
 
-const componentStyles= (primaryMain: string, primaryLight: string, secondaryMain: string, paperBackgroundColor: string, primaryContrastText: string): Components<Omit<Theme, 'components'>> => ({
+const componentStyles= (primaryMain: string, secondaryMain: string, paperBackgroundColor: string, primaryContrastText: string): Components<Omit<Theme, 'components'>> => ({
      MuiPaper: {
         styleOverrides: {
             root: {
@@ -109,11 +112,11 @@ const componentStyles= (primaryMain: string, primaryLight: string, secondaryMain
                 borderRadius: '0px',
                 border: 'none',
                 width: '100%',
-                backgroundColor: secondaryMain,
+                backgroundColor: primaryMain,
                 color: primaryContrastText,
                 marginBottom: '1rem',
                 '&:hover': {
-                    backgroundColor: primaryLight,
+                    backgroundColor: secondaryMain,
                     color: primaryContrastText,
                     cursor:'pointer',
                 }, textTransform: 'none',
@@ -127,10 +130,10 @@ const componentStyles= (primaryMain: string, primaryLight: string, secondaryMain
     MuiFab: {
         styleOverrides: {
             root: {
-                backgroundColor: secondaryMain,
+                backgroundColor: primaryMain,
                 color: primaryContrastText,
                 '&:hover': {
-                    backgroundColor: primaryLight
+                    backgroundColor: secondaryMain
                 }
             }
         }
@@ -142,25 +145,17 @@ const componentStyles= (primaryMain: string, primaryLight: string, secondaryMain
                 letterSpacing: 0.12
             }
         }
-    }, MuiSvgIcon: {
-        styleOverrides: {
-            root: {
-                color: primaryMain
-            }
-        }
-    }
+    },
 });
 
-const themeStyles = (mode: PaletteMode, primaryMain: string, primaryLight: string, secondaryMain: string, backgroundDefaultColor: string, paperBackgroundColor: string, primaryContrastText: string ) => ({
+const themeStyles = (textPrimary: string, mode: PaletteMode, primaryMain: string, secondaryMain: string, backgroundDefaultColor: string, paperBackgroundColor: string, primaryContrastText: string ) => ({
     palette: {
         mode: mode,
         text: {
-            primary: colors.grey[900],
-            secondary: colors.grey[600]
+            primary: textPrimary,
         },
         primary: {
             main: primaryMain,
-            light: primaryLight,
             contrastText: primaryContrastText,
         }, secondary: {
             main: secondaryMain,
@@ -169,19 +164,23 @@ const themeStyles = (mode: PaletteMode, primaryMain: string, primaryLight: strin
             default: backgroundDefaultColor,
             paper: paperBackgroundColor,
         }, icon: {
-            main: secondaryMain
+            main: textPrimary
+        }, success: {
+            main: '#4caf50'
+        }, danger: {
+            main: '#f44336'
         }
     },
-    typography: typographySizes,
-    components: componentStyles(primaryMain, primaryLight, secondaryMain, paperBackgroundColor, primaryContrastText),
+    typography: typographySizes(textPrimary),
+    components: componentStyles(primaryMain, secondaryMain, paperBackgroundColor, primaryContrastText),
     breakpoints: { values: breakpoints }
 });
 
 export const themeLight = createTheme({
     ...themeStyles(
+        LIGHT_TEXT_PRIMARY,
         'light' as PaletteMode,
         LIGHT_PRIMARY_COLOR_MAIN,
-        LIGHT_PRIMARY_COLOR_LIGHT,
         LIGHT_SECONDARY_COLOR_MAIN,
         LIGHT_BACKGROUND_DEFAULT,
         LIGHT_BACKGROUND_PAPER_DEFAULT,
@@ -191,9 +190,9 @@ export const themeLight = createTheme({
 
 export const themeDark = createTheme({
     ...themeStyles(
+        DARK_TEXT_PRIMARY,
         'dark' as PaletteMode,
         DARK_PRIMARY_COLOR_MAIN,
-        DARK_PRIMARY_LIGHT,
         DARK_SECONDARY_COLOR_MAIN,
         DARK_BACKGROUND_DEFAULT,
         DARK_BACKGROUND_PAPER_DEFAULT,

@@ -201,7 +201,7 @@ import('@mui/icons-material/Add').then(module => {
               backgroundColor: "transparent"
             }
           }}>
-            <CloseOutlinedIcon sx={{ color: 'primary.main', "&:hover": { border: '0px' }, fontSize: '70px', marginRight: '40px', borderStyle: 'solid', borderRadius: '5px', padding: '10px' }} />
+            <CloseOutlinedIcon sx={{ color: 'text.primary', "&:hover": { border: '0px' }, fontSize: '70px', marginRight: '40px', borderStyle: 'solid', borderRadius: '5px', padding: '10px' }} />
           </IconButton>
         </Box>
           <List>

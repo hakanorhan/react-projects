@@ -91,7 +91,7 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
         </Grid>
 
         <Box display={'flex'} justifyContent={'center'} sx={{ marginTop: COMPONENT_DISTANCE }}>
-          <Button disabled={offset >= count} onClick={handleShowNewCars} sx={{ width: '250px', backgroundColor: 'transparent', color: 'secondary.main', '&:hover': { backgroundColor: 'transparent', color: 'primary.light' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
+          <Button disabled={offset >= count} onClick={handleShowNewCars} sx={{ width: '250px', backgroundColor: 'transparent', color: 'text.primary', '&:hover': { backgroundColor: 'transparent', color: 'primary.main' } }} startIcon={<AddIcon />} >Weitere Anzeigen</Button>
         </Box>
       </Box>
     }

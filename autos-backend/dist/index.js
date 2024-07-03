@@ -160,7 +160,21 @@ app.get('/uploads/:id/:imageName', (req, res) => {
     const imageName = req.params.imageName;
     const encodedFileName = encodeURI(imageName);
     const id = req.params.id;
-    res.sendFile(encodedFileName, { root: `./uploads/${id}` });
+    const filePath = `./uploads/${id}/${encodedFileName}`;
+    const directoryPath = `./uploads/${id}`;
+    fs.access(directoryPath, fs.constants.F_OK, (err) => {
+        if (err) {
+            console.error(`Directory ${directoryPath} does not exist`);
+            return res.status(404).send('Directory not found');
+        }
+        fs.access(filePath, fs.constants.F_OK, (err) => {
+            if (err) {
+                console.error(`File ${encodedFileName} does not exist in directory ${id}`);
+                return res.status(404).send('File not found');
+            }
+            res.sendFile(encodedFileName, { root: `./uploads/${id}` });
+        });
+    });
 });
 async function deleteImageDBAndFile(inserateId, imageName, res) {
     const deleteQuery = "DELETE FROM imagename WHERE inserate_id = ? AND imagename = ?";

@@ -256,12 +256,12 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
                 <Typography variant='body1'>{`${detailSearchValues?.zipcode} ${detailSearchValues?.city}`}</Typography>
               </Box>
 
-              <Box sx={{ marginLeft: '50px', color: 'text.primary' }}>
+              <Box sx={{ marginLeft: '50px' }}>
                 <Box>
                   {detailSearchValues?.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
                 </Box>
                 <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
-                <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: '1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography sx={{ marginLeft: '7px' }} variant='body2'>45 Bewertungen</Typography></Box>
+                <Box display={'flex'}><Rating sx={{ color: 'icon.main', verticalAlign: 'middle', fontSize: '1.2rem' }} name="half-rating-read" defaultValue={4.0} precision={0.5} readOnly /><Typography sx={{ marginLeft: '7px' }} variant='body2'>45 Bewertungen</Typography></Box>
 
               </Box>
             </Box>
@@ -276,17 +276,17 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
                   <ShareComponent />
                 </Grid>
                 <Grid sx={{ display: 'flex', justifyContent: 'center' }} item xs={6} sm={4}>
-                  <FavoriteBorder sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography sx={{ cursor: 'pointer' }} variant='body1' component='p'>{"Merken"}</Typography>
+                  <FavoriteBorder sx={{ cursor: 'pointer', marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography sx={{ color:'text.primary', cursor: 'pointer' }} variant='body1' component='p'>{"Merken"}</Typography>
                 </Grid>
                 <Grid onClick={() => { window.print() }} item sx={{ cursor: 'pointer', justifyContent: {xs: 'start', sm: 'end'}, display: 'flex' }} xs={6} sm={4}>
-                  <Print sx={{ marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography variant='body1' component='p'>{"Drucken"}</Typography>
+                  <Print sx={{ marginRight: COMPONENT_DISTANCE, color: 'text.primary' }} /> <Typography sx={{color:'text.primary'}} variant='body1' component='p'>{"Drucken"}</Typography>
                 </Grid>
               </Grid>
             </Boxprint>
 
             <Grid sx={{ height: '100%', marginTop: '1rem' }} container>
               {/* Marke Modell */}
-              <Grid item xs={12}> <Typography variant='h5' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
+              <Grid item xs={12}> <Typography sx={{color:'text.primary'}} variant='h5' component='h1'>{`${detailSearchValues?.brand} ${detailSearchValues?.model}`}</Typography> </Grid>
 
               <Grid spacing={2} container sx={{ marginTop: COMPONENT_DISTANCE }}>
                 <Grid item xs={12} sm={6}>
@@ -318,7 +318,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
               <Grid sx={{ marginTop: COMPONENT_DISTANCE }} item xs={12}>
                 <GreyHorizontalHR />
               </Grid>
-              <Box sx={{ display: 'flex', marginTop: '1rem' }}>
+              <Box sx={{ color:'text.primary', display: 'flex', marginTop: '1rem' }}>
                 <HealthAndSafetyIcon sx={{ color: 'text.primary', fontSize: '3rem', marginRight: '10px' }} />
                 <Box>
                   <Typography variant='h6'>{"Ab 12,89€ monatlich"}</Typography>
@@ -415,7 +415,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
                   : <></>
               }
 
-              <Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
+              <Rating sx={{ color: 'icon.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.0} precision={0.5} readOnly />
               <Typography>45 Bewertungen</Typography>
 
               <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>

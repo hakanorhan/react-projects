@@ -242,7 +242,7 @@ const SignUpUser: React.FC = () => {
     return (
       <Box sx={{ margin: 'auto',
         marginTop: xsQuery ? '2rem': '7rem',
-        marginBottom: '1rem' }}>
+        marginBottom: '2rem' }}>
       { children }
     </Box> 
     )
@@ -262,9 +262,9 @@ const SignUpUser: React.FC = () => {
     <MainComponentWidth>
       <Box sx={{ display: 'flex', flexDirection: 'column', margin: 'auto', }}>
         <HeaderIconComponent>
-          <PersonAddIcon fontSize='large' />
+          <PersonAddIcon sx={{color:'icon.main'}} fontSize='large' />
         </HeaderIconComponent>
-        <Typography variant='h1' component="h1" sx={{ color: 'primary.main' }}>Registrieren</Typography>
+        <Typography variant='h1' component="h1" sx={{ color: 'icon.main', marginBottom:'2rem' }}>Registrieren</Typography>
       </Box>
       <Stepper activeStep={activeStep} orientation={xsQuery ? "vertical" : "horizontal"} sx={{ marginTop: '1rem', fontSize:'10px', marginBottom: '1rem' }}>
         {

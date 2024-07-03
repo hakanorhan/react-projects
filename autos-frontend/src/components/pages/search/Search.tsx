@@ -232,7 +232,7 @@ const Search: React.FC = () => {
                 else
                   notifyError("no cars", "Zurzeit keine Inserate");
               }}
-              sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained" startIcon={<SearchIcon sx={{ color: 'white' }} />}>  {countCars} &nbsp;{` ${searchButtonText}`}</Button>
+              sx={{ height: buttonHeight }} fullWidth type='submit' variant="contained" startIcon={<SearchIcon sx={{ color: 'primary.contrastText' }} />}>  {countCars} &nbsp;{` ${searchButtonText}`}</Button>
           </Grid>
         </Grid>
       </SearchContainer>)
@@ -276,7 +276,7 @@ const Search: React.FC = () => {
 
     <Box sx={{ minHeight: '500px', marginTop: COMPONENT_DISTANCE }} >
 
-      <Typography variant='h5' sx={{ marginLeft: '2.5%', color: theme.palette.primary.main }}>Am meisten gesucht</Typography>
+      <Typography variant='h5' sx={{ marginLeft: '2.5%', }}>Am meisten gesucht</Typography>
       <Box id="mostCar">
         {isMostCarVisible &&
           <Suspense fallback={<></>} >
@@ -292,7 +292,7 @@ const Search: React.FC = () => {
     >
       {
         isElectricCarVisible && (<>
-          <Typography variant='h5' sx={{ marginLeft: '2.5%', color: theme.palette.primary.main }}>Elektroautos</Typography>
+          <Typography variant='h5' sx={{ marginLeft: '2.5%' }}>Elektroautos</Typography>
 
 
           <Suspense fallback={<></>}>

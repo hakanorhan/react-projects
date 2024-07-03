@@ -29,7 +29,7 @@ export const TDescriptionComponent = () => {
 
   return (
    
-      <Box sx={{display:'flex', flexWrap:'wrap'}}>
+      <Box sx={{ color:'text.primary', display:'flex', flexWrap:'wrap'}}>
         <GridComponent icon={<Person3Icon sx={ SX_ICON } />} value={detailSearchValues?.vehicleOwners} />
         <GridComponent icon={<DirectionsCarIcon sx={ SX_ICON }/>} value={seperateThousand(detailSearchValues?.mileageKm) + " KM"} />
 

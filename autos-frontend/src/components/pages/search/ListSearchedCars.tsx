@@ -177,10 +177,9 @@ scrollToTop();
 
         </FormControl>
       </Grid>
-      <Box sx={{ paddingBottom: COMPONENT_DISTANCE, display:'flex' }} component={'div'}>
-      <Grid item xs={9} sm={3.75}> <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{ display: 'flex' }}><SearchIcon /><Typography sx={{ marginLeft: '0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box> </Grid>
-      <Grid item xs={3} sm={3.75}> <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}> <ShareComponent /></Box> </Grid>
-      </Box>
+      <Grid item xs={9} sm={4}> <Box sx={{ display: 'flex', justifyContent:'end', alignItems: 'center', height: '100%' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{ display: 'flex' }}><SearchIcon /><Typography sx={{ marginLeft: '0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box> </Grid>
+      <Grid item xs={3} sm={4}> <Box sx={{ display: 'flex', justifyContent:'end', alignItems: 'center', height: '100%' }}> <ShareComponent /></Box> </Grid>
+    
     </Grid>
   }
 

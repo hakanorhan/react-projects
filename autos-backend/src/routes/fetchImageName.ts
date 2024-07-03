@@ -22,6 +22,7 @@ export default async (req: express.Request, res: express.Response) => {
         return res.status(200).json( axiosData );
     } catch (error: any) {
         connection?.end();
+        console.log("No image!");
         selectMysqlErrorMessages(error.code, res);
     } 
 }
