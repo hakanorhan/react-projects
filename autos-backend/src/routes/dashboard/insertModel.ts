@@ -1,7 +1,6 @@
 import express from "express";
-import { REGEX_NAMES } from "../../regex/regex.js";
 import { connectToDatabase } from "../../dbConnect.js";
-import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { RowDataPacket } from "mysql2";
 import { insertMysqlErrorMessages } from "../../helper/messages.js";
 import { AxiosDataPacketModel, Model, RequestAxiosDataModel } from "../../interfaces/types.js";
 import { formularIsNumber, formularModelIsValid } from "../../helper/validHelper.js";

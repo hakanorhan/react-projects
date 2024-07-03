@@ -169,7 +169,7 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
             '@media print': { display: 'none' }, '@media screen': { display: { xs: isDetail ? imageSrc.length === 0 ? 'none' : 'block' : 'none' } }, color: 'white', position: 'absolute', top: '7%', marginRight: '0.4rem', backgroundColor: 'black',
             padding: '0.3rem 0.8rem', opacity: '70%', ['right']: 0, cursor: { xs: 'default', lg: open ? 'default' : 'zoom-in' }
           }}>
-            <Typography>{`Bild ${sliderIndex} von ${imageSrc.length}`}</Typography>
+            <Typography sx={{ color:'white' }}>{`Bild ${sliderIndex} von ${imageSrc.length}`}</Typography>
 
             </Box>
 

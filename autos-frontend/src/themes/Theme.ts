@@ -115,15 +115,17 @@ const componentStyles= (primaryMain: string, secondaryMain: string, paperBackgro
                 backgroundColor: primaryMain,
                 color: primaryContrastText,
                 marginBottom: '1rem',
-                '&:hover': {
-                    backgroundColor: secondaryMain,
-                    color: primaryContrastText,
-                    cursor:'pointer',
-                }, textTransform: 'none',
+                '@media (hover: hover)': {
+                    '&:hover': {
+                      backgroundColor: secondaryMain,
+                      color: primaryContrastText,
+                      cursor: 'pointer',
+                    },
+                textTransform: 'none',
                 '& .MuiButton-label': {
                     textTransform: 'capitalize',
                 },
-            }
+          } }
         },
 
     },

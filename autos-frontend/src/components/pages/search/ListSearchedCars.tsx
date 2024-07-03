@@ -164,8 +164,8 @@ scrollToTop();
             <MenuItem value={SortEnums.KM_UP}>Kilometerstand <ArrowUpwardIcon fontSize='small' /></MenuItem>
             <MenuItem value={SortEnums.KM_DOWN}>Kilometerstand <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr />
-            <MenuItem value={SortEnums.INSREATE_UP}>Inserate <ArrowUpwardIcon fontSize='small' /></MenuItem>
-            <MenuItem value={SortEnums.INSREATE_DOWN}>Inserate <ArrowDownwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.INSREATE_UP}>Inseratdatum <ArrowUpwardIcon fontSize='small' /></MenuItem>
+            <MenuItem value={SortEnums.INSREATE_DOWN}>Inseratdatum <ArrowDownwardIcon fontSize='small' /></MenuItem>
             <hr />
             <MenuItem value={SortEnums.POWER_UP}>Leistung <ArrowUpwardIcon fontSize='small' /></MenuItem>
             <MenuItem value={SortEnums.POWER_DOWN}>Leistung <ArrowDownwardIcon fontSize='small' /></MenuItem>
@@ -177,8 +177,8 @@ scrollToTop();
 
         </FormControl>
       </Grid>
-      <Grid item xs={9} sm={4}> <Box sx={{ display: 'flex', justifyContent:'end', alignItems: 'center', height: '100%' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{ display: 'flex' }}><SearchIcon /><Typography sx={{ marginLeft: '0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box> </Grid>
-      <Grid item xs={3} sm={4}> <Box sx={{ display: 'flex', justifyContent:'end', alignItems: 'center', height: '100%' }}> <ShareComponent /></Box> </Grid>
+      <Grid item xs={5} sm={4}> <Box sx={{ marginBottom: {xs: '1rem', sm: 0}, display: 'flex', justifyContent:'end', alignItems: 'center', height: '100%' }}> <LinkNewSearch to={URLs.HOME_ALL_SEARCH_COUNT}> <Box sx={{ display: 'flex' }}><SearchIcon /><Typography sx={{ marginLeft: '0.3rem' }}> Neue Suche</Typography></Box></LinkNewSearch></Box> </Grid>
+      <Grid item xs={5} sm={4}> <Box sx={{ display: 'flex', justifyContent:'end', alignItems: 'center', height: '100%' }}> <ShareComponent /></Box> </Grid>
     
     </Grid>
   }

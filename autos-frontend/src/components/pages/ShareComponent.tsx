@@ -52,13 +52,13 @@ const ShareComponent: FC<ShareComponentProps> = ({ showText: showNoText }) => {
             <MenuList>
                 <MenuItem onClick={() => {  }}>
                     <Box display={'flex'}>
-                        <EmailIcon sx={{ color: 'primary.main', marginRight: '20px' }} />
+                        <EmailIcon sx={{ color: 'text.primary', marginRight: '20px' }} />
                         <Typography sx={{ color: 'text.primary' }}>{"E-Mail"}</Typography>
                     </Box>
                 </MenuItem>
                 <MenuItem onClick={() => { }}>
                     <Box display={'flex'}>
-                        <LinkIcon sx={{ color: 'primary.main', marginRight: '20px' }} />
+                        <LinkIcon sx={{ color: 'text.primary', marginRight: '20px' }} />
                         <Typography sx={{ color: 'text.primary' }}>{"Link kopieren"}</Typography>
                     </Box>
                 </MenuItem>

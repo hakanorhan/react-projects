@@ -169,7 +169,6 @@ app.get('/uploads/:id/:imageName', (req, res) => {
         }
         fs.access(filePath, fs.constants.F_OK, (err) => {
             if (err) {
-                console.error(`File ${encodedFileName} does not exist in directory ${id}`);
                 return res.status(404).send('File not found');
             }
             res.sendFile(encodedFileName, { root: `./uploads/${id}` });

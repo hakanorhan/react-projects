@@ -80,7 +80,7 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
     {cars && cars?.length > 0 &&
       <Box sx={{ display: 'block', minHeight: '300px', width: '95%', margin: 'auto', marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
 
-        <Grid container spacing={{ sm: 4}}>
+        <Grid container spacing={4}>
           {
             cars && cars.map((axiosPaper, index) => (
               <Grid item xs={12} sm={6} md={6} lg={4} xl={3} key={index}>

@@ -80,7 +80,7 @@ const Search: React.FC = () => {
           setListPrices(tableValues.resultPrices);
         }
       } catch (error: any) {
-        notifyError(error.response.data.messageId, error.response.data.message);
+        notifyError("fetchData", error.response.data.message);
       }
     }
 

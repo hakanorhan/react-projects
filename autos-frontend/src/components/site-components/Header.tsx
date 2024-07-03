@@ -29,12 +29,12 @@ import muiLazyLoader from '../../helper/lazyLoading/MuiLazyLoader';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 
 
-const headlineStyle = { color: 'secondary.contrastText', paddingLeft: '20px', justifyContent: 'flex-start' };
+const headlineStyle = { color: 'text.primary', backgroundColor:'background.default', paddingLeft: '20px', justifyContent: 'flex-start' };
 const drawerFontSize = '28px';
 
 const drawerSizes = { color: 'text.primary', fontSize: drawerFontSize, paddingLeft: '25px' };
-const accordionIconStyle = { fontSize: drawerFontSize, color:'secondary.contrastText' };
-const accordionStyle = { backgroundColor:'secondary.main', paddingLeft: '35px', marginBottom: '0.8rem' };
+const accordionIconStyle = { fontSize: drawerFontSize, color:'text.primary' };
+const accordionStyle = { backgroundColor: 'background.default', paddingLeft: '35px', marginBottom: '0.8rem' };
 
 interface AccordionProps {
   icon: JSX.Element,
@@ -157,11 +157,11 @@ import('@mui/icons-material/Add').then(module => {
   const AccordionComponent: FC<AccordionProps> = ({icon, title, urlBrand, urlModel}) => {
     return <AccordionLazy elevation={0} sx={accordionStyle}>
     <AccordionSummary
-      expandIcon={ <ExpandMoreIcon sx={{ color: 'secondary.contrastText' }}/> }
+      expandIcon={ <ExpandMoreIcon sx={{ color: 'text.primary' }}/> }
       aria-controls="panel1-content"
       id="panel1-header"
     >
-      { icon } <Typography variant='h5' component='h3' sx={{ marginLeft: '0.5rem',color: 'secondary.contrastText' }}>{ title }</Typography>
+      { icon } <Typography variant='h5' component='h3' sx={{ marginLeft: '0.5rem',color: 'text.primary' }}>{ title }</Typography>
     </AccordionSummary>
     <AccordionDetails>
       <Box >
@@ -220,7 +220,7 @@ import('@mui/icons-material/Add').then(module => {
               
               <Button onClick={() => {
                 setDrawerOpen(false); navigate(URLs.FETCH_INSERATE_PUBLISH)
-              }} sx={{ width:'250px', color:'secondary.contrastText', '&:hover': { color: 'secondary.contrastText' }, marginTop: '0.8rem', paddingLeft:'55px' }}  startIcon={<PublishIcon sx={ accordionIconStyle }/>}> <Typography  variant='h5' component='h4'>Veröffentlichen </Typography></Button>
+              }} sx={{ backgroundColor:'background.default', width:'250px', color:'text.primary', '&:hover': { color: 'secondary.contrastText' }, marginTop: '0.8rem', paddingLeft:'45px' }}  startIcon={<PublishIcon sx={ accordionIconStyle }/>}> <Typography  variant='h5' component='h4'>Veröffentlichen </Typography></Button>
                </Box>
           </>
         }
