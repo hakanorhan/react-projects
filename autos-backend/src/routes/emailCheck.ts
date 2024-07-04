@@ -1,6 +1,6 @@
 import express from "express";
 import { RowDataPacket } from "mysql2";
-import { REGEX_EMAIL, REGEX_PASSWORD } from "../regex/regex.js";
+import { REGEX_EMAIL } from "../regex/regex.js";
 import { connectToDatabase } from "../dbConnect.js";
 const selectQuery: string = 'SELECT email FROM account_data WHERE email = ?';
 
@@ -8,7 +8,6 @@ const selectQuery: string = 'SELECT email FROM account_data WHERE email = ?';
 async function performQuery(requestData: string, res: express.Response) {
 
     let connection;
-    console.log("value: " + requestData);
 
     // Email or password aren't valid
     if (!REGEX_EMAIL.test(requestData)) {

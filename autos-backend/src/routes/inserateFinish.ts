@@ -1,15 +1,9 @@
 import express from "express";
-import { ResultSetHeader } from "mysql2";
 import { connectToDatabase } from "../dbConnect.js";
-import { AxiosDataInserate as AxiosDataInserateRequest, AxiosInserateResponse } from "../interfaces/IAxiosData.js";
-import { insertMysqlErrorMessages } from "../helper/messages.js";
-
 const INSERT_INSERATE_FINISH: string = "UPDATE inserate SET entwurf = ? WHERE inserate_id = ?";
 
 export default async (req: express.Request, res: express.Response) => {
     const { finish, inserateid } = req.body;
-    console.log("inserate finish: " + finish)
-    //const userId = (req.user as any).id;
     if(finish === 0 || finish === 1)
     performUpdate(finish, inserateid, res);
     else res.status(400).json({message: 'Ungültiger Wert'}); 

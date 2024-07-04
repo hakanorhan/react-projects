@@ -23,7 +23,7 @@ interface IFormModel {
 const initialModel: IFormModel = { model: "" };
 // Components
 const InsertModel = () => {
-  
+
   const [form, setForm] = useState(initialModel);
   const [refresh, setRefresh] = useState(false);
 
@@ -45,7 +45,7 @@ const InsertModel = () => {
     setForm({ ...form, [fieldName]: fieldValue })
   }
   useEffect(() => {
-    if(modelValues.length > 0) {
+    if (modelValues.length > 0) {
       setForm(initialModel);
     }
   }, [modelValues])
@@ -63,7 +63,7 @@ const InsertModel = () => {
       model: form.model
     }
 
-    if(!selectedBrand) {
+    if (!selectedBrand) {
       notifyError("brand", "Bitte wählen Sie eine Marke.")
     }
     else if (!formularModelIsValid(axiosDataModel.model)) {

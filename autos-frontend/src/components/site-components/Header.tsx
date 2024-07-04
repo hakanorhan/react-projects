@@ -29,12 +29,12 @@ import muiLazyLoader from '../../helper/lazyLoading/MuiLazyLoader';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 
 
-const headlineStyle = { color: 'text.primary', backgroundColor:'background.default', paddingLeft: '20px', justifyContent: 'flex-start' };
+const headlineStyle = { color: 'text.primary', backgroundColor:'background.default', paddingLeft: '25px', justifyContent: 'flex-start', '&:hover': {backgroundColor:'transparent'} };
 const drawerFontSize = '28px';
 
 const drawerSizes = { color: 'text.primary', fontSize: drawerFontSize, paddingLeft: '25px' };
 const accordionIconStyle = { fontSize: drawerFontSize, color:'text.primary' };
-const accordionStyle = { backgroundColor: 'background.default', paddingLeft: '35px', marginBottom: '0.8rem' };
+const accordionStyle = { backgroundColor: 'background.default', paddingLeft: '7%', marginBottom: '0.8rem' };
 
 interface AccordionProps {
   icon: JSX.Element,
@@ -161,19 +161,19 @@ import('@mui/icons-material/Add').then(module => {
       aria-controls="panel1-content"
       id="panel1-header"
     >
-      { icon } <Typography variant='h5' component='h3' sx={{ marginLeft: '0.5rem',color: 'text.primary' }}>{ title }</Typography>
+      { icon } <Typography variant='h5' component='h3' sx={{ color: 'text.primary' }}>{ title }</Typography>
     </AccordionSummary>
     <AccordionDetails>
-      <Box >
+      <Box sx={accordionStyle}>
         <Button sx={headlineStyle} onClick={() => {
           // URLs.POST_INSERT_BRAND
           setDrawerOpen(false); navigate( urlBrand )
-        }} > Marke </Button>
+        }} > <Typography variant='h6'>Marke</Typography></Button>
         
         <Button sx={headlineStyle} onClick={() => {
           // URLs.POST_INSERT_MODEL
           setDrawerOpen(false); navigate( urlModel )
-        }}> Modell </Button>
+        }}> <Typography variant='h6'>Modell</Typography> </Button>
       </Box>
     </AccordionDetails>
   </AccordionLazy>
@@ -181,7 +181,7 @@ import('@mui/icons-material/Add').then(module => {
 
   const ListItemLink: FC<ListItemLinkProps> = ({ title, url }) => {
    return  <ListItem>
-    <ListItemButton>
+    <ListItemButton sx={{ '&:hover': {backgroundColor:'transparent'} }}>
       <ListItemIcon>
         <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={ url }><Typography sx={drawerSizes}> { title } </Typography></Link>} />
       </ListItemIcon>
@@ -220,7 +220,7 @@ import('@mui/icons-material/Add').then(module => {
               
               <Button onClick={() => {
                 setDrawerOpen(false); navigate(URLs.FETCH_INSERATE_PUBLISH)
-              }} sx={{ backgroundColor:'background.default', width:'250px', color:'text.primary', '&:hover': { color: 'secondary.contrastText' }, marginTop: '0.8rem', paddingLeft:'45px' }}  startIcon={<PublishIcon sx={ accordionIconStyle }/>}> <Typography  variant='h5' component='h4'>Veröffentlichen </Typography></Button>
+              }} sx={{ justifyContent:'start', backgroundColor:'background.default', color:'text.primary', marginTop: '0.8rem', paddingLeft:'13%', '&:hover':{ backgroundColor:'transparent'} }}  startIcon={<PublishIcon sx={ accordionIconStyle }/>}> <Typography  variant='h5' component='h4'>Veröffentlichen </Typography></Button>
                </Box>
           </>
         }

@@ -20,13 +20,13 @@ export default function PublishInserate() {
     };
 
     fetch();
-  }, [ openValue ])
+  }, [openValue])
 
   return (<>
-  <Toaster />
+    <Toaster />
     <DivViewDetail>
       <PublishList listItems={listItems} />
     </DivViewDetail>
-    </>
+  </>
   )
 }

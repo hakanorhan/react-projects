@@ -17,6 +17,9 @@ declare module '@mui/material/styles' {
     }
 }
 
+/**
+ * Breakpoints.
+ */
 const breakpoints = {
     xs: 0,
     sm: 576,
@@ -37,9 +40,9 @@ export const ToggleButtonSXWidth = '90px';
 export const ToggleButtonSMWidth = '150px';
 
 const LIGHT_PRIMARY_COLOR_MAIN: string = "#D48166";
-export const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
+const LIGHT_PRIMARY_CONTRAST_TEXT = '#FFFFFF';
 
-export const LIGHT_SECONDARY_COLOR_MAIN = "#373A36";
+const LIGHT_SECONDARY_COLOR_MAIN = "#373A36";
 const LIGHT_BACKGROUND_DEFAULT = 'whitesmoke';
 const LIGHT_BACKGROUND_PAPER_DEFAULT = 'white';
 
@@ -53,8 +56,6 @@ const LIGHT_TEXT_PRIMARY = colors.grey[900];
 
 const DARK_TEXT_PRIMARY = '#ffffff';
 
-
-export const colorDanger: string = colors.red[700];
 export const buttonHeight = '55px';
 
 export const minHeightContent = '97vh';

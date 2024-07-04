@@ -36,7 +36,7 @@ const InsertBrand = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const value = form.brand;
-    if(!formularNameValid(value))
+    if (!formularNameValid(value))
       notifyError("error", "Minimal 2 Buchstaben erforderlich")
     else
       dispatch(insertBrand(value))

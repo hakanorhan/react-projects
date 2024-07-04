@@ -2,7 +2,6 @@ import express from 'express';
 import { connectToDatabase } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
-import { AxiosPaperList } from '../interfaces/IAxiosData.js';
 import { DisplayTypes } from '../constants/values.js';
 
 export async function fetchCountClickedCars(req: express.Request, res: express.Response) {

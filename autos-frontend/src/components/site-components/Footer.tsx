@@ -5,7 +5,7 @@ import { colors } from "@mui/material";
 import Switch from "@mui/material/Switch";
 
 import { Link } from "react-router-dom";
-import { COMPONENT_DISTANCE, LIGHT_PRIMARY_CONTRAST_TEXT, LinkDrawer } from "../../themes/Theme";
+import { COMPONENT_DISTANCE, LinkDrawer } from "../../themes/Theme";
 import { useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -37,11 +37,11 @@ const SERVICE = [
 export default function Footer() {
 
   const CreateLink = (linkname: string, index: number, url: URLs = URLs.HOME_ALL_SEARCH_COUNT) => {
-    return <Link key={index} style={LinkDrawer} to={url}> <Typography sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }} key={index} > {linkname} </Typography> </Link>
+    return <Link key={index} style={LinkDrawer} to={url}> <Typography sx={{ '@media print': { color: 'black' }, color: 'primary.contrastText' }} key={index} > {linkname} </Typography> </Link>
   }
 
   const createHeaderForLinks = (header: string) => {
-    return <Typography paddingBottom={COMPONENT_DISTANCE} key={header} variant="h5" component='h1' sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
+    return <Typography paddingBottom={COMPONENT_DISTANCE} key={header} variant="h5" component='h1' sx={{ '@media print': { color: 'black' }, color: 'primary.contrastText' }}>{header}</Typography>
   }
 
   const DarkMode = () => {

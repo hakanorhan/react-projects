@@ -10,18 +10,15 @@ const selectQueryFuels: string = 'SELECT * FROM fuel';
 const selectQueryDoors: string = 'SELECT * FROM door';
 const selectQueryBundesland: string = 'SELECT * FROM federal_state';
 const selectQueryPrices: string = 'SELECT * FROM price';
-//const selectQuery: string = 'SELECT brands.brandid, brands.marke, models.modell, models.modelid FROM brands JOIN models ON brands.brandid = models.brandid';
 
 export default async (req: express.Request, res: express.Response) => {
     const isAuthenticated = req.isAuthenticated();
-    console.log("fetchStaticData");
     let connection;
     try {
         connection = await connectToDatabase();
         // brands
         const queryResultBrands = await connection.execute(selectQueryBrands);
         const resultBrands = queryResultBrands[0] as RowDataPacket[];
-        //const resultBrandsForSelect = resultBrands;
 
         // cartypes
         const queryResultCarTypes = await connection.execute(selectQueryCartypes);
@@ -52,7 +49,6 @@ export default async (req: express.Request, res: express.Response) => {
         return res.status(200).json({ message: 'Data send',
              tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices, isAuthenticated }});
     } catch (error: any) {
-        console.log(error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     } 

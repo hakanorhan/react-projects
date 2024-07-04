@@ -6,17 +6,17 @@ import Instagram from '@mui/icons-material/Instagram';
 import LinkedIn from '@mui/icons-material/LinkedIn';
 import YouTube from '@mui/icons-material/YouTube';
 import Pinterest from '@mui/icons-material/Pinterest';
-import { COMPONENT_DISTANCE, LIGHT_PRIMARY_CONTRAST_TEXT } from '../../themes/Theme';
+import { COMPONENT_DISTANCE} from '../../themes/Theme';
 const gridXS = 12;
 const gridSM = 6;
 const gridLG = 3;
 const gridItemStyle = { marginBottom: { xs: '3rem' } };
-const iconStyle = { marginRight: '0.5rem', '@media screen': { fill: LIGHT_PRIMARY_CONTRAST_TEXT }, '@media print': { fill: 'black' } };
+const iconStyle = { marginRight: '0.5rem', '@media screen': { color: 'primary.contrastText' }, '@media print': { fill: 'black' } };
 
 export default function IconsComponent() {
     
     const createHeaderForLinks = (header: string) => {
-        return <Typography paddingBottom={COMPONENT_DISTANCE} key={header} variant="h5" component='h1' sx={{ '@media print': { color: 'black' }, color: LIGHT_PRIMARY_CONTRAST_TEXT }}>{header}</Typography>
+        return <Typography paddingBottom={COMPONENT_DISTANCE} key={header} variant="h5" component='h1' sx={{ '@media print': { color: 'black' }, color: 'primary.contrastText' }}>{header}</Typography>
       }
   
     return (

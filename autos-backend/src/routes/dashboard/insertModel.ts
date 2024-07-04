@@ -12,22 +12,22 @@ const selectBrand: string = "SELECT brand FROM brand WHERE brand_id = ?";
 export default async (req: express.Request, res: express.Response) => {
     const axiosData: RequestAxiosDataModel = req.body;
 
-    if(!formularIsNumber(axiosData.brandid) || !formularModelIsValid(axiosData.model)) {
+    if (!formularIsNumber(axiosData.brandid) || !formularModelIsValid(axiosData.model)) {
         insertMysqlErrorMessages(1, res);
     } else {
-    
-    let connection;
-    try {
-        connection = await connectToDatabase();
-        await connection.beginTransaction();
+
+        let connection;
+        try {
+            connection = await connectToDatabase();
+            await connection.beginTransaction();
             // query Brand
             await connection.execute(insertIntoModels, [axiosData.model, axiosData.brandid]);
-            
-            const queryResult = await connection.query(selectModel, [ axiosData.brandid ]);
+
+            const queryResult = await connection.query(selectModel, [axiosData.brandid]);
             const result = queryResult[0] as RowDataPacket[];
 
             // Brand
-            const queryResultBrand = await connection.query(selectBrand, [ axiosData.brandid ]);
+            const queryResultBrand = await connection.query(selectBrand, [axiosData.brandid]);
             const resultModel = queryResultBrand as RowDataPacket[];
             const brand = resultModel[0][0].brand;
 
@@ -42,11 +42,11 @@ export default async (req: express.Request, res: express.Response) => {
             console.log(models);
 
             await connection.commit();
-                connection.end();
+            connection.end();
 
-            const axiosDataPacket : AxiosDataPacketModel = { message: "Erfolgreich hinzugefügt", dataModels: models, brand }
+            const axiosDataPacket: AxiosDataPacketModel = { message: "Erfolgreich hinzugefügt", dataModels: models, brand }
             return res.status(200).json(axiosDataPacket)
-        } catch (error: any){
+        } catch (error: any) {
             connection?.rollback();
             connection?.end();
             insertMysqlErrorMessages(error.errno, res);

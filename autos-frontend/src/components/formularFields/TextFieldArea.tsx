@@ -19,7 +19,7 @@ const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, onChange, plac
 
   return (
     <FormControl sx={{ padding: padding }} fullWidth variant="standard">
-      
+
       <OutlinedInput fullWidth
         disabled={disbled}
         name={id}
@@ -30,7 +30,7 @@ const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, onChange, plac
         value={areaText ? areaText : value}
         placeholder={placeholder}
         onChange={handleOnChange}
-        inputProps={{ sx: { '::placeholder': { color:'text.primary', opacity: 1 }}}}
+        inputProps={{ sx: { '::placeholder': { color: 'text.primary', opacity: 1 } } }}
       />
     </FormControl>
   )

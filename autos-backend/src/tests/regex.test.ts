@@ -1,4 +1,4 @@
-import {describe, expect, test} from '@jest/globals';
+import { expect, test} from '@jest/globals';
 import { REGEX_EMAIL, REGEX_HUBRAUM, REGEX_MIN_8, REGEX_MODEL, REGEX_NAMES, REGEX_PASSWORD, REGEX_PRICE, REGEX_STREET, REGEX_STREET_NR } from '../regex/regex';
 
 const VALID_EMAILS = [

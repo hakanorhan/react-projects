@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Select, MenuItem, Tooltip, colors } from "@mui/material"
+import { FormControl, InputLabel, Select, MenuItem, Tooltip } from "@mui/material"
 import { SelectChangeEvent } from "@mui/material";
 import React, { memo } from "react";
 import { SelectFieldEnums } from "../../constants/values";
@@ -17,7 +17,7 @@ const SelectField: React.FC<{
         <Tooltip title={`Kein ${label} vorhanden`}>
           <FormControl variant="outlined">
             <InputLabel id={`${objectName}-id`} htmlFor={objectName}>{label}</InputLabel>
-            <Select 
+            <Select
               disabled={values.length === 0}
               value={selectedValue ?? ''}
               label={label}
@@ -44,7 +44,7 @@ const SelectField: React.FC<{
         </Tooltip>
       ) : (
         <FormControl variant="outlined">
-          <InputLabel id={`${objectName}-id`}  htmlFor={objectName}>{label}</InputLabel>
+          <InputLabel id={`${objectName}-id`} htmlFor={objectName}>{label}</InputLabel>
           <Select
             disabled={values.length === 0}
             value={selectedValue ?? ''}

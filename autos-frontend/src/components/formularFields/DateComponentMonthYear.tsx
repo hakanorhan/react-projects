@@ -43,8 +43,11 @@ const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, setMont
               maxDate={dayjs()}
               onChange={handleOnChange}
               value={value}
-              slotProps={{ textField: { 
-                variant: 'outlined', onClick: open ? () => setOpen(false) : () => setOpen(true), placeholder: 'Erstzulassung: MM/YYYY' } }}
+              slotProps={{
+                textField: {
+                  variant: 'outlined', onClick: open ? () => setOpen(false) : () => setOpen(true), placeholder: 'Erstzulassung: MM/YYYY'
+                }
+              }}
               open={open}
               onOpen={() => setOpen(true)}
               onClose={() => setOpen(false)}

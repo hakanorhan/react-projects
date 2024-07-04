@@ -3,8 +3,7 @@ import { connectToDatabase } from '../dbConnect.js';
 import { RowDataPacket } from 'mysql2';
 import { selectMysqlErrorMessages } from '../helper/messages.js';
 import { SelectFieldEnums, SortEnums } from '../constants/values.js';
-import { AxiosPaper, AxiosPaperList } from '../interfaces/IAxiosData.js';
-import { release } from 'os';
+import { AxiosPaperList } from '../interfaces/IAxiosData.js';
 
 export async function fetchListCars(req: express.Request, res: express.Response) {
 
@@ -134,16 +133,10 @@ export async function fetchListCars(req: express.Request, res: express.Response)
 
             })
 
-            /*
-            axiosPapers.map((axiosPaper) => {
-                console.log(axiosPaper.inseratId);
-            }) */
-
             connection.end();
             return res.status(200).json(axiosPapers);
 
     } catch (error: any) {
-        //console.log(error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     } 

@@ -1,5 +1,4 @@
 import express from "express";
-//import { pool } from "../../dbConnect.js";
 import { connectToDatabase } from "../../dbConnect.js";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { insertMysqlErrorMessages } from "../../helper/messages.js";
@@ -12,15 +11,15 @@ import { formularNameValid } from "../../helper/validHelper.js";
 export default async (req: express.Request, res: express.Response) => {
     const { value } = req.body;
 
-    if(!formularNameValid(value)) {
+    if (!formularNameValid(value)) {
         insertMysqlErrorMessages(1, res);
     } else {
 
-    console.log(value);
-    let connection ;
-    try {
-        connection = await connectToDatabase();
-        await connection.beginTransaction();
+        console.log(value);
+        let connection;
+        try {
+            connection = await connectToDatabase();
+            await connection.beginTransaction();
             // query Brand
             const [resultBrand]: [ResultSetHeader, any] = await connection.execute(insertIntoBrand, [value]);
             const insertId = resultBrand.insertId;
@@ -36,16 +35,16 @@ export default async (req: express.Request, res: express.Response) => {
                 return object;
             })
 
-            const axiosDataPacket : AxiosDataPacketBrand = { message: "Erfolgreich hinzugefügt", dataBrands: brands }
-            
+            const axiosDataPacket: AxiosDataPacketBrand = { message: "Erfolgreich hinzugefügt", dataBrands: brands }
+
             await connection.commit();
             connection.end();
-            return res.status(200).json( axiosDataPacket )
-        } catch (error: any){
+            return res.status(200).json(axiosDataPacket)
+        } catch (error: any) {
             connection?.rollback();
             connection?.end();
             insertMysqlErrorMessages(error.errno, res);
-            
+
         }
     }
 }

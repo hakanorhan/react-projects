@@ -18,7 +18,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { COMPONENT_DISTANCE, LinkNewSearch } from '../../../themes/Theme';
 import SearchIcon from '@mui/icons-material/Search';
 const ShareComponent = lazy(() => import('../ShareComponent'));
-import { LimitMediaQuery } from '../../../helper/helper';
+import { LimitMediaQueryFill } from '../../../helper/helper';
 import { scrollToTop } from '../../../helper/helper';
 import CardComponent from '../../CardComponent';
 
@@ -38,7 +38,7 @@ const ListSearchedCars = () => {
   const [selectedSort, setSelectedSort] = useState<string>(SortEnums.PRICE_DOWN);
   const [foundNoCars, setFoundNoCars] =useState<boolean>(false);
 
-  const LIMIT = LimitMediaQuery();
+  let LIMIT = LimitMediaQueryFill(cars.length);
   
 scrollToTop();
 

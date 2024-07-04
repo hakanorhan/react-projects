@@ -200,13 +200,6 @@ export default function InserateCar() {
       notifyError("2", "Bitte beachten Sie alle Eingaben");
     }
   }
-  /*
-    const handleNextStep = () => {
-      
-      if (activeStep === 0) { 
-        setActiveStep(activeStep + 1);
-       }
-    }*/
 
   const handleLastStep = () => {
     async function finishInserate() {
@@ -263,16 +256,16 @@ export default function InserateCar() {
 
             <Grid item xs={12} sm={6}> <TextFieldCars onChange={value => handleOnChange('previousOwner', value)} label='Anzahl Vorbesitzer:in' regex={REGEX_OWNER} refresh={refresh} /> </Grid>
 
-            <Grid item xs={12} sm={6}> <TextFieldCars  label='Kilometerstand in KM' onChange={value => handleOnChange('km', value)} regex={REGEX_MILEAGE} refresh={refresh} /> </Grid>
-            <Grid item xs={12} sm={6}> <TextFieldCars  label='Leistung in PS' onChange={value => handleOnChange('ps', value)} regex={REGEX_POWER} refresh={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars label='Kilometerstand in KM' onChange={value => handleOnChange('km', value)} regex={REGEX_MILEAGE} refresh={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars label='Leistung in PS' onChange={value => handleOnChange('ps', value)} regex={REGEX_POWER} refresh={refresh} /> </Grid>
 
-            <Grid item xs={12} sm={6}> <TextFieldCars  label='Hubraum in ccm³' onChange={value => handleOnChange('hubraum', value)} regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars label='Hubraum in ccm³' onChange={value => handleOnChange('hubraum', value)} regex={REGEX_HUBRAUM} refresh={refresh} /> </Grid>
 
             <Grid item xs={12} sm={6}> <DateComponentMonthYear setYear={setYear} setMonth={setMonth} newInserate={refresh} /> </Grid>
-            <Grid item xs={12} sm={6}> <TextFieldCars  onChange={value => handleOnChange('price', value)} label='Preis in €' regex={REGEX_PRICE} refresh={refresh} /></Grid>
-            <Grid item xs={12} sm={6}> <TextFieldCars  onChange={value => handleOnChange('color', value)} label='Farbe' regex={REGEX_NAMES} refresh={refresh} /> </Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars onChange={value => handleOnChange('price', value)} label='Preis in €' regex={REGEX_PRICE} refresh={refresh} /></Grid>
+            <Grid item xs={12} sm={6}> <TextFieldCars onChange={value => handleOnChange('color', value)} label='Farbe' regex={REGEX_NAMES} refresh={refresh} /> </Grid>
 
-            <Grid item xs={12 } sm={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.abstandstempomat} id='abstandstempomat' onChange={handleOnChangeCheckbox} />} label="Abstandstempomat" /></Grid>
+            <Grid item xs={12} sm={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.abstandstempomat} id='abstandstempomat' onChange={handleOnChangeCheckbox} />} label="Abstandstempomat" /></Grid>
             <Grid item xs={12} sm={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.ambientbeleuchtung} id='ambientbeleuchtung' onChange={handleOnChangeCheckbox} />} label="Ambientbeleuchtung" /></Grid>
             <Grid item xs={12} sm={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.headupdisplay} id='headupdisplay' onChange={handleOnChangeCheckbox} />} label="Head-up Display" /></Grid>
             <Grid item xs={12} sm={6}><FormControlLabel control={<Checkbox checked={refresh ? false : formCheckbox.totwinkelassistent} id='totwinkelassistent' onChange={handleOnChangeCheckbox} />} label="Totwinkelassistent" /></Grid>

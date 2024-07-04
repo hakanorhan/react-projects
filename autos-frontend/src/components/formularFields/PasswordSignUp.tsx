@@ -1,11 +1,10 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
-import { FormControl, InputLabel, InputAdornment, IconButton, useTheme, OutlinedInput, Typography } from '@mui/material';
+import { FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput, Typography } from '@mui/material';
 import * as ValidHelper from '../../regex/validHelper';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const PasswordSignUp: React.FC<IUseForm2> = ({ label, onChange, regex }) => {
-  const theme = useTheme();
      // Check icon
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);

@@ -11,9 +11,9 @@ export async function fetchClickedCars(req: express.Request, res: express.Respon
     const offset: number = parseInt(req.body.offset);
     const type = req.body.type;
 
-        if (isNaN(limit) || isNaN(offset)) {
-            return selectMysqlErrorMessages("ER_PARSE_ERROR", res);
-        }
+    if (isNaN(limit) || isNaN(offset)) {
+        return selectMysqlErrorMessages("ER_PARSE_ERROR", res);
+    }
 
     console.log("limit: " + limit + 'offset: ' + offset)
 
@@ -33,7 +33,7 @@ export async function fetchClickedCars(req: express.Request, res: express.Respon
 
     whereClause.push(" AND i.inserate_info_id = ii.inserate_info_id AND ii.user_id = u.user_id AND u.personal_data_id = pd.personal_data_id AND pd.address_id = ad.address_id AND ad.federal_state_id = fs.federal_state_id ");
 
-    if(type === DisplayTypes.ELECTRIC) {
+    if (type === DisplayTypes.ELECTRIC) {
         whereClause.push(' AND f.fuel_id = 4 ');
     }
 
@@ -42,7 +42,7 @@ export async function fetchClickedCars(req: express.Request, res: express.Respon
     })
 
     query = query + (type === DisplayTypes.MOST_CLICKED ? " ORDER BY i.clicks DESC, i.price DESC, td.registration_year DESC" : " ");
-    
+
     query = query + " LIMIT ? OFFSET ?";
     let connection;
     try {
@@ -56,7 +56,7 @@ export async function fetchClickedCars(req: express.Request, res: express.Respon
 
         cars.map((axiosData: any) => {
             const { is_car_dealer, price, city, federal_state, brand, model, inserate_id, cartype, transmission, mileage_km, registration_year, registration_month, power_ps, fuel, accident, vehicle_owners } = axiosData;
-            
+
             const axiosPaperList: AxiosPaperList = {
                 isCarDealer: is_car_dealer, price, city, federalState: federal_state, brand, model, transmission, cartype, fuel, accident,
                 inseratId: inserate_id, mileageKm: mileage_km, registrationMonth: registration_month, registrationYear: registration_year, psPower: power_ps, vehicleOwners: vehicle_owners
@@ -70,7 +70,6 @@ export async function fetchClickedCars(req: express.Request, res: express.Respon
         return res.status(200).json(axiosPapers);
 
     } catch (error: any) {
-        console.log(error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     }

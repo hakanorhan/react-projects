@@ -2,7 +2,7 @@ import { FC, Suspense, lazy, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { SelectChangeEvent, useTheme } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { COMPONENT_DISTANCE, SearchContainer, buttonHeight } from '../../../themes/Theme';
@@ -17,7 +17,6 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import { DisplayTypes } from '../../../constants/values';
 import { notifyError } from '../../../helper/toastHelper';
 import afterComponentViewed from '../../../helper/lazyLoading/afterComponentViewed';
-import LoadingComponent from '../../LoadingComponent';
 
 const LazyClickedCarsMost = lazy(() => import('./ClickedCars'));
 const LazyClickedCarsElectric = lazy(() => import('./ClickedCars'));
@@ -27,7 +26,6 @@ const searchButtonText = " Treffer";
 const Search: React.FC = () => {
 
   const navigate = useNavigate();
-  const theme = useTheme();
   // available cars 
   const [countCars, setCountCars] = useState<number>(0);
 
@@ -162,7 +160,7 @@ const Search: React.FC = () => {
 
   const YearToComponent: FC = () => {
     return <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker slotProps={{ textField: { variant: 'outlined', } }} label={'Baujahr bis'} value={selectedDateTo} views={['year']} minDate={selectedDateFrom} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
+      <DatePicker slotProps={{ textField: { variant: 'outlined', } }} label={'Baujahr bis'} value={selectedDateTo ?? undefined} views={['year']} minDate={selectedDateFrom ?? undefined} maxDate={maxDate} onChange={(newDate) => { setSelectedDateTo(dayjs(newDate)) }} />
     </LocalizationProvider>
   }
 

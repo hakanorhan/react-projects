@@ -16,10 +16,6 @@ const iAtLeastMessages: IAtLeastMessage[] = [
     { message: "Password is valid", pattern: REGEX.REGEX_PASSWORD, isValid: false }
 ];
 
-/**
- * 
- * @param formularValues 
- */
 export function formularValuesValidSignIn(email: string, password: string): boolean {
     return REGEX.REGEX_EMAIL.test(email) && REGEX.REGEX_PASSWORD.test(password);
 }
@@ -36,7 +32,6 @@ export function formularPasswordValid(valuePassword: string): boolean {
  * using in handleOnChange function.
  * on every change the doValid function checks with regular expression.
  * @param valuePassword current value
- * @returns 
  */
 export function passwordSpecificValid(valuePassword: string): IAtLeastMessage[] {
 

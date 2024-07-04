@@ -8,16 +8,16 @@ import axios from 'axios';
 import { COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { DisplayTypes } from '../../../constants/values';
 import AddIcon from '@mui/icons-material/Add';
-import { LimitMediaQuery } from '../../../helper/helper';
+import { LimitMediaQueryFill } from '../../../helper/helper';
 import { notifyError } from '../../../helper/toastHelper';
 import { Toaster } from 'react-hot-toast';
 import CardComponent from '../../CardComponent';
 
 const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
 
-  const LIMIT = LimitMediaQuery();
-
   const [cars, setCars] = useState<AxiosPaperList[]>([]);
+
+  let LIMIT = LimitMediaQueryFill(cars.length);
 
   const [offset, setOffset] = useState<number>(0);
   const [count, setCount] = useState<number>(0);

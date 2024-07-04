@@ -260,7 +260,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
                   {detailSearchValues?.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
                 </Box>
                 <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
-                <Box display={'flex'}><Rating sx={{ color: 'icon.main', verticalAlign: 'middle', fontSize: '1.2rem' }} name="half-rating-read" defaultValue={4.0} precision={0.5} readOnly /><Typography sx={{ marginLeft: '7px' }} variant='body2'>45 Bewertungen</Typography></Box>
+                <Box display={'flex'}><Rating sx={{ color: 'icon.main', verticalAlign: 'middle', fontSize: '1.2rem' }} name="half-rating-read" defaultValue={4.0} precision={0.5} readOnly /><Typography sx={{ marginLeft: '7px' }} variant='body2'>22 Bewertungen</Typography></Box>
 
               </Box>
             </Box>
@@ -398,7 +398,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
               }
 
               <Rating sx={{ color: 'icon.main', verticalAlign: 'middle', fontSize: ICON_FONT_SIZE }} name="half-rating-read" defaultValue={4.0} precision={0.5} readOnly />
-              <Typography>45 Bewertungen</Typography>
+              <Typography>22 Bewertungen</Typography>
 
               <Box sx={{ display: detailSearchValues.isCardealer ? 'flex' : 'none', marginTop: COMPONENT_DISTANCE }}>
                 <Box sx={{ marginRight: COMPONENT_DISTANCE }}><AccessTime sx={SX_ICON} /></Box>

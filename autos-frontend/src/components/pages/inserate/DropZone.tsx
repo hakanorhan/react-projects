@@ -42,18 +42,22 @@ const DropZone: FC<UploadImagesProp> = ({ carId }) => {
     scrollToTop();
 
     const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-        if(rejectedFiles.length > 0) {
+        if (rejectedFiles.length > 0) {
             rejectedFiles.map(({ errors }) => (
                 errors.map(e => {
-                    if(e.code === 'file-too-large') {
+                    if (e.code === 'file-too-large') {
                         notifyError(e.code, `Die maximale Größe pro Bild beträgt ${MAX_IMAGE_SIZE / 1024 / 1024} MB`)
-                    } else if('too-many-files') {
+                    } else if (e.code === 'too-many-files') {
                         notifyError(e.code, "Sie dürfen maximal " + (MAX_FILES) + " Bilder hochladen")
+                    } else if (e.code === 'file-invalid-type') {
+                        notifyError(e.code, "Bitte laden Sie eine oder mehrere Bilddateien hoch.");
+                    } else {
+                        notifyError(e.code, "Bitte versuchen Sie es erneut.");
                     }
                 })
-            )) 
-        } else 
-        uploadImage(acceptedFiles);
+            ))
+        } else
+            uploadImage(acceptedFiles);
 
     }, []);
 
@@ -61,7 +65,7 @@ const DropZone: FC<UploadImagesProp> = ({ carId }) => {
         {
             disabled: files.length >= MAX_FILES,
             onDrop,
-            maxFiles: MAX_FILES, 
+            maxFiles: MAX_FILES,
             maxSize: MAX_IMAGE_SIZE,
             accept: { 'image/*': [] }
         });
@@ -71,15 +75,15 @@ const DropZone: FC<UploadImagesProp> = ({ carId }) => {
     }, [files])
 
     const uploadImage = async (acceptedFiles: File[]) => {
-        
-        if (!acceptedFiles.length) { return  }
+
+        if (!acceptedFiles.length) { return }
 
         const renamedFiles = acceptedFiles.map((file) => {
             const encodedFileName = encodeURI(file.name);
             return new File([file], encodedFileName, { type: file.type });
         });
 
-        
+
         if (carId)
             try {
                 const formData = new FormData();
@@ -136,59 +140,59 @@ const DropZone: FC<UploadImagesProp> = ({ carId }) => {
     }
 
     return (
-            <>
-                <Box
+        <>
+            <Box
 
-                    {...getRootProps()}
+                {...getRootProps()}
+                sx={{
+                    marginTop: '20px',
+                    border: '2px dashed',
+                    padding: '20px',
+                    height: '300px',
+                    textAlign: 'center',
+                    background: isDragActive ? 'secondary.main' : 'background.default',
+                    width: { xs: '100%' },
+                    color: 'primary.main'
+                }}
+            >
+                < FileUploadIcon
                     sx={{
-                        marginTop: '20px',
-                        border: '2px dashed',
-                        padding: '20px',
-                        height: '300px',
-                        textAlign: 'center',
-                        background: isDragActive ? 'secondary.main' : 'background.default',
-                        width: { xs: '100%' },
-                        color:'primary.main'
+                        animation: `${blink} 3s infinite`,
+                        fontSize: '200px',
+                        color: 'primary.main',
+                        zIndex: 1,
+                        margin: 'auto',
                     }}
-                >
-                    < FileUploadIcon
-                        sx={{
-                            animation: `${blink} 3s infinite`,
-                            fontSize: '200px',
-                            color: 'primary.main',
-                            zIndex: 1,
-                            margin: 'auto',
-                        }}
-                    />
-                    <input {...getInputProps()} />
-                    {isDragActive ? (
-                        <Typography variant='body1' component='p'>{"Ziehen Sie die Bilder hierher."}</Typography>
-                    ) : (
-                        <Typography variant='body1' component='p'>{
-                            files.length < MAX_FILES
-                                ? "Ziehen Sie die gewünschten Bilder hierher oder klicken Sie hier um Bilder auszuwählen."
-                                : "Sie haben die maximale Anzahl von " + MAX_FILES + " Bildern  erreicht."
-                        }</Typography>
-                    )}
-                </Box>
+                />
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                    <Typography variant='body1' component='p'>{"Ziehen Sie die Bilder hierher."}</Typography>
+                ) : (
+                    <Typography variant='body1' component='p'>{
+                        files.length < MAX_FILES
+                            ? "Ziehen Sie die gewünschten Bilder hierher oder klicken Sie hier um Bilder auszuwählen."
+                            : "Sie haben die maximale Anzahl von " + MAX_FILES + " Bildern  erreicht."
+                    }</Typography>
+                )}
+            </Box>
 
 
-                    <Grid container columnGap ={0.5} sx={{ width: '100%', paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
-                        {files.map((file) => (
-                            <Grid item xs={12} lg={3.95} key={file.name} sx={{ position: 'relative' }}>
-                                <img
-                                    src={file.preview}
-                                    alt={file.name}
-                                    style={{ width: '100%', aspectRatio: 1.78, objectFit: 'cover' }}
-                                />
-                                <Tooltip title="Bild entfernen">
-                                    <Button onClick={() => removeFile(file.name)} sx={{ position: 'absolute', zIndex: 10, left: '45%', borderRadius: '50%', width: '60px', top: '30%', height: '60px', backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'primary.dark' } }}><DeleteOutlineIcon /></Button>
+            <Grid container columnGap={0.5} sx={{ width: '100%', paddingTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
+                {files.map((file) => (
+                    <Grid item xs={12} lg={3.95} key={file.name} sx={{ position: 'relative' }}>
+                        <img
+                            src={file.preview}
+                            alt={file.name}
+                            style={{ width: '100%', aspectRatio: 1.78, objectFit: 'cover' }}
+                        />
+                        <Tooltip title="Bild entfernen">
+                            <Button onClick={() => removeFile(file.name)} sx={{ position: 'absolute', zIndex: 10, left: '45%', borderRadius: '50%', width: '60px', top: '30%', height: '60px', backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'primary.dark' } }}><DeleteOutlineIcon /></Button>
 
-                                </Tooltip>
-                            </Grid>
-                        ))}
+                        </Tooltip>
                     </Grid>
-            </>
+                ))}
+            </Grid>
+        </>
     );
 }
 

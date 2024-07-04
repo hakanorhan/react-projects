@@ -1,6 +1,5 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-//import { pool } from "../../dbConnect.js";
 import { connectToDatabase } from "../../dbConnect.js";
 import { RowDataPacket } from "mysql2";
 import { Roles } from "../../constants/values.js";
@@ -84,7 +83,6 @@ passport.use(new LocalStrategy({
                 else done(null, false);
             })
         } else {
-            console.log("findOne ->Local-Strategy: user nicht gefunden!")
             done(null, false, { message: "Falsche email!" });
         }
     }

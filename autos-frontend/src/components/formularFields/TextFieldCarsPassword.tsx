@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 import { IUseForm2 } from '../../interfaces/IUseForm'
 import { FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput } from '@mui/material';
-
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ label, onChange }) => {
@@ -21,30 +20,30 @@ const TextFieldCarsPassword1: React.FC<IUseForm2> = ({ label, onChange }) => {
 
   return (
     <FormControl required variant="outlined">
-    <InputLabel htmlFor={ label }>{ label }</InputLabel>
-    <OutlinedInput
-      name={ label }
-      inputProps={{
-        id: label
-      }}
-      onChange={handlePassword}
-      type={showPassword ? 'text' : 'password'}
-      endAdornment={
-        <InputAdornment position="end">
-          
-          <IconButton
-            aria-label="toggle password visibility"
-            onClick={handleClickShowPassword}
-            onMouseDown={handleMouseDownPassword}
-            edge="end"
-          >
-            {showPassword ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
-        </InputAdornment>
-      }
-      label={label}
-    />
-  </FormControl>
+      <InputLabel htmlFor={label}>{label}</InputLabel>
+      <OutlinedInput
+        name={label}
+        inputProps={{
+          id: label
+        }}
+        onChange={handlePassword}
+        type={showPassword ? 'text' : 'password'}
+        endAdornment={
+          <InputAdornment position="end">
+
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              edge="end"
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        }
+        label={label}
+      />
+    </FormControl>
   )
 }
 

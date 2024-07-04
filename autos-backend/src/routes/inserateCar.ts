@@ -78,7 +78,6 @@ async function performQuery(data: AxiosDataInserateRequest, userId: string, res:
     } catch(error: any) {
         // rollback
         await connection?.rollback();
-        console.log(error);
         connection?.end();
         insertMysqlErrorMessages(error.errno, res);
         
