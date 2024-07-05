@@ -77,7 +77,6 @@ app.use(session({
 
 sessionStore.onReady().then(() => {
 	// MySQL session store ready for use.
-	console.log('MySQLStore ready');
 }).catch((error: unknown) => {
 	// Something went wrong.
 	//console.error(error);
@@ -133,7 +132,6 @@ const storage = multer.diskStorage({
     
         fs.mkdir(newUploadPath, { recursive: true}, function(err) {
           if(err) {
-            //console.log("Error", err);
           } else {
             cb(null, newUploadPath);
           }

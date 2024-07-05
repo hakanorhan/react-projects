@@ -13,12 +13,10 @@ export default async (req, res) => {
         connection = await connectToDatabase();
         const queryResult = await connection.execute(selectQuery);
         const result = queryResult[0];
-        console.log("result!");
         connection.end();
         return res.status(200).json(result);
     }
     catch (error) {
-        console.log("Error:", error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     }

@@ -2,7 +2,6 @@ import { connectToDatabase } from "../dbConnect.js";
 const INSERT_INSERATE_FINISH = "UPDATE inserate SET entwurf = ? WHERE inserate_id = ?";
 export default async (req, res) => {
     const { finish, inserateid } = req.body;
-    console.log("inserate finish: " + finish);
     if (finish === 0 || finish === 1)
         performUpdate(finish, inserateid, res);
     else

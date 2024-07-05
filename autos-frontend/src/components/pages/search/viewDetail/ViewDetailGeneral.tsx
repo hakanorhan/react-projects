@@ -228,7 +228,6 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
 
               <CarImages id={id} multiple={true} isDetail={true} />
             </Box>
-
             <Box sx={{ display: { xs: 'none', lg: detailSearchValues?.isCardealer ? 'flex' : 'none' }, padding: { xs: 0, lg: COMPONENT_DISTANCE } }}>
               <Logo />
               <Box sx={{ marginLeft: '30px', marginRight: '10px' }}>
@@ -243,7 +242,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
               <Box sx={{ marginLeft: '30px', color: 'text.primary' }}>
                 {detailSearchValues?.isCardealer ? <GridComponent icon={<Store sx={SX_ICON} />} value={"Händler"} /> : <GridComponent icon={<Person sx={SX_ICON} />} value={"Privat"} />}
                 <Typography variant='body1'>{`Tel: ${detailSearchValues?.telNr}`}</Typography>
-                <Box display={'flex'}><Rating sx={{ color: 'primary.main', verticalAlign: 'middle', fontSize: '1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography sx={{ marginLeft: '7px' }} variant='body2'>45 Bewertungen</Typography></Box>
+                <Box display={'flex'}><Rating sx={{ color: 'icon.main', verticalAlign: 'middle', fontSize: '1.2rem' }} name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly /><Typography sx={{ marginLeft: '7px' }} variant='body2'>22 Bewertungen</Typography></Box>
               </Box>
             </Box>
 

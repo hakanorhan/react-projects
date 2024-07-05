@@ -165,11 +165,11 @@ async function performInsertAdmin() {
         
         await connection.commit();
         connection.end();
-        console.log("committed!")
+        console.log("admin insert committed!")
     } catch(err) {
         // rollback
         await connection.rollback();
-        console.log("Rollback!");
+        console.log("admin inserted Rollback!");
         
     } finally {
         // release connection

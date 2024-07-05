@@ -11,7 +11,6 @@ export default async (req, res) => {
         return res.status(200).json({ message: 'Data send', tableValues: result });
     }
     catch (error) {
-        console.log("Error:", error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     }

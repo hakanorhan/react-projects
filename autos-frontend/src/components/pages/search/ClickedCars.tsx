@@ -78,7 +78,7 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
   return (<>
     <Toaster />
     {cars && cars?.length > 0 &&
-      <Box sx={{ display: 'block', minHeight: '300px', width: '95%', margin: 'auto', marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
+      <Box sx={{ display: 'block', minHeight: '300px', width: '95%', margin: 'auto', marginTop: COMPONENT_DISTANCE, paddingBottom: COMPONENT_DISTANCE }}>
 
         <Grid container spacing={4}>
           {

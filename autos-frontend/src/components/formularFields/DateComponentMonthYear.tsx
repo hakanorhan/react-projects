@@ -38,7 +38,7 @@ const DateComponentMonthYear: React.FC<DateMonthYearProps> = ({ setYear, setMont
           ]}
         >
           <DemoItem>
-            <DesktopDatePicker sx={{ width: isLGDown ? '100%' : '416px' }}
+            <DesktopDatePicker sx={{ width: isLGDown ? '100%' : '367px' }}
               views={['month', 'year']}
               maxDate={dayjs()}
               onChange={handleOnChange}

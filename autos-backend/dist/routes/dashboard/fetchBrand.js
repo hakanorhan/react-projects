@@ -19,7 +19,6 @@ export default async (req, res) => {
         return res.status(200).json(axiosDataPacket);
     }
     catch (error) {
-        console.log("Error:", error);
         selectMysqlErrorMessages(error.code, res);
         connection?.end();
     }

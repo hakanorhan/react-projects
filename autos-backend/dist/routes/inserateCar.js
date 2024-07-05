@@ -49,7 +49,6 @@ async function performQuery(data, userId, res) {
     }
     catch (error) {
         await connection?.rollback();
-        console.log(error);
         connection?.end();
         insertMysqlErrorMessages(error.errno, res);
     }

@@ -39,7 +39,7 @@ const ViewDetailSearchAdmin: React.FC<{ id: number | null }> = ({ id }) => {
     {carsNotFound === false &&
       <Grid container spacing={2} sx={{ paddingLeft: '1rem', paddingRight: '1rem', marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
         <Grid item xs={12} sm={6}><Button sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'secondary.main', color: 'secondary.contrastText' } }} onClick={() => { handlePublish(true); }} endIcon={<Publish />}>Freigeben</Button></Grid>
-        <Grid item xs={12} sm={6}><Button sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText', '&:hover': { backgroundColor: 'primary.main', color: 'primary.contrastText' } }} onClick={() => { handlePublish(false); }} endIcon={<CloseIcon />}>Zurückziehen</Button></Grid>
+        <Grid item xs={12} sm={6}><Button sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText', '&:hover': { backgroundColor: 'primary.main', color: 'primary.contrastText' } }} onClick={() => { handlePublish(false); }} endIcon={<CloseIcon />}>Widerrufen</Button></Grid>
       </Grid>
     }
   </>

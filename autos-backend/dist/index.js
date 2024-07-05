@@ -61,7 +61,6 @@ app.use(session({
     saveUninitialized: false
 }));
 sessionStore.onReady().then(() => {
-    console.log('MySQLStore ready');
 }).catch((error) => {
 });
 app.use(passport.initialize());

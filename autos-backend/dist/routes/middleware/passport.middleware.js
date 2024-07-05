@@ -69,7 +69,6 @@ passport.use(new LocalStrategy({
         });
     }
     else {
-        console.log("findOne ->Local-Strategy: user nicht gefunden!");
         done(null, false, { message: "Falsche email!" });
     }
 }));

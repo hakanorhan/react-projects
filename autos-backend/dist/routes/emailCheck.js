@@ -3,7 +3,6 @@ import { connectToDatabase } from "../dbConnect.js";
 const selectQuery = 'SELECT email FROM account_data WHERE email = ?';
 async function performQuery(requestData, res) {
     let connection;
-    console.log("value: " + requestData);
     if (!REGEX_EMAIL.test(requestData)) {
         return res.status(401).json({ message: 'Email ist nicht korrekt' });
     }

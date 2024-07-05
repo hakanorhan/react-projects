@@ -79,11 +79,11 @@ async function performInsertAdmin() {
         const [resultUser] = await connection.execute(insertUser, [personalDataId, accountDataId, contactPrefferedId, false]);
         await connection.commit();
         connection.end();
-        console.log("committed!");
+        console.log("admin insert committed!");
     }
     catch (err) {
         await connection.rollback();
-        console.log("Rollback!");
+        console.log("admin inserted Rollback!");
     }
     finally {
         connection.end();

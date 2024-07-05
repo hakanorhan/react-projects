@@ -9,7 +9,6 @@ const selectQueryBundesland = 'SELECT * FROM federal_state';
 const selectQueryPrices = 'SELECT * FROM price';
 export default async (req, res) => {
     const isAuthenticated = req.isAuthenticated();
-    console.log("fetchStaticData");
     let connection;
     try {
         connection = await connectToDatabase();
@@ -32,7 +31,6 @@ export default async (req, res) => {
             tableValues: { resultBrands, resultCarTypes, resultTransmissions, resultFuels, resultDoors, resultBundesland, resultPrices, isAuthenticated } });
     }
     catch (error) {
-        console.log(error);
         connection?.end();
         selectMysqlErrorMessages(error.code, res);
     }

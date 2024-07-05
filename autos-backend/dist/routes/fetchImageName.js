@@ -15,7 +15,6 @@ export default async (req, res) => {
     }
     catch (error) {
         connection?.end();
-        console.log("No image!");
         selectMysqlErrorMessages(error.code, res);
     }
 };
