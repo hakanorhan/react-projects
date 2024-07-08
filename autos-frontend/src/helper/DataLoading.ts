@@ -3,6 +3,11 @@ import { useEffect, Dispatch, SetStateAction } from "react"
 import { URLs } from "../constants/values"
 import { notifyError } from "./toastHelper"
 
+/**
+ * Fetch data from database.
+ * @param url url
+ * @param setListValues values from fetched data 
+ */
 export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>) => {
     useEffect(() => {
     // valid brand
@@ -20,6 +25,12 @@ export const useEffectFetch =  (url: string, setListValues: Dispatch<SetStateAct
     }, [])
 }
 
+/**
+ * Fetch model of a brand from database.
+ * @param url url
+ * @param setListValues all models of a brand 
+ * @param selectedBrand selected brand
+ */
  export const useEffectModel =  (url: string, setListValues: Dispatch<SetStateAction<string[]>>, selectedBrand: string) => {
   useEffect(() => {
   // valid brand

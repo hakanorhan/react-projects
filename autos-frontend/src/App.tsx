@@ -1,6 +1,6 @@
 import { Roles, URLs } from './constants/values';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { lazy, Suspense} from 'react';
+import { lazy, Suspense, useMemo} from 'react';
 import { Toaster } from 'react-hot-toast';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { themeDark, themeLight } from './themes/Theme';
 const Header = lazy(() => import('./components/site-components/Header'));
 const ProtectedRoute = lazy(() => import('./components/protectedRoutes/ProtectedRoute'));
 import Box from '@mui/material/Box';
+import { createTheme } from '@mui/material';
 const PublishInserate = lazy(() => import('./components/pages/dashboards/admin/components/PublishInserate'));
 const Notfound = lazy(() => import('./components/pages/Notfound'));
 const Search = lazy(() => import('./components/pages/search/Search'));
@@ -44,7 +45,7 @@ const App: React.FC = () => {
   )
 
   // router
-  const router = createBrowserRouter([
+  const router = useMemo(() => createBrowserRouter([
     {
       element: <AppLayout />,
       errorElement: <Notfound />,
@@ -60,14 +61,16 @@ const App: React.FC = () => {
         { path: URLs.FETCH_LIST_CARS, element: <ListSearchedCars /> },
       ]
     }, { path: URLs.ACCESS_DENIED, element: <AccessDenied /> }
-  ]);
+  ]), []);
 
   // Background image changes on different components 
   const mode = useSelector((state: RootState) => state.mode.mode);
+  const theme = useMemo(() => createTheme(mode ? themeDark : themeLight), [mode]);
+
 
   return (
     <>
-      <ThemeProvider theme={mode ? themeDark : themeLight}>
+      <ThemeProvider theme={theme}>
         {/* Routes */}
         <RouterProvider router={router} />
       </ThemeProvider>

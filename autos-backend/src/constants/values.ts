@@ -49,9 +49,9 @@ export enum DisplayTypes {
 
 export enum URLs {
     // Client Server
-    ORIGIN_SERVER = 'http://localhost:3001',
+    ORIGIN_SERVER = 'http://192.168.0.216:3001',
     //5173
-    ORIGIN_CLIENT = 'http://localhost:5173',
+    ORIGIN_CLIENT = 'http://192.168.0.216:5173',
 
     // ----- POST -------
     POST_SIGINUP = '/signup',

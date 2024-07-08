@@ -1,4 +1,4 @@
-import { FC, Suspense, lazy, useEffect, useState } from 'react'
+import { FC, Suspense, lazy, memo, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -304,4 +304,4 @@ const Search: React.FC = () => {
   )
 }
 
-export default Search;
+export default memo(Search);

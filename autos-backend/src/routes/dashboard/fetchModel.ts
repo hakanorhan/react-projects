@@ -5,6 +5,9 @@ import { selectMysqlErrorMessages } from '../../helper/messages.js';
 
 const selectQueryModels: string = 'SELECT * from model WHERE brand_id = ?';
 
+/**
+ * Select all models of a brand.
+ */
 export default async (req: express.Request, res: express.Response) => {
     const { selectedBrand } = req.body;
     let connection;

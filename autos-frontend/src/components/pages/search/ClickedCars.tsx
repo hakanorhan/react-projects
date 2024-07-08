@@ -74,7 +74,6 @@ const ClickedCars: React.FC<{ type: DisplayTypes }> = ({ type }) => {
     }
   }, [])
 
-
   return (<>
     <Toaster />
     {cars && cars?.length > 0 &&

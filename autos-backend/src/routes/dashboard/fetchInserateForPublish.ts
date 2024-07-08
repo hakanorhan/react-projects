@@ -11,6 +11,9 @@ const selectQuery: string = "SELECT inserate.inserate_id, brand.brand, model.mod
     + " JOIN inserate_check ON inserate_check.inserate_id = inserate.inserate_id "
     + " WHERE inserate_check.inserate_public = 0 AND inserate.entwurf = 0 AND inserate_info.is_active = 1 AND inserate_check.inserate_cancelled = 0 LIMIT 5";
 
+    /**
+     * Select all inserates which is waiting for publishing and not cancelled by admin.
+     */
 export default async (req: express.Request, res: express.Response) => {
     let connection;
     try {

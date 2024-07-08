@@ -21,7 +21,7 @@ const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, onChange, plac
     <FormControl sx={{ padding: padding }} fullWidth variant="standard">
 
       <OutlinedInput fullWidth
-        disabled={disbled}
+      disabled={disbled}
         name={id}
         autoComplete='off'
         multiline
@@ -30,7 +30,7 @@ const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, onChange, plac
         value={areaText ? areaText : value}
         placeholder={placeholder}
         onChange={handleOnChange}
-        inputProps={{ sx: { '::placeholder': { color: 'text.primary', opacity: 1 } } }}
+        inputProps={{ sx: {  '@media print':{color: 'black'}, '::placeholder': { color: 'text.primary', opacity: 1 } } }}
       />
     </FormControl>
   )

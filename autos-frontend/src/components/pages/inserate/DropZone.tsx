@@ -36,7 +36,9 @@ const MAX_IMAGE_SIZE = 1024 * 1024 * 10;
 
 const DropZone: FC<UploadImagesProp> = ({ carId }) => {
 
-    // all uploaded files
+    /**
+     * All uploaded files.
+     */
     const [files, setFiles] = useState<FileWithPreview[]>([]);
 
     scrollToTop();
@@ -104,7 +106,6 @@ const DropZone: FC<UploadImagesProp> = ({ carId }) => {
                 const message = response.data.message;
                 notifySuccess(message, message);
 
-
                 // setFiles
                 if (acceptedFiles?.length) {
                     setFiles((previousFiles) => [
@@ -113,7 +114,6 @@ const DropZone: FC<UploadImagesProp> = ({ carId }) => {
                             Object.assign(file, { preview: URL.createObjectURL(file) })
                         ),
                     ]);
-
                 }
 
             } catch (error: any) {
@@ -123,6 +123,10 @@ const DropZone: FC<UploadImagesProp> = ({ carId }) => {
             }
     }
 
+    /**
+     * Removes the image.
+     * @param imagename Imagename
+     */
     const removeFile = (imagename: string) => {
         const inserateid = carId;
         async function deleteImage() {

@@ -95,7 +95,6 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        console.log("Wirst du ausgeführt?")
         const fetchedImages = await Promise.all(
           fetchedImageInformations.map(async imageInfo => {
             const response = await axios.get(`${URLs.ORIGIN_SERVER}/uploads/${id}/${imageInfo.imagename}`, {
@@ -108,13 +107,11 @@ const CarImages: React.FC<CarImagesProps> = ({ id, multiple, isDetail, setImageI
           if(fetchedImages[0] !== undefined) {
             setImageSrc(fetchedImages);
           } else {
-            console.log("is not defined!")
             const noImage = ['cars.de-noImage'];
             setImageSrc(noImage);
           }
         
       } catch (error) {
-        console.log("file not found!")
       } finally {
         handleImageLoading();
       }

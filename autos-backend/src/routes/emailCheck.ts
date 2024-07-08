@@ -4,7 +4,11 @@ import { REGEX_EMAIL } from "../regex/regex.js";
 import { connectToDatabase } from "../dbConnect.js";
 const selectQuery: string = 'SELECT email FROM account_data WHERE email = ?';
 
-// disable autocommit and perform transaction
+/**
+ * 
+ * @param requestData Email from sign up
+ * @returns status 200 email is available or status 401 email is not available
+ */
 async function performQuery(requestData: string, res: express.Response) {
 
     let connection;

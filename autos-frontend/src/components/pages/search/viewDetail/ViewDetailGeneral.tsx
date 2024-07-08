@@ -19,7 +19,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import CarImages from '../CarImages';
 import { seperateThousand } from '../../../../helper/helper';
 import { TDescriptionComponent } from '../searchComponents/TDescriptionComponent';
-import TextFieldArea from '../../../formularFields/TextFieldArea';
 
 import Email from '@mui/icons-material/Email';
 import Call from '@mui/icons-material/Call';
@@ -110,7 +109,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
   }
 
   const CheckOrFalseIcon: React.FC<{ checked: boolean }> = ({ checked }) => {
-    return checked ? <Check sx={{ color: 'text.primary' }} /> : <CloseIcon sx={{ color: 'text.primary' }} />
+    return checked ? <Check sx={SX_ICON} /> : <CloseIcon sx={SX_ICON} />
   };
 
   const GridComponent: React.FC<GridComponentProps> = ({ icon, value }) => {
@@ -161,6 +160,11 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
     return (
 
       <Dialog
+        sx={{'& .MuiDialog-paper': {
+          width: { xs: '90%', sm:'500px' },
+          maxWidth: 'none',
+          backgroundColor:'background.default'
+      },}}
         open={open}
         onClose={handleClose}
         PaperProps={{
@@ -177,7 +181,6 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
       >
         <DialogTitle>Kontakt</DialogTitle>
         <DialogContent>
-
           <TextField
             autoFocus
             multiline
@@ -214,11 +217,10 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
   return (
 
     <Box sx={{ backgroundColor: 'background.default' }}>
-      <Box sx={{ display:{xs:'none', lg:'block'}, height:'4rem', backgroundColor:'background.default'}}></Box>
       {carsNotFound && <CarsNotfoundComponent />}
 
       {detailSearchValues &&
-        <Grid container sx={{ backgroundColor: 'background.paper', borderRadius: {xs: 0, lg:'40px'}, width: { xs: '100%', lg: '1070px' }, margin: 'auto', padding:{xs: 0, lg:'20px'} }}>
+        <Grid container sx={{ backgroundColor: 'background.paper', width: { xs: '100%', lg: '1050px' }, margin: 'auto' }}>
 
 
 
@@ -300,7 +302,9 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
                 <GreyHorizontalHR />
               </Grid>
               <Box sx={{ color:'text.primary', display: 'flex', marginTop: '1rem' }}>
-                <HealthAndSafetyIcon sx={{ color: 'text.primary', fontSize: '3rem', marginRight: '10px' }} />
+                <HealthAndSafetyIcon sx={{ color: 'text.primary', fontSize: '3rem', marginRight: '10px',   '@media print': {
+    color: '#000000',
+  }, }} />
                 <Box>
                   <Typography variant='h6'>{"Ab 12,89€ monatlich"}</Typography>
                   <Typography variant='body2'>{"KFZ-Versicherung vergleichen"}</Typography>
@@ -376,7 +380,7 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
             <Box sx={paperViewDetailSearchTextArea}>
               <GreyHorizontalHR />
               <Typography variant='h6' component='h4' sx={{ paddingTop: COMPONENT_DISTANCE }}>Fahrzeugbeschreibung</Typography>
-              <Grid sx={{ paddingTop: COMPONENT_DISTANCE }} item xs={12}> <TextFieldArea minRows={8} maxRows={10} disbled={true} areaText={detailSearchValues.description} /> </Grid>
+              <Grid sx={{ paddingTop: COMPONENT_DISTANCE }} item xs={12}> <Typography>{detailSearchValues.description}</Typography> </Grid>
             </Box>
 
           </Grid>
@@ -439,7 +443,6 @@ const ViewDetailGeneral: React.FC<ViewDetailProps> = ({ id, isUser }) => {
 
         </Grid>
       }
-      <Box sx={{height:'4rem', display:{xs:'none', lg:'block'}, backgroundColor:'background.default'}}></Box>
     </Box>
   )
 }

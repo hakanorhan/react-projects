@@ -17,7 +17,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 import { Roles, URLs } from '../../constants/values';
-import { LinkDrawer} from '../../themes/Theme';
+import { LinkDrawer } from '../../themes/Theme';
 import type { RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -29,11 +29,11 @@ import muiLazyLoader from '../../helper/lazyLoading/MuiLazyLoader';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 
 
-const headlineStyle = { color: 'text.primary', backgroundColor:'background.default', paddingLeft: '25px', justifyContent: 'flex-start', '&:hover': {backgroundColor:'transparent'} };
+const headlineStyle = { color: 'text.primary', backgroundColor: 'background.default', paddingLeft: '25px', justifyContent: 'flex-start', '&:hover': { backgroundColor: 'transparent' } };
 const drawerFontSize = '28px';
 
 const drawerSizes = { color: 'text.primary', fontSize: drawerFontSize, paddingLeft: '25px' };
-const accordionIconStyle = { fontSize: drawerFontSize, color:'text.primary' };
+const accordionIconStyle = { fontSize: drawerFontSize, color: 'text.primary' };
 const accordionStyle = { backgroundColor: 'background.default', paddingLeft: '7%', marginBottom: '0.8rem' };
 
 interface AccordionProps {
@@ -117,76 +117,76 @@ export default function Header() {
   }
 
   const AccordionLazy = muiLazyLoader(() =>
-  import('@mui/material/Accordion').then(module => {
-    return { default: module.default };
-  }),
-);
+    import('@mui/material/Accordion').then(module => {
+      return { default: module.default };
+    }),
+  );
 
-const AccordionSummary = muiLazyLoader(() =>
-import('@mui/material/AccordionSummary').then(module => {
-  return { default: module.default };
-}),
-);
+  const AccordionSummary = muiLazyLoader(() =>
+    import('@mui/material/AccordionSummary').then(module => {
+      return { default: module.default };
+    }),
+  );
 
-const AccordionDetails = muiLazyLoader(() =>
-import('@mui/material/AccordionDetails').then(module => {
-  return { default: module.default };
-}),
-);
+  const AccordionDetails = muiLazyLoader(() =>
+    import('@mui/material/AccordionDetails').then(module => {
+      return { default: module.default };
+    }),
+  );
 
-'@mui/icons-material/ExpandMore'
-const ExpandMoreIcon = muiLazyLoader(() =>
-import('@mui/icons-material/ExpandMore').then(module => {
-  return { default: module.default };
-}),
-);
+  '@mui/icons-material/ExpandMore'
+  const ExpandMoreIcon = muiLazyLoader(() =>
+    import('@mui/icons-material/ExpandMore').then(module => {
+      return { default: module.default };
+    }),
+  );
 
-const PublishIcon = muiLazyLoader(() =>
-import('@mui/icons-material/Publish').then(module => {
-  return { default: module.default };
-}),
-);
+  const PublishIcon = muiLazyLoader(() =>
+    import('@mui/icons-material/Publish').then(module => {
+      return { default: module.default };
+    }),
+  );
 
-const AddIcon = muiLazyLoader(() =>
-import('@mui/icons-material/Add').then(module => {
-  return { default: module.default };
-}),
-)
+  const AddIcon = muiLazyLoader(() =>
+    import('@mui/icons-material/Add').then(module => {
+      return { default: module.default };
+    }),
+  )
   // -------------------------------------- ADMIN ----------------------------------------------------------
 
-  const AccordionComponent: FC<AccordionProps> = ({icon, title, urlBrand, urlModel}) => {
+  const AccordionComponent: FC<AccordionProps> = ({ icon, title, urlBrand, urlModel }) => {
     return <AccordionLazy elevation={0} sx={accordionStyle}>
-    <AccordionSummary
-      expandIcon={ <ExpandMoreIcon sx={{ color: 'text.primary' }}/> }
-      aria-controls="panel1-content"
-      id="panel1-header"
-    >
-      { icon } <Typography variant='h5' component='h3' sx={{ color: 'text.primary' }}>{ title }</Typography>
-    </AccordionSummary>
-    <AccordionDetails>
-      <Box sx={accordionStyle}>
-        <Button sx={headlineStyle} onClick={() => {
-          // URLs.POST_INSERT_BRAND
-          setDrawerOpen(false); navigate( urlBrand )
-        }} > <Typography variant='h6'>Marke</Typography></Button>
-        
-        <Button sx={headlineStyle} onClick={() => {
-          // URLs.POST_INSERT_MODEL
-          setDrawerOpen(false); navigate( urlModel )
-        }}> <Typography variant='h6'>Modell</Typography> </Button>
-      </Box>
-    </AccordionDetails>
-  </AccordionLazy>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon sx={{ color: 'text.primary' }} />}
+        aria-controls="panel1-content"
+        id="panel1-header"
+      >
+        {icon} <Typography variant='h5' component='h3' sx={{ color: 'text.primary' }}>{title}</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Box sx={accordionStyle}>
+          <Button sx={headlineStyle} onClick={() => {
+            // URLs.POST_INSERT_BRAND
+            setDrawerOpen(false); navigate(urlBrand)
+          }} > <Typography variant='h6'>Marke</Typography></Button>
+
+          <Button sx={headlineStyle} onClick={() => {
+            // URLs.POST_INSERT_MODEL
+            setDrawerOpen(false); navigate(urlModel)
+          }}> <Typography variant='h6'>Modell</Typography> </Button>
+        </Box>
+      </AccordionDetails>
+    </AccordionLazy>
   }
 
   const ListItemLink: FC<ListItemLinkProps> = ({ title, url }) => {
-   return  <ListItem>
-    <ListItemButton sx={{ '&:hover': {backgroundColor:'transparent'} }}>
-      <ListItemIcon>
-        <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={ url }><Typography sx={drawerSizes}> { title } </Typography></Link>} />
-      </ListItemIcon>
-    </ListItemButton>
-  </ListItem>
+    return <ListItem>
+      <ListItemButton sx={{ '&:hover': { backgroundColor: 'transparent' } }}>
+        <ListItemIcon>
+          <ListItemText primary={<Link style={LinkDrawer} onClick={handleOnCloseDrawer} to={url}><Typography sx={drawerSizes}> {title} </Typography></Link>} />
+        </ListItemIcon>
+      </ListItemButton>
+    </ListItem>
   }
 
   // -------------------------------------- ADMIN ----------------------------------------------------------
@@ -196,7 +196,7 @@ import('@mui/icons-material/Add').then(module => {
       <Box p={2} sx={{ minHeight: '100%', backgroundColor: 'background.default', width: { xs: '100vw', sm: '500px' } }} role='presentation'>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'end', paddingTop: '20px' }}>
           <IconButton onClick={() => { setDrawerOpen(false) }} sx={{
-            cursor:'pointer',
+            cursor: 'pointer',
             backgroundColor: 'transparent', "&.MuiButtonBase-root:hover": {
               backgroundColor: "transparent"
             }
@@ -204,24 +204,24 @@ import('@mui/icons-material/Add').then(module => {
             <CloseOutlinedIcon sx={{ color: 'text.primary', "&:hover": { border: '0px' }, fontSize: '70px', marginRight: '40px', borderStyle: 'solid', borderRadius: '5px', padding: '10px' }} />
           </IconButton>
         </Box>
-          <List>
-            
-            <ListItemLink title='Suchen' url={URLs.HOME_ALL_SEARCH_COUNT} />
-            { role === Roles.USER || role === Roles.NULL ?
-            <ListItemLink title='Inserieren' url={ role === Roles.USER ? URLs.POST_INSERATE_CAR : URLs.POST_SIGNIN } />
+        <List>
+
+          <ListItemLink title='Suchen' url={URLs.HOME_ALL_SEARCH_COUNT} />
+          {role === Roles.USER || role === Roles.NULL ?
+            <ListItemLink title='Inserieren' url={role === Roles.USER ? URLs.POST_INSERATE_CAR : URLs.POST_SIGNIN} />
             : null
-            }
-          </List>
-        
+          }
+        </List>
+
         {role === Roles.ADMIN && loggedIn &&
           <> <hr />
             <Box sx={{ marginTop: '1rem' }}>
-              <AccordionComponent icon={<AddIcon sx={ accordionIconStyle } />} title={"Hinzufügen"} urlBrand={URLs.POST_INSERT_BRAND} urlModel={URLs.POST_INSERT_MODEL} />
-              
+              <AccordionComponent icon={<AddIcon sx={accordionIconStyle} />} title={"Hinzufügen"} urlBrand={URLs.POST_INSERT_BRAND} urlModel={URLs.POST_INSERT_MODEL} />
+
               <Button onClick={() => {
                 setDrawerOpen(false); navigate(URLs.FETCH_INSERATE_PUBLISH)
-              }} sx={{ justifyContent:'start', backgroundColor:'background.default', color:'text.primary', marginTop: '0.8rem', paddingLeft:'13%', '&:hover':{ backgroundColor:'transparent'} }}  startIcon={<PublishIcon sx={ accordionIconStyle }/>}> <Typography  variant='h5' component='h4'>Veröffentlichen </Typography></Button>
-               </Box>
+              }} sx={{ justifyContent: 'start', backgroundColor: 'background.default', color: 'text.primary', marginTop: '0.8rem', paddingLeft: '13%', '&:hover': { backgroundColor: 'transparent' } }} startIcon={<PublishIcon sx={accordionIconStyle} />}> <Typography variant='h5' component='h4'>Veröffentlichen </Typography></Button>
+            </Box>
           </>
         }
       </Box>
@@ -229,50 +229,50 @@ import('@mui/icons-material/Add').then(module => {
   }
 
   return (<>
-      <AppBar sx={{ display: 'flex', backgroundColor: 'primary.main'}} elevation={1} position="static" >
-        <DrawerMenuComponent />
-        <Toolbar>
+    <AppBar sx={{ display: 'flex', backgroundColor: 'primary.main' }} elevation={1} position="static" >
+      <DrawerMenuComponent />
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+          onClick={handleHamburgerMenu}
+        >
+          <MenuIcon sx={{ color: 'primary.contrastText' }} />
+        </IconButton>
+        <Typography sx={{ color: 'primary.contrastText', textDecoration: 'none', width: '100%', fontSize: '1.5rem', fontWeight: 'bold' }} variant="h6" component={Link} to={URLs.HOME_ALL_SEARCH_COUNT} > {"CARS"} </Typography>
+        <div>
           <IconButton
             size="large"
-            edge="start"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={handleHamburgerMenu}
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenu}
           >
-            <MenuIcon sx={{ color:'primary.contrastText' }}/>
+            <AccountCircle sx={{ color: 'primary.contrastText' }} />
           </IconButton>
-          <Typography sx={{ color: 'primary.contrastText', textDecoration: 'none', width: '100%', fontSize:'1.5rem', fontWeight:'bold' }} variant="h6" component={ Link } to={URLs.HOME_ALL_SEARCH_COUNT} > {"CARS"} </Typography>
-          <div>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-            >
-              <AccountCircle sx={{ color: 'primary.contrastText' }} />
-            </IconButton>
-            <Menu sx={{ mt: '35px' }}
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={() => { logoutLogin(); handleClose() }}>{(loggedIn) ? "Abmelden" : "Anmelden"}</MenuItem>
-            </Menu>
-          </div>
-        </Toolbar>
-      </AppBar>
-    
+          <Menu sx={{ mt: '35px' }}
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={() => { logoutLogin(); handleClose() }}>{(loggedIn) ? "Abmelden" : "Anmelden"}</MenuItem>
+          </Menu>
+        </div>
+      </Toolbar>
+    </AppBar>
+
   </>
   );
 }

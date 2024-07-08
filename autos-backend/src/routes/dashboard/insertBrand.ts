@@ -8,6 +8,11 @@ const insertIntoBrand: string = "INSERT INTO brand (brand) VALUES (?)";
 const selectBrandQuery: string = "SELECT * FROM brand";
 import { Brand } from "../../interfaces/types.js";
 import { formularNameValid } from "../../helper/validHelper.js";
+
+/**
+ * Insert Brand and select all brands again.
+ * @return Brand[]
+ */
 export default async (req: express.Request, res: express.Response) => {
     const { value } = req.body;
 

@@ -1,6 +1,4 @@
 import { Components, PaletteMode, Theme, colors, createTheme } from "@mui/material";
-import Accordion from "@mui/material/Accordion";
-import Select from "@mui/material/Select";
 import { styled } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -24,9 +22,9 @@ const breakpoints = {
     xs: 0,
     sm: 576,
     md: 768,
-    lg: 1100,
+    lg: 1150,
     xl: 1500,
-    
+
 };
 
 export const XS_MAX_WIDTH_430 = '(max-width:429px)';
@@ -60,6 +58,8 @@ export const buttonHeight = '55px';
 
 export const minHeightContent = '97vh';
 export const mainComponentHeight = '97vh';
+export const COMPONENT_DISTANCE = "1rem";
+export const LINE_HEIGHT = "0.3rem";
 
 export const paperElevationValue = 10;
 export const paperMarginTopValue = '0.9rem';
@@ -67,7 +67,7 @@ export const paperPaddingValue = '0.7rem';
 export const paddingPaperDetailSearch = '1rem';
 
 export const paperViewDetailSearch = { marginTop: paperMarginTopValue };
-export const paperViewDetailSearchTextArea = { width: '100%', marginTop: paperMarginTopValue };
+export const paperViewDetailSearchTextArea = { width: '100%', marginTop: paperMarginTopValue, marginBottom: COMPONENT_DISTANCE };
 export const LinkDrawer = { textDecoration: 'none' };
 
 export const paperFontSize = { xs: '1.1rem', sm: '1.3rem', md: '1rem', lg: '1.2rem' };
@@ -75,22 +75,56 @@ export const ICON_FONT_SIZE = '1.4rem';
 
 export const ZOOM_HOVER = { '&:hover': { transform: 'scale(1.01)' }, cursor: 'pointer', height: '100%' };
 
-export const SX_ICON = { fontSize: ICON_FONT_SIZE, color: 'text.primary' };
+export const SX_ICON = { fontSize: ICON_FONT_SIZE, color: 'text.primary',  '@media print': {
+    color: '#000000',
+  }, };
 export const PAPER_ELEVATION_VALUE = 9;
 
-const typographySizes = (textPrimary: string) => ( {
-    h1: {fontSize: '2.5rem', color: textPrimary},
-    h2: {fontSize:'2rem', color: textPrimary},
-    h3: {fontSize: '1.75rem', color: textPrimary},
-    h4: {fontSize: '1.5rem', color: textPrimary},
-    h5:{fontSize:'1.25rem', color: textPrimary},
-    h6: {fontSize: '1rem', color: textPrimary},
-    body1: { fontSize: '1rem', color: textPrimary},
-    body2: { fontSize: '0.9rem', color: textPrimary}
+const typographySizes = (textPrimary: string) => ({
+    h1: {
+        fontSize: '2.5rem', color: textPrimary, '@media print': {
+            color: 'black',
+        },
+    },
+    h2: {
+        fontSize: '2rem', color: textPrimary, '@media print': {
+            color: 'black',
+        },
+    },
+    h3: {
+        fontSize: '1.75rem', color: textPrimary, '@media print': {
+            color: 'black',
+        },
+    },
+    h4: {
+        fontSize: '1.5rem', color: textPrimary, '@media print': {
+            color: 'black',
+        },
+    },
+    h5: {
+        fontSize: '1.25rem', color: textPrimary, '@media print': {
+            color: 'black',
+        },
+    },
+    h6: {
+        fontSize: '1rem', color: textPrimary, '@media print': {
+            color: 'black',
+        },
+    },
+    body1: {
+        fontSize: '1rem', color: textPrimary, '@media print': {
+            color: 'black',
+        },
+    },
+    body2: {
+        fontSize: '0.9rem', color: textPrimary, '@media print': {
+            color: 'black',
+        },
+    }
 });
 
-const componentStyles= (primaryMain: string, secondaryMain: string, paperBackgroundColor: string, primaryContrastText: string): Components<Omit<Theme, 'components'>> => ({
-     MuiPaper: {
+const componentStyles = (primaryMain: string, secondaryMain: string, paperBackgroundColor: string, primaryContrastText: string): Components<Omit<Theme, 'components'>> => ({
+    MuiPaper: {
         styleOverrides: {
             root: {
                 backgroundColor: paperBackgroundColor,
@@ -118,15 +152,16 @@ const componentStyles= (primaryMain: string, secondaryMain: string, paperBackgro
                 marginBottom: '1rem',
                 '@media (hover: hover)': {
                     '&:hover': {
-                      backgroundColor: secondaryMain,
-                      color: primaryContrastText,
-                      cursor: 'pointer',
+                        backgroundColor: secondaryMain,
+                        color: primaryContrastText,
+                        cursor: 'pointer',
                     },
-                textTransform: 'none',
-                '& .MuiButton-label': {
-                    textTransform: 'capitalize',
-                },
-          } }
+                    textTransform: 'none',
+                    '& .MuiButton-label': {
+                        textTransform: 'capitalize',
+                    },
+                }
+            }
         },
 
     },
@@ -151,7 +186,7 @@ const componentStyles= (primaryMain: string, secondaryMain: string, paperBackgro
     },
 });
 
-const themeStyles = (textPrimary: string, mode: PaletteMode, primaryMain: string, secondaryMain: string, backgroundDefaultColor: string, paperBackgroundColor: string, primaryContrastText: string ) => ({
+const themeStyles = (textPrimary: string, mode: PaletteMode, primaryMain: string, secondaryMain: string, backgroundDefaultColor: string, paperBackgroundColor: string, primaryContrastText: string) => ({
     palette: {
         mode: mode,
         text: {
@@ -167,7 +202,7 @@ const themeStyles = (textPrimary: string, mode: PaletteMode, primaryMain: string
             default: backgroundDefaultColor,
             paper: paperBackgroundColor,
         }, icon: {
-            main: textPrimary
+            main: textPrimary,
         }, success: {
             main: '#4caf50'
         }, danger: {
@@ -179,6 +214,9 @@ const themeStyles = (textPrimary: string, mode: PaletteMode, primaryMain: string
     breakpoints: { values: breakpoints }
 });
 
+/**
+ * Light mode.
+ */
 export const themeLight = createTheme({
     ...themeStyles(
         LIGHT_TEXT_PRIMARY,
@@ -191,6 +229,9 @@ export const themeLight = createTheme({
     )
 });
 
+/**
+ * Dark mode.
+ */
 export const themeDark = createTheme({
     ...themeStyles(
         DARK_TEXT_PRIMARY,
@@ -203,16 +244,10 @@ export const themeDark = createTheme({
     )
 });
 
-export const MainBox = styled('div')(({ theme }) => ({
-    paddingTop: COMPONENT_DISTANCE,
-    width: '100%',
-    backgroundColor: theme.palette.background.default
-
-}));
-
 /**
  * Responsive.
  * Width for Formular.
+ * Used in InsertBrand.tsx, InsertModel.tsx, SignIn.tsx, SignUp.tsx
  */
 export const MainComponentWidth = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -232,62 +267,6 @@ export const MainComponentWidth = styled('div')(({ theme }) => ({
 
 }));
 
-export const RegisterLoginWidth = styled('div')(({ theme }) => ({
-    display: 'flex',
-    paddingTop: '1rem',
-    paddingBottom: '3rem',
-    margin: 'auto',
-    flexDirection: 'column',
-    [theme.breakpoints.up("xs")]: {
-        width: '90%',
-
-    },
-    [theme.breakpoints.up("sm")]: {
-        width: '75%',
-
-    },
-    [theme.breakpoints.up("md")]: {
-        width: '90%'
-    },
-    [theme.breakpoints.up("xl")]: {
-        width: '610px'
-    }
-
-}));
-
-/**
- * Responsive.
- * In mobile view one textfield.
- * two fields in tablet and desktop in a same row
- */
-export const DivTwoFieldsWithSpaceBetween = styled('div')(({ theme }) => ({
-    display: 'flex',
-    [theme.breakpoints.up("xs")]: {
-        flexDirection: 'column'
-    },
-    [theme.breakpoints.up("md")]: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    }
-
-}));
-
-/**
- * Responsive.
- * Component DivTwoFieldsWithSpaceBetween.
- * Mobile 100% width.
- * Two Fields have 270px width.
- */
-export const DivWidthTwoFieldsRow = styled('div')(({ theme }) => ({
-    [theme.breakpoints.up("xs")]: {
-        width: '100%'
-    },
-    [theme.breakpoints.up("md")]: {
-        width: '49%'
-    },
-
-
-}));
 
 export const Boxprint = styled('div')(({ }) => ({
     '@media print': {
@@ -299,7 +278,7 @@ export const Boxprint = styled('div')(({ }) => ({
 }));
 
 /**
- * Signin and Signout icons.
+ * used in Inserate car.
  */
 export const HeaderIcon = styled('div')(({ theme }) => ({
     margin: 'auto',
@@ -313,21 +292,6 @@ export const HeaderIcon = styled('div')(({ theme }) => ({
     },
     [theme.breakpoints.up("sm")]: {
         transform: 'scale(2.4)'
-    },
-
-}));
-
-export const HeaderInserateH1 = styled('h1')(({ theme }) => ({
-    margin: 'auto',
-    textAlign: 'center',
-    color: 'secondary.contrastText',
-    [theme.breakpoints.up("xs")]: {
-        fontSize: '1.2rem'
-
-    },
-    [theme.breakpoints.up("lg")]: {
-        fontSize: '1.9rem'
-
     },
 
 }));
@@ -360,29 +324,9 @@ export const ImgImageUpload = styled('img')(({ }) => ({
     height: '100%'
 }))
 
-export const SpanSideMenu = styled('span')(({ theme }) => ({
-
-    [theme.breakpoints.up("xs")]: {
-        display: 'none'
-    },
-    [theme.breakpoints.up("sm")]: {
-    },
-    [theme.breakpoints.up("md")]: {
-    },
-    [theme.breakpoints.up("lg")]: {
-        display: 'block'
-    }
-}))
-
-export const ImageCar = styled('img')(({ }) => ({
-    width: '100%',
-    padding: '0',
-    margin: '0',
-    objectPosition: 'center',
-    aspectRatio: 16 / 9,
-    objectFit: 'cover'
-}))
-
+/**
+ * Used in PublishInserate.tsx
+ */
 export const DivViewDetail = styled('div')(({ theme }) => ({
     margin: 'auto',
     [theme.breakpoints.up("xs")]: {
@@ -397,24 +341,6 @@ export const DivViewDetail = styled('div')(({ theme }) => ({
     }
 }))
 
-export const DivContactBottom = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.background.default,
-    position: 'fixed',
-    bottom: 0,
-    display: 'flex',
-    padding: COMPONENT_DISTANCE,
-
-    [theme.breakpoints.up("xs")]: {
-        width: '100%',
-        display: 'block'
-    },
-    [theme.breakpoints.up("md")]: {
-        display: 'none'
-    }
-}))
-
-export const COMPONENT_DISTANCE = "1rem";
-export const LINE_HEIGHT = "0.3rem";
 export const GreyHorizontalHR = styled('hr')(({ }) => ({
     border: 'none',
     borderTop: `1px solid ${colors.grey[300]}`,
@@ -458,44 +384,11 @@ export const GreyVerticalBoldHR = styled('hr')(({ }) => ({
     display: 'inline-block',
 }));
 
-export const LinkHome = styled(Link)(({ theme }) => ({
-    color: theme.palette.primary.contrastText,
-    textDecoration: 'none'
-
-}));
-
+/**
+ * Used in LinkSearchedCars.tsx
+ */
 export const LinkNewSearch = styled(Link)(({ theme }) => ({
     color: theme.palette.text.primary,
     textDecoration: 'none'
 
 }));
-
-export const CustomSelect = styled(Select)(({ }) => ({
-    '& .MuiOutlinedInput-notchedOutline': {
-        border: 'none',
-    },
-    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        border: 'none',
-    },
-}));
-
-export const ViewDetailIconStyle = { color: 'primary.main', fontSize: '3rem' };
-
-export const H1PrimaryMain = styled('h1') ({
-    
-    color: 'white',
-    margin: 'auto',
-    textAlign: 'center',
-    paddingTop: '3rem',
-    paddingBottom: '3rem',
-    transition: 'opacity 0.5s ease-in-out',
-    fontSize: '36px'
-});
-
-
-export const AccordionLazy = styled(Accordion)(() => ({
-    backgroundColor:'secondary.main',
-    paddingLeft: '35px',
-    marginBottom: '0.8rem' ,
-    elevation: 0
-}))

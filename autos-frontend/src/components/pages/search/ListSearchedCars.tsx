@@ -28,21 +28,38 @@ const ListSearchedCars = () => {
 
   const navigate = useNavigate();
 
+  /**
+   * Filtered cars.
+   */
   const [cars, setCars] = useState<AxiosPaperList[]>([]);
 
+  /**
+   * count of cars.
+   */
   const [count, setCount] = useState<number>(0);
 
+  /**
+   * Offset, used for lazy loading.
+   */
   const [offset, setOffset] = useState<number>(0);
 
-  // sort
+  /**
+   * Sort. default price down
+   */
   const [selectedSort, setSelectedSort] = useState<string>(SortEnums.PRICE_DOWN);
+
+  /**
+   * Message: if car not found
+   */
   const [foundNoCars, setFoundNoCars] =useState<boolean>(false);
 
   let LIMIT = LimitMediaQueryFill(cars.length);
   
 scrollToTop();
 
-  // count
+  /**
+   * Get values from new URLSearchParams and select count of cars from database.
+   */
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(location.search);
     const brandid = urlSearchParams.get('brandid');
@@ -75,6 +92,10 @@ scrollToTop();
     fetch();
   }, [])
 
+
+  /**
+   * Select inserates from database.
+   */
   async function fetchFromServer() {
     try {
       const searchParams = new URLSearchParams(location.search);
@@ -108,6 +129,9 @@ scrollToTop();
 
   }
 
+  /**
+   * Only select inserates if sort changes.
+   */
   useEffect(() => {
      fetchFromServer();
   }, [selectedSort])
@@ -119,6 +143,9 @@ scrollToTop();
     setOffset(0);
   };
 
+  /**
+   * Select from database if inserates available.
+   */
   const handleShowNewCars = (_event: any) => {
     if (offset <= count) {
       fetchFromServer();

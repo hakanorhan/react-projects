@@ -21,14 +21,17 @@ const formBrand: IFormBrand = {
   brand: ""
 }
 
-// Components
 const InsertBrand = () => {
   const [form, setForm] = useState(formBrand);
   const values = useSelector((state: RootState) => state.carBrandSlice.brands);
   const dispatch = useDispatch<AppDispatch>();
 
+  // on page load, scrolls to top
   scrollToTop();
 
+  /**
+   * Select brand from database.
+   */
   useEffect(() => {
     dispatch(fetchBrand());
   }, [])

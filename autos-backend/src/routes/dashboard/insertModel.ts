@@ -9,6 +9,10 @@ const insertIntoModels: string = "insert into model(model, brand_id)VALUES(?, ?)
 const selectModel: string = "SELECT model_id, model FROM model WHERE brand_id = ?";
 const selectBrand: string = "SELECT brand FROM brand WHERE brand_id = ?";
 
+/**
+ * Insert model and select all model of a brand.
+ * @returns AxiosDataPacketModel(model[], brand)
+ */
 export default async (req: express.Request, res: express.Response) => {
     const axiosData: RequestAxiosDataModel = req.body;
 

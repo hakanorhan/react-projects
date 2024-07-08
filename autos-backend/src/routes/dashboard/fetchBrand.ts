@@ -6,6 +6,10 @@ import { AxiosDataPacketBrand, Brand } from '../../interfaces/types.js';
 
 const selectQuery: string = 'SELECT * from brand';
 
+/**
+ * Select all brands from database.
+ * @returns Brand[]
+ */
 export default async (req: express.Request, res: express.Response) => {
     let connection;
     try {

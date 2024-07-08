@@ -10,7 +10,6 @@ import ViewDetailGeneral from '../search/viewDetail/ViewDetailGeneral';
 import { notifyError } from '../../../helper/toastHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import { COMPONENT_DISTANCE } from '../../../themes/Theme';
 import { handleDialog } from '../../../redux/features/iOpenPublishSlice';
 
 const ViewDetailSearchAdmin: React.FC<{ id: number | null }> = ({ id }) => {
@@ -37,7 +36,7 @@ const ViewDetailSearchAdmin: React.FC<{ id: number | null }> = ({ id }) => {
   return <>
     <ViewDetailGeneral id={id} isUser={false} />
     {carsNotFound === false &&
-      <Grid container spacing={2} sx={{ paddingLeft: '1rem', paddingRight: '1rem', marginTop: COMPONENT_DISTANCE, marginBottom: COMPONENT_DISTANCE }}>
+      <Grid container spacing={2} sx={{ backgroundColor:'background.default', paddingLeft: '1rem', paddingRight: '1rem' }}>
         <Grid item xs={12} sm={6}><Button sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', '&:hover': { backgroundColor: 'secondary.main', color: 'secondary.contrastText' } }} onClick={() => { handlePublish(true); }} endIcon={<Publish />}>Freigeben</Button></Grid>
         <Grid item xs={12} sm={6}><Button sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText', '&:hover': { backgroundColor: 'primary.main', color: 'primary.contrastText' } }} onClick={() => { handlePublish(false); }} endIcon={<CloseIcon />}>Widerrufen</Button></Grid>
       </Grid>

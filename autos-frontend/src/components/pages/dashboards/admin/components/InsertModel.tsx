@@ -21,7 +21,7 @@ interface IFormModel {
 }
 
 const initialModel: IFormModel = { model: "" };
-// Components
+
 const InsertModel = () => {
 
   const [form, setForm] = useState(initialModel);

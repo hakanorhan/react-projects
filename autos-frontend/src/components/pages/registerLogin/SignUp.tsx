@@ -287,9 +287,9 @@ const SignUpUser: React.FC = () => {
                 <Typography sx={{ marginBottom: COMPONENT_DISTANCE, color: 'text.primary' }}>{ValidHelper.formularEmailValid(form.email) ? emailUsedMessage : '\u00A0'}</Typography>
               </Box>
               <Box sx={{ marginBottom: COMPONENT_DISTANCE }}>
-                <PasswordSignUp label='Password' onChange={value => handleOnChange(TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />
+                <PasswordSignUp label='Passwort' onChange={value => handleOnChange(TextFieldID.PASSWORD1, value)} regex={REGEX_PASSWORD} />
               </Box>
-              <PasswordConfirm label='Confirm Password' onChange={value => handleOnChange(TextFieldID.PASSWORD2, value)} password1={form.password1} regex={REGEX_PASSWORD} />
+              <PasswordConfirm label='Passwort wiederholen' onChange={value => handleOnChange(TextFieldID.PASSWORD2, value)} password1={form.password1} regex={REGEX_PASSWORD} />
 
 
               {/* Cardealer */}

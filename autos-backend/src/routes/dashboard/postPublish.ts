@@ -5,6 +5,9 @@ import { insertMysqlErrorMessages } from "../../helper/messages.js";
 const UPDATE: string = "update inserate_check set inserate_public = ? WHERE inserate_id = ?";
 const UPDATE_CANCELLED: string = " UPDATE inserate_check set inserate_public = 0, inserate_cancelled = 1 WHERE inserate_id = ?";
 
+/**
+ * Publish or cancel inserates.
+ */
 export default async (req: express.Request, res: express.Response) => {
     const axiosData: AxiosDataPublish = req.body;
 
