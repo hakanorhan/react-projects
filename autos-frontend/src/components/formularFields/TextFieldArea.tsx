@@ -22,7 +22,8 @@ const TextFieldArea: React.FC<IUseFormTextArea> = ({ padding, id, onChange, plac
 
       <OutlinedInput fullWidth
       disabled={disbled}
-        name={id}
+        name={id+"-name"}
+        id={id}
         autoComplete='off'
         multiline
         minRows={minRows}

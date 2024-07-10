@@ -11,7 +11,6 @@ export const insertIntoUserDealer = "INSERT INTO user_dealer (user_id, companyna
 async function performQuery(requestData, res) {
     const axiosData = requestData;
     const form = axiosData.form;
-    console.log(axiosData);
     if (!form.email.match(REGEX_EMAIL)) {
         return res.status(401).json({ message: "Email ungültig" });
     }
@@ -69,8 +68,8 @@ async function performInsertAdmin() {
         const [resultAddress] = await connection.execute(insertAdress, ["Musterstraße 1", "40213", "Düsseldorf", 10]);
         const addressid = resultAddress.insertId;
         const salt = genSaltSync(10);
-        const hash = hashSync("Hakan.89!", salt);
-        const [resultAccountData] = await connection.execute(insertAccountData, ["hakan@cars.de", hash, Roles.ADMIN]);
+        const hash = hashSync("Mustermann.00!", salt);
+        const [resultAccountData] = await connection.execute(insertAccountData, ["max@cars.de", hash, Roles.ADMIN]);
         const accountDataId = resultAccountData.insertId;
         const [resultPersonalData] = await connection.execute(insertPersonalData, ["Max", "Mustermann", "+491777777777", "2000-12-04", addressid]);
         const personalDataId = resultPersonalData.insertId;

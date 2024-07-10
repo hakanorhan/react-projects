@@ -8,7 +8,6 @@ export default async (req, res) => {
         connection = await connectToDatabase();
         const queryResult = await connection.execute(selectQueryModels, [selectedBrand]);
         const resultModels = queryResult[0];
-        console.log(resultModels);
         connection.end();
         return res.status(200).json({ message: 'Data send', tableValues: resultModels });
     }

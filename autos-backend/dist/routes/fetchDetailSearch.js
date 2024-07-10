@@ -57,7 +57,6 @@ export default async (req, res) => {
             connection = await connectToDatabase();
             const queryResult = await connection.execute(query, [inserateId]);
             const result = queryResult[0];
-            console.log(result[0]);
             if (result[0] !== undefined) {
                 const { inserate_id, brand, model, price, cartype, mileage_km, registration_year, registration_month, transmission, inserate_date, power_ps, vehicle_owners, cubic_capacity, au_new, hu_new, door, accident, fuel, is_car_dealer, clima, description_car, scheckheft, fit_to_drive, abstandstempomat, ambientbeleuchtung, headupdisplay, totwinkelassistent, color, city, federal_state, zipcode, companyname, impressum, forename, surename, tel_nr, street_nr, since, name, familyname } = result[0];
                 const axiosData = {

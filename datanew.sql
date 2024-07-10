@@ -259,58 +259,6 @@ INSERT INTO clima(clima) VALUES("Klimaanlage");
 INSERT INTO clima(clima) VALUES("Klimaautomatik");
 
 
--- static data
-INSERT INTO brand (brand) VALUES ("Alfa Romeo");
-INSERT INTO brand (brand) VALUES ("Alpina");
-INSERT INTO brand (brand) VALUES ("Aston Martin");
-INSERT INTO brand (brand) VALUES ("Audi");
-INSERT INTO brand (brand) VALUES ("Bentley");
-INSERT INTO brand (brand) VALUES ("BMW");
-INSERT INTO brand (brand) VALUES ("Cadillac");
-INSERT INTO brand (brand) VALUES ("Chevrolet");
-INSERT INTO brand (brand) VALUES ("Chrysler");
-INSERT INTO brand (brand) VALUES ("Citroen");
-INSERT INTO brand (brand) VALUES ("Cupra");
-INSERT INTO brand (brand) VALUES ("Dacia");
-INSERT INTO brand (brand) VALUES ("Daihatsu");
-INSERT INTO brand (brand) VALUES ("Dodge");
-INSERT INTO brand (brand) VALUES ("DS Automobiles");
-INSERT INTO brand (brand) VALUES ("Ferrari");
-INSERT INTO brand (brand) VALUES ("Fiat");
-INSERT INTO brand (brand) VALUES ("Ford");
-INSERT INTO brand (brand) VALUES ("Honda");
-INSERT INTO brand (brand) VALUES ("Hummer");
-INSERT INTO brand (brand) VALUES ("Hynundai");
-INSERT INTO brand (brand) VALUES ("Infiniti");
-INSERT INTO brand (brand) VALUES ("Isuzu");
-INSERT INTO brand (brand) VALUES ("Jaguar");
-INSERT INTO brand (brand) VALUES ("Jeep");
-INSERT INTO brand (brand) VALUES ("Kia");
-INSERT INTO brand (brand) VALUES ("Lexus");
-INSERT INTO brand (brand) VALUES ("Maserati");
-INSERT INTO brand (brand) VALUES ("Maybach");
-INSERT INTO brand (brand) VALUES ("Mazda");
-INSERT INTO brand (brand) VALUES ("McLaren");
-INSERT INTO brand (brand) VALUES ("Mercdes-Benz");
-INSERT INTO brand (brand) VALUES ("Mini");
-INSERT INTO brand (brand) VALUES ("Mitsubishi");
-INSERT INTO brand (brand) VALUES ("Nissan");
-INSERT INTO brand (brand) VALUES ("Opel");
-INSERT INTO brand (brand) VALUES ("Peugeot");
-INSERT INTO brand (brand) VALUES ("Porsche");
-INSERT INTO brand (brand) VALUES ("Renault");
-INSERT INTO brand (brand) VALUES ("Rolls-Royce");
-INSERT INTO brand (brand) VALUES ("Saab");
-INSERT INTO brand (brand) VALUES ("Saleen");
-INSERT INTO brand (brand) VALUES ("Seat");
-INSERT INTO brand (brand) VALUES ("Skoda");
-INSERT INTO brand (brand) VALUES ("Smart");
-INSERT INTO brand (brand) VALUES ("Subaru");
-INSERT INTO brand (brand) VALUES ("Suzuki");
-INSERT INTO brand (brand) VALUES ("Tesla");
-INSERT INTO brand (brand) VALUES ("Toyota");
-INSERT INTO brand (brand) VALUES ("Volvo");
-INSERT INTO brand (brand) VALUES ("Volkswagen");
 
 INSERT INTO price(price) VALUES(500);
 INSERT INTO price(price) VALUES(1000);
@@ -339,13 +287,25 @@ INSERT INTO price(price) VALUES(150000);
 INSERT INTO price(price) VALUES(200000);
 INSERT INTO price(price) VALUES(300000);
 
+
+-- static data
+INSERT INTO brand (brand) VALUES ("Alfa Romeo");
+INSERT INTO brand (brand) VALUES ("Alpina");
+INSERT INTO brand (brand) VALUES ("Aston Martin");
+INSERT INTO brand (brand) VALUES ("Audi");
+INSERT INTO brand (brand) VALUES ("Bentley");
+INSERT INTO brand (brand) VALUES ("BMW");
+INSERT INTO brand (brand) VALUES ("Cadillac");
+INSERT INTO brand (brand) VALUES ("Chevrolet");
+INSERT INTO brand (brand) VALUES ("Chrysler");
+INSERT INTO brand (brand) VALUES ("Citroen");
+INSERT INTO brand (brand) VALUES ("Cupra");
+
+INSERT INTO brand (brand) VALUES ("Volkswagen");
+
+
 INSERT INTO model (model, brand_id) VALUES ("A4", 4);
 INSERT INTO model (model, brand_id) VALUES ("A3", 4);
 INSERT INTO model (model, brand_id) VALUES ("A1", 4);
-INSERT INTO model (model, brand_id) VALUES ("A5", 4);
-INSERT INTO model (model, brand_id) VALUES ("A7", 4);
-INSERT INTO model (model, brand_id) VALUES ("S8", 4);
-INSERT INTO model (model, brand_id) VALUES ("RSQ8", 4);
-INSERT INTO model (model, brand_id) VALUES ("R8", 4);
 
 INSERT INTO model (model, brand_id) VALUES ("116", 6);

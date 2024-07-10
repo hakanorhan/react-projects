@@ -43,8 +43,6 @@ export default async (req: express.Request, res: express.Response) => {
                 return object;
             })
 
-            console.log(models);
-
             await connection.commit();
             connection.end();
 

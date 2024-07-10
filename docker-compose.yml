@@ -10,11 +10,17 @@ services:
       - ./database:/docker-entrypoint-initdb.d
     networks:
       - react-projects
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      retries: 3
+      interval: 10s
+      timeout: 30s
       
   backend:
     build: ./autos-backend
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     environment:
       DATABASE_HOST: ${HOST}
       DATABASE_USER: ${MYSQL_USER}

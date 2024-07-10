@@ -66,7 +66,6 @@ export default async (req: express.Request, res: express.Response) => {
         const queryResult = await connection.execute(query, [inserateId]);
         
         const result = queryResult[0] as RowDataPacket[];
-        console.log(result[0])
         if(result[0] !== undefined ) { 
         const { inserate_id, brand, model, price, cartype, mileage_km, registration_year, registration_month, transmission, inserate_date, power_ps, vehicle_owners, cubic_capacity,
              au_new, hu_new, door, accident, fuel,

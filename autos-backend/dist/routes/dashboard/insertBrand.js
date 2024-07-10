@@ -9,7 +9,6 @@ export default async (req, res) => {
         insertMysqlErrorMessages(1, res);
     }
     else {
-        console.log(value);
         let connection;
         try {
             connection = await connectToDatabase();

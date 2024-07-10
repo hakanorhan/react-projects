@@ -29,7 +29,6 @@ export const insertIntoUserDealer: string =
 async function performQuery(requestData: any, res: express.Response){
     const axiosData: AxiosDataSignup = requestData;
     const form = axiosData.form;
-    console.log(axiosData);
     
     if(!form.email.match(REGEX_EMAIL)) {
         return res.status(401).json( { message: "Email ungültig" } )
@@ -138,12 +137,12 @@ async function performInsertAdmin() {
         
         // hash password
         const salt = genSaltSync(10);
-        const hash = hashSync("Hakan.89!", salt);
+        const hash = hashSync("Mustermann.00!", salt);
 
         // insert into account data
         const [resultAccountData]: [ResultSetHeader, any] = await connection.execute(
             insertAccountData,
-            ["hakan@cars.de", hash, Roles.ADMIN]);
+            ["max@cars.de", hash, Roles.ADMIN]);
         const accountDataId: number = resultAccountData.insertId;
         
         // insert into personal data

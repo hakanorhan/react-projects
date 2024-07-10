@@ -27,7 +27,6 @@ export default async (req, res) => {
                 };
                 return object;
             });
-            console.log(models);
             await connection.commit();
             connection.end();
             const axiosDataPacket = { message: "Erfolgreich hinzugefügt", dataModels: models, brand };

@@ -1,20 +1,16 @@
 import { Request, Response} from "express";
 
 export default (req: Request, res: Response) => {
-    
-    console.log(req.session.isAuth + " is auth");
 
     if(req.isAuthenticated()) 
     req.logOut((error) => {
         if (error) {
-            console.log("Fehler beim Ausloggen: " + error);
             return res.status(500).json({ message: "Logout fehlgeschlagen" });
         }
         
         // Session beenden
         req.session.destroy((error) => {
             if (error) {
-                console.log("Fehler beim Zerstören der Session" + error);
                 return res.status(500).json({ message: "Logout fehlgeschlagen" });
             }
 

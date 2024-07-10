@@ -59,7 +59,6 @@ passport.use(new LocalStrategy({
 }, async (email, password, done) => {
     const user = await findOne(email);
     if (user) {
-        console.log("User ist registriert");
         bcrypt.compare(password, user.password).then(result => {
             if (result) {
                 done(null, user);

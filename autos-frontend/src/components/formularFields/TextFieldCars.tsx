@@ -17,22 +17,23 @@ const TextFieldCars: React.FC<IUseForm2> = ({ label, onChange, regex, refresh, m
   }, [refresh])
 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    
     const currentValue = event.target.value;
     setValue(currentValue);
     onChange(currentValue);
     if (regex)
       setValueMatch(regex.test(currentValue));
-    setIsEmpty(currentValue.length === 0);
+      setIsEmpty(currentValue.length === 0);
   }
 
   return (
     <FormControl sx={{ paddingBottom: COMPONENT_DISTANCE }} onClick={(e) => e.stopPropagation()} required fullWidth variant="outlined" >
-      <InputLabel id={label} htmlFor={label}>{label}</InputLabel>
+      <InputLabel id={label + "-label"} htmlFor={label + "-input"}>{label}</InputLabel>
       <OutlinedInput
-        autoComplete='on'
-        id={label}
+        id={label + "-input"}
         onChange={handleOnChange}
         value={value}
+        autoComplete="on"
         inputProps={{ maxLength: (maxLength !== undefined) ? maxLength : 55 }}
         endAdornment={
           <InputAdornment position="end">

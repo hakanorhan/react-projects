@@ -307,7 +307,7 @@ const SignUpUser: React.FC = () => {
                 {/* Name */}
                 <TextFieldCars label={isCheckedDealer ? 'Ansprechpartner:in Nachname' : 'Nachname'} onChange={value => handleOnChange(TextFieldID.FAMILYNAME, value)} regex={REGEX_NAMES} />
 
-                <MuiTelInput required  variant='outlined' id={TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={telefonNr} onChange={(value) => { setTelefonNr(value); }} />
+                <MuiTelInput  name='telefon' required  variant='outlined' id={TextFieldID.TEL_NR} label="Telefon" defaultCountry='DE' value={telefonNr} onChange={(value) => { setTelefonNr(value); }} />
 
                 {isCheckedDealer && <>
                   <Paper sx={{ padding: '0.7rem', marginBottom: COMPONENT_DISTANCE }} elevation={10}>
@@ -327,7 +327,7 @@ const SignUpUser: React.FC = () => {
                     >
                       <DemoItem>
                         <DesktopDatePicker  sx={{ width: { xs: '100%', md: '690px' } }}
-                        
+                          name='geburtsdatum'
                           slotProps={{ textField: { variant: 'outlined', fullWidth: true } }}
                           label="Geburtsdatum"
                           //views={['month', 'year']}

@@ -26,7 +26,7 @@ const SelectField: React.FC<{
               onChange={handleChange}
               inputProps={{
                 id: objectName,
-                "aria-labelledby": `${objectName}labelled-by`
+                "aria-labelledby": `${objectName}`
               }}
             >
               {
@@ -54,7 +54,7 @@ const SelectField: React.FC<{
             onChange={handleChange}
             inputProps={{
               id: objectName,
-              "aria-labelledby": `${objectName}labelled-by`
+              "aria-labelledby": `${objectName}`
             }}
           >
             {
