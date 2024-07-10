@@ -13,3 +13,5 @@ PORT = <`your port`>
 SESSION_SECRET=<`your secret key`>
 
 Geben Sie im Root-Verzeichnis `docker-compose up --build` ein um die Webseite zu starten. Anschließend ist die Webseite unter `http://localhost:5173` erreichbar.
+
+Weitere Informationen zur Webseite finden Sie in den Bewerbungsunterlagen.
